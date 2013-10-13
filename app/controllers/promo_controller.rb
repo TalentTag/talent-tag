@@ -1,0 +1,2 @@
+class PromoController < ApplicationController
+end

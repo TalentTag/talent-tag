@@ -1,0 +1,11 @@
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: talent_tag_db
+  pool: 5
+
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: talent_tag_dev
+  pool: 5
