@@ -1,0 +1,20 @@
+header
+  .row
+    .col-md-12
+
+      #auth.pull-right
+        - if signed_in?
+          .signedin
+            | Вы вошли как 
+            b = current_user.name
+          = raw "[ #{ link_to "личный кабинет", account_path } | #{ link_to "профиль", account_profile_path } | #{ link_to "выйти", auth_signout_path, method: :post } ]"
+        - else
+          .btn-group
+            a.btn.btn-primary data-toggle="modal" href="#signin-modal" Вход
+            a.btn.btn-primary data-toggle="modal" href="#signup-modal" Регистрация
+
+          - %w(signup signin forgot).each do |modal|
+            = render partial: "partials/#{ modal }"
+
+      h1 = link_to "Talent-Tag", root_path, title: "Talent-Tag"
+      hr

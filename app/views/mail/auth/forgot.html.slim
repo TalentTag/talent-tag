@@ -1,0 +1,11 @@
+p Здравствуйте.
+p
+  | На сайте talent-tag.ru пользователь запросил восстановление пароля, указав Ваш e-mail.
+  br
+  | Если это не Вы, просто проигнорируйте это письмо.
+p
+  | Если же вы хотите изменить пароль, перейдите по ссылке:
+  br
+  a href="#{ edit_password_url(token: @user.forgot_token) }" = edit_password_url(token: @user.forgot_token)
+hr
+p С уважением, команда Talent-Tag

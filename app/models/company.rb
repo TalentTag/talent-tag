@@ -17,9 +17,7 @@ class Company < ActiveRecord::Base
   end
 
   def confirm!
-    run_callbacks :confirm do
-      update confirmed_at: Time.now
-    end
+    update confirmed_at: Time.now
   end
 
   def confirmed?
