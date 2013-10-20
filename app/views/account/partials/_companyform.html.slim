@@ -1,0 +1,29 @@
+.modal.fade#companyform-modal
+  .modal-dialog
+    .modal-content
+      = form_for current_user.company, remote: true, html: { role: "company-details-form" } do |form|
+        .modal-header
+          h4 Заполните карточку Вашей компании
+
+        .modal-body
+          .form-group
+            .input-group
+              span.input-group-addon http://
+              = form.label :website, 'Веб-сайт'
+            = form.text_field :website, class: 'form-control'
+            .err role="website"
+          .form-group
+            = form.label :phone, 'Телефон'
+            = form.text_field :phone, class: 'form-control phone'
+            .err role="phone"
+          .form-group
+            = form.label :address, 'Адрес'
+            = form.text_field :address, class: 'form-control'
+            .err role="address"
+          .form-group
+            = form.label :details, 'Реквизиты'
+            = form.text_area :details, class: 'form-control', rows: 7
+            .err role="details"
+
+        .modal-footer
+          = form.submit 'Сохранить', class: 'btn btn-primary'

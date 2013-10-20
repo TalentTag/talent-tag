@@ -2,6 +2,7 @@ class Company < ActiveRecord::Base
 
   has_one :owner, class_name: "User"
   has_many :users
+  has_one :proposal
 
   accepts_nested_attributes_for :owner
 
@@ -10,6 +11,7 @@ class Company < ActiveRecord::Base
   validates_presence_of :owner, :website, :phone, :address, :details, on: :update
 
   after_create :set_owner
+  # after_update :create_proposal
 
 
   def owner
@@ -22,6 +24,10 @@ class Company < ActiveRecord::Base
 
   def confirmed?
     !confirmed_at.nil?
+  end
+
+  def detailed?
+    %w(website phone address details).map { |f| send(f).present? }.all?
   end
 
 

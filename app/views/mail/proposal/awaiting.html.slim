@@ -1,0 +1,11 @@
+p Поступила заявка на активацию аккаунта
+table
+  tr
+    td Компания
+    td = @company.name
+  tr
+    td Веб-сайт
+    td = @company.website
+  tr
+    td E-mail пользователя
+    td = @company.owner.email

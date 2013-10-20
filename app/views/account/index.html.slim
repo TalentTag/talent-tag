@@ -1,4 +1,24 @@
 .col-md-12
-  h3.slim
-    | Компания 
-    b = current_account.name
+  - if current_account.confirmed?
+    h3.slim
+      | Компания 
+      b = current_user.company.name
+  - else
+    - %w(userform companyform wait).each do |modal|
+      = render partial: "account/partials/#{ modal }"
+
+    - if current_account.proposal && current_account.proposal.awaiting?
+      .alert.alert-info
+        h4 Спасибо за регистрацию на Talent-Tag!
+        | Ваша заявка на предоставление доступа к системе отправлена модератору. Как только она будет рассмотрена, Вы получите оповещение на адрес #{content_tag :b, current_user.email }.
+    - else
+      coffee:
+        $('#userform-modal').modal backdrop: 'static', keyboard: false
+
+        $(document).on 'ajax:success', '[role=user-details-form]', ->
+          $('#userform-modal').modal 'hide'
+          $('#companyform-modal').modal backdrop: 'static', keyboard: false
+
+        $(document).on 'ajax:success', '[role=company-details-form]', ->
+          $('#companyform-modal').modal 'hide'
+          $('#wait-modal').modal backdrop: 'static', keyboard: false

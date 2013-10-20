@@ -16,6 +16,7 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'anjlab-bootstrap-rails', '~> 3.0.0.3', require: 'bootstrap-rails'
 gem 'role-rails'
+gem 'maskedinput-rails'
 
 gem 'unicorn', group: :production
 gem 'thin', group: :development

@@ -15,7 +15,7 @@ TalentTag::Application.routes.draw do
   end
 
 
-  resources :users
+  resources :users, only: :update
   resources :companies, only: %i(create update)
 
 end

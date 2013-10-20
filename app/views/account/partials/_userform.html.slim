@@ -1,0 +1,27 @@
+.modal.fade#userform-modal
+  .modal-dialog
+    .modal-content
+      = form_for current_user, remote: true, html: { role: "user-details-form" } do |form|
+        .modal-header
+          h4 Заполните Ваш профиль
+
+        .modal-body
+          .form-group
+            = form.label :firstname, 'Имя'
+            = form.text_field :firstname, class: 'form-control'
+            .err role="firstname"
+          .form-group
+            = form.label :midname, 'Отчество'
+            = form.text_field :midname, class: 'form-control'
+            .err role="midname"
+          .form-group
+            = form.label :lastname, 'Фамилия'
+            = form.text_field :lastname, class: 'form-control'
+            .err role="lastname"
+          .form-group
+            = form.label :phone, 'Контактный телефон'
+            = form.text_field :phone, class: 'form-control phone'
+            .err role="phone"
+
+        .modal-footer
+          = form.submit 'Далее', class: 'btn btn-primary'
