@@ -33,6 +33,12 @@ GEM
     bcrypt-ruby (3.0.1)
     builder (3.1.4)
     cancan (1.6.10)
+    capistrano (2.15.5)
+      highline
+      net-scp (>= 1.0.0)
+      net-sftp (>= 2.0.0)
+      net-ssh (>= 2.0.14)
+      net-ssh-gateway (>= 1.1.0)
     coderay (1.0.9)
     coffee-rails (4.0.0)
       coffee-script (>= 2.2.0)
@@ -45,6 +51,7 @@ GEM
     erubis (2.7.0)
     eventmachine (1.0.3)
     execjs (2.0.2)
+    highline (1.6.20)
     hike (1.2.3)
     i18n (0.6.5)
     jquery-rails (3.0.4)
@@ -59,6 +66,13 @@ GEM
     mime-types (1.25)
     minitest (4.7.5)
     multi_json (1.8.1)
+    net-scp (1.1.2)
+      net-ssh (>= 2.6.5)
+    net-sftp (2.1.2)
+      net-ssh (>= 2.6.5)
+    net-ssh (2.7.0)
+    net-ssh-gateway (1.2.0)
+      net-ssh (>= 2.6.5)
     pg (0.16.0)
     polyglot (0.3.3)
     pry (0.9.12.2)
@@ -137,6 +151,7 @@ DEPENDENCIES
   anjlab-bootstrap-rails (~> 3.0.0.3)
   bcrypt-ruby (~> 3.0.0)
   cancan
+  capistrano (~> 2.15.0)
   coffee-rails (~> 4.0.0)
   jquery-rails
   maskedinput-rails

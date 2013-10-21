@@ -1,6 +1,9 @@
 production:
   adapter: postgresql
   encoding: unicode
+  host: localhost
+  username: talented
+  password: f3rDI7E2kdm1
   database: talent_tag_db
   pool: 5
 

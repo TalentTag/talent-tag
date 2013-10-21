@@ -20,4 +20,7 @@ gem 'role-rails'
 gem 'maskedinput-rails'
 
 gem 'unicorn', group: :production
-gem 'thin', group: :development
+group :development do
+  gem 'thin'
+  gem 'capistrano', '~> 2.15.0'
+end
