@@ -7,10 +7,10 @@
 
         .modal-body
           .form-group
+            = form.label :website, 'Веб-сайт'
             .input-group
               span.input-group-addon http://
-              = form.label :website, 'Веб-сайт'
-            = form.text_field :website, class: 'form-control'
+              = form.text_field :website, class: 'form-control'
             .err role="website"
           .form-group
             = form.label :phone, 'Телефон'

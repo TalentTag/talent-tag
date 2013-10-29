@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
   end
 
   def send_signup_notification
-    AuthMailer.signup(self).deliver
+    AuthMailer.send("signup_#{ role }", self).deliver
   end
 
   def send_update_confirmation

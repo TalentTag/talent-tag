@@ -43,9 +43,9 @@ class ApplicationController < ActionController::Base
 
   def sign_user_in user=nil
     user ||= @user
-    if @user.kind_of? User
-      session[:user] = @user.email
-      @user.generate_cookie do |cookie|
+    if user.kind_of? User
+      session[:user] = user.email
+      user.generate_cookie do |cookie|
         cookies[:rememberme] = { value: cookie, expires: 1.month.from_now }
       end if params[:rememberme]
     end

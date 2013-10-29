@@ -1,0 +1,14 @@
+.col-md-4
+.col-md-4
+  = form_tag create_employee_path(code: @invite.code, company_id: @invite.company_id)
+    .panel.panel-info
+      .panel-heading Пожалуйста, выберите пароль для входа на сайт
+      .panel-body
+        p
+          = password_field_tag 'user[password]', nil, class: 'form-control', placeholder: 'Пароль'
+          p.err = @user && @user.errors.messages[:password] && @user.errors.messages[:password].first
+        div
+          = password_field_tag 'user[password_confirmation]', nil, class: 'form-control', placeholder: 'Подтверждение пароля'
+          p.err = @user && @user.errors.messages[:password_confirmation] && @user.errors.messages[:password_confirmation].first
+      .panel-footer = submit_tag "Готово", class: 'btn btn-primary'
+.col-md-4

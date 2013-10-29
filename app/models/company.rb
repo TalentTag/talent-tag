@@ -2,6 +2,7 @@ class Company < ActiveRecord::Base
 
   has_one :owner, class_name: "User"
   has_many :users
+  has_many :invites
   has_one :proposal
 
   accepts_nested_attributes_for :owner

@@ -9,13 +9,14 @@ class CompaniesController < ApplicationController
     company = Company.new create_params
     if company.save
       @user = company.owner
-      redirect_to account_path
+      respond_with company
     else
       respond_with company, status: :unprocessable_entity
     end
   end
 
   def update
+    authorize! :update, current_account
     if current_account.update_attributes(update_params)
       Proposal.find_or_initialize_by(company_id: current_account.id).tap { |p| p.status = Proposal::STATUSES.first }.save if current_account.detailed?
       respond_with current_account
