@@ -1,0 +1,12 @@
+html
+  head
+    title Talent-Tag Admin Panel
+    = stylesheet_link_tag "application", media: "all"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+
+  body
+    #wrapper style="padding: 0"
+      == render partial: "admin/partials/menu"
+      div style="padding: 0 50px"
+        == yield

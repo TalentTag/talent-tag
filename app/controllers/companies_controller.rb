@@ -5,6 +5,7 @@ class CompaniesController < ApplicationController
 
 
   def create
+    authorize! :create, Company
     company = Company.new create_params
     if company.save
       @user = company.owner

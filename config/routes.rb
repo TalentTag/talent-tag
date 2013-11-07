@@ -18,4 +18,11 @@ TalentTag::Application.routes.draw do
   resources :users, only: :update
   resources :companies, only: %i(create update)
 
+  namespace :admin do
+    scope controller: :home do
+      root to: :index, as: ''
+    end
+    resources :proposals, only: %i(index show update)
+  end
+
 end

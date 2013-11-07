@@ -4,8 +4,10 @@ class Proposal < ActiveRecord::Base
 
   after_save :confirm_account, :send_notification
 
-  STATUSES = %w(awaiting accepted rejected)
+  scope :awaiting, ->{ where(status: 'awaiting') }
+  default_scope { order(created_at: :desc) }
 
+  STATUSES = %w(awaiting accepted rejected)
   STATUSES.each do |s|
     define_method("#{s}?") { status == s }
   end

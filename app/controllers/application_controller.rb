@@ -32,6 +32,11 @@ class ApplicationController < ActionController::Base
     return render nothing: true, status: :forbidden if signed_in?
   end
 
+  rescue_from CanCan::AccessDenied do |exception|
+    render nothing: true, status: :forbidden
+  end
+
+
 
 
   protected

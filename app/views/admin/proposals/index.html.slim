@@ -1,0 +1,15 @@
+.col-md-12
+  table.table.table-striped
+    thead
+      tr
+        th
+        th Компания
+        th Веб-сайт
+        th Email пользователя
+    - @proposals.each_with_index do |p, index|
+      tbody
+        tr
+          td = index+1
+          td = link_to p.company.name, admin_proposal_path(id: p.id)
+          td = link_to p.company.website, p.company.website, target: "_blank"
+          td = p.company.owner.email

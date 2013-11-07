@@ -14,5 +14,10 @@ class Ability
       can :invite, User
       can :delete, User, company: user.company
     end
+
+    if user.admin?
+      can :manage, :admin
+      can :update, Proposal
+    end
   end
 end

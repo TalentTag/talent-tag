@@ -4,6 +4,7 @@ class UsersController < ApplicationController
 
 
   def update
+    authorize! :update, current_user
     current_user.update_attributes(update_params)
     respond_with current_user
   end
