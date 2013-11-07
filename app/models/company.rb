@@ -11,11 +11,14 @@ class Company < ActiveRecord::Base
   validates_presence_of :owner, :website, :phone, :address, :details, on: :update
 
   after_create :set_owner
-  # after_update :create_proposal
 
 
   def owner
     @owner ||= User.find(owner_id) rescue nil
+  end
+
+  def employee
+    users.reject { |u| u == owner }
   end
 
   def confirm!

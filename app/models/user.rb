@@ -19,6 +19,11 @@ class User < ActiveRecord::Base
     end
   end
 
+  ROLES = %w[owner employee admin]
+  ROLES.each do |r|
+    define_method("#{r}?") { r == role }
+  end
+
   def name
     firstname && lastname ? "#{ firstname } #{ lastname }" : email
   end

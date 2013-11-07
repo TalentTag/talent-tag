@@ -18,3 +18,5 @@ tt = Company.create \
   },
 
   confirmed_at: Date.today
+
+tt.owner.update role: :admin
