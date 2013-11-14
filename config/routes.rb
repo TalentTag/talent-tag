@@ -39,8 +39,10 @@ TalentTag::Application.routes.draw do
   namespace :admin do
     scope controller: :home do
       root to: :index, as: ''
+      get :dictionaries
     end
     resources :proposals, only: %i(index show update)
+    resources :industries, :areas, :keyword_groups, only: %i(create update destroy), defaults: { format: :json }
   end
 
 end

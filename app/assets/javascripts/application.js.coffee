@@ -3,7 +3,6 @@
 #= require twitter/bootstrap
 #= require jquery.role
 #= require maskedinput
-#= require_tree .
 
 
 $ ->

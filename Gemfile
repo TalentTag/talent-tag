@@ -8,7 +8,10 @@ gem 'pry-rails'
 gem 'slim'
 gem 'russian'
 gem 'bcrypt-ruby', '~> 3.0.0'
+gem 'yajl-ruby'
+gem 'postgres_ext'
 gem 'cancan'
+gem 'gon'
 
 gem 'quiet_assets'
 gem 'sass-rails', '~> 4.0.0'
@@ -18,6 +21,8 @@ gem 'jquery-rails'
 gem 'anjlab-bootstrap-rails', '~> 3.0.0.3', require: 'bootstrap-rails'
 gem 'role-rails'
 gem 'maskedinput-rails'
+
+gem 'angularjs-rails', '~> 1.2.0'
 
 gem 'unicorn', group: :production
 group :development do

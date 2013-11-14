@@ -11,10 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131027093331) do
+ActiveRecord::Schema.define(version: 20131113064452) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "areas", force: true do |t|
+    t.string "name"
+  end
 
   create_table "companies", force: true do |t|
     t.string  "name",         limit: 30, null: false
@@ -29,10 +33,20 @@ ActiveRecord::Schema.define(version: 20131027093331) do
 
   add_index "companies", ["name"], name: "index_companies_on_name", using: :btree
 
+  create_table "industries", force: true do |t|
+    t.string "name"
+  end
+
   create_table "invites", force: true do |t|
     t.string  "code",       null: false
     t.string  "email",      null: false
     t.integer "company_id", null: false
+  end
+
+  create_table "keyword_groups", force: true do |t|
+    t.string  "keywords",    array: true
+    t.integer "industry_id"
+    t.integer "area_id"
   end
 
   create_table "proposals", force: true do |t|
