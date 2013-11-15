@@ -1,0 +1,20 @@
+.modal.fade#signin-modal
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button type="button" class="close" data-dismiss="modal" aria-hidden="true" &times;
+        h4 class="modal-title" Вход
+
+      .modal-body
+        = form_tag auth_signin_path, role: "signin-form", remote: true
+          .form-group
+            = email_field_tag "user[email]", nil, class: "form-control", placeholder: "Email"
+          .form-group
+            = password_field_tag "user[password]", nil, class: "form-control", placeholder: "Пароль"
+            p.err role="credentials"
+          .checkbox
+            label
+              = check_box_tag "rememberme", 1
+              | запомнить меня
+          p : a data-toggle="modal" href="#forgot-modal" Забыли пароль?
+          = submit_tag "Войти", class: "btn btn-primary btn-sm"

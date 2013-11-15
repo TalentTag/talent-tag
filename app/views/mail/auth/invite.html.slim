@@ -1,0 +1,7 @@
+p Здравствуйте.
+p Ваш e-mail был добавлен в список адресов сотрудников компании #{ @invite.company.name } на talent-tag.ru
+p
+  | Чтобы подтверить регистрацию, пожалуйста, пройдите по ссылке: 
+  = link_to add_employee_url(company_id: @invite.company.id, code: @invite.code), add_employee_url(company_id: @invite.company.id, code: @invite.code)
+hr
+p С уважением, команда Talent-Tag

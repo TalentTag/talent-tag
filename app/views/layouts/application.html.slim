@@ -18,4 +18,13 @@ html
     = csrf_meta_tags
 
   body lang="ru"
-    == yield
+    #wrapper
+      = render partial: "partials/header"
+
+      .row
+        - if flash[:notice]
+          .alert.alert-success = flash[:notice] 
+        - if flash[:alert]
+          .alert.alert-danger = flash[:alert]
+
+        == yield
