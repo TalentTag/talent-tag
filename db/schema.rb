@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131113064452) do
+ActiveRecord::Schema.define(version: 20131119092838) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,22 @@ ActiveRecord::Schema.define(version: 20131113064452) do
   end
 
   add_index "companies", ["name"], name: "index_companies_on_name", using: :btree
+
+  create_table "entries", id: false, force: true do |t|
+    t.integer  "id",         null: false
+    t.text     "body",       null: false
+    t.integer  "source_id"
+    t.string   "kind"
+    t.string   "url"
+    t.datetime "created_at", null: false
+  end
+
+  add_index "entries", ["id"], name: "index_entries_on_id", unique: true, using: :btree
+
+  create_table "entries_keyword_groups", id: false, force: true do |t|
+    t.integer "entry_id",         null: false
+    t.integer "keyword_group_id", null: false
+  end
 
   create_table "industries", force: true do |t|
     t.string "name"
@@ -55,6 +71,15 @@ ActiveRecord::Schema.define(version: 20131113064452) do
     t.string   "note"
     t.datetime "created_at",                                 null: false
   end
+
+  create_table "sources", id: false, force: true do |t|
+    t.integer "id",                     null: false
+    t.string  "name",                   null: false
+    t.string  "url"
+    t.boolean "hidden", default: false
+  end
+
+  add_index "sources", ["id"], name: "index_sources_on_id", unique: true, using: :btree
 
   create_table "users", force: true do |t|
     t.string  "email",           limit: 60,                   null: false

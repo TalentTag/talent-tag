@@ -25,3 +25,7 @@ tt.owner.update role: :admin
 
 # dictionaries
 %x( psql -d #{ Rails.configuration.database_configuration[Rails.env]["database"] } -f #{ Rails.root }/db/seeds/dictionaries.dump.sql )
+
+
+# entries
+%x( thor bsp:fetch )
