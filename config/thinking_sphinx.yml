@@ -1,0 +1,7 @@
+production:
+  utf8: true
+  morphology: stem_enru
+
+development:
+  utf8: true
+  morphology: stem_enru

@@ -26,6 +26,8 @@ class Bsp < Thor
       end
     end
     puts "\n"
+
+    system "rake ts:index"
   end
 
 end

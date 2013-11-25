@@ -15,6 +15,8 @@ gem 'gon'
 gem 'rabl'
 gem 'kaminari'
 gem 'whenever', require: false
+gem 'thinking-sphinx'
+gem 'mysql2' # thinking-sphinx dependency
 
 gem 'quiet_assets'
 gem 'sass-rails', '~> 4.0.0'
