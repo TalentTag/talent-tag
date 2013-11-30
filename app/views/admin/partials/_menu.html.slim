@@ -1,6 +1,7 @@
 nav.navbar.navbar-static-top.navbar-inverse
   ul.nav.navbar-nav
     li class="#{ 'active' if request.fullpath == admin_path }" = link_to 'Главная', admin_path
+    li class="#{ 'active' if request.fullpath == admin_entries_path }" = link_to 'Данные', admin_entries_path
     li class="#{ 'active' if request.fullpath == admin_proposals_path }"
       a href="#{ admin_proposals_path }"
         | Заявки 

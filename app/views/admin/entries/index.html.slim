@@ -1,0 +1,18 @@
+.row ng-controller="talent.EntryCtrl"
+  .well
+    .checkbox : label
+      input type="checkbox" ng-model="publishedOnly" ng-change="fetch()"
+      | Только из опубликованных источников
+
+    .row
+      .col-xs-4
+        select.form-control ng-model="source" ng-options="s.name for s in sources" ng-change="fetch()"
+          option value="" Источник
+
+  .entry ng-repeat="entry in entries"
+    p : a ng-href="{{ entry.url }}" target="_blank" = "{{ entry.url }}"
+    p = "{{ entry.body }}"
+
+  .well#bottom-gutter ng-hide="isLastPage()"
+    a href="javascript:;" ng-click="fetchMore()" Загрузить еще
+    a.pull-right href="javascript:scroll(0,0)" Наверх &uarr;

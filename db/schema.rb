@@ -37,17 +37,12 @@ ActiveRecord::Schema.define(version: 20131119092838) do
     t.integer  "id",         null: false
     t.text     "body",       null: false
     t.integer  "source_id"
-    t.string   "kind"
     t.string   "url"
     t.datetime "created_at", null: false
   end
 
   add_index "entries", ["id"], name: "index_entries_on_id", unique: true, using: :btree
-
-  create_table "entries_keyword_groups", id: false, force: true do |t|
-    t.integer "entry_id",         null: false
-    t.integer "keyword_group_id", null: false
-  end
+  add_index "entries", ["source_id"], name: "index_entries_on_source_id", using: :btree
 
   create_table "industries", force: true do |t|
     t.string "name"

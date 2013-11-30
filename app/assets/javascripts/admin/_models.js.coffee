@@ -12,3 +12,8 @@
   _.tap $resource("/admin/keyword_groups/:id.json", { id: "@id" }, { update: { method: "PUT" } }), (KeywordGroup) ->
     KeywordGroup::isPersisted = -> @id?
 ]
+
+
+@talent.factory "Entry", ["$resource", ($resource) ->
+  $resource "/entries/:id.json", { id: "@id" }, { update: { method: "PUT" } }
+]

@@ -12,6 +12,8 @@ gem 'yajl-ruby'
 gem 'postgres_ext'
 gem 'cancan'
 gem 'gon'
+gem 'rabl'
+gem 'kaminari'
 gem 'whenever', require: false
 
 gem 'quiet_assets'

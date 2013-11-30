@@ -36,6 +36,8 @@ TalentTag::Application.routes.draw do
   resources :users, only: :update
   resources :companies, only: %i(create update)
 
+  resources :entries, only: :index
+
   namespace :admin do
     scope controller: :home do
       root to: :index, as: ''
@@ -43,6 +45,7 @@ TalentTag::Application.routes.draw do
     end
     resources :proposals, only: %i(index show update)
     resources :industries, :areas, :keyword_groups, only: %i(create update destroy), defaults: { format: :json }
+    resources :entries, only: :index
   end
 
 end
