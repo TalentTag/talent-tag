@@ -17,3 +17,11 @@
 @talent.factory "Entry", ["$resource", ($resource) ->
   $resource "/entries/:id.json", { id: "@id" }, { update: { method: "PUT" } }
 ]
+
+
+@talent.factory "Source", ["$resource", ($resource) ->
+  _.tap $resource("/admin/sources/:id.json", { id: "@id" }, { update: { method: "PUT" } }), (source) ->
+    source::toggle = ->
+      @hidden = !@hidden
+      @$update()
+]

@@ -45,6 +45,7 @@ TalentTag::Application.routes.draw do
     end
     resources :proposals, only: %i(index show update)
     resources :industries, :areas, :keyword_groups, only: %i(create update destroy), defaults: { format: :json }
+    resources :sources, only: %i(index update)
     resources :entries, only: :index
   end
 

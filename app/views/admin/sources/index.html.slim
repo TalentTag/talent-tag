@@ -1,0 +1,16 @@
+.row ng-controller="talent.SourceCtrl"
+  .col-md-8
+
+    ul.nav.nav-tabs
+      li ng-class="displayed('all')" : a href="javascript:;" ng-click="switchGroup('all')" Все
+      li ng-class="displayed('public')" : a href="javascript:;" ng-click="switchGroup('public')" Опубликованные
+      li ng-class="displayed('hidden')" : a href="javascript:;" ng-click="switchGroup('hidden')" Скрытые
+
+    table.table.table-striped
+      tr ng-repeat="source in sources | orderBy:'name'"
+        td : b = "{{ source.name }}"
+        td = "{{ source.url }}"
+        td.text-right
+          a href="javascript:;"
+            span.badge ng-hide="source.hidden" ng-click="source.toggle()" скрыть
+            span.badge ng-show="source.hidden" ng-click="source.toggle()" опубликовать

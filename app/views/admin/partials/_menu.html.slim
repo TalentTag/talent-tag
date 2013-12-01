@@ -1,11 +1,21 @@
 nav.navbar.navbar-static-top.navbar-inverse
   ul.nav.navbar-nav
     li class="#{ 'active' if request.fullpath == admin_path }" = link_to 'Главная', admin_path
-    li class="#{ 'active' if request.fullpath == admin_entries_path }" = link_to 'Данные', admin_entries_path
+
+    li.dropdown class="#{ 'active' if request.fullpath.in? [admin_entries_path, admin_sources_path] }"
+      a.dropdown-toggle data-toggle="dropdown" href="#"
+        | Данные 
+        b.caret
+      ul.dropdown-menu role="menu"
+        li = link_to "Источники", admin_sources_path
+        li = link_to "Записи", admin_entries_path
+
     li class="#{ 'active' if request.fullpath == admin_proposals_path }"
       a href="#{ admin_proposals_path }"
         | Заявки 
         span.badge = badge Proposal.awaiting.count
+
     li class="#{ 'active' if request.fullpath == admin_dictionaries_path }" = link_to 'Справочники', admin_dictionaries_path
+
   ul.nav.navbar-nav.navbar-right
     li = link_to 'Выход', auth_signout_path, method: :post

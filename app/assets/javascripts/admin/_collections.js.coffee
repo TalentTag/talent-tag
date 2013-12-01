@@ -10,3 +10,15 @@
     group.$delete {}
     @items = @items.filter (g) -> g isnt group
 ]
+
+
+@talent.factory "SourceCollection", ["talentData", "Source", (talentData, Source) ->
+  sources = _.map talentData.sources, (params) ->
+    new Source params
+
+  filter: (state) ->
+    switch state
+      when 'public' then _.reject(sources, (source) -> source.hidden)
+      when 'hidden' then _.filter(sources, (source) -> source.hidden)
+      else sources    
+]
