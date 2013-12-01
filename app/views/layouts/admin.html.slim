@@ -2,8 +2,8 @@ html
   head
     title TalentTag | Панель администрирования
     = stylesheet_link_tag "application", media: "all"
+    = include_gon namespace: :talentData, camel_case: true
     = javascript_include_tag :admin
-    = include_gon namespace: :talent, camel_case: true
     = csrf_meta_tags
 
   body ng-app="talent"
