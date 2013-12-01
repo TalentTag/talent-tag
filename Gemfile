@@ -12,6 +12,7 @@ gem 'yajl-ruby'
 gem 'postgres_ext'
 gem 'cancan'
 gem 'gon'
+gem 'whenever', require: false
 
 gem 'quiet_assets'
 gem 'sass-rails', '~> 4.0.0'
