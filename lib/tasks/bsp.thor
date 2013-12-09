@@ -18,7 +18,7 @@ class Bsp < Thor
 
     data['entries'].each do |entry|
       if source = (entry['platform']['id'] rescue nil) && Source.find_by(id: entry['platform']['id'])
-        entry = source.entries.new id: entry['id'], body: entry['body'], url: entry['url']
+        entry = source.entries.new id: entry['id'], body: entry['body'], url: entry['url'], author: entry['author']
         if entry.valid?
           entry.save
           print '.'

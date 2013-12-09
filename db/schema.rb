@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131130095018) do
+ActiveRecord::Schema.define(version: 20131209152950) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "areas", force: true do |t|
     t.string "name"
@@ -39,6 +40,7 @@ ActiveRecord::Schema.define(version: 20131130095018) do
     t.integer  "source_id"
     t.string   "url"
     t.datetime "created_at", null: false
+    t.json     "author"
   end
 
   add_index "entries", ["id"], name: "index_entries_on_id", unique: true, using: :btree
