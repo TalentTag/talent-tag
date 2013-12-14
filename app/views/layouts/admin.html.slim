@@ -1,6 +1,6 @@
 html
   head
-    title Talent-Tag Admin Panel
+    title TalentTag | Панель администрирования
     = stylesheet_link_tag "application", media: "all"
     = javascript_include_tag :admin
     = include_gon namespace: :talent, camel_case: true
@@ -10,4 +10,10 @@ html
     #wrapper style="padding: 0"
       == render partial: "admin/partials/menu"
       div style="padding: 0 50px"
+        .row
+          - if flash[:notice]
+            .alert.alert-success = flash[:notice] 
+          - if flash[:alert]
+            .alert.alert-danger = flash[:alert]
+
         == yield

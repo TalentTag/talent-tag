@@ -1,6 +1,6 @@
 class Admin::ProposalsController < Admin::BaseController
 
-  respond_to :json
+  skip_before_filter :verify_authenticity_token, only: :update
 
 
   def index
@@ -13,7 +13,8 @@ class Admin::ProposalsController < Admin::BaseController
   end
 
   def update
-    respond_with Proposal.find(params[:id]).update update_params
+    Proposal.find(params[:id]).update(update_params)
+    redirect_to admin_proposals_path, notice: "Статус заявки изменен"
   end
 
 

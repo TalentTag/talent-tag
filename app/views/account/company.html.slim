@@ -23,7 +23,7 @@
           tr
             td width="200px" Телефон
             td
-              = f.text_field :phone, class: 'form-control'
+              = f.text_field :phone, class: 'form-control phone'
               .err = current_account.errors.messages[:phone].first
           tr
             td width="200px" Адрес

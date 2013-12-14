@@ -12,12 +12,20 @@ class AccountController < ApplicationController
     render :profile
   end
 
+  def company
+    authorize! :read, current_account
+  end
+
   def update_account
     authorize! :update, current_account
     if current_account.update_attributes(company_params)
       flash.now[:notice] = "Данные обновлены"
     end
     render :company
+  end
+
+  def employee
+    authorize! :invite, User
   end
 
   def add_employee
@@ -31,9 +39,9 @@ class AccountController < ApplicationController
 
   def remove_employee
     user = current_account.users.find params[:id]
-    authorize! :delete, user
+    authorize! :destroy, user
     flash.now[:notice] = "Пользователь удален из системы" if user.delete
-    render :employee
+    redirect_to account_employee_path
   end
 
 
