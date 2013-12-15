@@ -1,3 +1,4 @@
+# account
 tt = Company.create \
   name:     "TalentTag",
 
@@ -20,3 +21,7 @@ tt = Company.create \
   confirmed_at: Date.today
 
 tt.owner.update role: :admin
+
+
+# dictionaries
+%x( psql -d #{ Rails.configuration.database_configuration[Rails.env]["database"] } -f #{ Rails.root }/db/seeds/dictionaries.dump.sql )
