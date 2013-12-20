@@ -4,6 +4,7 @@ div ng-repeat="entry in entries"
     span.new-entry ng-show="isNewEntry(entry)" новая
   p = "{{ entry.body | truncate:250:true }}"
 
+  a.pull-right href="/entries/{{ entry.id }}" target="_blank" подробнее &rarr;
   .btn-group
     button.btn.btn-default.dropdown-toggle data-toggle="dropdown" type="button" style="margin-right: 12px"
       span.glyphicon.glyphicon-tags

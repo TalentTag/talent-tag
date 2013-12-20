@@ -1,0 +1,22 @@
+p = link_to @entry.url, @entry.url, target: "_blank"
+p : small
+  | Добавлено 
+  = @entry.created_at.strftime "%d.%m.%Y"
+p = @entry.body
+
+- if (@entry.author["profile"]["name"] rescue false)
+  #profile.well
+    h4 = @entry.author["profile"].delete "name"
+    table
+      tr valign="top"
+        td : img src="#{ @entry.author["profile"].delete "photo" }" width="200"
+        td style="padding-left: 12px; width: 100%"
+          table.table
+            tr
+              td : b Дата рождения
+              td = Date.parse(@entry.author["profile"]["birthday"]).strftime("%d.%m.%Y") rescue nil
+            tr
+              td : b Страна
+              td = @entry.author["profile"]["country"]
+    br
+    pre : small = @entry.author["profile"].to_json

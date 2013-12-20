@@ -16,4 +16,8 @@ class EntriesController < ApplicationController
     respond_with Entry.find_by!(id: params[:id]).destroy
   end
 
+  def show
+    @entry = Entry.find_by! id: params[:id]
+  end
+
 end
