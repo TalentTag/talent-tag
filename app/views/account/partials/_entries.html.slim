@@ -1,5 +1,6 @@
 div ng-repeat="entry in entries"
   p
+    = link_to "&times;".html_safe, "javascript:;", title: "Больше не показывать", class: "close", "ng-click" => "blacklist(entry)"
     a ng-href="{{ entry.url }}" target="_blank" = "{{ entry.url | truncate:60 }}"
     span.new-entry ng-show="isNewEntry(entry)" новая
   p = "{{ entry.body | truncate:250:true }}"

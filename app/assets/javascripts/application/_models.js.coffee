@@ -1,5 +1,7 @@
-@talent.factory 'Entry', ["$resource", ($resource) ->
-  $resource "/entries/:id.json", { id: "@id" }, { update: { method: "PUT" } }
+@talent.factory 'Entry', ["$resource", "$http", ($resource, $http) ->
+  Entry = $resource "/entries/:id.json", { id: "@id" }, { update: { method: "PUT" } }
+  Entry::blacklist = -> $http.post "/entries/#{ @id }/blacklist.json"
+  Entry
 ]
 
 

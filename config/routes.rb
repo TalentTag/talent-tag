@@ -36,7 +36,9 @@ TalentTag::Application.routes.draw do
 
   resources :users, only: :update
   resources :companies, only: %i(create update)
-  resources :entries, only: %i(index show destroy)
+  resources :entries, only: %i(index show destroy) do
+    member { post :blacklist }
+  end
   resources :searches, only: %i(create update destroy)
   resources :folders, only: %i(show create update destroy) do
     member { put :add_entry, :remove_entry }

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131215121438) do
+ActiveRecord::Schema.define(version: 20140103120110) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,11 @@ ActiveRecord::Schema.define(version: 20131215121438) do
 
   add_index "entries", ["id"], name: "index_entries_on_id", unique: true, using: :btree
   add_index "entries", ["source_id"], name: "index_entries_on_source_id", using: :btree
+
+  create_table "entries_blacklists", force: true do |t|
+    t.integer "user_id"
+    t.string  "entries", array: true
+  end
 
   create_table "entries_folders", id: false, force: true do |t|
     t.integer "entry_id",  null: false

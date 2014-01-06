@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   belongs_to :company
   has_many :searches
   has_many :folders
+  has_one :blacklist, class_name: 'EntriesBlacklist'
 
   validates :email, presence: true, uniqueness: true, format: { with: /\A[^@]+@[^@]+\.[a-zа-я]{2,6}\z/ }
   validates :password, length: { minimum: 6, if: :validate_password? }
@@ -41,6 +42,10 @@ class User < ActiveRecord::Base
     self.forgot_token = nil
     valid?
     save validate: false if errors[:password].empty? && errors[:password_confirmation].empty?
+  end
+
+  def blacklist
+    super || EntriesBlacklist.new(user: self)
   end
 
 

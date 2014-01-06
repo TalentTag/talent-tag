@@ -26,6 +26,11 @@
 
   $scope.canFetchMore = -> $scope.page < $scope.totalPages and $scope.entries.length
 
+  $scope.blacklist = (entry) ->
+    if confirm "Убрать запись из выдачи?"
+      entry.blacklist()
+      $scope.entries = _.reject $scope.entries, (e) -> e is entry
+
   $scope.saveSearch = -> SearchesCollection.add $scope.query
 
 
