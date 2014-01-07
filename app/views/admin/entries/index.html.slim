@@ -10,7 +10,9 @@
           option value="" Источник
 
   .entry ng-repeat="entry in entries"
-    p : a ng-href="{{ entry.url }}" target="_blank" = "{{ entry.url }}"
+    p
+      a ng-href="{{ entry.url }}" target="_blank" = "{{ entry.url }}"
+      span.new-entry ng-show="isNewEntry(entry)" новая
     p = "{{ entry.body }}"
 
   .well#bottom-gutter ng-hide="isLastPage()"

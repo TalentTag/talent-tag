@@ -41,13 +41,14 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def sign_user_in user=nil
+  def sign_user_in user=nil, options={}
     user ||= @user
     if user.kind_of? User
       session[:user] = user.email
       user.generate_cookie do |cookie|
         cookies[:rememberme] = { value: cookie, expires: 1.month.from_now }
       end if params[:rememberme]
+      user.tap { |u| u.last_login_at = Time.now }.save validate: !options[:skip_validation]
     end
   end
 

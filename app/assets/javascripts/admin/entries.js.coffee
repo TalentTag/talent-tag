@@ -21,5 +21,8 @@
 
   $scope.isLastPage = -> $scope.page is $scope.totalPages
 
+  $scope.isNewEntry = (entry) ->
+    new Date(entry.created_at) > $scope.lastLogin
+
   $scope.range = (num) -> [1 .. num]
 ]

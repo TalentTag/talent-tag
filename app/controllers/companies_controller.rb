@@ -1,14 +1,13 @@
 class CompaniesController < ApplicationController
 
   respond_to :json
-  after_action :sign_user_in, only: :create
 
 
   def create
     authorize! :create, Company
     company = Company.new create_params
     if company.save
-      @user = company.owner
+      sign_user_in company.owner, skip_validation: true
       respond_with company
     else
       respond_with company, status: :unprocessable_entity
