@@ -21,7 +21,7 @@ gem 'jquery-rails'
 gem 'anjlab-bootstrap-rails', '~> 3.0.0.3', require: 'bootstrap-rails'
 gem 'role-rails'
 gem 'maskedinput-rails'
-
+gem 'underscore-rails'
 gem 'angularjs-rails', '~> 1.2.0'
 
 gem 'unicorn', group: :production

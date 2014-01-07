@@ -23,6 +23,17 @@ html, body
     width: 300px
   .signedin
     text-align: right
+  ul
+    list-style: none
+    text-align: right
+    li
+      display: inline
+      &:before
+        content: "|"
+      a
+        margin: 0 5px
+    &:after
+      content: "|"
 
 .slim
   font-weight: 200

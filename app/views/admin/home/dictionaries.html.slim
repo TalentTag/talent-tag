@@ -1,58 +1,59 @@
-.row
-  .col-md-6 ng-controller="talent.IndustryCtrl"
-    h3 Индустрии
-    .row
-      .col-xs-9
-        = text_field_tag :name, nil, class: "form-control", placeholder: "Индустрия", "ng-model" => "new_industry"
-      .col-xs-3
-        = submit_tag "Добавить", class: "btn btn-primary", style: "width:100%", "ng-click" => "add()"
-    p.err = "{{ error }}"
-    table#industries.table.table-striped
-      tr ng-repeat="industry in industries"
-        td contenteditable=true ng-blur="update(industry, $event)" {{ industry.name }}
-        td.text-right = link_to '&times;'.html_safe, "javascript:;", 'ng-click' => "delete(industry)"
+div ng-controller="talent.DictionaryCtrl"
+  .row
+    .col-md-6 ng-controller="talent.IndustryCtrl"
+      h3 Индустрии
+      .row
+        .col-xs-12
+          .input-group
+            = text_field_tag :name, nil, class: "form-control", placeholder: "Индустрия", "ng-model" => "new_industry"
+            span.input-group-btn = submit_tag "Добавить", class: "btn btn-primary", "ng-click"=>"add()"
+      p.err = "{{ error }}"
+      table#industries.table.table-striped
+        tr ng-repeat="industry in industries | orderBy:'name'"
+          td contenteditable=true ng-blur="update(industry, $event)" {{ industry.name }}
+          td.text-right = link_to '&times;'.html_safe, "javascript:;", 'ng-click' => "delete(industry)"
 
-  .col-md-6 ng-controller="talent.AreaCtrl"
-    h3 Профессиональные области
-    .row
-      .col-xs-9
-        = text_field_tag :name, nil, class: "form-control", placeholder: "Профессиональная область", "ng-model" => "new_area"
-      .col-xs-3
-        = submit_tag "Добавить", class: "btn btn-primary", style: "width:100%", "ng-click" => "add()"
-    p.err = "{{ error }}"
-    table#areas.table.table-striped
-      tr ng-repeat="area in areas"
-        td contenteditable=true ng-blur="update(area, $event)" {{ area.name }}
-        td.text-right = link_to '&times;'.html_safe, "javascript:;", "ng-click" => "delete(area)"
+    .col-md-6 ng-controller="talent.AreaCtrl"
+      h3 Профессиональные области
+      .row
+        .col-xs-12
+          .input-group
+            = text_field_tag :name, nil, class: "form-control", placeholder: "Профессиональная область", "ng-model" => "new_area"
+            span.input-group-btn = submit_tag "Добавить", class: "btn btn-primary", "ng-click"=>"add()"
+      p.err = "{{ error }}"
+      table#areas.table.table-striped
+        tr ng-repeat="area in areas | orderBy:'name'"
+          td contenteditable=true ng-blur="update(area, $event)" {{ area.name }}
+          td.text-right = link_to '&times;'.html_safe, "javascript:;", "ng-click" => "delete(area)"
 
-hr
+  hr
 
-.row
-  .col-md-12 ng-controller="talent.KeywordGroupCtrl"
-    h3 Облака ключевых слов
-    .row
-      .col-xs-6
-        select.form-control ng-model="industry" ng-options="i.name for i in industries" ng-change="filter()"
-          option value="" Выборка по индустрии
-      .col-xs-6
-        select.form-control ng-model="area" ng-options="a.name for a in areas" ng-change="filter()"
-          option value="" Выборка по профессиональной области
-    br
-    .row style="margin:0"
-      .col-xs-4.well style="height:410px"
-        div ng-hide="currentGroup"
-          p Выберите группу из списка
-          a href="javascript:;" ng-click="add()" + Добавить новую
-        #current-group ng-show="currentGroup"
-          p.text-right = link_to 'закрыть &times;'.html_safe, "javascript:;", "ng-click" => "clear()"
-          p : select.form-control ng-model="currentIndustry" ng-options="i.name for i in industries"
-            option value="" Индустрия
-          p : select.form-control ng-model="currentArea" ng-options="a.name for a in areas"
-            option value="" Проф. область
+  .row
+    .col-md-12 ng-controller="talent.KeywordGroupCtrl"
+      h3 Облака ключевых слов
+      .row
+        .col-xs-6
+          select.form-control ng-model="industry" ng-options="i.name for i in industries" ng-change="filter()"
+            option value="" Выборка по индустрии
+        .col-xs-6
+          select.form-control ng-model="area" ng-options="a.name for a in areas" ng-change="filter()"
+            option value="" Выборка по профессиональной области
+      br
+      .row style="margin:0"
+        .col-xs-4.well style="height:410px"
+          div ng-hide="currentGroup"
+            p Выберите группу из списка справа
+            a href="javascript:;" ng-click="add()" + Добавить новую
+          #current-group ng-show="currentGroup"
+            p.text-right = link_to 'закрыть &times;'.html_safe, "javascript:;", "ng-click" => "clear()"
+            p : select.form-control ng-model="currentIndustry" ng-options="i.name for i in industries"
+              option value="" Индустрия
+            p : select.form-control ng-model="currentArea" ng-options="a.name for a in areas"
+              option value="" Проф. область
 
-          textarea.form-control rows="10" ng-model="keywords" style="width:100%; display:block; margin-bottom:7px"
-          button.btn.btn-primary style="width:100%" ng-click="save(keywords)" Сохранить
-      .col-xs-8
-        .kw ng-repeat="group in selectedKeywordGroups"
-          = link_to "{{ group.keywords[0] }}", "javascript:;", "ng-click" => "pick(group)"
-          = link_to "&times;".html_safe, "javascript:;", class: "close", "ng-click" => "delete(group)"
+            textarea.form-control rows="10" ng-model="keywords" style="width:100%; display:block; margin-bottom:7px"
+            button.btn.btn-primary style="width:100%" ng-click="save(keywords)" Сохранить
+        .col-xs-8
+          .kw ng-repeat="group in keywordGroups | orderBy:'keywords[0]'"
+            = link_to "{{ group.keywords[0] }}", "javascript:;", "ng-click" => "focusOn(group)"
+            = link_to "&times;".html_safe, "javascript:;", class: "close", "ng-click" => "delete(group)"

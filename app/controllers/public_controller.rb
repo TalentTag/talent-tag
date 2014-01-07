@@ -14,7 +14,7 @@ class PublicController < ApplicationController
   end
 
   def create_employee
-    if @user = @invite.company.users.create(password_params.merge(email: @invite.email, role: :user))
+    if @user = @invite.company.users.create(password_params.merge(email: @invite.email, role: :employee))
       @invite.delete
       sign_user_in
       redirect_to account_path

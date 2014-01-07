@@ -5,9 +5,14 @@ header
       #auth.pull-right
         - if signed_in?
           .signedin
-            | Вы вошли как 
+            | Пользователь 
             b = current_user.name
-          = raw "[ #{ link_to "личный кабинет", account_path } | #{ link_to "профиль", account_profile_path } | #{ link_to "выйти", auth_signout_path, method: :post } ]"
+            = raw " [ #{ link_to "выйти", auth_signout_path, method: :post } ]"
+          ul
+            - if can? :manage, :admin
+              li = link_to "администрирование", admin_path
+            li = link_to "личный кабинет", account_path
+            li = link_to "профиль", account_profile_path
         - else
           .btn-group
             a.btn.btn-primary data-toggle="modal" href="#signin-modal" Вход
@@ -16,5 +21,5 @@ header
           - %w(signup signin forgot).each do |modal|
             = render partial: "partials/#{ modal }"
 
-      h1 = link_to "Talent-Tag", root_path, title: "Talent-Tag"
+      h1 = link_to "TalentTag", root_path, title: "TalentTag"
       hr
