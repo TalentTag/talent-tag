@@ -36,7 +36,7 @@ TalentTag::Application.routes.draw do
   resources :users, only: :update
   resources :companies, only: %i(create update)
 
-  resources :entries, only: :index
+  resources :entries, only: %i(index destroy)
 
   namespace :admin do
     scope controller: :home do

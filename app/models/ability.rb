@@ -18,6 +18,7 @@ class Ability
     if user.admin?
       can :manage, :admin
       can :update, Proposal
+      can :manage, Entry
     end
   end
 end

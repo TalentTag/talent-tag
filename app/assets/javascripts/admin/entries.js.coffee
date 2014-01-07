@@ -1,6 +1,6 @@
 @talent.controller "talent.EntryCtrl", ["$scope", "Entry", "talentData", ($scope, Entry, talentData) ->
   $scope.sources    = talentData.sources
-  $scope.entries    = talentData.entries
+  $scope.entries    = _.map talentData.entries, (params) -> new Entry params
   $scope.totalPages = talentData.totalPages
   $scope.page       = 1
 
@@ -23,6 +23,11 @@
 
   $scope.isNewEntry = (entry) ->
     new Date(entry.created_at) > $scope.lastLogin
+
+  $scope.delete = (entry) ->
+    if confirm "Удалить запись навсегда?"
+      entry.$delete()
+      $scope.entries = $scope.entries.filter (e) -> e isnt entry
 
   $scope.range = (num) -> [1 .. num]
 ]

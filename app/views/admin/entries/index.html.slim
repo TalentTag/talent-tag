@@ -11,8 +11,9 @@
 
   .entry ng-repeat="entry in entries"
     p
+      = link_to "&times;".html_safe, "javascript:;", class: "close", "ng-click" => "delete(entry)"
       a ng-href="{{ entry.url }}" target="_blank" = "{{ entry.url }}"
-      span.new-entry ng-show="isNewEntry(entry)" новая
+      span.badge.new ng-show="isNewEntry(entry)" новая
     p = "{{ entry.body }}"
 
   .well#bottom-gutter ng-hide="isLastPage()"
