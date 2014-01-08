@@ -9,7 +9,9 @@ class AccountController < ApplicationController
     gon.push \
       keyword_groups: KeywordGroup.all,
       industries:     Industry.all,
-      areas:          Area.all
+      areas:          Area.all,
+      searches:       current_user.searches,
+      folders:        current_user.folders
   end
 
   def update_user

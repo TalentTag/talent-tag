@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
   has_secure_password
 
   belongs_to :company
+  has_many :searches
+  has_many :folders
 
   validates :email, presence: true, uniqueness: true, format: { with: /\A[^@]+@[^@]+\.[a-zа-я]{2,6}\z/ }
   validates :password, length: { minimum: 6, if: :validate_password? }
@@ -18,6 +20,11 @@ class User < ActiveRecord::Base
       save validate: false
     end
   end
+
+  def generate_cookie &block
+    instance_exec { block.call auth_token }
+  end
+
 
   ROLES = %w[owner employee admin]
   ROLES.each do |r|

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131209152950) do
+ActiveRecord::Schema.define(version: 20131215121438) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,18 @@ ActiveRecord::Schema.define(version: 20131209152950) do
   add_index "entries", ["id"], name: "index_entries_on_id", unique: true, using: :btree
   add_index "entries", ["source_id"], name: "index_entries_on_source_id", using: :btree
 
+  create_table "entries_folders", id: false, force: true do |t|
+    t.integer "entry_id",  null: false
+    t.integer "folder_id", null: false
+  end
+
+  add_index "entries_folders", ["entry_id", "folder_id"], name: "index_entries_folders_on_entry_id_and_folder_id", unique: true, using: :btree
+
+  create_table "folders", force: true do |t|
+    t.string  "name"
+    t.integer "user_id"
+  end
+
   create_table "industries", force: true do |t|
     t.string "name"
   end
@@ -67,6 +79,12 @@ ActiveRecord::Schema.define(version: 20131209152950) do
     t.string   "status",     limit: 10, default: "awaiting"
     t.string   "note"
     t.datetime "created_at",                                 null: false
+  end
+
+  create_table "searches", force: true do |t|
+    t.string  "name"
+    t.string  "query"
+    t.integer "user_id"
   end
 
   create_table "sources", id: false, force: true do |t|

@@ -1,4 +1,4 @@
-@talent.controller "talent.AccountCtrl", ["$scope", "Entry", "talentData", ($scope, Entry, talentData) ->
+@talent.controller "talent.AccountCtrl", ["$scope", "Entry", "SearchesCollection", "FoldersCollection", "talentData", ($scope, Entry, SearchesCollection, FoldersCollection, talentData) ->
   $scope.entries  = []
   $scope.page     = 1
   $scope.query    = ''
@@ -6,6 +6,7 @@
 
   query = (config={}) ->
     if $scope.query
+      $scope.folder = null
       Entry.query { query: $scope.query, page: $scope.page }, (data, parseHeaders) ->
         if data.length
           $scope.entries = if config.append then $scope.entries.concat(data) else data
@@ -24,4 +25,27 @@
     query append: true
 
   $scope.canFetchMore = -> $scope.page < $scope.totalPages and $scope.entries.length
+
+  $scope.saveSearch = -> SearchesCollection.add $scope.query
+
+
+  $scope.folders = FoldersCollection.items
+
+  $scope.showNewFolderInput = false
+  toggleNewFolderInput = ->
+    $scope.showNewFolderInput = !$scope.showNewFolderInput
+
+  $scope.addFolder = (e) ->
+    e.stopPropagation()
+    toggleNewFolderInput()
+
+  $scope.createFolder = (e, entry) ->
+    FoldersCollection.add($(e.target).parents('li').find('input:text').eq(0).val()).then (folder) ->
+      toggleNewFolderInput()
+      folder.addEntry entry
+
+  $scope.removeEntryFromFolder = (folder, entry) ->
+    if confirm "Снять метку #{ folder.name } с записи?"
+      $scope.entries = _.reject $scope.entries, (e) -> entry is e
+      folder.removeEntry entry
 ]

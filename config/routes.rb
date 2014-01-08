@@ -37,6 +37,10 @@ TalentTag::Application.routes.draw do
   resources :users, only: :update
   resources :companies, only: %i(create update)
   resources :entries, only: %i(index destroy)
+  resources :searches, only: %i(create update destroy)
+  resources :folders, only: %i(show create update destroy) do
+    member { put :add_entry, :remove_entry }
+  end
 
 
   namespace :admin do
