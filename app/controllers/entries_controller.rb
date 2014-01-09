@@ -22,10 +22,7 @@ class EntriesController < ApplicationController
 
   def blacklist
     Entry.find_by!(id: params[:id]).blacklist_by current_user
-    respond_to do |format|
-      format.html { redirect_to account_path, notice: "Запись удалена из выдачи" }
-      format.json { render nothing: true, status: :no_content }
-    end
+    render nothing: true, status: :no_content
   end
 
 end

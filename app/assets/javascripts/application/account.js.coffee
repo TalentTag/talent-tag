@@ -6,7 +6,9 @@
 
   query = (config={}) ->
     if $scope.query
+      $scope.hideEntryDetails()
       $scope.folder = null
+
       Entry.query { query: $scope.query, page: $scope.page }, (data, parseHeaders) ->
         if data.length
           $scope.entries = if config.append then $scope.entries.concat(data) else data
@@ -31,6 +33,11 @@
       entry.blacklist()
       $scope.entries = _.reject $scope.entries, (e) -> e is entry
 
+
+  $scope.detailEntry = (entry) -> $scope.detailedEntry = entry
+  $scope.hideEntryDetails = -> $scope.detailedEntry = null
+
+
   $scope.saveSearch = -> SearchesCollection.add $scope.query
 
 
@@ -47,10 +54,23 @@
   $scope.createFolder = (e, entry) ->
     FoldersCollection.add($(e.target).parents('li').find('input:text').eq(0).val()).then (folder) ->
       toggleNewFolderInput()
+      $scope.newFolderName = ''
       folder.addEntry entry
 
   $scope.removeEntryFromFolder = (folder, entry) ->
     if confirm "Снять метку #{ folder.name } с записи?"
-      $scope.entries = _.reject $scope.entries, (e) -> entry is e
+      folder.entries = _.reject(folder.entries, (e) -> entry.id is e)
+      $scope.entries = _.reject($scope.entries, (e) -> entry is e) if folder is $scope.folder
       folder.removeEntry entry
+]
+
+
+@talent.controller "talent.DetailsCtrl", ["$scope", ($scope) ->
+
+  $scope.blacklist = (entry) ->
+    if confirm "Убрать запись из выдачи?"
+      entry.blacklist()
+      $scope.entries = _.reject $scope.entries, (e) -> e is entry
+    $scope.hideEntryDetails()
+
 ]

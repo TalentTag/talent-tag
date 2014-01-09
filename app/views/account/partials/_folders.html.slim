@@ -23,7 +23,7 @@
 
   ul ng-hide="foldersEditMode"
     li ng-repeat="folder in folders"
-      span.glyphicon.glyphicon-folder-open
+      span.badge = "{{ folder.entries.length }}"
       a href="javascript:;" ng-click="loadFolder(folder)" = "{{ folder.name }}"
 
   ul.edit-mode ng-show="foldersEditMode"

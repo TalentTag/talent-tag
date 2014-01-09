@@ -6,19 +6,24 @@
 
   .row ng-controller="talent.AccountCtrl"
     .col-md-8
-      .row
-        .col-md-9
-          .input-group
-            = text_field_tag :query, nil, class: "form-control", placeholder: "Поиск", "ng-model"=>"query", typeahead: "keyword for keyword in keywords | filter:$viewValue"
-            span.input-group-btn = submit_tag "Искать", class: "button btn btn-primary", "ng-click"=>"fetch()"
-        .col-md-3
-          a.btn.btn-default ng-show="query" href="javascript:;" ng-click="saveSearch()"
-            span.glyphicon.glyphicon-floppy-disk style="margin-right: 7px"
-            | сохранить
-      br
+      div ng-hide="detailedEntry"
+        .row
+          .col-md-9
+            .input-group
+              = text_field_tag :query, nil, class: "form-control", placeholder: "Поиск", "ng-model"=>"query", typeahead: "keyword for keyword in keywords | filter:$viewValue"
+              span.input-group-btn = submit_tag "Искать", class: "button btn btn-primary", "ng-click"=>"fetch()"
+          .col-md-3
+            a.btn.btn-default ng-show="query" href="javascript:;" ng-click="saveSearch()"
+              span.glyphicon.glyphicon-floppy-disk style="margin-right: 7px"
+              | сохранить
+        br
 
-      p.alert.alert-warning ng-show="noData" Ничего не нашлось
-      = render partial: "account/partials/entries"
+        p.alert.alert-warning ng-show="noData" Ничего не нашлось
+        = render partial: "account/partials/entries"
+
+      div ng-controller="talent.DetailsCtrl" ng-show="detailedEntry"
+        = render partial: "account/partials/details"
+
 
     .col-md-4
       = render partial: "account/partials/keywords"

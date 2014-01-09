@@ -25,6 +25,7 @@
 
   $scope.loadFolder = (folder) ->
     $scope.$parent.query = null
+    $scope.$parent.noData = false
     $scope.$parent.folder = folder
     FoldersCollection.load(folder).then (folder) ->
       $scope.$parent.entries = folder.entries

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140103120110) do
+ActiveRecord::Schema.define(version: 20140108205025) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,16 +51,10 @@ ActiveRecord::Schema.define(version: 20140103120110) do
     t.string  "entries", array: true
   end
 
-  create_table "entries_folders", id: false, force: true do |t|
-    t.integer "entry_id",  null: false
-    t.integer "folder_id", null: false
-  end
-
-  add_index "entries_folders", ["entry_id", "folder_id"], name: "index_entries_folders_on_entry_id_and_folder_id", unique: true, using: :btree
-
   create_table "folders", force: true do |t|
     t.string  "name"
     t.integer "user_id"
+    t.string  "entries", default: [], array: true
   end
 
   create_table "industries", force: true do |t|
