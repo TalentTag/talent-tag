@@ -6,12 +6,7 @@ class AccountController < ApplicationController
 
   def index
     return render :unconfirmed unless current_account.confirmed?
-    gon.push \
-      keyword_groups: KeywordGroup.all,
-      industries:     Industry.all,
-      areas:          Area.all,
-      searches:       current_user.searches,
-      folders:        current_user.folders
+    fetch_account_data
   end
 
   def update_user

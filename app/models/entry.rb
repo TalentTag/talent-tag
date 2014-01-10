@@ -25,7 +25,7 @@ class Entry < ActiveRecord::Base
         c[:source_id] = Source.published if params[:published]
       end
       excepts = {}.tap do |e|
-        e[:id] = params[:user].blacklist.entries if params[:user]
+        e[:id] = params[:user].blacklist.entries if params[:user] && params[:user].blacklist.entries
       end
       Entry.search(params[:query], with: conditions, without: excepts, retry_stale: true).page(page).per(ENTRIES_PER_PAGE)
     else

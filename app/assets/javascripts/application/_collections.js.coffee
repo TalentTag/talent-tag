@@ -15,9 +15,9 @@
 @talent.factory 'FoldersCollection', ["Folder", "$q", "talentData", (Folder, $q, talentData) ->
   items: _.map(talentData.folders, (params) -> new Folder params)
 
-  load: (folder) ->
+  load: (id) ->
     loading = $q.defer()
-    Folder.get id: folder.id, (folder) -> loading.resolve folder
+    Folder.get { id }, (folder) -> loading.resolve folder
     loading.promise
 
   add: (name) ->

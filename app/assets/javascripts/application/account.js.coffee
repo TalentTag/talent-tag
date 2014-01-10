@@ -1,4 +1,4 @@
-@talent.controller "talent.AccountCtrl", ["$scope", "Entry", "SearchesCollection", "FoldersCollection", "talentData", ($scope, Entry, SearchesCollection, FoldersCollection, talentData) ->
+@talent.controller "talent.AccountCtrl", ["$scope", "$location", "Entry", "SearchesCollection", "FoldersCollection", "talentData", ($scope, $location, Entry, SearchesCollection, FoldersCollection, talentData) ->
   $scope.entries  = []
   $scope.page     = 1
   $scope.query    = ''
@@ -6,9 +6,7 @@
 
   query = (config={}) ->
     if $scope.query
-      $scope.hideEntryDetails()
       $scope.folder = null
-
       Entry.query { query: $scope.query, page: $scope.page }, (data, parseHeaders) ->
         if data.length
           $scope.entries = if config.append then $scope.entries.concat(data) else data
@@ -18,6 +16,7 @@
           $scope.entries = []
 
   $scope.fetch = ->
+    $location.path "/account"
     $scope.noData = null
     $scope.page = 1
     query()
@@ -32,10 +31,6 @@
     if confirm "Убрать запись из выдачи?"
       entry.blacklist()
       $scope.entries = _.reject $scope.entries, (e) -> e is entry
-
-
-  $scope.detailEntry = (entry) -> $scope.detailedEntry = entry
-  $scope.hideEntryDetails = -> $scope.detailedEntry = null
 
 
   $scope.saveSearch = -> SearchesCollection.add $scope.query
@@ -65,12 +60,15 @@
 ]
 
 
-@talent.controller "talent.DetailsCtrl", ["$scope", ($scope) ->
+@talent.controller "talent.EntriesCtrl", ["$scope", ($scope) ->
+]
+
+
+@talent.controller "talent.DetailsCtrl", ["$scope", "$routeParams", "Entry", ($scope, $routeParams, Entry) ->
+  $scope.entry = _.find($scope.entries, (e) -> e.id is parseInt($routeParams.id)) || Entry.get(id: $routeParams.id, (entry) -> $scope.entry = entry)
 
   $scope.blacklist = (entry) ->
     if confirm "Убрать запись из выдачи?"
       entry.blacklist()
       $scope.entries = _.reject $scope.entries, (e) -> e is entry
-    $scope.hideEntryDetails()
-
 ]

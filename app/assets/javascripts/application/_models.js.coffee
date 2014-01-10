@@ -1,7 +1,7 @@
 @talent.factory 'Entry', ["$resource", "$http", ($resource, $http) ->
   Entry = $resource "/entries/:id.json", { id: "@id" }, { update: { method: "PUT" } }
   Entry::blacklist = -> $http.post "/entries/#{ @id }/blacklist.json"
-  Entry::hasProfile = -> @author.profile? and not _.isEmpty @author.profile
+  Entry::hasProfile = -> @author and @author.profile? and not _.isEmpty @author.profile
   Entry
 ]
 

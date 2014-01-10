@@ -6,7 +6,7 @@
   ul ng-hide="searchesEditMode"
     li ng-repeat="search in searches"
       span.glyphicon.glyphicon-folder-open
-      a href="javascript:;" ng-click="loadSearch(search)" = "{{ search.name }}"
+      a href="#" ng-click="loadSearch(search)" = "{{ search.name }}"
 
   ul.edit-mode ng-show="searchesEditMode"
     li ng-repeat="search in searches"
@@ -16,7 +16,7 @@
         small.input-group-btn = submit_tag "ok", class: "btn", "ng-click"=>"updateSearch(search)"
 
 
-.well ng-controller="talent.FoldersCtrl"
+.well ng-controller="talent.FoldersListCtrl"
   h4
     | Метки
     a.glyphicon.glyphicon-edit.pull-right href="javascript:;" title="Редактировать" ng-click="toggleFoldersEditMode()"
@@ -24,7 +24,7 @@
   ul ng-hide="foldersEditMode"
     li ng-repeat="folder in folders"
       span.badge = "{{ folder.entries.length }}"
-      a href="javascript:;" ng-click="loadFolder(folder)" = "{{ folder.name }}"
+      a href="/account/folders/{{ folder.id }}" = "{{ folder.name }}"
 
   ul.edit-mode ng-show="foldersEditMode"
     li ng-repeat="folder in folders"

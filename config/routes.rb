@@ -22,11 +22,12 @@ TalentTag::Application.routes.draw do
 
       get :employee
       post '/employee' => :add_employee
-      # get :signup
 
       delete '/employee/:id' => :remove_employee, as: :employee_remove
     end
   end
+  get '/account/entries/:id' => "entries#show"
+  get '/account/folders/:id' => "folders#show"
   
 
   namespace :auth do

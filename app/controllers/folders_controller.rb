@@ -7,6 +7,16 @@ class FoldersController < ApplicationController
   skip_before_filter :verify_authenticity_token, only: %i(create update add_entry remove_entry destroy)
 
 
+  def show
+    respond_to do |format|
+      format.html do
+        fetch_account_data
+        render 'account/index'
+      end
+      format.json { respond_with @folder }
+    end
+  end
+
   def create
     respond_with current_user.folders.create name: params[:name]
   end

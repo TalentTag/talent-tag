@@ -17,7 +17,14 @@ class EntriesController < ApplicationController
   end
 
   def show
-    @entry = Entry.find_by! id: params[:id]
+    return redirect_to account_path unless current_account.confirmed?
+    respond_to do |format|
+      format.html do
+        fetch_account_data
+        render 'account/index'
+      end
+      format.json { respond_with Entry.find_by! id: params[:id] }
+    end
   end
 
   def blacklist

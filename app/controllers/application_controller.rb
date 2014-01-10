@@ -52,6 +52,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def fetch_account_data
+    gon.push \
+      keyword_groups: KeywordGroup.all,
+      industries:     Industry.all,
+      areas:          Area.all,
+      searches:       current_user.searches,
+      folders:        current_user.folders
+  end
+
   def mailer_set_url_options
     ActionMailer::Base.default_url_options[:host] = request.host_with_port
   end

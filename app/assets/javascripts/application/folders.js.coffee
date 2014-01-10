@@ -20,15 +20,16 @@
 ]
 
 
-@talent.controller "talent.FoldersCtrl", ["$scope", "FoldersCollection", ($scope, FoldersCollection) ->
-  $scope.folders = FoldersCollection.items
+@talent.controller "talent.FoldersCtrl", ["$scope", "FoldersCollection", "$routeParams", ($scope, FoldersCollection, $routeParams) ->
+  $scope.$parent.query = null
+  $scope.$parent.noData = false
+  FoldersCollection.load($routeParams.id).then (folder) ->
+    $scope.entries = folder.entries
+]
 
-  $scope.loadFolder = (folder) ->
-    $scope.$parent.query = null
-    $scope.$parent.noData = false
-    $scope.$parent.folder = folder
-    FoldersCollection.load(folder).then (folder) ->
-      $scope.$parent.entries = folder.entries
+
+@talent.controller "talent.FoldersListCtrl", ["$scope", "FoldersCollection", ($scope, FoldersCollection) ->
+  $scope.folders = FoldersCollection.items
 
   $scope.foldersEditMode = false
   $scope.toggleFoldersEditMode = ->
