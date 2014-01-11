@@ -4,6 +4,14 @@ class AccountController < ApplicationController
   before_action :forbid_authenticated!, only: %i(signup signup_employee)
 
 
+  def index
+    return render :unconfirmed unless current_account.confirmed?
+    gon.push \
+      keyword_groups: KeywordGroup.all,
+      industries:     Industry.all,
+      areas:          Area.all
+  end
+
   def update_user
     if current_user.update_attributes(user_params)
       sign_user_in(current_user)

@@ -27,6 +27,7 @@ TalentTag::Application.routes.draw do
       delete '/employee/:id' => :remove_employee, as: :employee_remove
     end
   end
+  
 
   namespace :auth do
     post :signin, :signout, :forgot
@@ -35,8 +36,8 @@ TalentTag::Application.routes.draw do
 
   resources :users, only: :update
   resources :companies, only: %i(create update)
-
   resources :entries, only: %i(index destroy)
+
 
   namespace :admin do
     scope controller: :home do

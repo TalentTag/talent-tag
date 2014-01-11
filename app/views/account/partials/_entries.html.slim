@@ -1,0 +1,9 @@
+div ng-repeat="entry in entries"
+  p
+    a ng-href="{{ entry.url }}" target="_blank" = "{{ entry.url | truncate:60 }}"
+    span.new-entry ng-show="isNewEntry(entry)" новая
+  p = "{{ entry.body | truncate:250:true }}"
+
+.well#bottom-gutter ng-show="canFetchMore()"
+  a href="javascript:;" ng-click="fetchMore()" Загрузить еще
+  a.pull-right href="javascript:scroll(0,0)" Наверх &uarr;

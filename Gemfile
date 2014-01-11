@@ -28,6 +28,7 @@ gem 'role-rails'
 gem 'maskedinput-rails'
 gem 'underscore-rails'
 gem 'angularjs-rails', '~> 1.2.0'
+gem 'angular-ui-bootstrap-rails'
 
 gem 'unicorn', group: :production
 group :development do
