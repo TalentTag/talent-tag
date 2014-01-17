@@ -7,6 +7,7 @@ class Ability
 
     if user.persisted?
       can :crud, User, id: user.id
+      can :manage, Comment, user_id: user.id
     end
 
     if user.admin? || user.owner?
@@ -20,6 +21,7 @@ class Ability
       can :manage, :admin
       can :update, Proposal
       can :manage, Entry
+      can :signin_as, User
     end
   end
 end

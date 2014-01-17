@@ -3,18 +3,13 @@ class FoldersController < ApplicationController
   respond_to :json
 
   before_action :require_authentication!
-  before_action :find_folder, only: %i(show update add_entry remove_entry)
+  before_action :find_folder, only: %i(update add_entry remove_entry)
   skip_before_filter :verify_authenticity_token, only: %i(create update add_entry remove_entry destroy)
 
 
   def show
-    respond_to do |format|
-      format.html do
-        fetch_account_data
-        render 'account/index'
-      end
-      format.json { respond_with @folder }
-    end
+    fetch_account_data
+    render 'account/index'
   end
 
   def create

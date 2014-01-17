@@ -23,8 +23,7 @@
 @talent.controller "talent.FoldersCtrl", ["$scope", "FoldersCollection", "$routeParams", ($scope, FoldersCollection, $routeParams) ->
   $scope.$parent.query = null
   $scope.$parent.noData = false
-  FoldersCollection.load($routeParams.id).then (folder) ->
-    $scope.entries = folder.entries
+  FoldersCollection.load($routeParams.id).then (entries) -> $scope.entries = entries
 ]
 
 

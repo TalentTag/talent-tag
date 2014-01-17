@@ -13,6 +13,7 @@
 
 @talent.factory 'Folder', ["$resource", "$http", ($resource, $http) ->
   Folder = $resource "/folders/:id.json", { id: "@id" }, { update: { method: "PUT" } }
+  Folder.fetch        = (id, callback) -> $http.get("/entries.json?folder_id=#{ id }").then (response) -> callback(response.data)
   Folder::addEntry    = (entry) ->
     $http.put "/folders/#{ @id }/add_entry.json", entry_id: entry.id
     @entries.push entry.id

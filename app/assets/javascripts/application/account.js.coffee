@@ -64,11 +64,21 @@
 ]
 
 
-@talent.controller "talent.DetailsCtrl", ["$scope", "$routeParams", "Entry", ($scope, $routeParams, Entry) ->
+@talent.controller "talent.DetailsCtrl", ["$scope", "$routeParams", "Entry", "$http", ($scope, $routeParams, Entry, $http) ->
   $scope.entry = _.find($scope.entries, (e) -> e.id is parseInt($routeParams.id)) || Entry.get(id: $routeParams.id, (entry) -> $scope.entry = entry)
 
   $scope.blacklist = (entry) ->
     if confirm "Убрать запись из выдачи?"
       entry.blacklist()
       $scope.entries = _.reject $scope.entries, (e) -> e is entry
+
+  $scope.$watch "entry.comment.text", ->
+    $scope.commentUntouched = false
+    
+  $scope.saveComment = (comment, entry_id) ->
+    if comment.id?
+      $http.put "/entries/#{ entry_id }/comments/#{ comment.id }.json", text: comment.text
+    else
+      $http.post "/entries/#{ entry_id }/comments.json", text: comment.text
+    $scope.commentUntouched = true
 ]

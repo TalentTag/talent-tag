@@ -17,7 +17,7 @@
 
   load: (id) ->
     loading = $q.defer()
-    Folder.get { id }, (folder) -> loading.resolve folder
+    Folder.fetch id, (entries) -> loading.resolve entries
     loading.promise
 
   add: (name) ->

@@ -6,6 +6,7 @@ class Entry < ActiveRecord::Base
   paginates_per ENTRIES_PER_PAGE
 
   belongs_to :source
+  has_many :comments
 
   validates :id, presence: true, uniqueness: true
 

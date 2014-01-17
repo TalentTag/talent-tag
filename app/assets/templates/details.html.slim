@@ -26,6 +26,11 @@ p
         input.form-control name="newfolder" placeholder="имя метки" ng-click="$event.stopPropagation()" ng-model="newFolderName" style="height: 26px; padding: 0 10px"
         span.input-group-btn
           button.btn.btn-primary ng-click="createFolder($event, entry)" style="height: 26px; padding: 0 10px" ok
+.clearfix
+br
+
+p : textarea.form-control style="width:100%" rows="3" placeholder="Комментарий" ng-model="entry.comment.text" {{ entry.comment.text }}
+p : button.btn.btn-primary.pull-right ng-click="saveComment(entry.comment, entry.id)" ng-disabled="commentUntouched" Сохранить
 
 #profile.well ng-show="entry.hasProfile()"
   h4 = "{{ entry.author.profile.name }}"
