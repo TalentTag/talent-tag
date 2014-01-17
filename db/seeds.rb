@@ -22,10 +22,15 @@ tt = Company.create \
 
 tt.owner.update role: :admin
 
+tt.users.create \
+  email:                  "employee@local.host",
+  password:               "098765",
+  password_confirmation:  "098765",
+  role:                   :employee
+
 
 # dictionaries
 %x( psql -d #{ Rails.configuration.database_configuration[Rails.env]["database"] } -f #{ Rails.root }/db/seeds/dictionaries.dump.sql )
-
 
 # entries
 %x( thor bsp:fetch )

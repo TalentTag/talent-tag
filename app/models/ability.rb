@@ -13,6 +13,7 @@ class Ability
       can :manage, Company, owner: user
       can :invite, User
       can :destroy, User, company: user.company
+      can :signin_as, User, company: user.company
     end
 
     if user.admin?

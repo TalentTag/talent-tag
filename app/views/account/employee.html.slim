@@ -17,4 +17,5 @@
         td = e.name
         td = e.email
         td = e.phone
-        td align="right" = link_to "удалить", account_employee_remove_path(id: e.id), method: :delete, data: { confirm: "Удалить сотрудника из системы?" }
+        td align="right" = link_to "", signin_user_path(id: e.id), method: :post, class: "glyphicon glyphicon-forward", title: "Войти в профиль сотрудника"
+        td align="right" = link_to "", account_employee_remove_path(id: e.id), method: :delete, class: "glyphicon glyphicon-trash", data: { confirm: "Удалить сотрудника из системы?" }

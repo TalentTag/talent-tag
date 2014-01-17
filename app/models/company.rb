@@ -19,7 +19,7 @@ class Company < ActiveRecord::Base
   end
 
   def employee
-    users.reject { |u| u == owner }
+    users.where role: :employee
   end
 
   def confirm!

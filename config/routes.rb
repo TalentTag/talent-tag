@@ -35,7 +35,9 @@ TalentTag::Application.routes.draw do
   end
 
 
-  resources :users, only: :update
+  resources :users, only: :update do
+    member { post :signin }
+  end
   resources :companies, only: %i(create update)
   resources :entries, only: %i(index show destroy) do
     member { post :blacklist }

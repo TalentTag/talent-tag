@@ -13,8 +13,8 @@ class AuthController < ApplicationController
   end
 
   def signout
-    current_user.update_attribute :auth_token, nil
-    session.clear
+    current_user.update auth_token: nil
+    if session[:prev_user] then session[:user] = session.delete(:prev_user) else session.clear end
     cookies.delete :rememberme
     redirect_to root_path, notice: "Вы вышли из системы"
   end
