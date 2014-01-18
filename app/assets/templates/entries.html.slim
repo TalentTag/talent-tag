@@ -1,6 +1,6 @@
 p.alert.alert-warning ng-show="noData" Ничего не нашлось
 
-div ng-repeat="entry in entries"
+div ng-repeat="entry in entries" id="entry{{ entry.id }}"
   p
     a.close href="javascript:;" title="Больше не показывать" ng-click="blacklist(entry)" &times;
     a ng-href="{{ entry.url }}" target="_blank" = "{{ entry.url | truncate:60 }}"
