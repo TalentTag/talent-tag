@@ -15,7 +15,6 @@ class Entry < ActiveRecord::Base
   scope :except_blacklisted_by, -> (user) { where.not id: user.blacklist }
 
 
-
   def self.filter params={}
     page = params[:page] || 1
     if params[:query]
@@ -23,10 +22,10 @@ class Entry < ActiveRecord::Base
       params[:query] = kw.map { |w| "(#{w})" }.join(' | ') unless kw.empty?
       conditions = {}.tap do |c|
         c[:source_id] = params[:source] if params[:source].present?
-        c[:source_id] = Source.published if params[:published]
       end
       excepts = {}.tap do |e|
-        e[:id] = params[:user].blacklist.entries if params[:user] && params[:user].blacklist.entries
+        e[:id] = params[:blacklist] unless params[:blacklist].nil? || params[:blacklist].empty?
+        e[:source_id] = Source.unpublished unless params[:published].nil? or Source.unpublished.empty?
       end
       Entry.search(params[:query], with: conditions, without: excepts, retry_stale: true).page(page).per(ENTRIES_PER_PAGE)
     else
@@ -35,10 +34,6 @@ class Entry < ActiveRecord::Base
       entries = entries.from_published_sources if params[:published]
       entries.page(page)
     end
-  end
-
-  def blacklist_by user
-    user.blacklist.add self
   end
 
 end

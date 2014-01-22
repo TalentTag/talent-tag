@@ -9,7 +9,11 @@
       .row
         .col-md-9
           .input-group
-            input.form-control name="query" placeholder="Поиск" ng-model="query" typeahead="keyword for keyword in keywords | filter:$viewValue"
+
+            .composite-input
+              a#clear-search.close.glyphicon.glyphicon-remove-circle href="javascript:;" ng-show="query" ng-click="clearSearch()"
+              input#search.form-control name="query" placeholder="Поиск" ng-model="query" typeahead="keyword for keyword in keywords | filter:$viewValue"
+
             span.input-group-btn
               button.btn.btn-primary ng-click="fetch()" Искать
         .col-md-3

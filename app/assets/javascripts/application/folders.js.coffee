@@ -2,8 +2,7 @@
   $scope.searches = SearchesCollection.items
 
   $scope.loadSearch = (search) ->
-    $scope.$parent.query = search.query
-    $scope.$parent.fetch()
+    $scope.$parent.search = search
 
   $scope.searchesEditMode = false
   $scope.toggleSearchesEditMode = ->
@@ -21,9 +20,9 @@
 
 
 @talent.controller "talent.FoldersCtrl", ["$scope", "FoldersCollection", "$routeParams", ($scope, FoldersCollection, $routeParams) ->
-  $scope.$parent.query = null
-  $scope.$parent.noData = false
-  FoldersCollection.load($routeParams.id).then (entries) -> $scope.entries = entries
+  $scope.clearSearch()
+  FoldersCollection.load($routeParams.id).then (folder) ->
+    $scope.entries = folder.entries
 ]
 
 

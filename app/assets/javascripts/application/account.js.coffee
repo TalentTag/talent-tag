@@ -4,36 +4,48 @@
   $scope.query    = ''
   $scope.keywords = _.map talentData.keywordGroups, (group) -> group.keywords[0]
 
-  query = (config={}) ->
-    if $scope.query
-      $scope.folder = null
-      Entry.query { query: $scope.query, page: $scope.page }, (data, parseHeaders) ->
-        if data.length
-          $scope.entries = if config.append then $scope.entries.concat(data) else data
-          $scope.totalPages = parseHeaders()['tt-pagecount']
-        else
-          $scope.noData = true
-          $scope.entries = []
+  $scope.$watch 'search', ->
+    if $scope.search?
+      $scope.query = $scope.search.query
+      $scope.page = 1
+      query()
 
-  $scope.fetch = ->
-    $location.path "/account"
-    $scope.noData = null
+
+  query = (config={}) ->
+    $scope.folder = null
+    params = if $scope.search
+      { search_id: $scope.search.id, page: $scope.page }
+    else if $scope.query
+      { query: $scope.query, page: $scope.page }
+    Entry.query params, (data, parseHeaders) ->
+      $scope.entries = if data.length
+         if config.append then $scope.entries.concat(data) else data
+      else []
+      $scope.entriesTotal = parseInt parseHeaders()['tt-entriestotal']
+
+  $scope.fetch = (options={}) ->
     $scope.page = 1
+    $scope.search = undefined
     query()
 
   $scope.fetchMore = ->
     $scope.page = ($scope.page || 0) + 1
     query append: true
 
-  $scope.canFetchMore = -> $scope.page < $scope.totalPages and $scope.entries.length
+  $scope.canFetchMore = -> $scope.entries.length and $scope.entries.length < $scope.entriesTotal
 
   $scope.blacklist = (entry) ->
-    if confirm "Убрать запись из выдачи?"
-      entry.blacklist()
+    if confirm "Убрать запись из виртуальной папки?"
+      $scope.search.blacklist entry
       $scope.entries = _.reject $scope.entries, (e) -> e is entry
 
 
   $scope.saveSearch = -> SearchesCollection.add $scope.query
+
+  $scope.clearSearch = ->
+    $scope.query = ''
+    $scope.entries = []
+    $scope.search = $scope.entriesTotal = undefined
 
 
   $scope.folders = FoldersCollection.items

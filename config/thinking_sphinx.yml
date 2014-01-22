@@ -1,7 +1,11 @@
 production:
   utf8: true
   morphology: stem_enru
+  indexed_models:
+    - Entry
 
 development:
   utf8: true
   morphology: stem_enru
+  indexed_models:
+    - Entry

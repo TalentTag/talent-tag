@@ -49,10 +49,6 @@ class User < ActiveRecord::Base
     comments.create entry_id: entry.id, text: text
   end
 
-  def blacklist
-    super || EntriesBlacklist.new(user: self)
-  end
-
 
   protected
 

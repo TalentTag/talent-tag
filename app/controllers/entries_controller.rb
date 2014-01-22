@@ -10,7 +10,11 @@ class EntriesController < ApplicationController
     if params[:folder_id]
       @entries = current_user.folders.find_by!(id: params[:folder_id]).details
     else
-      @entries = Entry.filter params.merge published: true, user: current_user
+      if params[:search_id]
+      	filter_by_search
+      else
+        filter_by_keywords
+      end
       response.headers["TT-Pagecount"] = @entries.num_pages.to_s
     end
     @comments = Comment.where(entry_id: @entries.map(&:id), user_id: current_user.id)
@@ -32,9 +36,16 @@ class EntriesController < ApplicationController
     end
   end
 
-  def blacklist
-    Entry.find_by!(id: params[:id]).blacklist_by current_user
-    render nothing: true, status: :no_content
+
+  protected
+
+  def filter_by_keywords
+    Entry.filter params.merge published: true    
+  end
+
+  def filter_by_search
+    search = Search.find_by!(id: params[:search_id])
+    Entry.filter query: search.query, published: true, blacklist: search.blacklisted
   end
 
 end
