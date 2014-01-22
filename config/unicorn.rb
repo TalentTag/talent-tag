@@ -4,5 +4,5 @@ worker_processes 4
 working_directory app_root
 listen 'unix:/tmp/basic.sock', backlog: 512
 timeout 120
-pid "/var/run/unicorn/unicorn.pid"
+pid "#{app_root}/tmp/pids/unicorn.pid"
 stderr_path "#{app_root}/log/unicorn.error.log"

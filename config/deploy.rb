@@ -29,18 +29,26 @@ after "deploy:update", "deploy:migrate"
 after "deploy:restart", "deploy:cleanup"
 
 namespace :deploy do
+  desc "Restart Unicorn"
+  task :restart, roles: :app, except: { no_release: true } do
+    unicorn.restart
+  end
+end
+
+namespace :unicorn do
   desc "Start Unicorn"
   task :start, roles: :app, except: { no_release: true } do
-    run "cd #{current_path}; bundle exec rake start[#{rails_env}]"
+    run "cd #{current_path}; unicorn -D -E #{rails_env} -c #{current_path}/config/unicorn.rb"
   end
 
   desc "Stop Unicorn"
   task :stop, roles: :app, except: { no_release: true } do
-    run "cd #{current_path}; bundle exec rake stop"
+    run "kill $(cat #{current_path}/tmp/pids/unicorn.pid)"
   end
 
   desc "Restart Unicorn"
   task :restart, roles: :app, except: { no_release: true } do
-    run "cd #{current_path}; bundle exec rake restart[#{rails_env}]"
+    stop
+    start
   end
 end
