@@ -2,6 +2,10 @@ class AuthMailer < ActionMailer::Base
 
   default from: NOTIFICATIONS_EMAIL, template_path: 'mail/auth'
 
+  def signup_default user
+    mail to: user.email, subject: "Регистрация на talent-tag.ru"
+  end
+
   def signup_owner user
     mail to: user.email, subject: "Регистрация на talent-tag.ru"
   end

@@ -1,5 +1,15 @@
 TalentTag::Application.routes.draw do
 
+  if Rails.env.production?
+    root to: "candidates#promo", constraints: { host: "tagzone.talent-tag.ru" }, as: :candidates_root
+    get '/account' => "candidates#account", constraints: { host: "tagzone.talent-tag.ru" }, as: :candidates_account
+  else
+    namespace :candidates do
+      root to: :promo
+      get :account
+    end
+  end
+
   scope controller: :public do
     root to: :promo
     get '/password/:token' => :edit_password, as: :edit_password
@@ -10,6 +20,7 @@ TalentTag::Application.routes.draw do
       post '/:company_id/:code' => :create_employee, as: :create_employee
     end
   end
+
 
   namespace :account do
     root to: :index, as: ''
@@ -35,7 +46,7 @@ TalentTag::Application.routes.draw do
   end
 
 
-  resources :users, only: :update do
+  resources :users, only: %i(create update) do
     member { post :signin }
   end
   resources :companies, only: %i(create update)

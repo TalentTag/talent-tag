@@ -5,7 +5,7 @@ class CompaniesController < ApplicationController
 
   def create
     authorize! :create, Company
-    company = Company.new create_params
+    company = Company.new create_params.update role: User::ROLES.first
     if company.save
       sign_user_in company.owner, skip_validation: true
       respond_with company

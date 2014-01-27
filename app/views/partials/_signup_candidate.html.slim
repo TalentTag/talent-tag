@@ -1,0 +1,19 @@
+.modal.fade#signup-modal
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button type="button" class="close" data-dismiss="modal" aria-hidden="true" &times;
+        h4 class="modal-title" Регистрация
+
+      .modal-body
+        = form_for User.new, remote: true, role: "signup-form" do |f|
+          .form-group
+            = f.email_field :email, class: "form-control", placeholder: "Email"
+            p.err role="email"
+          .form-group
+            = f.password_field :password, class: "form-control", placeholder: "Пароль"
+            p.err role="password"
+          .form-group
+            = f.password_field :password_confirmation, class: "form-control", placeholder: "Повторите пароль"
+            p.err role="password_confirmation"
+          = submit_tag "Зарегистрироваться", class: "btn btn-primary btn-sm"

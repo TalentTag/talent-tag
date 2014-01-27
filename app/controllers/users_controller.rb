@@ -3,6 +3,16 @@ class UsersController < ApplicationController
   respond_to :json
 
 
+  def create
+    @user = User.new create_params
+    if @user.save
+      sign_user_in
+      respond_with @user, status: :created
+    else
+      respond_with @user, status: :unprocessable_entity
+    end
+  end
+
   def update
     authorize! :update, current_user
     current_user.update_attributes(update_params)
@@ -19,6 +29,10 @@ class UsersController < ApplicationController
 
 
   private
+
+  def create_params
+    params.require(:user).permit :email, :password, :password_confirmation
+  end
 
   def update_params
     params.require(:user).permit :firstname, :midname, :lastname, :phone
