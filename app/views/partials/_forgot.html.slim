@@ -6,7 +6,7 @@
         | Для восстановления пароля укажите Ваш e-mail
 
       .modal-body
-        = form_tag auth_forgot_path, remote: true, role: "form", id: "forgot-form"
+        = form_tag auth_forgot_path, remote: true, role: "forgot-form"
           .form-group
             = email_field_tag "user[email]", nil, class: "form-control", placeholder: "Email"
             p.err role="email"

@@ -22,6 +22,7 @@ class AuthController < ApplicationController
   def forgot
     if user = User.find_by(email: params[:user][:email])
       user.generate_forgot_token!
+      flash[:notice] = "Инструкции по восстановлению пароля высланы на адрес #{ params[:user][:email] }"
       render nothing: true
     else
       render json: { errors: { email: ["Указанный e-mail в базе не зарегистрирован"] } }, status: :not_found

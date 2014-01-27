@@ -6,7 +6,7 @@
   ul ng-hide="searchesEditMode"
     li ng-repeat="search in searches"
       span.glyphicon.glyphicon-folder-open
-      a href="#" ng-click="loadSearch(search)" = "{{ search.name }}"
+      a href="/account" ng-click="loadSearch(search)" = "{{ search.name }}"
 
   ul.edit-mode ng-show="searchesEditMode"
     li ng-repeat="search in searches"

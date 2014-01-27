@@ -26,6 +26,7 @@
   $scope.fetch = (options={}) ->
     $scope.page = 1
     $scope.search = undefined
+    $location.path('/account')
     query()
 
   $scope.fetchMore = ->
@@ -81,7 +82,7 @@
 
 
 @talent.controller "talent.DetailsCtrl", ["$scope", "$routeParams", "Entry", "$http", ($scope, $routeParams, Entry, $http) ->
-  $scope.entry = _.find($scope.entries, (e) -> e.id is parseInt($routeParams.id)) || Entry.get(id: $routeParams.id, (entry) -> $scope.entry = entry)
+  $scope.entry = _.find($scope.entries, (e) -> e.id is parseInt($routeParams.id))# || Entry.get(id: $routeParams.id, (entry) -> $scope.entry = entry)
   $scope.$parent.lastEntry = $scope.entry
 
   $scope.blacklist = (entry) ->

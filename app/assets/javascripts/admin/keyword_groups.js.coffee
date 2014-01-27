@@ -1,4 +1,4 @@
-@talent.controller "talent.KeywordGroupCtrl", ["$scope", "KeywordGroup", "KeywordGroupCollection", ($scope, KeywordGroup, KeywordGroupCollection) ->
+@talent.controller "talent.KeywordGroupCtrl", ["$scope", "$location", "$anchorScroll", "KeywordGroup", "KeywordGroupCollection", ($scope, $location, $anchorScroll, KeywordGroup, KeywordGroupCollection) ->
   $scope.keywordGroups = KeywordGroupCollection.items
 
   $scope.filter = ->
@@ -14,6 +14,8 @@
     $scope.currentIndustry  = _.find $scope.industries, (i) -> group?.industry_id is i.id
     $scope.currentArea      = _.find $scope.areas, (a) -> group?.area_id is a.id
     $scope.keywords         = group?.keywords?.join("\n")
+    $location.hash 'editarea'
+    $anchorScroll()
 
   $scope.save = ->
     keywords = $scope.keywords.split("\n")

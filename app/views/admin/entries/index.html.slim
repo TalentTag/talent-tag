@@ -6,7 +6,7 @@
 
     .row
       .col-xs-4
-        select.form-control ng-model="source" ng-options="s.name for s in sources" ng-change="fetch()"
+        select.form-control ng-model="source" ng-options="s.name for s in sources | orderBy:'name'" ng-change="fetch()"
           option value="" Источник
 
   .entry ng-repeat="entry in entries"

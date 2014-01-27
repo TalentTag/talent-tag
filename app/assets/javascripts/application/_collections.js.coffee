@@ -12,12 +12,12 @@
 ]
 
 
-@talent.factory 'FoldersCollection', ["Folder", "$q", "talentData", (Folder, $q, talentData) ->
+@talent.factory 'FoldersCollection', ["Folder", "Entry", "$q", "talentData", (Folder, Entry, $q, talentData) ->
   items: _.map(talentData.folders, (params) -> new Folder params)
 
   load: (id) ->
     loading = $q.defer()
-    Folder.fetch id, (entries) -> loading.resolve entries
+    Folder.fetch id, (entries) -> loading.resolve _.map(entries, (params) -> new Entry params)
     loading.promise
 
   add: (name) ->

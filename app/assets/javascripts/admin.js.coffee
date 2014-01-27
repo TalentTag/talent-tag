@@ -8,4 +8,4 @@
 #= require_tree ./admin
 
 @talent = angular.module 'talent', ['ngResource']
-@talent.value 'talentData', talentData
+@talent.value 'talentData', window.talentData

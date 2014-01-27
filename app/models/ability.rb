@@ -6,7 +6,7 @@ class Ability
     user ||= User.new
 
     if user.persisted?
-      can :crud, User, id: user.id
+      can :update, User, id: user.id
       can :manage, Comment, user_id: user.id
     end
 

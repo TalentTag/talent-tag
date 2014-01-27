@@ -10,11 +10,7 @@ class EntriesController < ApplicationController
     if params[:folder_id]
       @entries = current_user.folders.find_by!(id: params[:folder_id]).details
     else
-      if params[:search_id]
-      	filter_by_search
-      else
-        filter_by_keywords
-      end
+      @entries = if params[:search_id] then filter_by_search else filter_by_keywords end
       response.headers["TT-Pagecount"] = @entries.num_pages.to_s
     end
     @comments = Comment.where(entry_id: @entries.map(&:id), user_id: current_user.id)

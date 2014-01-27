@@ -21,8 +21,8 @@
 
 @talent.controller "talent.FoldersCtrl", ["$scope", "FoldersCollection", "$routeParams", ($scope, FoldersCollection, $routeParams) ->
   $scope.clearSearch()
-  FoldersCollection.load($routeParams.id).then (folder) ->
-    $scope.entries = folder.entries
+  FoldersCollection.load($routeParams.id).then (entries) ->
+    $scope.entries = entries
 ]
 
 

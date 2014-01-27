@@ -17,14 +17,18 @@ class User < ActiveRecord::Base
   after_update :send_update_confirmation
 
   %w(auth forgot).each do |name|
-    define_method("generate_#{name}_token!".to_sym) do
+    define_method("generate_#{name}_token".to_sym) do
       public_send("#{name}_token=", Digest::MD5.hexdigest(Time.now.to_s + email))
+    end
+    
+    define_method("generate_#{name}_token!".to_sym) do
+      public_send("generate_#{name}_token")
       save validate: false
     end
   end
 
   def generate_cookie &block
-    instance_exec { block.call auth_token }
+    instance_exec { block.call({ value: "#{id}|#{auth_token}", expires: 1.month.from_now }) }
   end
 
 

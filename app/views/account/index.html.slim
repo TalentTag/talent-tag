@@ -11,7 +11,7 @@
           .input-group
 
             .composite-input
-              a#clear-search.close.glyphicon.glyphicon-remove-circle href="javascript:;" ng-show="query" ng-click="clearSearch()"
+              a#clear-search.close.glyphicon.glyphicon-remove-circle href="/account" ng-show="query" ng-click="clearSearch()"
               input#search.form-control name="query" placeholder="Поиск" ng-model="query" typeahead="keyword for keyword in keywords | filter:$viewValue"
 
             span.input-group-btn
