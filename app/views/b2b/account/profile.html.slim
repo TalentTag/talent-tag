@@ -1,0 +1,51 @@
+.col-md-3
+  = render partial: '/b2b/account/partials/profile_nav'
+
+.col-md-9
+  h4 Редактирование профиля пользователя
+  = form_for current_user, url: account_profile_path, method: :put do |f|
+    .panel.panel-info
+      .panel-heading Персональные данные
+      .panel-body
+        table width="100%"
+          tr
+            td Фамилия
+            td
+              = f.text_field :lastname, class: 'form-control'
+              .err = current_user.errors.messages[:lastname].first
+          tr
+            td width="200px" Имя
+            td
+              = f.text_field :firstname, class: 'form-control'
+              .err = current_user.errors.messages[:firstname].first
+          tr
+            td Отчество
+            td
+              = f.text_field :midname, class: 'form-control'
+              .err = current_user.errors.messages[:midname].first
+          tr
+            td Контактный телефон
+            td
+              = f.text_field :phone, class: 'form-control phone'
+              .err = current_user.errors.messages[:phone].first
+      .panel-footer = f.submit "Сохранить", class: 'btn btn-primary'
+
+  = form_for current_user, url: account_profile_path, method: :put do |f|
+    .panel.panel-info
+      .panel-heading Сменить e-mail
+      .panel-body
+        = f.email_field :email, class: 'form-control'
+        .err = current_user.errors.messages[:email].first
+      .panel-footer = f.submit "Сохранить", class: 'btn btn-primary'
+
+  = form_for current_user, url: account_profile_path, method: :put do |f|
+    .panel.panel-info
+      .panel-heading Сменить пароль
+      .panel-body
+        p
+          = f.password_field :password, class: 'form-control', placeholder: 'Пароль'
+          .err = current_user.errors.messages[:password].first
+        div
+          = f.password_field :password_confirmation, class: 'form-control', placeholder: 'Подтверждение пароля'
+          .err = current_user.errors.messages[:password_confirmation].first
+      .panel-footer = f.submit "Сохранить", class: 'btn btn-primary'

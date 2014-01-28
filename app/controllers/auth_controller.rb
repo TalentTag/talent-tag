@@ -1,12 +1,14 @@
 class AuthController < ApplicationController
 
+  respond_to :json
+
   before_action :require_authentication!, only: :signout
 
 
   def signin
     if @user = User.find_by(email: params[:user][:email]).try(:authenticate, params[:user][:password])
       sign_user_in
-      redirect_to account_path
+      respond_with current_user
     else
       render json: { credentials: ["Неверный email или пароль"] }, status: :unauthorized
     end
@@ -14,8 +16,12 @@ class AuthController < ApplicationController
 
   def signout
     current_user.update auth_token: nil
-    if session[:prev_user] then session[:user] = session.delete(:prev_user) else session.clear end
-    cookies.delete :rememberme
+    if session[:prev_user]
+      session[:user] = session.delete(:prev_user)
+    else
+      session.clear
+      cookies.delete :rememberme
+    end
     redirect_to root_path, notice: "Вы вышли из системы"
   end
 

@@ -37,6 +37,9 @@ class ApplicationController < ActionController::Base
   end
 
 
+  def root_path() '/' end
+
+
 
 
   protected
@@ -51,15 +54,6 @@ class ApplicationController < ActionController::Base
       end.save validate: !options[:skip_validation]
       user.generate_cookie { |cookie| cookies[:rememberme] = cookie } if params[:rememberme]
     end
-  end
-
-  def fetch_account_data
-    gon.push \
-      keyword_groups: KeywordGroup.all,
-      industries:     Industry.all,
-      areas:          Area.all,
-      searches:       current_user.searches,
-      folders:        current_user.folders
   end
 
   def mailer_set_url_options

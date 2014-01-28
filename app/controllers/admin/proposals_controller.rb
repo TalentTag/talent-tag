@@ -14,7 +14,8 @@ class Admin::ProposalsController < Admin::BaseController
 
   def update
     Proposal.find(params[:id]).update(update_params)
-    redirect_to admin_proposals_path, notice: "Статус заявки изменен"
+    flash.notice = "Статус заявки изменен"
+    render nothing: true, status: :no_content
   end
 
 

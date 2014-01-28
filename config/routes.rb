@@ -1,17 +1,21 @@
 TalentTag::Application.routes.draw do
 
   if Rails.env.production?
-    root to: "candidates#promo", constraints: { host: "tagzone.talent-tag.ru" }, as: :candidates_root
+    root to: "public#b2c_promo", constraints: { host: "tagzone.talent-tag.ru" }, as: :b2c_promo
     get '/account' => "candidates#account", constraints: { host: "tagzone.talent-tag.ru" }, as: :candidates_account
   else
-    namespace :candidates do
-      root to: :promo
-      get :account
+    scope :candidates do
+      root to: "public#b2c_promo", as: :b2c_promo
+      scope module: :b2c do
+        namespace :account do
+          root to: :index, as: :b2c
+        end
+      end
     end
   end
 
   scope controller: :public do
-    root to: :promo
+    root to: :b2b_promo, as: :b2b_promo
     get '/password/:token' => :edit_password, as: :edit_password
     put '/password/:token' => :update_password, as: :update_password
 
@@ -22,43 +26,55 @@ TalentTag::Application.routes.draw do
   end
 
 
-  namespace :account do
-    root to: :index, as: ''
-    scope :profile do
-      root to: :profile, as: :profile
-      put '/' => :update_user
-
-      get :company
-      put '/company' => :update_account
-
-      get :employee
-      post '/employee' => :add_employee
-
-      delete '/employee/:id' => :remove_employee, as: :employee_remove
-    end
-  end
-  get '/account/entries/:id' => "entries#show"
-  get '/account/folders/:id' => "folders#show"
-  
 
   namespace :auth do
     post :signin, :signout, :forgot
   end
 
-
   resources :users, only: %i(create update) do
     member { post :signin }
   end
-  resources :companies, only: %i(create update)
-  resources :entries, only: %i(index show destroy) do
-    resources :comments, only: %i(create update)
+
+
+
+  scope module: :b2b do
+    namespace :account do
+      root to: :index, as: ''
+      scope :profile do
+        root to: :profile, as: :profile
+        put '/' => :update_user
+
+        get :company
+        put '/company' => :update_account
+
+        get :employee
+        post '/employee' => :add_employee
+
+        delete '/employee/:id' => :remove_employee, as: :employee_remove
+      end
+    end
+    get '/account/entries/:id' => 'entries#show'
+    get '/account/folders/:id' => 'folders#show'
+
+    resources :companies, only: %i(create update)
+
+    resources :entries, only: %i(index show destroy) do
+      resources :'comments', only: %i(create update)
+    end
+
+    resources :searches, only: %i(create update destroy) do
+      member { post "blacklist/:entry_id" => :blacklist }
+    end
+    resources :folders, only: %i(show create update destroy) do
+      member { put :add_entry, :remove_entry }
+    end
   end
-  resources :searches, only: %i(create update destroy) do
-    member { post "blacklist/:entry_id" => :blacklist }
+
+
+
+  scope module: :b2c do
   end
-  resources :folders, only: %i(show create update destroy) do
-    member { put :add_entry, :remove_entry }
-  end
+
 
 
   namespace :admin do

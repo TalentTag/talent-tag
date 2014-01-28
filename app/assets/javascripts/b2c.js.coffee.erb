@@ -1,0 +1,14 @@
+#= require main
+#= require_self
+#= require_tree ./shared
+#= require_tree ./b2c
+
+
+@talent = angular.module 'talent', ['ngResource']
+@talent.value 'talentData', window.talentData
+
+
+$ ->
+
+  $(document).on 'ajax:success', '@signup-form, @signin-form', ->
+    window.location = <% if Rails.env.production? %>'/account'<% else %>'/candidates/account'<% end %>

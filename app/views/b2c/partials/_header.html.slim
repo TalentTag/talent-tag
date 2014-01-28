@@ -1,0 +1,21 @@
+header
+  .row
+    .col-md-12
+      #auth.pull-right
+        - if signed_in?
+          .signedin
+            | Пользователь 
+            b = current_user.name
+            = raw " [ #{ link_to "выйти", auth_signout_path, method: :post, target: "_self" } ]"
+          ul
+            li = link_to "личный кабинет", account_b2c_path
+        - else
+          .btn-group
+            a.btn.btn-primary data-toggle="modal" href="#signin-modal" Вход
+            a.btn.btn-primary data-toggle="modal" href="#signup-modal" Регистрация
+
+          - %w(signup signin forgot).each do |modal|
+            = render partial: "b2c/partials/#{ modal }"
+
+      h1 = link_to "tagzone.talent-tag.ru", b2c_promo_path
+      hr

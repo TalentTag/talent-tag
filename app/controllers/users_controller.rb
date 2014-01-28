@@ -20,8 +20,8 @@ class UsersController < ApplicationController
   end
 
   def signin
-    authorize! :signin_as, user
     user = User.find_by! id: params[:id]
+    authorize! :signin_as, user
     session[:prev_user] = session[:user]
     sign_user_in(user)
     redirect_to account_path
