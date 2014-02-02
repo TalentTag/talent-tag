@@ -19,5 +19,7 @@
           p : a data-toggle="modal" href="#forgot-modal" Забыли пароль?
 
           hr
-          p Вход через соцсети
+          = render partial: "b2c/partials/social"
+          hr
+
           = submit_tag "Войти", class: "btn btn-primary btn-sm"

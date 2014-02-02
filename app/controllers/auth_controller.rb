@@ -35,4 +35,19 @@ class AuthController < ApplicationController
     end
   end
 
+  def callback
+    @params = env["omniauth.auth"].slice(:provider, :uid)
+    if @user = Identity.find_by(provider: @params[:provider], uid: @params[:uid]).try(:user)
+      sign_user_in
+      redirect_to account_b2c_path
+    else
+      render :callback, layout: 'b2c'
+    end
+  end
+
+  def from_omniauth
+    sign_user_in User.from_omniauth(params)
+    redirect_to account_b2c_path
+  end
+
 end

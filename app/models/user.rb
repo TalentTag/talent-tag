@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   has_secure_password
 
   belongs_to :company
+  has_many :identities
   has_many :searches
   has_many :folders
   has_many :comments
@@ -18,7 +19,7 @@ class User < ActiveRecord::Base
 
   %w(auth forgot).each do |name|
     define_method("generate_#{name}_token".to_sym) do
-      public_send("#{name}_token=", Digest::MD5.hexdigest(Time.now.to_s + email))
+      public_send("#{name}_token=", Digest::MD5.hexdigest(Time.now.to_s + email)) if email.present?
     end
     
     define_method("generate_#{name}_token!".to_sym) do
@@ -51,6 +52,15 @@ class User < ActiveRecord::Base
 
   def post_comment entry, text
     comments.create entry_id: entry.id, text: text
+  end
+
+  def self.from_omniauth params
+    password = Digest::MD5.hexdigest(Time.now.to_s + params[:uid] + params[:provider])
+    ActiveRecord::Base.transaction do
+      user = create email: params[:user][:email], password: password, password_confirmation: password
+      Identity.create user_id: user.id, provider: params[:provider], uid: params[:uid]
+      user
+    end
   end
 
 

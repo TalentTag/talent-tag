@@ -29,6 +29,8 @@ TalentTag::Application.routes.draw do
 
   namespace :auth do
     post :signin, :signout, :forgot
+    get "/:provider/callback" => :callback, as: :proviter_callback
+    post "/:provider/signup/:uid" => :from_omniauth, as: :signup_from_omniauth
   end
 
   resources :users, only: %i(create update) do
