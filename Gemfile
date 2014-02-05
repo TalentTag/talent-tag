@@ -14,6 +14,7 @@ gem 'cancan'
 gem 'gon'
 gem 'rabl'
 gem 'kaminari'
+gem 'redcarpet'
 gem 'whenever', require: false
 gem 'thinking-sphinx'
 gem 'mysql2' # thinking-sphinx dependency
