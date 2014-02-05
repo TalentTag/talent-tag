@@ -15,11 +15,11 @@ header
             li = link_to "профиль", account_profile_path, target: "_self"
         - else
           .btn-group
-            a.btn.btn-primary data-toggle="modal" href="#signin-modal" Вход
-            a.btn.btn-primary data-toggle="modal" href="#signup-modal" Регистрация
+            a.btn.btn-primary data-toggle="modal" href="#signup-b2b" Вход для работодателей
+            a.btn.btn-primary data-toggle="modal" href="#signup-b2c" Вход для соискателей
 
-          - %w(signup signin forgot).each do |modal|
-            = render partial: "b2b/partials/#{ modal }"
+          - %w(signup_b2b signup_b2c forgot).each do |modal|
+            = render partial: "partials/#{ modal }"
 
       h1 = link_to "TalentTag", b2b_promo_path, title: "TalentTag", target: "_self"
       hr

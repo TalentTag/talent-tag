@@ -1,15 +1,11 @@
 TalentTag::Application.routes.draw do
 
   if Rails.env.production?
-    root to: "public#b2c_promo", constraints: { host: "tagzone.talent-tag.ru" }, as: :b2c_promo
     get '/account' => "b2c/account#index", constraints: { host: "tagzone.talent-tag.ru" }, as: :account_b2c
   else
-    scope :candidates do
-      root to: "public#b2c_promo", as: :b2c_promo
-      scope module: :b2c do
-        namespace :account do
-          root to: :index, as: :b2c
-        end
+    scope :candidates, module: :b2c do
+      namespace :account do
+        root to: :index, as: :b2c
       end
     end
   end

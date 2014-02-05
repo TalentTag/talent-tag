@@ -1,0 +1,40 @@
+.modal.fade#signup-b2c
+  .modal-dialog.wide
+    .modal-content
+      .modal-header
+        button type="button" class="close" data-dismiss="modal" aria-hidden="true" &times;
+        h4 class="modal-title" Вход для соискателей
+
+      .modal-body
+        .row
+          .col-md-6
+            = form_tag auth_signin_path, role: "signin-form", remote: true
+              .form-group
+                = email_field_tag "user[email]", nil, class: "form-control", placeholder: "Email"
+              .form-group
+                = password_field_tag "user[password]", nil, class: "form-control", placeholder: "Пароль"
+                p.err role="credentials"
+              .checkbox
+                label
+                  = check_box_tag "rememberme", 1
+                  | запомнить меня
+              p : a data-toggle="modal" href="#forgot-modal" Забыли пароль?
+
+              = submit_tag "Войти", class: "btn btn-primary btn-sm"
+
+          .col-md-6
+            = form_for User.new, remote: true, role: "signup-form" do |f|
+              .form-group
+                = f.email_field :email, class: "form-control", placeholder: "Email"
+                p.err role="email"
+              .form-group
+                = f.password_field :password, class: "form-control", placeholder: "Пароль"
+                p.err role="password"
+              .form-group
+                = f.password_field :password_confirmation, class: "form-control", placeholder: "Повторите пароль"
+                p.err role="password_confirmation"
+              = submit_tag "Зарегистрироваться", class: "btn btn-primary btn-sm"
+
+        .row : .col-md-12
+          hr
+          = render partial: "b2c/partials/social"
