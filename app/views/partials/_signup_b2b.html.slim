@@ -21,7 +21,7 @@
               p : a data-toggle="modal" href="#forgot-modal" Забыли пароль?
               = submit_tag "Войти", class: "btn btn-primary btn-sm"
 
-          .col-md-6
+          .col-md-6 style="border-left: 1px solid #ccc"
             = form_tag companies_path, role: "signup-form", remote: true
               .form-group
                 = email_field_tag "company[owner_attributes][email]", nil, class: "form-control", placeholder: "Email"

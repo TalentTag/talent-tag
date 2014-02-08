@@ -22,7 +22,7 @@
 
               = submit_tag "Войти", class: "btn btn-primary btn-sm"
 
-          .col-md-6
+          .col-md-6 style="border-left: 1px solid #ccc"
             = form_for User.new, remote: true, role: "signup-form" do |f|
               .form-group
                 = f.email_field :email, class: "form-control", placeholder: "Email"
@@ -35,6 +35,5 @@
                 p.err role="password_confirmation"
               = submit_tag "Зарегистрироваться", class: "btn btn-primary btn-sm"
 
-        .row : .col-md-12
-          hr
+        .row : .col-md-12 style="border-top: 1px solid #ccc; margin-top: 20px; padding-top: 10px"
           = render partial: "b2c/partials/social"
