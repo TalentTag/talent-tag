@@ -5,8 +5,6 @@ class B2b::AccountController < B2b::BaseController
 
 
   def index
-    gon.current_account = current_account # avoiding JS error in case of empty hash
-    return render :unconfirmed unless current_account.confirmed?
     fetch_account_data
   end
 
