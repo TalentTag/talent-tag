@@ -54,7 +54,9 @@ TalentTag::Application.routes.draw do
     get '/account/entries/:id' => 'entries#show'
     get '/account/folders/:id' => 'folders#show'
 
-    resources :companies, only: %i(create update)
+    resources :companies, only: %i(create update) do
+      member { put :update_to_premium }
+    end
 
     resources :entries, only: %i(index show destroy) do
       resources :'comments', only: %i(create update)

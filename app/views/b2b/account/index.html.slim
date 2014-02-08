@@ -4,7 +4,7 @@
     b = current_user.company.name
   hr
 
-  = render partial: "b2b/partials/premium"
+  = render partial: "b2b/partials/premium" if can?(:update_to_premium, current_account)
 
   .row ng-controller="talent.AccountCtrl"
     .col-md-8
@@ -27,8 +27,8 @@
       ng-view
 
     .col-md-4
-      .well.well-sm.well-blue
-        a data-toggle="modal" href="#premium"  Купить Premium
+      - if can?(:update_to_premium, current_account)
+        a.well.well-sm.well-blue data-toggle="modal" href="#premium" role="buy-premium" Купить Premium
       = render partial: "b2b/account/partials/keywords"
       = render partial: "b2b/account/partials/folders"
 

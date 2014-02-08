@@ -13,6 +13,9 @@ class Company < ActiveRecord::Base
 
   after_create :set_owner
 
+  TYPE_DEFAULT = 0
+  TYPE_PREMIUM = 1
+
 
   def owner
     @owner ||= User.find(owner_id) rescue nil
@@ -22,16 +25,19 @@ class Company < ActiveRecord::Base
     users.where role: :employee
   end
 
-  def confirm!
-    update confirmed_at: Time.now
-  end
-
   def confirmed?
-    !confirmed_at.nil?
+    !confirmed_at.nil? # @TODO is it still necessary?
   end
 
   def detailed?
     %w(website phone address details).map { |f| send(f).present? }.all?
+  end
+
+  def default?() status == TYPE_DEFAULT end
+  def premium?() status == TYPE_PREMIUM end
+
+  def blocked?
+    default? && created_at < 3.hours.ago
   end
 
 

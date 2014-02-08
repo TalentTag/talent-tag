@@ -6,6 +6,7 @@ class B2b::AccountController < B2b::BaseController
 
   def index
     fetch_account_data
+    return render :blocked if current_account.blocked?
   end
 
   def update_user

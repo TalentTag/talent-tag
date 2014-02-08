@@ -9,6 +9,8 @@ class B2b::BaseController < ApplicationController
 
   def fetch_account_data
     gon.push \
+      user:           current_user,
+      company:        current_account,
       keyword_groups: KeywordGroup.all,
       industries:     Industry.all,
       areas:          Area.all,

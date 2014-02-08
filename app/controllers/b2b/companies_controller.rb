@@ -3,6 +3,7 @@ class B2b::CompaniesController < B2b::BaseController
   respond_to :json
 
   skip_before_filter :b2b_users_only!, only: :create
+  skip_before_filter :verify_authenticity_token, only: %i(update update_to_premium)
 
 
   def create
@@ -17,12 +18,16 @@ class B2b::CompaniesController < B2b::BaseController
 
   def update
     authorize! :update, current_account
-    if current_account.update_attributes(update_params)
-      Proposal.find_or_initialize_by(company_id: current_account.id).tap { |p| p.status = Proposal::STATUSES.first }.save if current_account.detailed?
-      respond_with current_account
-    else
-      render json: current_account.errors.messages, status: :unprocessable_entity
+    if current_account.update_attributes(update_params) && current_account.detailed?
+      Proposal.find_or_initialize_by(company_id: current_account.id).tap { |p| p.status = Proposal::STATUSES.first }.save
     end
+    respond_with current_account
+  end
+
+  def update_to_premium
+    authorize! :update_to_premium, current_account
+    flash[:notice] = "Тип аккаунта обновлен до Premium" if current_account.detailed? && current_account.update(status: Company::TYPE_PREMIUM, premium_since: Date.today)
+    render nothing: true, status: :no_content
   end
 
 

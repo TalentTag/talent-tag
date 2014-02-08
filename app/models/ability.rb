@@ -5,6 +5,8 @@ class Ability
 
     user ||= User.new
 
+    alias_action :create, :read, :update, :destroy, to: :crud
+
     if user.persisted?
       can :manage, :b2c
       can :update, User, id: user.id
@@ -16,8 +18,9 @@ class Ability
     end
 
     if user.admin? || user.owner?
-      can :manage, Company, owner: user
-      can :invite, User
+      can :crud, Company, owner: user
+      can :update_to_premium, Company, owner: user if user.company.default?
+      can :invite, User if user.company.premium?
       can :destroy, User, company: user.company
       can :signin_as, User, company: user.company
     end
@@ -28,5 +31,6 @@ class Ability
       can :manage, Entry
       can :signin_as, User
     end
+
   end
 end

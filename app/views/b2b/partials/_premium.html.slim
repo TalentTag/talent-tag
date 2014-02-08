@@ -1,9 +1,60 @@
 .modal.fade#premium
   .modal-dialog.wide
-    .modal-content
+    .modal-content ng-controller="talent.PremiumCtrl"
       .modal-header
-        h2 Premium
+        button type="button" class="close" data-dismiss="modal" aria-hidden="true" &times;
+        h4 Премиум-аккаунт
 
       .modal-body
-        p Купите премиум
-        button.btn.btn-primary Купить
+        section ng-show="step == 1"
+          p Описание, условия
+          a.btn.btn-primary href="javascript:;" ng-click="nextStep()" Перейти к оформлению
+
+        section ng-show="step == 2"
+          h4 Заполните Ваш профиль
+          form role="user-form"
+            .form-group
+              label for="firstname" Имя
+              input.form-control type="text" name="firstname" ng-model="user.firstname"
+              .error = "{{ errors.firstname }}"
+            .form-group
+              label for="midname" Отчество
+              input.form-control type="text" name="midname" ng-model="user.midname"
+              .error = "{{ errors.midname }}"
+            .form-group
+              label for="lastname" Фамилия
+              input.form-control type="text" name="lastname" ng-model="user.lastname"
+              .error = "{{ errors.lastname }}"
+            .form-group
+              label for="phone" Контактный телефон
+              input.form-control type="text" name="phone" ng-model="user.phone" tt-mask="+7(999)999-9999"
+              .error = "{{ errors.phone }}"
+            button.btn.btn-primary ng-click="saveUserData()" Далее
+
+        section ng-show="step == 3"
+          h4 Заполните карточку Вашей компании
+          form role="company-form"
+            .form-group
+              label for="website" Веб-сайт
+              .input-group
+                span.input-group-addon http://
+                input.form-control type="text" name="website" ng-model="company.website"
+              .error = "{{ errors.website }}"
+            .form-group
+              label for="phone" Телефон
+              input.form-control type="text" name="phone" ng-model="company.phone" tt-mask="+7(999)999-9999"
+              .error = "{{ errors.phone }}"
+            .form-group
+              label for="address" Адрес
+              input.form-control type="text" name="address" ng-model="company.address"
+              .error = "{{ errors.address }}"
+            .form-group
+              label for="details" Реквизиты
+              textarea.form-control name="details" rows=7 ng-model="company.details"
+              .error = "{{ errors.details }}"
+            button.btn.btn-primary ng-click="saveCompanyData()" Далее
+
+        section ng-show="step == 4"
+          a.btn.btn-primary href="javascript:;" ng-click="buy()" Подтвердить заявку
+          | &nbsp;
+          a.btn.btn-default href="javascript:;" data-dismiss="modal" Закрыть

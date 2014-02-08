@@ -50,7 +50,7 @@ ul
 
 .tooltip
   width: 160px
-.err
+.err, .error
   color: crimson
   font-size: 12px
 
@@ -126,5 +126,11 @@ ul.edit-mode
 .well-blue
   background-color: #428bca
   border-color: #357ebd
-  a
-    color: #fff
+a.well-blue
+  color: #fff
+  display: block
+  text-decoration: none
+  &:hover
+    background-color: #57A2E2
+  &[role=buy-premium]
+    font-size: 20px
