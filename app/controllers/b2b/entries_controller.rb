@@ -11,7 +11,7 @@ class B2b::EntriesController < B2b::BaseController
       @entries = current_user.folders.find_by!(id: params[:folder_id]).details
     elsif params[:query]
       @entries = if params[:search_id] then filter_by_search else filter_by_keywords end
-      response.headers["TT-Pagecount"] = @entries.num_pages.to_s
+      response.headers["TT-entriestotal"] = @entries.total_count.to_s
     else
       @entries = Entry.filter params # @TODO check pagination
     end
