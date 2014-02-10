@@ -7,13 +7,12 @@ p : small
   = "{{ entry.created_at | date:'dd.MM.yyyy' }}"
 p = "{{ entry.body }}"
 
-p
+section.clearfix
   .kw ng-repeat="folder in folders" ng-show="folder.contains(entry)"
     a.close href="javascript:;" ng-click="removeEntryFromFolder(folder, entry)" &times;
     a href="/account/folders/{{ folder.id }}" = "{{ folder.name }}"
-.clearfix
 
-.btn-group
+section.btn-group
   button.btn.btn-default.dropdown-toggle data-toggle="dropdown" type="button"
     span.glyphicon.glyphicon-tags
     | метки
@@ -29,21 +28,23 @@ p
 .clearfix
 br
 
-p : textarea.form-control style="width:100%" rows="3" placeholder="Комментарий" ng-model="entry.comment.text" {{ entry.comment.text }}
-p : button.btn.btn-primary.pull-right ng-click="saveComment(entry.comment, entry.id)" ng-disabled="commentUntouched" Сохранить
+section.clearfix
+  p : textarea.form-control style="width:100%" rows="3" placeholder="Комментарий" ng-model="entry.comment.text" {{ entry.comment.text }}
+  p : button.btn.btn-primary.pull-right ng-click="saveComment(entry.comment, entry.id)" ng-disabled="commentUntouched" Сохранить
 
-#profile.well ng-show="entry.hasProfile()"
-  h4 = "{{ entry.author.profile.name }}"
-  table.simpletable
-    tr valign="top"
-      td : img ng-src="{{ entry.author.profile.photo }}" width="200"
-      td style="padding-left: 12px; width: 100%"
-        table.table
-          tr
-            td : b Дата рождения
-            td = "{{ entry.author.profile.birthday | date:'dd.MM.yyyy' }}"
-          tr
-            td : b Страна
-            td = "{{ entry.author.profile.country }}"
-  br
-  pre : small = "{{ entry.author.profile }}"
+#profile.well ng-show="entry.author"
+  h4 = "{{ entry.author.name }}"
+  p : a href="{{ entry.author.url }}" target="_blank" {{ entry.author.url }}
+  section ng-show="entry.hasProfile()"
+    table.simpletable 
+      tr valign="top"
+        td : img ng-src="{{ entry.author.profile.photo }}" width="200"
+        td style="padding-left: 12px; width: 100%"
+          table.table
+            tr ng-show="entry.author.profile.birthday"
+              td : b Дата рождения
+              td = "{{ entry.author.profile.birthday | date:'dd.MM.yyyy' }}"
+            tr ng-show="entry.author.profile.country"
+              td : b Страна
+              td = "{{ entry.author.profile.country }}"
+          pre : small = "{{ entry.author.profile }}"
