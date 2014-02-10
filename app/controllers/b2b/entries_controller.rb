@@ -11,13 +11,13 @@ class B2b::EntriesController < B2b::BaseController
       @entries = current_user.folders.find_by!(id: params[:folder_id]).details
     elsif params[:search_id]
       search = Search.find_by!(id: params[:search_id])
-      @entries = Entry.filter(query: search.query, published: true, blacklist: search.blacklisted)
+      @entries = Entry.filter(params.merge query: search.query, published: true, blacklist: search.blacklisted)
       response.headers["TT-entriestotal"] = @entries.total_count.to_s
     elsif params[:query]
       @entries = Entry.filter(params.merge published: true)
       response.headers["TT-entriestotal"] = @entries.total_count.to_s
     else
-      Entry.filter params # @TODO check pagination
+      @entries = Entry.filter params # @TODO check pagination
     end
     @comments = Comment.where(entry_id: @entries.map(&:id), user_id: current_user.id)
   end

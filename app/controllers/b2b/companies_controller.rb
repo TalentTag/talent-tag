@@ -26,7 +26,7 @@ class B2b::CompaniesController < B2b::BaseController
 
   def update_to_premium
     authorize! :update_to_premium, current_account
-    flash[:notice] = "Тип аккаунта обновлен до Premium" if current_account.detailed? && current_account.update(status: Company::TYPE_PREMIUM, premium_since: Date.today)
+    flash[:notice] = "Тариф Premium подключен" if current_account.detailed? && current_account.update(status: Company::TYPE_PREMIUM, premium_since: Date.today)
     render nothing: true, status: :no_content
   end
 

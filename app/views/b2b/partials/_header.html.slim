@@ -15,8 +15,8 @@ header
             li = link_to "профиль", account_profile_path, target: "_self"
         - else
           .btn-group
-            a.btn.btn-primary data-toggle="modal" href="#signup-b2b" Вход для работодателей
-            a.btn.btn-primary data-toggle="modal" href="#signup-b2c" Вход для соискателей
+            a.btn.btn-primary data-toggle="modal" href="#signup-b2b" Для работодателей
+            a.btn.btn-primary data-toggle="modal" href="#signup-b2c" Для специалистов
 
           - %w(signup_b2b signup_b2c forgot).each do |modal|
             = render partial: "partials/#{ modal }"
