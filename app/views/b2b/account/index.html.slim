@@ -1,4 +1,9 @@
-.col-md-12
+.col-md-12 ng-controller="talent.AccountCtrl"
+  - if can?(:update_to_premium, current_account)
+    #promo-time-left.pull-right
+      | До завершения тестового периода
+      h2 = "{{ timeLeft }}"
+
   h3.slim
     | Компания 
     b = current_user.company.name
@@ -6,7 +11,7 @@
 
   = render partial: "b2b/partials/premium" if can?(:update_to_premium, current_account)
 
-  .row ng-controller="talent.AccountCtrl"
+  .row
     .col-md-8
       .row
         .col-md-9

@@ -1,8 +1,19 @@
 @talent.controller "talent.AccountCtrl", ["$scope", "$location", "Entry", "SearchesCollection", "FoldersCollection", "talentData", ($scope, $location, Entry, SearchesCollection, FoldersCollection, talentData) ->
+  $scope.company  = talentData.company
+
   $scope.entries  = []
   $scope.page     = 1
   $scope.query    = ''
   $scope.keywords = _.map talentData.keywordGroups, (group) -> group.keywords[0]
+
+  timer = (new Date($scope.company.created_at).getTime() + 3600*3*1000 - new Date().getTime()) / 1000
+  if timer > 0
+    tickTimer = ->
+      window.location.reload() if timer <= 0
+      timer--
+      $scope.$apply ->
+        $scope.timeLeft = "#{ Math.floor timer/3600 }:#{ ("0" + Math.floor timer%3600/60).slice(-2) }:#{ ("0" + Math.floor timer%60).slice(-2) }"
+    setInterval tickTimer, 1000
 
   $scope.$watch 'search', ->
     if $scope.search?
