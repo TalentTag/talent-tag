@@ -1,8 +1,5 @@
 class Admin::ProposalsController < Admin::BaseController
 
-  skip_before_filter :verify_authenticity_token, only: :update
-
-
   def index
     @proposals = Proposal.awaiting
   end

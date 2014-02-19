@@ -1,7 +1,6 @@
 class B2b::CommentsController < B2b::BaseController
 
   respond_to :json
-  skip_before_filter :verify_authenticity_token
   before_action :fetch_entry
 
 

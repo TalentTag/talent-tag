@@ -2,8 +2,6 @@ class Admin::SourcesController < Admin::BaseController
 
   respond_to :json
 
-  skip_before_filter :verify_authenticity_token
-
 
   def index
     gon.sources = Source.all

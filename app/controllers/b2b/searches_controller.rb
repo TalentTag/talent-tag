@@ -1,9 +1,7 @@
 class B2b::SearchesController < B2b::BaseController
 
   respond_to :json
-
   before_action :require_authentication!
-  skip_before_filter :verify_authenticity_token
 
 
   def create

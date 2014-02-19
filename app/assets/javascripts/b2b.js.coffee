@@ -10,7 +10,7 @@
 #= require_tree ./b2b
 
 
-@talent = angular.module 'talent', ['ngResource', 'ngRoute', 'ui.bootstrap']
+@talent = angular.module 'talent', ['ngResource', 'ng-rails-csrf', 'ngRoute', 'ui.bootstrap']
 @talent.value 'talentData', window.talentData
 
 

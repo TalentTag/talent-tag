@@ -1,10 +1,8 @@
 class B2b::FoldersController < B2b::BaseController
 
   respond_to :json
-
   before_action :require_authentication!
   before_action :find_folder, only: %i(update add_entry remove_entry)
-  skip_before_filter :verify_authenticity_token, only: %i(create update add_entry remove_entry destroy)
 
 
   def show

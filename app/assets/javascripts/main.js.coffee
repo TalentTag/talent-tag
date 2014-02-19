@@ -6,6 +6,7 @@
 #= require underscore
 #= require angular
 #= require angular-resource
+#= require ng-rails-csrf
 
 
 $ ->

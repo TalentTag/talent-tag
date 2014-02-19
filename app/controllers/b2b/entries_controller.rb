@@ -3,7 +3,6 @@ class B2b::EntriesController < B2b::BaseController
   respond_to :json
 
   before_action :require_authentication!
-  skip_before_filter :verify_authenticity_token, only: %i(destroy blacklist)
 
 
   def index
