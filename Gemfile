@@ -21,6 +21,7 @@ gem 'mysql2' # thinking-sphinx dependency
 
 gem 'omniauth-twitter'
 
+gem 'therubyracer'
 gem 'quiet_assets'
 gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'

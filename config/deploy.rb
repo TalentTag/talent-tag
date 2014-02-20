@@ -1,6 +1,6 @@
 require "bundler/capistrano"
 
-server "216.119.148.53", :web, :app, :db, primary: true
+server "188.226.157.222", :web, :app, :db, primary: true
 
 set :application,     "talenttag"
 set :deploy_to,       "/var/www/#{application}"
@@ -15,7 +15,7 @@ set :repository,      "git@github.com:artshpakov/talent.git"
 set :branch,          :master
 
 set :default_environment, {
-  'PATH' => '/usr/local/rvm/gems/ruby-2.0.0-p247/bin:/usr/local/rvm/rubies/ruby-2.0.0-p247/bin:$PATH'
+  'PATH' => '/usr/local/rvm/gems/ruby-2.1.0:/usr/local/rvm/gems/ruby-2.1.0/bin:/usr/local/rvm/rubies/ruby-2.1.0/bin:$PATH'
 }
 
 default_run_options[:pty] = true
