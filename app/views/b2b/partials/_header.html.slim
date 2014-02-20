@@ -8,7 +8,7 @@ header
             | Пользователь 
             b = current_user.name
             = raw " [ #{ link_to "выйти", auth_signout_path, method: :post, target: "_self" } ]"
-          ul
+          ul#mainmenu
             - if can? :manage, :admin
               li = link_to "администрирование", admin_path, target: "_self"
             li = link_to "личный кабинет", account_path
@@ -18,7 +18,7 @@ header
             a.btn.btn-primary data-toggle="modal" href="#signup-b2b" Для работодателей
             a.btn.btn-primary data-toggle="modal" href="#signup-b2c" Для специалистов
 
-          - %w(signup_b2b signup_b2c forgot).each do |modal|
+          - %w(signup_b2b signup_b2c).each do |modal|
             = render partial: "partials/#{ modal }"
 
       h1 = link_to "TalentTag", b2b_promo_path, title: "TalentTag", target: "_self"

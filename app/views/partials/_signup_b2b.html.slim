@@ -1,4 +1,4 @@
-.modal.fade#signup-b2b
+.modal.fade#signup-b2b ng-controller="talent.AuthB2bCtrl"
   .modal-dialog.wide
     .modal-content
       .modal-header
@@ -6,33 +6,40 @@
         h4 class="modal-title" Для работодателей
 
       .modal-body
-        .row
-          .col-md-6
-            = form_tag auth_signin_path, role: "signin-form", remote: true
-              .form-group
-                = email_field_tag "user[email]", nil, class: "form-control", placeholder: "Email"
-              .form-group
-                = password_field_tag "user[password]", nil, class: "form-control", placeholder: "Пароль"
-                p.err role="credentials"
-              .checkbox
-                label
-                  = check_box_tag "rememberme", 1
-                  | запомнить меня
-              p : a data-toggle="modal" href="#forgot-modal" Забыли пароль?
-              = submit_tag "Войти", class: "btn btn-primary btn-sm"
+        .col-md-6#forgot-credentials ng-class="{ shown: forgotCredentialsShown }"
+          form role="forgot-form" ng-submit="forgot()" tt-form-autofill-fix=""
+            p : small Пожалуйста, укажите Ваш e-mail, и мы вышлем на него инструкции по восстанолению пароля
+            .form-group#error-placeholder ng-class="{ 'has-error': errors.email }"
+              input.form-control type="email" name="user[email]" placeholder="Email" ng-model="email"
+              p.form-error = "{{ errors.email }}"
+            button.btn.btn-primary.btn-sm Восстановить
+            button.btn.btn-default.btn-sm.pull-right type="button" ng-click="toggleForgotCredentials()" Отмена
 
-          .col-md-6 style="border-left: 1px solid #ccc"
-            = form_tag companies_path, role: "signup-form", remote: true
-              .form-group
-                = email_field_tag "company[owner_attributes][email]", nil, class: "form-control", placeholder: "Email"
-                p.err role="owner.email"
-              .form-group
-                = text_field_tag "company[name]", nil, class: "form-control", placeholder: "Компания"
-                p.err role="name"
-              .form-group
-                = password_field_tag "company[owner_attributes][password]", nil, class: "form-control", placeholder: "Пароль"
-                p.err role="owner.password"
-              .form-group
-                = password_field_tag "company[owner_attributes][password_confirmation]", nil, class: "form-control", placeholder: "Повторите пароль"
-                p.err role="owner.password_confirmation"
-              = submit_tag "Зарегистрироваться", class: "btn btn-primary btn-sm"
+        .col-md-6
+          form role="signin-form" ng-submit="signin()" tt-form-autofill-fix=""
+            p : small Для входа введите e-mail и пароль
+            .form-group ng-class="{ 'has-error': errors.credentials }"
+              input.form-control type="email" name="user[email]" placeholder="Email" ng-model="user.email"
+            .form-group#error-placeholder ng-class="{ 'has-error': errors.credentials }"
+              input.form-control type="password" name="user[password]" placeholder="Пароль" ng-model="user.password"
+              p.form-error = "{{ errors.credentials }}"
+            div tt-checkbox="rememberme" запомнить меня
+            p : a href="javascript:;" ng-click="toggleForgotCredentials()" Забыли пароль?
+            button.btn.btn-primary.btn-sm Войти
+
+        .col-md-6 style="border-left: 1px solid #ccc"
+          form ng-submit="signup()" tt-form-autofill-fix=""
+            p : small Или зарегистрируйтесь в системе
+            .form-group ng-class="{ 'has-error': errors['owner.email'] }"
+              input.form-control type="email" name="newuser[email]" placeholder="Email" ng-model="newuser.email"
+              p.form-error = "{{ errors['owner.email'] }}"
+            .form-group ng-class="{ 'has-error': errors.name }"
+              input.form-control type="text" name="company[name]" placeholder="Компания" ng-model="company.name"
+              p.form-error = "{{ errors.name }}"
+            .form-group ng-class="{ 'has-error': errors['owner.password'] }"
+              input.form-control type="password" name="newuser[password]" placeholder="Пароль" ng-model="newuser.password"
+              p.form-error = "{{ errors['owner.password'] }}"
+            .form-group ng-class="{ 'has-error': errors['owner.password_confirmation'] }"
+              input.form-control type="password" name="newuser[password_confirmation]" placeholder="Повторите пароль" ng-model="newuser.password_confirmation"
+              p.form-error = "{{ errors['owner.password_confirmation'] }}"
+            button.btn.btn-primary.btn-sm Зарегистрироваться

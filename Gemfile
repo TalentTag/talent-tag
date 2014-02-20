@@ -37,6 +37,7 @@ gem 'underscore-rails'
 gem 'angularjs-rails', '~> 1.2.0'
 gem 'angular-ui-bootstrap-rails'
 gem 'ng-rails-csrf'
+gem 'font-awesome-rails'
 
 gem 'unicorn', group: :production
 group :development do

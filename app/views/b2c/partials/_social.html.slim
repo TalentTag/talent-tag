@@ -1,5 +1,6 @@
-ul
-  li = link_to 'Facebook', '/auth/facebook'
-  li = link_to 'Twitter', '/auth/twitter'
-  li = link_to 'VK', '/auth/vkontakte'
-  li = link_to 'Google', '/auth/google_oauth2'
+p Или воспользуйтесь для входа аккаунтом в одной из соцсетей:
+ul#social
+  li = link_to fa_icon('facebook-square'), '/auth/facebook', title: "Facebook"
+  li = link_to fa_icon('twitter'), '/auth/twitter', title: "Twitter"
+  li = link_to fa_icon('vk'), '/auth/vkontakte', title: "Вконтакте"
+  li = link_to fa_icon('google-plus-square'), '/auth/google_oauth2', title: "Google"
