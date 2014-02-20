@@ -2,10 +2,10 @@
 .col-md-4
   = form_tag auth_signup_from_omniauth_path(provider: @params[:provider], uid: @params[:uid])
     .panel.panel-info
-      .panel-heading Пожалуйста, укажите Ваш e-mail
+      .panel-heading Для завершения регистрации укажите, пожалуйста, Ваш e-mail
       .panel-body
         p
-          = email_field_tag 'user[email]', nil, class: 'form-control', placeholder: 'E-mail'
+          = email_field_tag 'info[email]', nil, class: 'form-control', placeholder: 'E-mail'
           p.err = @user.errors.messages[:email].first rescue nil
       .panel-footer = submit_tag "Готово", class: 'btn btn-primary'
 .col-md-4

@@ -54,15 +54,6 @@ class User < ActiveRecord::Base
     comments.create entry_id: entry.id, text: text
   end
 
-  def self.from_omniauth params
-    password = Digest::MD5.hexdigest(Time.now.to_s + params[:uid] + params[:provider])
-    ActiveRecord::Base.transaction do
-      user = create email: params[:user][:email], password: password, password_confirmation: password
-      Identity.create user_id: user.id, provider: params[:provider], uid: params[:uid]
-      user
-    end
-  end
-
 
   protected
 

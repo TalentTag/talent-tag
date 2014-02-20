@@ -19,7 +19,10 @@ gem 'whenever', require: false
 gem 'thinking-sphinx'
 gem 'mysql2' # thinking-sphinx dependency
 
+gem 'omniauth-facebook'
 gem 'omniauth-twitter'
+gem 'omniauth-vkontakte'
+gem 'omniauth-google-oauth2'
 
 gem 'therubyracer'
 gem 'quiet_assets'
