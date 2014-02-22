@@ -33,11 +33,10 @@ class Company < ActiveRecord::Base
     %w(website phone address details).map { |f| send(f).present? }.all?
   end
 
-  def default?() status == TYPE_DEFAULT end
   def premium?() status == TYPE_PREMIUM end
 
   def blocked?
-    default? && created_at < 3.hours.ago
+    !premium? && created_at < 3.hours.ago
   end
 
 

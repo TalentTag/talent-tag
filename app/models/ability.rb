@@ -12,28 +12,26 @@ class Ability
       can :update, User, id: user.id
     end
 
-    if user.role.present?
+    if user.company.present?
       can :manage, :b2b
       can :read, Entry
       can :manage, Comment, user_id: user.id
     end
 
-    if user.admin? || user.owner?
+    if user.owner?
       can :crud, Company, owner: user
-      can :update_to_premium, Company, owner: user if user.company.default?
       if user.company.premium?
         can :read, :premium_data
         can :invite, user
+        can :destroy, User, company: user.company
+        can :signin_as, User, company: user.company
+      else
+        can :update_to_premium, Company, owner: user
       end
-      can :destroy, User, company: user.company
-      can :signin_as, User, company: user.company
     end
 
     if user.admin?
-      can :manage, :admin
-      can :update, Proposal
-      can :manage, Entry
-      can :signin_as, User
+      can :manage, :all
     end
 
   end
