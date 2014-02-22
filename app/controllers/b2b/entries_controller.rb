@@ -29,7 +29,7 @@ class B2b::EntriesController < B2b::BaseController
 
 
   def show
-    return redirect_to account_path unless current_account.confirmed?
+    authorize! :read, Entry
     respond_to do |format|
       format.html do
         fetch_account_data

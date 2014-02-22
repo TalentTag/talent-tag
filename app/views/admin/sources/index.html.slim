@@ -2,12 +2,12 @@
   .col-md-8
 
     ul.nav.nav-tabs
-      li ng-class="displayed('all')" : a href="javascript:;" ng-click="switchGroup('all')" Все
-      li ng-class="displayed('public')" : a href="javascript:;" ng-click="switchGroup('public')" Опубликованные
-      li ng-class="displayed('hidden')" : a href="javascript:;" ng-click="switchGroup('hidden')" Скрытые
+      li ng-class="{ active: group=='all' }" : a href="javascript:;" ng-click="switchGroup('all')" Все
+      li ng-class="{ active: group=='public' }" : a href="javascript:;" ng-click="switchGroup('public')" Опубликованные
+      li ng-class="{ active: group=='hidden' })" : a href="javascript:;" ng-click="switchGroup('hidden')" Скрытые
 
     table.table.table-striped
-      tr ng-repeat="source in sources | orderBy:'name'"
+      tr ng-repeat="source in sources | filter:{hidden: false} | orderBy:'name'"
         td : b = "{{ source.name }}"
         td = "{{ source.url }}"
         td.text-right
