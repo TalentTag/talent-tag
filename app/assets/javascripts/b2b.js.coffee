@@ -12,15 +12,3 @@
 
 @talent = angular.module 'talent', ['ngResource', 'ng-rails-csrf', 'ngRoute', 'ui.bootstrap']
 @talent.value 'talentData', window.talentData
-
-
-$ ->
-
-  $('input.phone').mask "+7(999)999-9999"
-
-  $(document).on 'ajax:success', '@signup-form, @signin-form', ->
-    window.location = '/account'
-
-  $(document).on 'ajax:success', '@forgot-form', ->
-    window.location = '/'
-

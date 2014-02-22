@@ -1,4 +1,4 @@
-.modal.fade#signup-b2b ng-controller="talent.AuthB2bCtrl"
+.modal.fade#signup-b2b
   .modal-dialog.wide
     .modal-content
       .modal-header
@@ -23,12 +23,15 @@
             .form-group#error-placeholder ng-class="{ 'has-error': errors.credentials }"
               input.form-control type="password" name="user[password]" placeholder="Пароль" ng-model="user.password"
               p.form-error = "{{ errors.credentials }}"
-            div tt-checkbox="rememberme" запомнить меня
+            .checkbox
+              label
+                input type="checkbox" ng-model="rememberme" value="1"
+                | запомнить меня
             p : a href="javascript:;" ng-click="toggleForgotCredentials()" Забыли пароль?
             button.btn.btn-primary.btn-sm Войти
 
         .col-md-6 style="border-left: 1px solid #ccc"
-          form ng-submit="signup()" tt-form-autofill-fix=""
+          form ng-submit="signup()"
             p : small Или зарегистрируйтесь в системе
             .form-group ng-class="{ 'has-error': errors['owner.email'] }"
               input.form-control type="email" name="newuser[email]" placeholder="Email" ng-model="newuser.email"

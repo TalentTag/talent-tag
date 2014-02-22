@@ -15,12 +15,13 @@ header
             / li = link_to "профиль", account_profile_path, target: "_self"
             li = link_to "личный кабинет", account_b2c_path
         - else
-          .btn-group
+          .btn-group ng-controller="talent.AuthCtrl"
             a.btn.btn-primary data-toggle="modal" href="#signup-b2b" Для работодателей
             a.btn.btn-primary data-toggle="modal" href="#signup-b2c" Для специалистов
 
-          - %w(signup_b2b signup_b2c).each do |modal|
-            = render partial: "partials/#{ modal }"
+          div ng-controller="talent.AuthCtrl"
+            - %w(b2b b2c).each do |section|
+              = render partial: "#{ section }/partials/signup"
 
       / h1 = link_to "TalentTag", b2b_promo_path, title: "TalentTag", target: "_self"
       h1 = link_to "tagzone.talent-tag.ru", '/'

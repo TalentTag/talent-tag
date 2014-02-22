@@ -14,6 +14,24 @@ ul
   list-style: none
   padding: 0
 
+  &.divided
+    margin: 0
+    color: #aaa
+    li
+      display: inline
+      &:after
+        content: "|"
+      &:first-child
+        a
+          margin-left: 0
+      &:last-child
+        &:after
+          content: ""
+        a
+          margin-right: 0
+      a
+        margin: 0 15px
+
 #wrapper
   width: 1000px
   margin: auto
@@ -26,25 +44,14 @@ ul
 #auth
   .modal-dialog
     width: 300px
+    &.medium
+      width: 420px
     &.wide
       width: 650px
   .signedin
     text-align: right
   #mainmenu
-    color: #aaa
-    list-style: none
     text-align: right
-    li
-      display: inline
-      &:after
-        content: "|"
-      &:last-child
-        &:after
-          content: ""
-        a
-          margin-right: 0
-      a
-        margin: 0 15px
 
   #forgot-credentials
     position: absolute
@@ -72,9 +79,11 @@ ul
   background-color: #eee
   box-shadow: 0 4px 20px #bbb inset
   overflow: hidden
-  padding: 0
-  form
-    padding: 20px 10px
+  padding: 20px 0 30px
+
+.modal-footer
+  margin: 0
+  padding: 7px 20px
 
 .slim
   font-weight: 200
@@ -178,11 +187,33 @@ a.well-blue
   &[role=buy-premium]
     font-size: 20px
 
-#social
-  text-align: center
-  li
-    display: inline
-    margin: 10px
 
-.fa
-  font-size: 30px
+
+#signup-b2c
+  #social-wrapper
+    border-bottom: 1px solid #ddd
+    padding: 0 30px
+    #social
+      .fa
+        font-size: 30px
+      li
+        display: inline
+        margin-right: 12px
+        &:last-child
+          margin-right: 0
+
+  .carousel
+    margin: 0
+    padding: 15px 0
+    position: absolute
+    transition: all 0.3s
+    width: 300%
+    &.signin
+      left: -100%
+    &.signup
+      left: 0%
+    &.forgot
+      left: -200%
+
+    form
+      padding: 0 15px

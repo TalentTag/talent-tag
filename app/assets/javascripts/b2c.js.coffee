@@ -6,9 +6,3 @@
 
 @talent = angular.module 'talent', ['ngResource', 'ng-rails-csrf']
 @talent.value 'talentData', window.talentData
-
-
-$ ->
-
-  $(document).on 'ajax:success', '@signup-form, @signin-form', ->
-    window.location = <% if Rails.env.production? %>'/account'<% else %>'/candidates/account'<% end %>
