@@ -13,9 +13,6 @@ class Company < ActiveRecord::Base
 
   after_create :set_owner
 
-  TYPE_DEFAULT = 0
-  TYPE_PREMIUM = 1
-
 
   def owner
     @owner ||= User.find(owner_id) rescue nil
@@ -33,10 +30,17 @@ class Company < ActiveRecord::Base
     %w(website phone address details).map { |f| send(f).present? }.all?
   end
 
-  def premium?() status == TYPE_PREMIUM end
+  def premium?
+    premium_since && premium_until > Time.now
+  end
+
+  def go_premium! rate
+    starting_point = [premium_until, Time.now].max rescue Time.now
+    update premium_since: Time.now, premium_until: starting_point + rate[:duration]
+  end
 
   def blocked?
-    !premium? && created_at < 3.hours.ago
+    !premium? && (created_at < 3.hours.ago || premium_since)
   end
 
 

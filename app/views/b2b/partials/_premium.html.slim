@@ -6,9 +6,15 @@
         h4 Премиум-аккаунт
 
       .modal-body
-        section ng-show="step == 1"
-          p Описание, условия
-          a.btn.btn-primary href="javascript:;" ng-click="nextStep()" Перейти к оформлению
+        section ng-show="step == 1" style="padding: 10px 30px"
+          p Выберите тариф:
+          table.table.table-striped
+            - RATES.each_with_index do |rate, index|
+              tr
+                td : b = rate[:name]
+                td = "#{ rate[:price] } руб."
+                td style="padding: 5px; text-align: right"
+                  button.btn.btn-primary ng-click="premiumRate = #{ index }; nextStep()" Выбрать
 
         section ng-show="step == 2"
           h4 Заполните Ваш профиль

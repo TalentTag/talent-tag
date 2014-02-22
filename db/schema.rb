@@ -31,16 +31,16 @@ ActiveRecord::Schema.define(version: 20140208135619) do
   add_index "comments", ["user_id", "entry_id"], name: "index_comments_on_user_id_and_entry_id", unique: true, using: :btree
 
   create_table "companies", force: true do |t|
-    t.string   "name",          limit: 30,             null: false
+    t.string   "name",          limit: 30, null: false
     t.integer  "owner_id"
     t.string   "website",       limit: 40
     t.string   "phone",         limit: 20
     t.string   "address"
     t.string   "details"
     t.date     "confirmed_at"
-    t.datetime "created_at",                           null: false
-    t.integer  "status",                   default: 0, null: false
-    t.date     "premium_since"
+    t.datetime "created_at",               null: false
+    t.datetime "premium_since"
+    t.datetime "premium_until"
   end
 
   add_index "companies", ["name"], name: "index_companies_on_name", using: :btree
@@ -126,8 +126,6 @@ ActiveRecord::Schema.define(version: 20140208135619) do
     t.date     "created_at",                 null: false
     t.string   "role"
     t.datetime "last_login_at"
-    t.string   "provider"
-    t.string   "uid"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
