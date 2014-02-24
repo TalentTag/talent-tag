@@ -12,7 +12,8 @@ set :keep_releases, 3
 
 set :scm,             :git
 set :repository,      "git@github.com:artshpakov/talent.git"
-set :branch,          :master
+set :branch,          :development
+set :user,            "artshpakov"
 
 set :default_environment, {
   'PATH' => '/usr/local/rvm/gems/ruby-2.1.0:/usr/local/rvm/gems/ruby-2.1.0/bin:/usr/local/rvm/rubies/ruby-2.1.0/bin:$PATH'

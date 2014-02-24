@@ -19,22 +19,22 @@ class Ability
       can :manage, Comment, user_id: user.id
     end
 
-    if user.owner? || user.admin?
+    if user.owner?
       can :crud, Company, owner: user
-      can :update_to_premium, Company, owner: user
       if user.company.premium?
-        can :read, :premium_stats
-        can :invite, user
+        can :invite, User
         can :destroy, User, company: user.company
         can :signin_as, User, company: user.company
+        can :extend_premium, Company, owner: user
+      else
+        can :update_to_premium, Company, owner: user
       end
     end
 
     if user.admin?
-      can :manage, :admin
-      can :update, Proposal
-      can :manage, Entry
-      can :signin_as, User
+      can :manage, :all
+      cannot :update_to_premium, Company
+      cannot :extend_premium, Company
     end
 
   end

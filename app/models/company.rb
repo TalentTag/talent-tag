@@ -31,7 +31,7 @@ class Company < ActiveRecord::Base
   end
 
   def premium?
-    premium_since && premium_until > Time.now
+    (premium_since && premium_until > Time.now) || owner.admin?
   end
 
   def go_premium! rate
