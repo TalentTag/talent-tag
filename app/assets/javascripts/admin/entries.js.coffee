@@ -22,7 +22,7 @@
   $scope.isLastPage = -> $scope.page is $scope.totalPages
 
   $scope.isNewEntry = (entry) ->
-    new Date(entry.created_at) > $scope.lastLogin
+    new Date(entry.fetched_at) > $scope.lastLogin
 
   $scope.delete = (entry) ->
     if confirm "Удалить запись навсегда?"
