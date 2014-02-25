@@ -19,6 +19,8 @@ TalentTag::Application.routes.draw do
       get  '/:company_id/:code' => :add_employee, as: :add_employee
       post '/:company_id/:code' => :create_employee, as: :create_employee
     end
+
+    get :excerpts
   end
 
 

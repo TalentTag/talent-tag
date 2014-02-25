@@ -28,6 +28,11 @@ class PublicController < ApplicationController
     end
   end
 
+  def excerpts
+    @entries = Entry.search params[:q]
+    @entries.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane
+  end
+
 
   private
 
