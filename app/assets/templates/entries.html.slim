@@ -6,7 +6,7 @@ div ng-repeat="entry in entries" id="entry{{ entry.id }}"
     a.close href="javascript:;" title="Больше не показывать" ng-show="search" ng-click="blacklist(entry)" &times;
     a ng-show="entry.url" ng-href="{{ entry.url }}" target="_blank" = "{{ entry.url | truncate:60 }}"
     span.new-entry ng-show="isNewEntry(entry)" новая
-  p = "{{ entry.body | truncate:250:true }}"
+  p ng-bind-html="entry.excerpt"
 
   p
     .kw ng-repeat="folder in folders" ng-show="folder.contains(entry)"

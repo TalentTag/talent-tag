@@ -27,7 +27,10 @@ class Entry < ActiveRecord::Base
         e[:id] = params[:blacklist] unless params[:blacklist].nil? || params[:blacklist].empty?
         e[:source_id] = Source.unpublished unless params[:published].nil? or Source.unpublished.empty?
       end
-      search(params[:query], with: conditions, without: excepts, retry_stale: true).page(page).per(ENTRIES_PER_PAGE)
+
+      entries = search(params[:query], with: conditions, without: excepts, retry_stale: true, excerpts: {around: 250})
+      entries.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane
+      entries.page(page).per(ENTRIES_PER_PAGE)
     else
       entries = if params[:user] then except_blacklisted_by(params[:user]) else all end
       entries = entries.where(source_id: params[:source]) if params[:source]
