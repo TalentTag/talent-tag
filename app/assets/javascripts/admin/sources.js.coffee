@@ -3,6 +3,4 @@
   $scope.group = 'all'
   $scope.$watch 'group', ->
     $scope.sources = SourceCollection.filter $scope.group
-
-  $scope.switchGroup = (group) -> $scope.group = group
 ]
