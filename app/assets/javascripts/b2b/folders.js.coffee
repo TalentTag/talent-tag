@@ -40,5 +40,5 @@
   $scope.deleteFolder = (folder) ->
     if confirm "Удалить метку?"
       FoldersCollection.remove folder
-      $scope.folders = FoldersCollection.items
+      $scope.$parent.folders = FoldersCollection.items
 ]
