@@ -1,13 +1,10 @@
-@talent.controller "talent.EntryCtrl", ["$scope", "Entry", "talentData", ($scope, Entry, talentData) ->
-  $scope.sources    = talentData.sources
-  $scope.entries    = _.map talentData.entries, (params) -> new Entry params
-  $scope.totalPages = talentData.totalPages
-  $scope.page       = 1
+@talent.controller "talent.EntryCtrl", ["$scope", "Entry", "SourceCollection", ($scope, Entry, SourceCollection) ->
+  $scope.sources = SourceCollection.filter()
 
   query = (config={}) ->
     Entry.query { source: $scope.source?.id, page: $scope.page, published: ($scope.publishedOnly || null) }, (data, parseHeaders) ->
       $scope.entries = if data.length
-        $scope.totalPages = parseInt parseHeaders()["tt-pagecount"]
+        $scope.entriesTotal = parseInt parseHeaders()['tt-entriestotal']
         if config.append then $scope.entries.concat(data) else data
       else []
 
@@ -19,7 +16,7 @@
     $scope.page = $scope.page + 1
     query append: true
 
-  $scope.isLastPage = -> $scope.page is $scope.totalPages
+  $scope.canFetchMore = -> $scope.entries?.length and $scope.entries.length < $scope.entriesTotal
 
   $scope.isNewEntry = (entry) ->
     new Date(entry.fetched_at) > $scope.lastLogin
@@ -29,5 +26,5 @@
       entry.$delete()
       $scope.entries = $scope.entries.filter (e) -> e isnt entry
 
-  $scope.range = (num) -> [1 .. num]
+  $scope.fetch()
 ]

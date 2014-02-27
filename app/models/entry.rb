@@ -32,7 +32,7 @@ class Entry < ActiveRecord::Base
       entries.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane
       entries.page(page).per(ENTRIES_PER_PAGE)
     else
-      entries = if params[:user] then except_blacklisted_by(params[:user]) else all end
+      entries = all
       entries = entries.where(source_id: params[:source]) if params[:source]
       entries = entries.from_published_sources if params[:published]
       entries.page(page)

@@ -16,9 +16,9 @@
   sources = _.map talentData.sources, (params) ->
     new Source params
 
-  filter: (state) ->
+  filter: (state=null) ->
     switch state
       when 'public' then _.reject(sources, (source) -> source.hidden)
       when 'hidden' then _.filter(sources, (source) -> source.hidden)
-      else sources    
+      else sources
 ]
