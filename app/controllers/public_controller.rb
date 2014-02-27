@@ -1,14 +1,7 @@
 class PublicController < ApplicationController
 
-  layout 'b2b'
-
   before_action :find_user_by_forgot_token, only: %i(edit_password update_password)
   before_action :find_invite, only: %i(add_employee create_employee)
-
-
-  def b2c_promo
-    render :b2c_promo, layout: 'b2c'
-  end
 
 
   def update_password

@@ -8,14 +8,13 @@ header
             | Пользователь 
             b = current_user.name
             = raw " [ #{ link_to "выйти", auth_signout_path, method: :post, target: "_self" } ]"
-          ul#mainmenu
-            / - if can? :manage, :admin
-            /   li = link_to "администрирование", admin_path, target: "_self"
-            / li = link_to "личный кабинет", account_path
-            / li = link_to "профиль", account_profile_path, target: "_self"
-            li = link_to "личный кабинет", account_b2c_path
+          ul#mainmenu.divided
+            - if can? :manage, :admin
+              li = link_to "администрирование", admin_path, target: "_self"
+            li = link_to "личный кабинет", (current_account ? account_path : account_b2c_path)
+            li = link_to "профиль", account_profile_path, target: "_self"
         - else
-          .btn-group ng-controller="talent.AuthCtrl"
+          .btn-group
             a.btn.btn-primary data-toggle="modal" href="#signup-b2b" Для работодателей
             a.btn.btn-primary data-toggle="modal" href="#signup-b2c" Для специалистов
 
@@ -23,6 +22,5 @@ header
             - %w(b2b b2c).each do |section|
               = render partial: "#{ section }/partials/signup"
 
-      / h1 = link_to "TalentTag", b2b_promo_path, title: "TalentTag", target: "_self"
-      h1 = link_to "tagzone.talent-tag.ru", '/'
+      h1 = link_to "TalentTag", b2b_promo_path, title: "TalentTag", target: "_self"
       hr

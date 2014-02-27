@@ -7,7 +7,7 @@ class B2b::FoldersController < B2b::BaseController
 
   def show
     fetch_account_data
-    render 'b2b/account/index', layout: 'b2b'
+    render 'b2b/account/index'
   end
 
   def create

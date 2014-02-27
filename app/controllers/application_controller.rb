@@ -44,16 +44,17 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def sign_user_in user=nil, options={}
+  def sign_user_in user=nil
     user ||= @user
     if user.kind_of? User
       session[:user] = user.email
       user.tap do |u|
         u.last_login_at = Time.now
         u.generate_auth_token
-      end.save validate: !options[:skip_validation]
+      end.save validate: false
       user.generate_cookie { |cookie| cookies[:rememberme] = cookie } if params[:rememberme]
     end
+    signed_in?
   end
 
   def mailer_set_url_options

@@ -1,15 +1,5 @@
 TalentTag::Application.routes.draw do
 
-  if Rails.env.production?
-    get '/account' => "b2c/account#index", constraints: { host: "tagzone.talent-tag.ru" }, as: :account_b2c
-  else
-    scope :candidates, module: :b2c do
-      namespace :account do
-        root to: :index, as: :b2c
-      end
-    end
-  end
-
   scope controller: :public do
     root to: :b2b_promo, as: :b2b_promo
     get '/password/:token' => :edit_password, as: :edit_password
@@ -24,7 +14,6 @@ TalentTag::Application.routes.draw do
   end
 
 
-
   namespace :auth do
     post :signin, :signout, :forgot
     get "/:provider/callback" => :callback, as: :proviter_callback
@@ -34,7 +23,6 @@ TalentTag::Application.routes.draw do
   resources :users, only: %i(create update) do
     member { post :signin }
   end
-
 
 
   scope module: :b2b do
@@ -73,8 +61,10 @@ TalentTag::Application.routes.draw do
   end
 
 
-
-  scope module: :b2c do
+  scope :specialist, module: :b2c do
+    namespace :account do
+      root to: :index, as: :b2c
+    end
   end
 
 

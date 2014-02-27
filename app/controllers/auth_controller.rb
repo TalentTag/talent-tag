@@ -40,14 +40,22 @@ class AuthController < ApplicationController
     if @user = Identity.from_omniauth(omniauth_params(@params)).try(:user)
       sign_user_in
       redirect_to account_b2c_path
-    else
-      render :callback, layout: 'b2c'
     end
   end
 
   def from_omniauth
-    sign_user_in Identity.from_omniauth(omniauth_params(params)).try(:user)
-    redirect_to account_b2c_path
+    if sign_user_in(Identity.from_omniauth(omniauth_params(params)).try(:user))
+      redirect_to account_b2c_path
+    else
+      @params = params.slice(:provider, :uid, :info)
+      identity = User.find_by(email: params[:info][:email]).identities.first
+      flash.now[:alert] = if identity
+        "Этот адрес уже был зарегистрирован через #{ identity.provider.capitalize }. Если это Ваш e-mail, используйте для входа аккаунт #{ identity.provider.capitalize } или воспользуйтесь опцией восстановления пароля."
+      else
+        "Этот адрес уже зарегистрирован в системе. Если пароль от аккаутна утерян, воспользуйтесь опцией восстановления пароля."
+      end
+      render :callback
+    end
   end
 
 

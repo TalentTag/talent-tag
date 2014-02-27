@@ -1,7 +1,5 @@
 class B2b::BaseController < ApplicationController
 
-  layout 'b2b'
-
   before_action :b2b_users_only!
 
 

@@ -10,13 +10,13 @@ class Ability
     if user.persisted?
       can :manage, :b2c
       can :update, User, id: user.id
-      can :read, :premium_data if user.company.premium?
     end
 
     if user.company.present?
       can :manage, :b2b
       can :read, Entry
       can :manage, Comment, user_id: user.id
+      can :read, :premium_data if user.company.premium?
     end
 
     if user.owner?

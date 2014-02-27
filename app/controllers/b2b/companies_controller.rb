@@ -7,7 +7,7 @@ class B2b::CompaniesController < B2b::BaseController
   def create
     company = Company.new create_params
     if company.save
-      sign_user_in company.owner, skip_validation: true
+      sign_user_in company.owner
       respond_with company
     else
       respond_with company, status: :unprocessable_entity

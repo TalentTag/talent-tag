@@ -15,12 +15,12 @@ html
 
     = stylesheet_link_tag "application", media: "all"
     = include_gon namespace: :talentData, camel_case: true
-    = javascript_include_tag "b2b"
+    = javascript_include_tag "application"
     = csrf_meta_tags
 
   body lang="ru" ng-app="talent"
     #wrapper
-      = render partial: "b2b/partials/header"
+      = render partial: "partials/header"
 
       .row
         - if flash[:notice]
