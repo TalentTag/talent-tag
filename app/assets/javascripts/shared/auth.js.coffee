@@ -1,20 +1,11 @@
 @talent.controller "talent.AuthCtrl", ["$scope", "$http", ($scope, $http) ->
 
   $scope.errors = {}
-
-  $scope.toggleForgotCredentials = ->
-    $scope.forgotCredentialsShown = !$scope.forgotCredentialsShown
-
-  $scope.user = {}
-  $scope.company = $scope.newuser = {}
+  $scope.user = $scope.company = $scope.newuser = {}
 
   $scope.forgot = ->
     $scope.errors = {}
-    if $scope.email
-      $http.post("/auth/forgot.json", { user: { email: $scope.email } }).success( -> window.location = '/' ).error (response) -> $scope.errors.email = response.errors?.email?[0]
-    else
-      $scope.errors.email = "Укажите e-mail"
-
+    $http.post("/auth/forgot.json", { user: { email: $scope.email } }).success( -> window.location = '/' ).error (response) -> $scope.errors.email = response.errors?.email?[0]
 ]
 
 
@@ -36,11 +27,11 @@
 
   $scope.signin = ->
     $scope.errors = {}
-    $http.post("/auth/signin.json", user: $scope.user, rememberme: $scope.rememberme).success( -> window.location = '/candidates/account' ).error (response) ->
+    $http.post("/auth/signin.json", user: $scope.user, rememberme: $scope.rememberme).success( -> window.location = '/specialist/account' ).error (response) ->
       $scope.errors.credentials = response.credentials?[0]
 
   $scope.signup = ->
     $scope.errors = {}
-    $http.post("/users.json", user: $scope.newuser).success( -> window.location = '/candidates/account' ).error (response) ->
+    $http.post("/users.json", user: $scope.newuser).success( -> window.location = '/specialist/account' ).error (response) ->
       $scope.errors[key] = values[0] for key, values of response.errors
 ]
