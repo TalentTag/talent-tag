@@ -25,7 +25,6 @@ gem 'omniauth-vkontakte'
 gem 'omniauth-google-oauth2'
 
 gem 'therubyracer'
-gem 'quiet_assets'
 gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
@@ -43,4 +42,8 @@ gem 'unicorn', group: :production
 group :development do
   gem 'thin'
   gem 'capistrano', '~> 2.15.0'
+  gem 'quiet_assets'
+  gem 'better_errors'
+  gem 'rack-mini-profiler'
+  gem 'letter_opener'
 end
