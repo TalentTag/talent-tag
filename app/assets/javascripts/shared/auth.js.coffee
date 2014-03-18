@@ -3,9 +3,6 @@
   $scope.errors = {}
   $scope.user = $scope.company = $scope.newuser = {}
 
-  $scope.forgot = ->
-    $scope.errors = {}
-    $http.post("/auth/forgot.json", { user: { email: $scope.email } }).success( -> window.location = '/' ).error (response) -> $scope.errors.email = response.errors?.email?[0]
 ]
 
 
@@ -21,6 +18,11 @@
     $http.post("/companies.json", company: { name: $scope.company.name, owner_attributes: $scope.newuser }).success( -> window.location = '/account' ).error (response, status) ->
       return $scope.tab = 'add-company' if status is 403
       $scope.errors[key] = values[0] for key, values of response.errors
+
+  $scope.forgot = ->
+    $scope.errors = {}
+    $http.post("/auth/forgot.json", { user: { email: $scope.email } }).success( -> window.location = '/' ).error (response) -> $scope.errors.email = response.errors?.email?[0]
+
 ]
 
 
@@ -35,4 +37,9 @@
     $scope.errors = {}
     $http.post("/users.json", user: $scope.newuser).success( -> window.location = '/specialist/account' ).error (response) ->
       $scope.errors[key] = values[0] for key, values of response.errors
+
+  $scope.forgot = ->
+    $scope.errors = {}
+    $http.post("/auth/forgot.json", { user: { email: $scope.email } }).success( -> window.location = '/' ).error (response) -> $scope.errors.email = response.errors?.email?[0]
+
 ]
