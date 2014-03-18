@@ -16,7 +16,7 @@
                 li = link_to fa_icon('vk'), '/auth/vkontakte', title: "Вконтакте"
                 li = link_to fa_icon('google-plus-square'), '/auth/google_oauth2', title: "Google"
 
-          .row.carousel ng-init="tab='signin'" ng-class="{ signin: tab=='signin', signup: tab=='signup', forgot: tab=='forgot' }"
+          .row.carousel ng-init="tab='signin'" style="width: 300%" ng-class="{ signin: tab=='signin', signup: tab=='signup', forgot: tab=='forgot' }"
             .col-md-4
               form role="signup-form" ng-submit="signup()"
                 p : small или заполните поля формы

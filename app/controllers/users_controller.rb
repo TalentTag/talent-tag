@@ -27,6 +27,14 @@ class UsersController < ApplicationController
     redirect_to account_path
   end
 
+  def add_company
+    if User.find_by!(email: params[:email]).send_company_adding_notification
+      redirect_to root_path, notice: "Инструкции высланы на указанный адрес"
+    else
+      redirect_to root_path, alert: "При отправке произошла ошибка"
+    end
+  end
+
 
   private
 

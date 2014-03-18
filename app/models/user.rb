@@ -54,6 +54,9 @@ class User < ActiveRecord::Base
     comments.create entry_id: entry.id, text: text
   end
 
+  def send_company_adding_notification
+    AuthMailer.add_company(self).deliver
+  end
 
   protected
 

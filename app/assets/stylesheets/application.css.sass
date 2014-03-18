@@ -79,7 +79,8 @@ ul
   background-color: #eee
   box-shadow: 0 4px 20px #bbb inset
   overflow: hidden
-  padding: 20px 0 30px
+  &.carousel-wrapper
+    padding: 20px 0 30px
 
 .modal-footer
   margin: 0
@@ -192,6 +193,29 @@ a.well-blue
 
 
 
+
+.carousel
+  margin: 0
+  padding: 15px 0
+  position: absolute
+  transition: all 0.3s
+
+  form
+    padding: 0 15px
+
+#signup-b2b
+  .carousel
+    &.add-company
+      left: 0
+    &.signin
+      left: -200%
+    &.signup
+      left: -100%
+    &.forgot
+      left: -300%
+
+
+
 #signup-b2c
   #social-wrapper
     border-bottom: 1px solid #ddd
@@ -206,17 +230,9 @@ a.well-blue
           margin-right: 0
 
   .carousel
-    margin: 0
-    padding: 15px 0
-    position: absolute
-    transition: all 0.3s
-    width: 300%
     &.signin
       left: -100%
     &.signup
       left: 0%
     &.forgot
       left: -200%
-
-    form
-      padding: 0 15px

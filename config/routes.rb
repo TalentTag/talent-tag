@@ -10,6 +10,8 @@ TalentTag::Application.routes.draw do
       post '/:company_id/:code' => :create_employee, as: :create_employee
     end
 
+    get :add_company
+
     get :excerpts
   end
 
@@ -21,6 +23,7 @@ TalentTag::Application.routes.draw do
   end
 
   resources :users, only: %i(create update) do
+    collection { put :add_company }
     member { post :signin }
   end
 

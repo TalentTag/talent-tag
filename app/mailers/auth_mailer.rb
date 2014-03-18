@@ -29,4 +29,9 @@ class AuthMailer < ActionMailer::Base
     mail to: invite.email, subject: "Приглашение на talent-tag.ru"
   end
 
+  def add_company user
+    @user = user
+    mail to: user.email, subject: "Регистрация компании на talent-tag.ru"
+  end
+
 end

@@ -18,7 +18,8 @@
 
   $scope.signup = ->
     $scope.errors = {}
-    $http.post("/companies.json", company: { name: $scope.company.name, owner_attributes: $scope.newuser }).success( -> window.location = '/account' ).error (response) ->
+    $http.post("/companies.json", company: { name: $scope.company.name, owner_attributes: $scope.newuser }).success( -> window.location = '/account' ).error (response, status) ->
+      return $scope.tab = 'add-company' if status is 403
       $scope.errors[key] = values[0] for key, values of response.errors
 ]
 
