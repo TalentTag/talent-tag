@@ -26,16 +26,16 @@
             .col-md-3
               form ng-submit="signup()"
                 p : small Или зарегистрируйтесь в системе
-                .form-group ng-class="{ 'has-error': errors['owner.email'] }"
+                .form-group.error-placeholder ng-class="{ 'has-error': errors['owner.email'] }"
                   input.form-control type="email" name="newuser[email]" placeholder="Email" ng-model="newuser.email"
                   p.form-error = "{{ errors['owner.email'] }}"
-                .form-group ng-class="{ 'has-error': errors.name }"
+                .form-group.error-placeholder ng-class="{ 'has-error': errors.name }"
                   input.form-control type="text" name="company[name]" placeholder="Компания" ng-model="company.name"
                   p.form-error = "{{ errors.name }}"
-                .form-group ng-class="{ 'has-error': errors['owner.password'] }"
+                .form-group.error-placeholder ng-class="{ 'has-error': errors['owner.password'] }"
                   input.form-control type="password" name="newuser[password]" placeholder="Пароль" ng-model="newuser.password"
                   p.form-error = "{{ errors['owner.password'] }}"
-                .form-group ng-class="{ 'has-error': errors['owner.password_confirmation'] }"
+                .form-group.error-placeholder ng-class="{ 'has-error': errors['owner.password_confirmation'] }"
                   input.form-control type="password" name="newuser[password_confirmation]" placeholder="Повторите пароль" ng-model="newuser.password_confirmation"
                   p.form-error = "{{ errors['owner.password_confirmation'] }}"
                 button.btn.btn-primary.btn-sm Зарегистрироваться
@@ -46,7 +46,7 @@
                 p : small Для входа введите e-mail и пароль
                 .form-group ng-class="{ 'has-error': errors.credentials }"
                   input.form-control type="email" name="user[email]" placeholder="Email" ng-model="user.email"
-                .form-group#error-placeholder ng-class="{ 'has-error': errors.credentials }"
+                .form-group.error-placeholder ng-class="{ 'has-error': errors.credentials }"
                   input.form-control type="password" name="user[password]" placeholder="Пароль" ng-model="user.password"
                   p.form-error = "{{ errors.credentials }}"
                 .checkbox
@@ -60,7 +60,7 @@
             .col-md-3
               form role="forgot-form" ng-submit="forgot()" tt-form-autofill-fix=""
                 p : small Пожалуйста, укажите Ваш e-mail, и мы вышлем на него инструкции по восстанолению пароля
-                .form-group#error-placeholder ng-class="{ 'has-error': errors.email }"
+                .form-group.error-placeholder ng-class="{ 'has-error': errors.email }"
                   input.form-control type="email" name="user[email]" placeholder="Email" ng-model="email"
                   p.form-error = "{{ errors.email }}"
                 button.btn.btn-primary.btn-sm Восстановить

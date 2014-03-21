@@ -20,15 +20,15 @@
             .col-md-4
               form role="signup-form" ng-submit="signup()"
                 p : small или заполните поля формы
-                .form-group
+                .form-group.error-placeholder
                   input.form-control type="email" placeholder="Email" ng-model="newuser.email"
-                  p.err role="email"
-                .form-group
+                  p.form-error = "{{ errors.email }}"
+                .form-group.error-placeholder
                   input.form-control type="password" placeholder="Пароль" ng-model="newuser.password"
-                  p.err role="password"
-                .form-group
+                  p.form-error = "{{ errors.password }}"
+                .form-group.error-placeholder
                   input.form-control type="password" placeholder="Повторите пароль" ng-model="newuser.password_confirmation"
-                  p.err role="password_confirmation"
+                  p.form-error = "{{ errors.password_confirmation }}"
                 button.btn.btn-primary.btn-sm Зарегистрироваться
 
             .col-md-4
@@ -36,7 +36,7 @@
                 p : small или введите e-mail и пароль
                 .form-group ng-class="{ 'has-error': errors.credentials }"
                   input.form-control type="email" name="user[email]" placeholder="Email" ng-model="user.email"
-                .form-group#error-placeholder ng-class="{ 'has-error': errors.credentials }"
+                .form-group.error-placeholder ng-class="{ 'has-error': errors.credentials }"
                   input.form-control type="password" name="user[password]" placeholder="Пароль" ng-model="user.password"
                   p.form-error = "{{ errors.credentials }}"
                 .checkbox

@@ -6,7 +6,7 @@
         h4 Премиум-аккаунт
 
       .modal-body
-        section ng-show="step == 1" style="padding: 10px 30px"
+        section ng-show="step == 1"
           p Выберите тариф:
           table.table.table-striped
             - RATES.each_with_index do |rate, index|
@@ -19,6 +19,10 @@
         section ng-show="step == 2"
           h4 Заполните Ваш профиль
           form role="user-form"
+            .form-group ng-class="{ 'has-error': errors.lastname }"
+              .form-error = "{{ errors.lastname }}"
+              label for="lastname" Фамилия
+              input.form-control type="text" name="lastname" ng-model="user.lastname"
             .form-group ng-class="{ 'has-error': errors.firstname }"
               .form-error = "{{ errors.firstname }}"
               label for="firstname" Имя
@@ -27,10 +31,6 @@
               .form-error = "{{ errors.midname }}"
               label for="midname" Отчество
               input.form-control type="text" name="midname" ng-model="user.midname"
-            .form-group ng-class="{ 'has-error': errors.lastname }"
-              .form-error = "{{ errors.lastname }}"
-              label for="lastname" Фамилия
-              input.form-control type="text" name="lastname" ng-model="user.lastname"
             .form-group ng-class="{ 'has-error': errors.phone }"
               .form-error = "{{ errors.phone }}"
               label for="phone" Контактный телефон

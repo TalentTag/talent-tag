@@ -67,8 +67,8 @@ ul
       left: 0
 
 
-[role=signin-form], [role=forgot-form]
-  #error-placeholder
+form
+  .error-placeholder
     position: relative
   .form-error
     position: absolute
@@ -110,17 +110,19 @@ ul
   .close
     margin: -2px 0 0 5px
 
-.entry
-  padding: 12px 22px
-  border-bottom: 1px solid #eee
-  &:hover
-    background-color: #f7f7f7
-
 .match
   background-color: rgb(255, 240, 132)
 
-#bottom-gutter
-  margin-top: 22px
+[role=entries-list]
+  margin-bottom: 22px
+  .entry
+    padding: 12px 22px
+    border-bottom: 1px solid #eee
+    &:hover
+      background-color: #f7f7f7
+    &:last-child
+      border-bottom: none
+  
 
 .badge
   font-weight: normal
