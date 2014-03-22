@@ -1,18 +1,29 @@
-production:
+production: &production
   facebook:
+    name:       "Facebook"
     app_id:     "176776305712139"
     app_secret: "ddc868dc01d6ce0a6504d8f226e1ec0c"
   twitter:
-    app_ad:     "5E7GchtEUZDfSi4Azz87w"
+    name:       "Twitter"
+    app_id:     "5E7GchtEUZDfSi4Azz87w"
     app_secret: "N9onKDLHbvKTNb0m4nICF1pYr3g0KX6pl89kphbo1M"
   vkontakte:
+    name:       "Вконтакте"
     app_id:     "4201311"
     app_secret: "5qFEBPOnhd4aFAOCS4Eh"
   google_oauth2:
+    name:       "Google+"
     app_id:     "428047194229-mgif4uclcvujg0bma1d2lr2i57lp80s4.apps.googleusercontent.com"
     app_secret: "NOQvqMpHpfI1eZpkJfVWJUlM"
 
+
 development:
+  <<: *production
   facebook:
+    name:       "Facebook"
     app_id:     "778009828890303"
     app_secret: "f11dbbfe3821b63883ad5c844ddcc69b"
+  google_oauth2:
+    name:       "Google+"
+    app_id:     "428047194229-h8nkf9rvi1d0psbr07fvek939h75p9gc.apps.googleusercontent.com"
+    app_secret: "H26rvGIlVM1aFAN6avK15Vca"
