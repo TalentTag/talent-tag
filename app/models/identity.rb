@@ -5,18 +5,39 @@ class Identity < ActiveRecord::Base
 
 
   def self.from_omniauth params, user=nil
-    find_by(params.slice :provider, :uid) || begin
+    data = params.slice :provider, :uid
+    find_by(data) || begin
+      data[:anchor] = send("anchor_#{ params[:provider] }", params)
       if user
-        identity = new params
+        identity = new data
         identity.user = user
         identity if identity.save(validate: false)
       else
         password = Digest::MD5.hexdigest(Time.now.to_s + params[:uid] + params[:provider])
-        params[:user_attributes][:password] = params[:user_attributes][:password_confirmation] = password
-        identity = new params
+        data[:user_attributes][:password] = data[:user_attributes][:password_confirmation] = password
+        identity = new data
         identity if identity.save
       end
     end
+  end
+
+
+  protected
+
+  def self.anchor_facebook 
+    "http://www.facebook.com/profile.php?id=#{ params[:uid] }"
+  end
+
+  def self.anchor_twitter params
+    "http://twitter.com/#{ params[:info]['nickname'] }"
+  end
+
+  def self.anchor_vkontakte params
+    params[:uid]
+  end
+
+  def self.anchor_google_oauth2
+    "https://plus.google.com/#{ params[:uid] }"
   end
 
 end

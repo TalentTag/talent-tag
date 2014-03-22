@@ -1,11 +1,8 @@
 .col-md-8
-  - current_user.identities.each do |identity|
-    - Entry.where("author->>'guid' = '#{ identity.uid }'").load.each do |entry|
-      p : small = "#{ entry.source.name } | #{ entry.created_at.strftime '%d.%m.%Y' }"
-      p == entry.body.gsub '#ttag', '<b>#ttag</b>'
-      hr
-
-
+  - @entries.each do |entry|
+    p : small = "#{ entry.source.name } | #{ entry.created_at.strftime '%d.%m.%Y' }"
+    p == entry.body.gsub '#ttag', '<b>#ttag</b>'
+    hr
 
 .col-md-4
   .well
