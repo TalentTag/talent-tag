@@ -37,8 +37,8 @@ class AuthController < ApplicationController
 
   def callback
     @params = env["omniauth.auth"].slice(:provider, :uid, :info)
-    if @user = Identity.from_omniauth(omniauth_params(@params)).try(:user)
-      sign_user_in
+    if @user = Identity.from_omniauth(omniauth_params(@params), current_user).try(:user)
+      sign_user_in unless signed_in?
       redirect_to account_b2c_path
     end
   end

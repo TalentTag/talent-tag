@@ -1,2 +1,14 @@
-.col-md-12
-  = current_user.email
+.col-md-8
+  - current_user.identities.each do |identity|
+    - Entry.where("author->>'guid' = '#{ identity.uid }'").load.each do |entry|
+      p : small = "#{ entry.source.name } | #{ entry.created_at.strftime '%d.%m.%Y' }"
+      p == entry.body.gsub '#ttag', '<b>#ttag</b>'
+      hr
+
+
+
+.col-md-4
+  .well
+    h4 Учетные записи
+    - oauth_providers.each do |provider, params|
+      p == embedded_identity provider, params['name']
