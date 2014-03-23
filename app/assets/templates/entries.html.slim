@@ -9,7 +9,8 @@ div.entry ng-repeat="entry in entries" id="entry{{ entry.id }}"
 
   p.small = "{{ entry.author.profile.location }}"
 
-  p ng-bind-html="entry.excerpt || entry.body"
+  p = "{{ entry.body | truncate:250:true }}"
+  / p ng-bind-html="entry.excerpt || entry.body"
 
   p
     .kw ng-repeat="folder in folders" ng-show="folder.contains(entry)"
