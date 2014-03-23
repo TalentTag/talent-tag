@@ -64,10 +64,11 @@ TalentTag::Application.routes.draw do
   end
 
 
-  scope :specialist, module: :b2c do
+  scope :specialists, module: :b2c do
     namespace :account do
-      root to: :index, as: :b2c
+      root to: :current, as: :b2c
     end
+    get '/:id' => 'account#show'
   end
 
 

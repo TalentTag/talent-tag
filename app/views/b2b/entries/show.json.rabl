@@ -5,3 +5,6 @@ node(:excerpt) { |entry| entry.excerpts.body if entry.respond_to? :excerpts }
 code :comment do |entry|
   (@comments || entry.comments).find { |c| c.entry_id == entry.id }.try :attributes
 end
+node(:profile_id) do |entry|
+  Identity.find_by(anchor: entry.author['guid']).user.id rescue nil
+end

@@ -1,0 +1,16 @@
+.col-md-8
+  h3 = @user.name
+
+  - journal.each do |entry|
+    p : small = "#{ entry.source.name } | #{ entry.created_at.strftime '%d.%m.%Y' }"
+    p == entry.body.gsub '#ttag', content_tag(:b, '#ttag')
+    hr
+
+.col-md-4
+  .well
+    - if @user == current_user
+      h4 Учетные записи
+      - oauth_providers.each do |provider, params|
+        p == embedded_identity provider, params['name']
+    - else
+      a.btn.btn-primary href="javascript:;" Связаться
