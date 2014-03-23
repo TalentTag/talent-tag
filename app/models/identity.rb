@@ -24,7 +24,7 @@ class Identity < ActiveRecord::Base
 
   protected
 
-  def self.anchor_facebook 
+  def self.anchor_facebook params
     "http://www.facebook.com/profile.php?id=#{ params[:uid] }"
   end
 
@@ -36,7 +36,7 @@ class Identity < ActiveRecord::Base
     params[:uid]
   end
 
-  def self.anchor_google_oauth2
+  def self.anchor_google_oauth2 params
     "https://plus.google.com/#{ params[:uid] }"
   end
 
