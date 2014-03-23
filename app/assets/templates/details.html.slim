@@ -28,10 +28,6 @@ section.btn-group
 .clearfix
 br
 
-section.clearfix
-  p : textarea.form-control style="width:100%" rows="3" placeholder="Комментарий" ng-model="entry.comment.text" {{ entry.comment.text }}
-  p : button.btn.btn-primary.pull-right ng-click="saveComment(entry.comment, entry.id)" ng-disabled="commentUntouched" Сохранить
-
 #profile.well ng-show="entry.author"
   h4 = "{{ entry.author.name }}"
   p : a href="{{ entry.author.url }}" target="_blank" {{ entry.author.url }}
@@ -48,3 +44,9 @@ section.clearfix
               td : b Страна
               td = "{{ entry.author.profile.country }}"
           pre : small = "{{ entry.author.profile }}"
+
+section.clearfix
+  p : textarea.form-control style="width:100%" rows="3" placeholder="Комментарий" ng-model="entry.comment.text" {{ entry.comment.text }}
+  p : button.btn.btn-primary.pull-right ng-click="saveComment(entry.comment, entry.id)" ng-disabled="commentUntouched" Сохранить
+
+p : a href="javascript:history.back();" &larr; Назад

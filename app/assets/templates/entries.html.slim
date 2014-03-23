@@ -1,11 +1,14 @@
 p.alert.alert-warning ng-show="entriesTotal == 0" Ничего не нашлось
 p.alert.alert-info ng-show="entriesTotal" Найдено записей: {{ entriesTotal }}
 
-div ng-repeat="entry in entries" id="entry{{ entry.id }}"
+div.entry ng-repeat="entry in entries" id="entry{{ entry.id }}"
   p
     a.close href="javascript:;" title="Больше не показывать" ng-show="search" ng-click="blacklist(entry)" &times;
     a ng-show="entry.url" ng-href="{{ entry.url }}" target="_blank" = "{{ entry.url | truncate:60 }}"
     span.new-entry ng-show="isNewEntry(entry)" новая
+
+  p.small = "{{ entry.author.profile.location }}"
+
   p ng-bind-html="entry.excerpt || entry.body"
 
   p
