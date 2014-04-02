@@ -1,10 +1,9 @@
 object @entry
 attributes :id, :body, :source_id, :created_at, :fetched_at, :author
 attribute :url if can?(:read, :premium_data)
-node(:excerpt) { |entry| entry.excerpts.body if entry.respond_to? :excerpts }
-code :comment do |entry|
+node :comment do |entry|
   (@comments || entry.comments).find { |c| c.entry_id == entry.id }.try :attributes
 end
-node(:profile_id) do |entry|
+node :profile_id do |entry|
   Identity.find_by(anchor: entry.author['guid']).user.id rescue nil
 end
