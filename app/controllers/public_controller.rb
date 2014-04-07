@@ -8,7 +8,7 @@ class PublicController < ApplicationController
   def update_password
     if @user.update_password! password_params
       sign_user_in
-      redirect_to account_path
+      redirect_to root_path
     else
       render :edit_password
     end

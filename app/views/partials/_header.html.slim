@@ -11,7 +11,7 @@ header
           ul#mainmenu.divided
             - if can? :manage, :admin
               li = link_to "администрирование", admin_path, target: "_self"
-            li = link_to "личный кабинет", (current_account ? account_path : account_b2c_path)
+            li = link_to "личный кабинет", (can?(:manage, :b2b) ? account_path : account_b2c_path)
             li = link_to "профиль", account_profile_path, target: "_self"
         - else
           .btn-group
