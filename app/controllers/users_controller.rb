@@ -35,6 +35,19 @@ class UsersController < ApplicationController
     end
   end
 
+  def create_company
+    @user = User.find_by!(id: params[:user_id])
+    @company = Company.new(name: params[:company][:name])
+    @company.owner_id = @user.id
+    if @company.save
+      @user.update role: :owner
+      sign_user_in
+      redirect_to account_path
+    else
+      render 'public/add_company'
+    end
+  end
+
 
   private
 

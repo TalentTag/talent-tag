@@ -8,14 +8,7 @@
       .modal-body.carousel-wrapper
         div style="position: relative; height: 260px"
           .row.carousel ng-init="tab='signin'" style="width: 400%" ng-class="{ 'add-company': tab=='add-company', signin: tab=='signin', signup: tab=='signup', forgot: tab=='forgot' }" 
-            / .col-md-6#forgot-credentials ng-class="{ shown: forgotCredentialsShown }"
-            /   form role="forgot-form" ng-submit="forgot()" tt-form-autofill-fix=""
-            /     p : small Пожалуйста, укажите Ваш e-mail, и мы вышлем на него инструкции по восстанолению пароля
-            /     .form-group#error-placeholder ng-class="{ 'has-error': errors.email }"
-            /       input.form-control type="email" name="user[email]" placeholder="Email" ng-model="email"
-            /       p.form-error = "{{ errors.email }}"
-            /     button.btn.btn-primary.btn-sm Восстановить
-            /     button.btn.btn-default.btn-sm.pull-right type="button" ng-click="toggleForgotCredentials()" Отмена
+
             .col-md-3 style="padding: 0 40px"
               = form_tag add_company_users_path, method: :put, remote: true
                 input type="hidden" name="email" value="{{ newuser.email }}"

@@ -47,7 +47,7 @@ class Company < ActiveRecord::Base
   protected
 
   def set_owner
-    update_attribute :owner_id, users.first.id
+    update_attribute :owner_id, users.first.id unless owner
   end
 
 end
