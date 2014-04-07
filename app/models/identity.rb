@@ -8,6 +8,7 @@ class Identity < ActiveRecord::Base
     data = params.slice :provider, :uid
     find_by(data) || begin
       data[:anchor] = send("anchor_#{ params[:provider] }", params)
+      data[:user_attributes] = params[:user_attributes] || {}
       if user
         identity = new data
         identity.user = user
