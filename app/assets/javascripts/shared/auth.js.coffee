@@ -30,12 +30,12 @@
 
   $scope.signin = ->
     $scope.errors = {}
-    $http.post("/auth/signin.json", user: $scope.user, rememberme: $scope.rememberme).success( -> window.location = '/specialist/account' ).error (response) ->
+    $http.post("/auth/signin.json", user: $scope.user, rememberme: $scope.rememberme).success( -> window.location = '/specialists/account' ).error (response) ->
       $scope.errors.credentials = response.credentials?[0]
 
   $scope.signup = ->
     $scope.errors = {}
-    $http.post("/users.json", user: $scope.newuser).success( -> window.location = '/specialist/account' ).error (response) ->
+    $http.post("/users.json", user: $scope.newuser).success( -> window.location = '/specialists/account' ).error (response) ->
       $scope.errors[key] = values[0] for key, values of response.errors
 
   $scope.forgot = ->
