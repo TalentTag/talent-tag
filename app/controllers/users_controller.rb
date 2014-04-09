@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new create_params
     if @user.save
-      sign_user_in
+      sign_user_in @user, as: params[:type]
       respond_with @user, status: :created
     else
       respond_with @user, status: :unprocessable_entity
@@ -40,8 +40,8 @@ class UsersController < ApplicationController
     @company = Company.new(name: params[:company][:name])
     @company.owner_id = @user.id
     if @company.save
-      @user.update role: :owner
-      sign_user_in
+      @user.update role: :owner, company_id: @company.id
+      sign_user_in @user, as: :employer
       redirect_to account_path
     else
       render 'public/add_company'

@@ -19,19 +19,19 @@
         section ng-show="step == 2"
           h4 Заполните Ваш профиль
           form role="user-form"
-            .form-group ng-class="{ 'has-error': errors.lastname }"
+            .form-group.error-placeholder ng-class="{ 'has-error': errors.lastname }"
               .form-error = "{{ errors.lastname }}"
               label for="lastname" Фамилия
               input.form-control type="text" name="lastname" ng-model="user.lastname"
-            .form-group ng-class="{ 'has-error': errors.firstname }"
+            .form-group.error-placeholder ng-class="{ 'has-error': errors.firstname }"
               .form-error = "{{ errors.firstname }}"
               label for="firstname" Имя
               input.form-control type="text" name="firstname" ng-model="user.firstname"
-            .form-group ng-class="{ 'has-error': errors.midname }"
+            .form-group.error-placeholder ng-class="{ 'has-error': errors.midname }"
               .form-error = "{{ errors.midname }}"
               label for="midname" Отчество
               input.form-control type="text" name="midname" ng-model="user.midname"
-            .form-group ng-class="{ 'has-error': errors.phone }"
+            .form-group.error-placeholder ng-class="{ 'has-error': errors.phone }"
               .form-error = "{{ errors.phone }}"
               label for="phone" Контактный телефон
               input.form-control type="text" name="phone" ng-model="user.phone" tt-mask="+7(999)999-9999"
@@ -41,21 +41,21 @@
         section ng-show="step == 3"
           h4 Заполните карточку Вашей компании
           form role="company-form"
-            .form-group
+            .form-group.error-placeholder
               .form-error = "{{ errors.website }}"
               label for="website" Веб-сайт
               .input-group
                 span.input-group-addon http://
                 input.form-control type="text" name="website" ng-model="company.website"
-            .form-group
+            .form-group.error-placeholder
               .form-error = "{{ errors.phone }}"
               label for="phone" Телефон
               input.form-control type="text" name="phone" ng-model="company.phone" tt-mask="+7(999)999-9999"
-            .form-group
+            .form-group.error-placeholder
               .form-error = "{{ errors.address }}"
               label for="address" Адрес
               input.form-control type="text" name="address" ng-model="company.address"
-            .form-group
+            .form-group.error-placeholder
               .form-error = "{{ errors.details }}"
               label for="details" Реквизиты
               textarea.form-control name="details" rows=7 ng-model="company.details"

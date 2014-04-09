@@ -21,13 +21,11 @@ class Ability
 
     if user.owner?
       can :crud, Company, owner: user
+      can :update_to_premium, Company, owner: user
       if user.company.premium?
         can :invite, User
         can :destroy, User, company: user.company
         can :signin_as, User, company: user.company
-        can :extend_premium, Company, owner: user
-      else
-        can :update_to_premium, Company, owner: user
       end
     end
 

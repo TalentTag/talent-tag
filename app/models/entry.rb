@@ -24,18 +24,18 @@ class Entry < ActiveRecord::Base
         c[:source_id] = params[:source] if params[:source].present?
       end
       excepts = {}.tap do |e|
-        e[:id] = params[:blacklist] unless params[:blacklist].nil? || params[:blacklist].empty?
+        e[:id] = params[:blacklist].first unless params[:blacklist].nil? || params[:blacklist].empty?
         e[:source_id] = Source.unpublished unless params[:published].nil? or Source.unpublished.empty?
       end
 
-      entries = search(params[:query], with: conditions, without: excepts, retry_stale: true, excerpts: {around: 250})
+      entries = search(params[:query], with: conditions, without: excepts, retry_stale: true, excerpts: {around: 250}, order: 'created_at DESC')
       entries.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane
       entries.page(page).per(ENTRIES_PER_PAGE)
     else
-      entries = all
+      entries = self
       entries = entries.where(source_id: params[:source]) if params[:source]
       entries = entries.from_published_sources if params[:published]
-      entries.page(page)
+      entries.page(page).load
     end
   end
 

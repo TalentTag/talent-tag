@@ -32,7 +32,7 @@ class B2b::EntriesController < B2b::BaseController
     respond_to do |format|
       format.html do
         fetch_account_data
-        render 'b2b/account/index'
+        render 'account/b2b'
       end
       format.json { @entry = Entry.find_by! id: params[:id] }
     end

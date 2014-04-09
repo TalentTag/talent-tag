@@ -5,9 +5,10 @@ class AuthController < ApplicationController
   before_action :require_authentication!, only: :signout
 
 
+
   def signin
     if @user = User.find_by(email: params[:user][:email]).try(:authenticate, params[:user][:password])
-      sign_user_in
+      sign_user_in @user, as: params[:type]
       render nothing: true, status: :no_content
     else
       render json: { credentials: ["Неверный email или пароль"] }, status: :unauthorized
@@ -21,8 +22,9 @@ class AuthController < ApplicationController
     else
       session.clear
       cookies.delete :rememberme
+      cookies.delete :role
     end
-    redirect_to root_path, notice: "Вы вышли из системы"
+    redirect_to account_path, notice: "Вы вышли из системы"
   end
 
   def forgot
@@ -35,17 +37,19 @@ class AuthController < ApplicationController
     end
   end
 
+
+
   def callback
     @params = env["omniauth.auth"].slice(:provider, :uid, :info)
     if @user = Identity.from_omniauth(omniauth_params(@params), current_user).try(:user)
-      sign_user_in unless signed_in?
-      redirect_to account_b2c_path
+      sign_user_in(@user, as: :specialist) unless signed_in?
+      redirect_to account_path
     end
   end
 
   def from_omniauth
-    if sign_user_in(Identity.from_omniauth(omniauth_params(params)).try(:user))
-      redirect_to account_b2c_path
+    if sign_user_in(Identity.from_omniauth(omniauth_params(params)).try(:user), as: :specialist)
+      redirect_to account_path
     else
       @params = params.slice(:provider, :uid, :info)
       identity = User.find_by(email: params[:info][:email]).identities.first

@@ -7,8 +7,8 @@ class PublicController < ApplicationController
 
   def update_password
     if @user.update_password! password_params
-      sign_user_in
-      redirect_to root_path
+      # sign_user_in @user, as: :employer
+      redirect_to account_path, flash: { notice: "Пароль изменен, вы можете использовать его для входа в систему" }
     else
       render :edit_password
     end
@@ -17,14 +17,14 @@ class PublicController < ApplicationController
   def create_employee
     if @user = @invite.company.users.create(password_params.merge(email: @invite.email, role: :employee))
       @invite.delete
-      sign_user_in
+      sign_user_in @user, as: :employer
       redirect_to account_path
     end
   end
 
   def create_company
     if @user.company.create(name: params[:company][:name])
-      sign_user_in
+      sign_user_in @user, as: :employer
       redirect_to account_path
     else
       render text: "Invalid"

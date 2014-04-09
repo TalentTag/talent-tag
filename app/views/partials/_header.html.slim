@@ -5,22 +5,28 @@ header
       #auth.pull-right
         - if signed_in?
           .signedin
-            | Пользователь 
-            b = current_user.name
-            = raw " [ #{ link_to "выйти", auth_signout_path, method: :post, target: "_self" } ]"
-          ul#mainmenu.divided
+            ' Пользователь
+            b' = current_user.name
+            ' [
+            / =' link_to("войти как специалист", auth_signout_path, method: :post, target: "_self") if is_employer?
+            / =' link_to("войти как работодатель", auth_signout_path, method: :post, target: "_self") if is_specialist?
+            / ' |
+            =' link_to "выйти", auth_signout_path, method: :post, target: "_self"
+            | ]
+
+          ul#mainmenu
             - if can? :manage, :admin
               li = link_to "администрирование", admin_path, target: "_self"
-            li = link_to "личный кабинет", (can?(:manage, :b2b) ? account_path : account_b2c_path)
-            li = link_to "профиль", account_profile_path, target: "_self"
+            li = link_to "личный кабинет", account_path, target: "_self"
+            li = link_to "профиль", profile_path, target: "_self"
         - else
           .btn-group
             a.btn.btn-primary data-toggle="modal" href="#signup-b2b" Для работодателей
             a.btn.btn-primary data-toggle="modal" href="#signup-b2c" Для специалистов
 
           div ng-controller="talent.AuthCtrl"
-            - %w(b2b b2c).each do |section|
-              = render partial: "#{ section }/partials/signup"
+            = render partial: "auth/partials/b2b"
+            = render partial: "auth/partials/b2c"
 
-      h1 = link_to "TalentTag", b2b_promo_path, title: "TalentTag", target: "_self"
+      h1 = link_to "TalentTag", account_path, title: "TalentTag", target: "_self"
       hr

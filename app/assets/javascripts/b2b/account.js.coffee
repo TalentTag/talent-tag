@@ -35,10 +35,11 @@
       $scope.entriesTotal = parseInt parseHeaders()['tt-entriestotal']
 
   $scope.fetch = (options={}) ->
-    $scope.page = 1
-    $scope.search = undefined
-    $location.path('/account')
-    query()
+    if $scope.query
+      $scope.page = 1
+      $scope.search = undefined
+      $location.path('/account')
+      query()
 
   $scope.fetchMore = ->
     $scope.page = ($scope.page || 0) + 1

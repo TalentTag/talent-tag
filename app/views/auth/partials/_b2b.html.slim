@@ -1,4 +1,4 @@
-.modal.fade#signup-b2b ng-controller="talent.AuthB2bCtrl"
+.modal.fade#signup-b2b
   .modal-dialog.medium
     .modal-content
       .modal-header
@@ -17,7 +17,7 @@
                 button.btn.btn-default.btn-sm.pull-right type="button" ng-click="tab='signup'" Назад
 
             .col-md-3
-              form ng-submit="signup()"
+              form ng-submit="signup_b2b()"
                 p : small Или зарегистрируйтесь в системе
                 .form-group.error-placeholder ng-class="{ 'has-error': errors['owner.email'] }"
                   input.form-control type="email" name="newuser[email]" placeholder="Email" ng-model="newuser.email"
@@ -35,7 +35,7 @@
                 button.btn.btn-default.btn-sm.pull-right type="button" ng-click="tab='signin'" Войти в систему
 
             .col-md-3
-              form role="signin-form" ng-submit="signin()" tt-form-autofill-fix=""
+              form role="signin-form" ng-submit="signin('b2b')" tt-form-autofill-fix=""
                 p : small Для входа введите e-mail и пароль
                 .form-group ng-class="{ 'has-error': errors.credentials }"
                   input.form-control type="email" name="user[email]" placeholder="Email" ng-model="user.email"
@@ -59,7 +59,7 @@
                 button.btn.btn-primary.btn-sm Восстановить
 
       .modal-footer
-        ul.divided style="text-align: center"
+        ul
           li : a href="javascript:;" ng-click="tab='signup'" Регистрация
           li : a href="javascript:;" ng-click="tab='signin'" Вход
           li : a href="javascript:;" ng-click="tab='forgot'" Вспомнить пароль

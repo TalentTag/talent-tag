@@ -1,9 +1,9 @@
 .col-md-3
-  = render partial: 'b2b/account/partials/profile_nav'
+  = render partial: 'profile/partials/nav'
 
 .col-md-9
   h4 Редактирование данных компании
-  = form_for current_account, url: account_company_path, method: :put do |f|
+  = form_for current_account, url: profile_company_path, method: :put do |f|
     .panel.panel-info
       .panel-heading Название
       .panel-body
@@ -18,12 +18,14 @@
           tr
             td width="200px" Веб-сайт
             td
-              = f.text_field :website, class: 'form-control'
+              .input-group
+                span.input-group-addon http://
+                = f.text_field :website, class: 'form-control'
               .err = current_account.errors.messages[:website].first
           tr
             td width="200px" Телефон
             td
-              = f.text_field :phone, class: 'form-control phone'
+              = f.text_field :phone, class: 'form-control phone', 'tt-mask'=>'+7(999)999-9999'
               .err = current_account.errors.messages[:phone].first
           tr
             td width="200px" Адрес

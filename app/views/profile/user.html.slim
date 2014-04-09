@@ -1,9 +1,9 @@
 .col-md-3
-  = render partial: '/b2b/account/partials/profile_nav'
+  = render partial: 'profile/partials/nav'
 
 .col-md-9
   h4 Редактирование профиля пользователя
-  = form_for current_user, url: account_profile_path, method: :put do |f|
+  = form_for current_user, url: profile_path, method: :put do |f|
     .panel.panel-info
       .panel-heading Персональные данные
       .panel-body
@@ -26,11 +26,11 @@
           tr
             td Контактный телефон
             td
-              = f.text_field :phone, class: 'form-control phone'
+              = f.text_field :phone, class: 'form-control phone', 'tt-mask'=>'+7(999)999-9999'
               .err = current_user.errors.messages[:phone].first
       .panel-footer = f.submit "Сохранить", class: 'btn btn-primary'
 
-  = form_for current_user, url: account_profile_path, method: :put do |f|
+  = form_for current_user, url: profile_path, method: :put do |f|
     .panel.panel-info
       .panel-heading Сменить e-mail
       .panel-body
@@ -38,7 +38,7 @@
         .err = current_user.errors.messages[:email].first
       .panel-footer = f.submit "Сохранить", class: 'btn btn-primary'
 
-  = form_for current_user, url: account_profile_path, method: :put do |f|
+  = form_for current_user, url: profile_path, method: :put do |f|
     .panel.panel-info
       .panel-heading Сменить пароль
       .panel-body

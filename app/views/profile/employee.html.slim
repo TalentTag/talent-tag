@@ -1,9 +1,9 @@
 .col-md-3
-  = render partial: 'b2b/account/partials/profile_nav'
+  = render partial: 'profile/partials/nav'
 
 .col-md-9
   h4 Аккаунты сотрудников
-  = form_tag account_employee_path, role: 'form'
+  = form_tag profile_employee_path, role: 'form'
     .panel.panel-info
       .panel-heading Чтобы добавить аккаунт сотрудника, укажите его e-mail
       .panel-body
@@ -18,4 +18,4 @@
         td = e.email
         td = e.phone
         td align="right" = link_to "", signin_user_path(id: e.id), method: :post, class: "glyphicon glyphicon-forward", title: "Войти в профиль сотрудника"
-        td align="right" = link_to "", account_employee_remove_path(id: e.id), method: :delete, class: "glyphicon glyphicon-trash", data: { confirm: "Удалить сотрудника из системы?" }
+        td align="right" = link_to "", profile_remove_employee_path(id: e.id), method: :delete, class: "glyphicon glyphicon-trash", data: { confirm: "Удалить сотрудника из системы?" }

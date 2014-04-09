@@ -1,7 +1,12 @@
 TalentTag::Application.routes.draw do
 
+  root to: "account#index", as: :account
   scope controller: :public do
-    root to: :b2b_promo, as: :b2b_promo
+    get :promo
+  end
+
+
+  scope controller: :public do
     get '/password/:token' => :edit_password, as: :edit_password
     put '/password/:token' => :update_password, as: :update_password
 
@@ -11,15 +16,25 @@ TalentTag::Application.routes.draw do
     end
 
     get :add_company
-
-    get :excerpts
+  #   get :excerpts
   end
-
 
   namespace :auth do
     post :signin, :signout, :forgot
     get "/:provider/callback" => :callback, as: :proviter_callback
     post "/:provider/signup/:uid" => :from_omniauth, as: :signup_from_omniauth
+  end
+
+  namespace :profile do
+    root to: :user, as: ''
+    put '/' => :update_user
+
+    get :company
+    put '/company' => :update_account
+
+    get :employee
+    post '/employee' => :add_employee
+    delete '/employee/:id' => :remove_employee, as: :remove_employee
   end
 
   resources :users, only: %i(create update) do
@@ -29,30 +44,12 @@ TalentTag::Application.routes.draw do
 
 
   scope module: :b2b do
-    namespace :account do
-      root to: :index, as: ''
-      scope :profile do
-        root to: :profile, as: :profile
-        put '/' => :update_user
-
-        get :company
-        put '/company' => :update_account
-
-        get :employee
-        post '/employee' => :add_employee
-
-        delete '/employee/:id' => :remove_employee, as: :employee_remove
-      end
-    end
-    get '/account/entries/:id' => 'entries#show'
-    get '/account/folders/:id' => 'folders#show'
-
     resources :companies, only: %i(create update) do
       member { put :update_to_premium }
     end
 
     resources :entries, only: %i(index show destroy) do
-      resources :'comments', only: %i(create update)
+      resources :comments, only: %i(create update)
     end
 
     resources :searches, only: %i(create update destroy) do
@@ -65,12 +62,8 @@ TalentTag::Application.routes.draw do
 
 
   scope :specialists, module: :b2c do
-    namespace :account do
-      root to: :current, as: :b2c
-    end
     get '/:id' => 'account#show'
   end
-
 
 
   namespace :admin do

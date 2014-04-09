@@ -7,18 +7,20 @@ div.entry ng-repeat="entry in entries" id="entry{{ entry.id }}"
     a ng-show="entry.url" ng-href="{{ entry.url }}" target="_blank" = "{{ entry.url | truncate:60 }}"
     span.new-entry ng-show="isNewEntry(entry)" новая
 
-  p.small = "{{ entry.author.profile.location }}"
+  ul.info
+    li : span = "Добавлено {{ entry.created_at | date:'dd.MM.yyyy' }}"
+    li : span = "{{ entry.author.profile.city || entry.author.profile.location || '' }}"
 
-  p = "{{ entry.body | truncate:250:true }}"
+  p = "{{ entry.body | truncate:250:{ byWords: true } }}"
   / p ng-bind-html="entry.excerpt || entry.body"
 
   p
     .kw ng-repeat="folder in folders" ng-show="folder.contains(entry)"
       a.close href="javascript:;" ng-click="removeEntryFromFolder(folder, entry)" &times; 
-      a href="/account/folders/{{ folder.id }}" = "{{ folder.name }}"
+      a href="/folders/{{ folder.id }}" = "{{ folder.name }}"
   .clearfix
 
-  a.pull-right href="/account/entries/{{ entry.id }}" подробнее &rarr;
+  a.pull-right href="/entries/{{ entry.id }}" подробнее &rarr;
   .btn-group
     button.btn.btn-default.dropdown-toggle data-toggle="dropdown" type="button"
       span.glyphicon.glyphicon-tags

@@ -6,6 +6,31 @@
 @import "twitter/bootstrap"
 @import font-awesome
 
+
+@mixin horizontal-list($gap)
+  li
+    display: inline
+    &:first-child
+      a, span
+        margin-left: 0
+    &:last-child
+      a, span
+        margin-right: 0
+    a, span
+      margin: 0 $gap
+
+
+@mixin divided-list($gap)
+  @include horizontal-list($gap)
+  li
+    &:after
+      content: "|"
+    &:last-child
+      &:after
+        content: ""
+
+
+
 html, body
   height: 100%
   background-color: #eee
@@ -13,24 +38,7 @@ html, body
 ul
   list-style: none
   padding: 0
-
-  &.divided
-    margin: 0
-    color: #aaa
-    li
-      display: inline
-      &:after
-        content: "|"
-      &:first-child
-        a, span
-          margin-left: 0
-      &:last-child
-        &:after
-          content: ""
-        a, span
-          margin-right: 0
-      a, span
-        margin: 0 15px
+  margin: 0
 
 #wrapper
   width: 1000px
@@ -51,7 +59,10 @@ ul
   .signedin
     text-align: right
   #mainmenu
+    @include divided-list(8px)
     text-align: right
+    color: #aaa
+
 
   #forgot-credentials
     position: absolute
@@ -85,6 +96,9 @@ form
 .modal-footer
   margin: 0
   padding: 7px 20px
+  ul
+    @include divided-list(10px)
+    text-align: center
 
 .slim
   font-weight: 200
@@ -122,6 +136,13 @@ form
       background-color: #f7f7f7
     &:last-child
       border-bottom: none
+
+.entry
+  .info
+    @include horizontal-list(10px)
+    color: #aaa
+    font-size: 12px
+    margin-bottom: 5px
 
 p.small
   font-size: 12px

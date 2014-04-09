@@ -17,7 +17,7 @@
 
             .composite-input
               a#clear-search.close.glyphicon.glyphicon-remove-circle href="/account" ng-show="query" ng-click="clearSearch()"
-              input#search.form-control name="query" placeholder="Поиск" ng-model="query" typeahead="keyword for keyword in keywords | filter:$viewValue"
+              input#search.form-control type="search" name="query" placeholder="Поиск" ng-model="query" typeahead="keyword for keyword in keywords | filter:$viewValue | limitTo:10"
 
             span.input-group-btn
               button.btn.btn-primary ng-click="fetch()" Искать
@@ -33,7 +33,7 @@
 
     .col-md-4
       - if current_account.premium?
-        - if can? :extend_premium, current_account
+        - if can? :update_to_premium, current_account
           .well.well-sm.well-blue style="color: white"
             | Премиум-аккаунт оплачен до
             h4 style="margin:0" = current_account.premium_until.in_time_zone("Europe/Moscow").strftime(current_account.premium_until.today? ? "%d.%m.%Y, %H:%M %Z" : "%d.%m.%Y")
@@ -41,8 +41,8 @@
       - else
         a.well.well-sm.well-blue data-toggle="modal" href="#premium" role="buy-premium" Купить Premium
 
-      = render partial: "b2b/account/partials/keywords"
-      = render partial: "b2b/account/partials/folders"
+      = render partial: "account/partials/keywords"
+      = render partial: "account/partials/folders"
 
 = render partial: "b2b/partials/premium" 
 

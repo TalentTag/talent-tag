@@ -8,7 +8,7 @@ class B2b::CompaniesController < B2b::BaseController
     return render nothing: true, status: :forbidden if User.exists?(email: params[:company][:owner_attributes][:email], role: nil)
     company = Company.new create_params
     if company.save
-      sign_user_in company.owner
+      sign_user_in company.owner, as: :employer
       respond_with company
     else
       respond_with company, status: :unprocessable_entity
