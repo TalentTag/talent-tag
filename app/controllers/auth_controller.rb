@@ -40,7 +40,8 @@ class AuthController < ApplicationController
 
 
   def callback
-    @params = env["omniauth.auth"].slice(:provider, :uid, :info)
+    @params = env["omniauth.auth"].slice(:provider, :uid, :info, :extra)
+    # raise @params = env["omniauth.auth"].to_yaml
     if @user = Identity.from_omniauth(omniauth_params(@params), current_user).try(:user)
       sign_user_in(@user, as: :specialist) unless signed_in?
       redirect_to account_path
@@ -66,7 +67,7 @@ class AuthController < ApplicationController
   private
 
   def omniauth_params params
-    { provider: params[:provider], uid: params[:uid], info: params[:info], user_attributes: { email: params[:info][:email]} }
+    { provider: params[:provider], uid: params[:uid], info: params[:info], extra: params[:extra], user_attributes: { email: params[:info][:email]} }
   end
 
 end
