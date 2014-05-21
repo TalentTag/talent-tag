@@ -45,6 +45,8 @@ GEM
       net-sftp (>= 2.0.0)
       net-ssh (>= 2.0.14)
       net-ssh-gateway (>= 1.1.0)
+    capistrano-unicorn (0.2.0)
+      capistrano (< 3.0)
     chronic (0.10.2)
     coderay (1.1.0)
     coffee-rails (4.0.1)
@@ -246,6 +248,7 @@ DEPENDENCIES
   better_errors
   cancan
   capistrano (~> 2.15.0)
+  capistrano-unicorn
   coffee-rails (~> 4.0.0)
   font-awesome-rails
   gon

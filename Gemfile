@@ -42,6 +42,7 @@ gem 'unicorn', group: :production
 group :development do
   gem 'thin'
   gem 'capistrano', '~> 2.15.0'
+  gem 'capistrano-unicorn', require: false
   gem 'quiet_assets'
   gem 'better_errors'
   gem 'rack-mini-profiler'

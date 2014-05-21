@@ -32,7 +32,8 @@ tt.users.create \
 
 
 # dictionaries
-%x( psql -d #{ Rails.configuration.database_configuration[Rails.env]["database"] } -f #{ Rails.root }/db/seeds/dictionaries.dump.sql )
+#NOTE password authentication is not working here
+%x( psql -d #{ Rails.configuration.database_configuration[Rails.env]["database"] } -U #{ Rails.configuration.database_configuration[Rails.env]["username"] } -f #{ Rails.root }/db/seeds/dictionaries.dump.sql )
 
 # entries
 %x( thor bsp:fetch )
