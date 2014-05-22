@@ -29,9 +29,15 @@ set :whenever_command, "bundle exec whenever"
 
 require "whenever/capistrano"
 require 'thinking_sphinx/capistrano'
+require 'capistrano-unicorn'
 
-
+after "deploy:finalize_update", "deploy:make_symlinks:"
 after "deploy:update", "deploy:migrate"
+
+after 'deploy:restart', 'unicorn:reload'    # app IS NOT preloaded
+after 'deploy:restart', 'unicorn:restart'   # app preloaded
+after 'deploy:restart', 'unicorn:duplicate' # before_fork hook implemented (zero downtime deployments)
+
 after "deploy:restart", "deploy:cleanup"
 
 namespace :deploy do

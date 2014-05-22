@@ -1,6 +1,6 @@
 # unicorn_rails -c /data/github/current/config/unicorn/production.rb -D
 
-app_root = File.expand_path(File.join(File.dirname(__FILE__), '..'))
+app_path = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 
 log_file   = "#{app_path}/log/unicorn.log"
 err_log    = "#{app_path}/log/unicorn_error.log"
@@ -72,11 +72,11 @@ after_fork do |server, worker|
 
   ##
   # Unicorn master is started as root, which is fine, but let's
-  # drop the workers to www-ruby:www-ruby
+  # drop the workers to deploy:deploy
 
   begin
     uid, gid = Process.euid, Process.egid
-    user, group = 'www-ruby', 'www-ruby'
+    user, group = 'deploy', 'deploy'
     target_uid = Etc.getpwnam(user).uid
     target_gid = Etc.getgrnam(group).gid
     worker.tmp.chown(target_uid, target_gid)
