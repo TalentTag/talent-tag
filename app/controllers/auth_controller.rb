@@ -63,6 +63,12 @@ class AuthController < ApplicationController
     end
   end
 
+  def bind
+    profile = current_user.identities.find_by(provider: params[:provider]).download_profile
+    current_user.update_personal_data profile
+    redirect_to account_path
+  end
+
 
   private
 

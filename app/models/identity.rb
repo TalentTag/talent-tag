@@ -12,25 +12,24 @@ class Identity < ActiveRecord::Base
       if user
         identity = new data
         identity.user = user
-        profile_data = send("profile_#{ params[:provider] }", params)
-        p profile_data
-        user.profile = user.profile.reverse_merge profile_data
         if identity.save(validate: false)
-          user.save
+          user.update identity.download_profile
           identity
         end
       else
         password = Digest::MD5.hexdigest(Time.now.to_s + params[:uid] + params[:provider])
         data[:user_attributes][:password] = data[:user_attributes][:password_confirmation] = password
-        userdata = send("profile_#{ params[:provider] }", params)
-        # p userdata
-        # data[:user_attributes].reverse_merge! send("profile_#{ params[:provider] }", params)
-        data[:user_attributes].reverse_merge! userdata
         identity = new data
         identity if identity.save
       end
     end
   end
+
+
+  def download_profile
+    send("profile_#{ provider }")
+  end
+
 
 
   protected
@@ -53,42 +52,50 @@ class Identity < ActiveRecord::Base
 
 
 
-  def self.profile_twitter params
-    name = params[:info]['name'].split
+  def profile_facebook
+    # token = TalentTag::Application::PROVIDERS[:facebook][:app_id]
+    # @graph = Koala::Facebook::API.new(token)
+    # raise profile = @graph.get_object("me").to_yaml
+
+    # info = params[:info]
+    # {
+    #   firstname: info['first_name'],
+    #   lastname: info['last_name'],
+    #   location: info['location'],
+    #   image: info['image']
+    # }
+  end
+
+  def profile_twitter params
+    # name = params[:info]['name'].split
+    # {
+    #   firstname: name.first,
+    #   lastname: name.last,
+    #   profile: {
+    #     location: params[:info]['location'],
+    #     image: params[:info]['image']
+    #   }
+    # }
+  end
+
+  def profile_vkontakte
+    data = VkontakteApi::Client.new.users.get(uid: uid, fields: %w(birthdate location photo_big contacts education)).first
     {
-      firstname: name.first,
-      lastname: name.last,
-      location: params[:info]['location'],
-      image: params[:info]['image']
+      firstname: data.first_name,
+      lastname: data['last_name'],
+      profile: {
+        image: data['photo_big'],
+        birthdate: data['bdate']
+      }
     }
   end
 
-  def self.profile_facebook params
-    info = params[:info]
-    {
-      firstname: info['first_name'],
-      lastname: info['last_name'],
-      location: info['location'],
-      image: info['image']
-    }
-  end
-
-  def self.profile_vkontakte params
-    {
-      firstname: params[:info]['first_name'],
-      lastname: params[:info]['last_name'],
-      location: params[:info]['location'],
-      image: params[:extra]['raw_info']['photo_200_orig'],
-      birthdate: params[:extra]['raw_info']['bdate']
-    }
-  end
-
-  def self.profile_google_oauth2 params
-    {
-      firstname: params[:info]['first_name'],
-      lastname: params[:info]['last_name'],
-      image: params[:info]['image']
-    }
+  def profile_google_oauth2 params
+    # {
+    #   firstname: params[:info]['first_name'],
+    #   lastname: params[:info]['last_name'],
+    #   image: params[:info]['image']
+    # }
   end
 
 end

@@ -1,18 +1,40 @@
-.col-md-8
+.col-md-8 ng-controller="talent.B2cAccountCtrl"
   section.basic style="overflow: hidden"
     .left-side style="float:left;margin-right:20px"
-      div style="margin-bottom: 12px; background-image: url(#{ @user.profile['image'] }); background-size: cover; background-position: center; width: 200px; height: 200px"
-      a.btn.btn-primary href="#" Личное сообщение
+      - if @user.profile['image']
+        @avatar style="background-image: url(#{ @user.profile['image'] });"
     .right-side
-      h3 style="margin:0 0 12px" = "#{ @user.profile['firstname'] } #{ @user.profile['lastname'] }"
-      p = @user.profile['location']
-      p = @user.profile['birthdate']
+      h3 style="margin:0 0 12px" = "#{ @user.name }"
+      p
+        b> Местонахождение:
+        - if @user == current_user
+          input.subtle type="text" ng-model="user.location" ng-blur="saveProfile()" placeholder="заполнить"
+        - else
+          = @user.profile['location']
+      p
+        b> Дата рождения:
+        - if @user == current_user
+          input.subtle type="text" ng-model="user.birthdate" ng-blur="saveProfile()" placeholder="заполнить"
+        - else
+          = @user.profile['birthdate']
+
+
+  section.tags
+    hr
+    span.kw ng-repeat="tag in user.tags"
+      | {{ tag }}
+      - if @user == current_user
+        a.close href="javascript:;" ng-click="dropTag(tag)" &times;
+    - if @user == current_user
+      input.subtle type="text" placeholder="добавить" ng-model="newTag" ng-blur="addTag()" ng-keypress="addTag($event.charCode)"
+    div style="clear:both"
+
 
   section.journal
-    - journal.each do |entry|
+    - @user.journal.each do |entry|
+      hr
       p : small = "#{ entry.source.name } | #{ entry.created_at.strftime '%d.%m.%Y' }"
       p == entry.body.gsub '#ttag', content_tag(:b, '#ttag')
-      hr
 
 .col-md-4
   .well
@@ -21,4 +43,6 @@
       - oauth_providers.each do |provider, params|
         p == embedded_identity provider, params['name']
     - else
-      a.btn.btn-primary href="javascript:;" Связаться
+      a.btn.btn-primary href="javascript:;"
+        i.glyphicon.glyphicon-envelope'
+        | Личное сообщение

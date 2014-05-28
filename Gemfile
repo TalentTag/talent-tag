@@ -24,6 +24,8 @@ gem 'omniauth-twitter'
 gem 'omniauth-vkontakte'
 gem 'omniauth-google-oauth2'
 
+gem 'vkontakte_api'
+
 gem 'therubyracer'
 gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'

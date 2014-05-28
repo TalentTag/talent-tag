@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
     define_method("generate_#{name}_token".to_sym) do
       public_send("#{name}_token=", Digest::MD5.hexdigest(Time.now.to_s + email)) if email.present?
     end
-    
+
     define_method("generate_#{name}_token!".to_sym) do
       public_send("generate_#{name}_token")
       save validate: false
@@ -42,12 +42,27 @@ class User < ActiveRecord::Base
     firstname && lastname ? "#{ firstname } #{ lastname }" : email
   end
 
+  def journal
+    unless identities.empty?
+      condition = identities.map { |id| "(author->>'guid' = '#{ id.anchor }')" }.join(' OR ')
+      Entry.where(condition).includes(:source).order(created_at: :desc).references(:source)
+    end || []
+  end
+
   def update_password! values
     self.password = values['password']
     self.password_confirmation = values['password_confirmation']
     self.forgot_token = nil
     valid?
     save validate: false if errors[:password].empty? && errors[:password_confirmation].empty?
+  end
+
+  def update_personal_data! data
+    self.firstname  = data[:firstname]
+    self.lastname   = data[:lastname]
+    profile_will_change!
+    profile.reverse_merge! data[:profile]
+    save
   end
 
   def post_comment entry, text

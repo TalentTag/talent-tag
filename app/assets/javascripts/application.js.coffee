@@ -9,6 +9,7 @@
 #= require_self
 #= require_tree ./shared
 #= require_tree ./b2b
+#= require_tree ./b2c
 
 
 @talent = angular.module 'talent', ['ngResource', 'ng-rails-csrf', 'ngRoute', 'ngSanitize', 'ui.bootstrap']
