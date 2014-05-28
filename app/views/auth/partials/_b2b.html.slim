@@ -35,7 +35,7 @@
                 button.btn.btn-default.btn-sm.pull-right type="button" ng-click="tab='signin'" Войти в систему
 
             .col-md-3
-              form role="signin-form" ng-submit="signin('b2b')" tt-form-autofill-fix=""
+              form@signin-form ng-submit="signin('b2b')" tt-form-autofill-fix=""
                 p : small Для входа введите e-mail и пароль
                 .form-group ng-class="{ 'has-error': errors.credentials }"
                   input.form-control type="email" name="user[email]" placeholder="Email" ng-model="user.email"
@@ -51,7 +51,7 @@
                 p : a href="javascript:;" ng-click="tab='signup'" У меня еще нет аккаунта
 
             .col-md-3
-              form role="forgot-form" ng-submit="forgot()" tt-form-autofill-fix=""
+              form@forgot-form ng-submit="forgot()" tt-form-autofill-fix=""
                 p : small Пожалуйста, укажите Ваш e-mail, и мы вышлем на него инструкции по восстанолению пароля
                 .form-group.error-placeholder ng-class="{ 'has-error': errors.email }"
                   input.form-control type="email" name="user[email]" placeholder="Email" ng-model="email"

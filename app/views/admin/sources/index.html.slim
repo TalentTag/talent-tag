@@ -8,8 +8,8 @@
 
     table.table.table-striped
       tr ng-repeat="source in sources | orderBy:'name'"
-        td : b = "{{ source.name }}"
-        td = "{{ source.url }}"
+        td : b {{ source.name }}
+        td {{ source.url }}
         td.text-right
           a href="javascript:;"
             span.badge ng-hide="source.hidden" ng-click="source.toggle()" скрыть

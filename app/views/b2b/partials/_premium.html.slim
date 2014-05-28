@@ -18,7 +18,7 @@
 
         section ng-show="step == 2"
           h4 Заполните Ваш профиль
-          form role="user-form"
+          form@user-form
             .form-group.error-placeholder ng-class="{ 'has-error': errors.lastname }"
               .form-error = "{{ errors.lastname }}"
               label for="lastname" Фамилия
@@ -40,7 +40,7 @@
 
         section ng-show="step == 3"
           h4 Заполните карточку Вашей компании
-          form role="company-form"
+          form@company-form
             .form-group.error-placeholder
               .form-error = "{{ errors.website }}"
               label for="website" Веб-сайт

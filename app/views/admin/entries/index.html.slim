@@ -9,13 +9,13 @@
         select.form-control ng-model="source" ng-options="s.name for s in sources | orderBy:'name'" ng-change="fetch()"
           option value="" Источник
 
-  div role="entries-list"
+  @entries-list
     .entry ng-repeat="entry in entries"
       p
         = link_to "&times;".html_safe, "javascript:;", class: "close", "ng-click" => "delete(entry)"
         a ng-href="{{ entry.url }}" target="_blank" = "{{ entry.url }}"
         span.badge.new ng-show="isNewEntry(entry)" новая
-      p = "{{ entry.body }}"
+      p {{ entry.body }}
 
   .well#bottom-gutter ng-show="canFetchMore()"
     a href="javascript:;" ng-click="fetchMore()" Загрузить еще

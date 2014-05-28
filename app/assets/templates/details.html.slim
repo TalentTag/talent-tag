@@ -3,22 +3,22 @@ p
   a href="javascript:history.back();" &larr; Назад
 p : a ng-show="entry.url" href="{{ entry.url }}" target="_blank" {{ entry.url }}
 p : small
-  | Добавлено 
-  = "{{ entry.created_at | date:'dd.MM.yyyy' }}"
-p = "{{ entry.body }}"
+  ' Добавлено
+  | {{ entry.created_at | date:'dd.MM.yyyy' }}
+p {{ entry.body }}
 
 section.clearfix
   .kw ng-repeat="folder in folders" ng-show="folder.contains(entry)"
     a.close href="javascript:;" ng-click="removeEntryFromFolder(folder, entry)" &times;
-    a href="/account/folders/{{ folder.id }}" = "{{ folder.name }}"
+    a href="/account/folders/{{ folder.id }}" {{ folder.name }}
 
 section.btn-group
   button.btn.btn-default.dropdown-toggle data-toggle="dropdown" type="button"
     span.glyphicon.glyphicon-tags
     | метки
-  ul.dropdown-menu role="menu"
-    li ng-repeat="folder in folders" : a href="javascript:;" ng-click="folder.addEntry(entry)" = "{{ folder.name }}"
-    li.divider
+  ul@menu.dropdown-menu
+    li ng-repeat="folder in folders" ng-if="folders.length" : a href="javascript:;" ng-click="folder.addEntry(entry)" {{ folder.name }}
+    li.divider ng-if="folders.length"
     li ng-hide="showNewFolderInput" : a href="javascript:;" ng-click="addFolder($event)" добавить
     li ng-show="showNewFolderInput"
       .input-group style="margin: 0 7px"
@@ -30,7 +30,7 @@ br
 
 #profile.well ng-show="entry.author"
   a.pull-right.btn.btn-default ng-if="entry.profile_id" href="/specialists/{{ entry.profile_id }}" target="_self" Полный профиль
-  h4 = "{{ entry.author.name }}"
+  h4 {{ entry.author.name }}
   p : a href="{{ entry.author.url }}" target="_blank" {{ entry.author.url }}
   section ng-show="entry.hasProfile()"
     table.simpletable 
@@ -40,10 +40,10 @@ br
           table.table
             tr ng-show="entry.author.profile.birthday"
               td : b Дата рождения
-              td = "{{ entry.author.profile.birthday | date:'dd.MM.yyyy' }}"
+              td {{ entry.author.profile.birthday | date:'dd.MM.yyyy' }}
             tr ng-show="entry.author.profile.country"
               td : b Страна
-              td = "{{ entry.author.profile.country }}"
+              td {{ entry.author.profile.country }}
           pre : small = "{{ entry.author.profile }}"
 
 section.clearfix

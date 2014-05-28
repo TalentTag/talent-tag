@@ -18,7 +18,7 @@
 
           .row.carousel ng-init="tab='signin'" style="width: 300%" ng-class="{ signin: tab=='signin', signup: tab=='signup', forgot: tab=='forgot' }"
             .col-md-4
-              form role="signup-form" ng-submit="signup_b2c()"
+              form@signup-form ng-submit="signup_b2c()"
                 p : small или заполните поля формы
                 .form-group.error-placeholder
                   input.form-control type="email" placeholder="Email" ng-model="newuser.email"
@@ -32,7 +32,7 @@
                 button.btn.btn-primary.btn-sm Зарегистрироваться
 
             .col-md-4
-              form role="signin-form" ng-submit="signin('b2c')" tt-form-autofill-fix=""
+              form@signin-form ng-submit="signin('b2c')" tt-form-autofill-fix=""
                 p : small или введите e-mail и пароль
                 .form-group ng-class="{ 'has-error': errors.credentials }"
                   input.form-control type="email" name="user[email]" placeholder="Email" ng-model="user.email"
@@ -46,7 +46,7 @@
                 button.btn.btn-primary.btn-sm Войти
     
             .col-md-4
-              form role="forgot-form" ng-submit="forgot()" tt-form-autofill-fix=""
+              form@forgot-form ng-submit="forgot()" tt-form-autofill-fix=""
                 p : small Пожалуйста, укажите Ваш e-mail, и мы вышлем на него инструкции по восстанолению пароля
                 .form-group#error-placeholder ng-class="{ 'has-error': errors.email }"
                   input.form-control type="email" name="user[email]" placeholder="Email" ng-model="email"

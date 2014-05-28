@@ -2,7 +2,7 @@
   - unless current_account.premium?
     #promo-time-left.pull-right
       | До завершения тестового периода
-      h2 = "{{ timeLeft }}"
+      h2 {{ timeLeft }}
 
   h3.slim
     | Компания 
@@ -37,9 +37,9 @@
           .well.well-sm.well-blue style="color: white"
             | Премиум-аккаунт оплачен до
             h4 style="margin:0" = current_account.premium_until.in_time_zone("Europe/Moscow").strftime(current_account.premium_until.today? ? "%d.%m.%Y, %H:%M %Z" : "%d.%m.%Y")
-            a.well-blue style="margin-top: 8px; font-size: 12px" data-toggle="modal" href="#premium" role="buy-premium" продлить >>
+            a@buy-premium.well-blue style="margin-top: 8px; font-size: 12px" data-toggle="modal" href="#premium" продлить >>
       - else
-        a.well.well-sm.well-blue data-toggle="modal" href="#premium" role="buy-premium" Купить Premium
+        a@buy-premium.well.well-sm.well-blue data-toggle="modal" href="#premium" Купить Premium
 
       = render partial: "account/partials/keywords"
       = render partial: "account/partials/folders"

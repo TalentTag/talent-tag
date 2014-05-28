@@ -8,9 +8,6 @@ header
             ' Пользователь
             b' = current_user.name
             ' [
-            / =' link_to("войти как специалист", auth_signout_path, method: :post, target: "_self") if is_employer?
-            / =' link_to("войти как работодатель", auth_signout_path, method: :post, target: "_self") if is_specialist?
-            / ' |
             =' link_to "выйти", auth_signout_path, method: :post, target: "_self"
             | ]
 

@@ -13,9 +13,9 @@ html
     link rel="shortcut icon" href="favicon.ico"
     link rel="apple-touch-icon" href="favicon.png"
 
-    = stylesheet_link_tag "application", media: "all"
+    = stylesheet_link_tag :application, media: :all
     = include_gon namespace: :talentData, camel_case: true
-    = javascript_include_tag "application"
+    = javascript_include_tag :application
     = csrf_meta_tags
 
   body lang="ru" ng-app="talent"
