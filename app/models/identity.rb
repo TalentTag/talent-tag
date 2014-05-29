@@ -66,7 +66,7 @@ class Identity < ActiveRecord::Base
     # }
   end
 
-  def profile_twitter params
+  def profile_twitter
     # name = params[:info]['name'].split
     # {
     #   firstname: name.first,
@@ -90,7 +90,7 @@ class Identity < ActiveRecord::Base
     }
   end
 
-  def profile_google_oauth2 params
+  def profile_google_oauth2
     # {
     #   firstname: params[:info]['first_name'],
     #   lastname: params[:info]['last_name'],
