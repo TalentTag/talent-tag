@@ -39,4 +39,9 @@ class Entry < ActiveRecord::Base
     end
   end
 
+
+  def hashtags
+    body.scan(/#(\S+)/).flatten.reject { |t| t=='ttag' }.uniq
+  end
+
 end

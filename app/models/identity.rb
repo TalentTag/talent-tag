@@ -3,6 +3,8 @@ class Identity < ActiveRecord::Base
   belongs_to :user
   accepts_nested_attributes_for :user
 
+  after_create :extract_hashtags
+
 
   def self.from_omniauth params, user=nil
     data = params.slice :provider, :uid
@@ -31,8 +33,23 @@ class Identity < ActiveRecord::Base
   end
 
 
+  def entries
+    Entry.where("author->> 'guid' = '#{ anchor }'")
+  end
+
+  def hashtags
+    entries.flat_map(&:hashtags).uniq
+  end
+
 
   protected
+
+  def extract_hashtags
+    profile = user.profile
+    profile['tags'] = ((profile['tags'] || []) + hashtags).uniq
+    user.profile_will_change!
+    user.save
+  end
 
   def self.anchor_facebook params
     "http://www.facebook.com/profile.php?id=#{ params[:uid] }"

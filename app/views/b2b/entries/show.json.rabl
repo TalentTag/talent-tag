@@ -5,5 +5,5 @@ node :comment do |entry|
   (@comments || entry.comments).find { |c| c.entry_id == entry.id }.try :attributes
 end
 node :profile_id do |entry|
-  Identity.find_by(anchor: entry.author['guid']).user.id rescue nil
+  Identity.find_by(anchor: entry.author['guid']).user.id rescue nil # TODO move to decorator
 end

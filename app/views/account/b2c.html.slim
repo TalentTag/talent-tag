@@ -34,7 +34,7 @@
     - @user.journal.each do |entry|
       hr
       p : small = "#{ entry.source.name } | #{ entry.created_at.strftime '%d.%m.%Y' }"
-      p == entry.body.gsub '#ttag', content_tag(:b, '#ttag')
+      p == bold_tags entry.body
 
 .col-md-4
   .well
