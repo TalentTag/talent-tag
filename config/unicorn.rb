@@ -1,6 +1,7 @@
 # unicorn_rails -c /data/github/current/config/unicorn/production.rb -D
 
-app_path = File.expand_path(File.join(File.dirname(__FILE__), '..'))
+# app_path = File.expand_path(File.join(File.dirname(__FILE__), '..'))
+app_path = "/var/www/talenttag/current"
 
 log_file   = "#{app_path}/log/unicorn.log"
 err_log    = "#{app_path}/log/unicorn_error.log"
