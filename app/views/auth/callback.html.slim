@@ -1,11 +1,9 @@
-.col-md-4
-.col-md-4
-  = form_tag auth_signup_from_omniauth_path(provider: @params[:provider], uid: @params[:uid])
-    .panel.panel-info
-      .panel-heading Для завершения регистрации укажите, пожалуйста, Ваш e-mail
-      .panel-body
-        p
-          = email_field_tag 'info[email]', nil, class: 'form-control', placeholder: 'E-mail'
-          p.err = @user.errors.messages[:email].first rescue nil
-      .panel-footer = submit_tag "Готово", class: 'btn btn-primary'
-.col-md-4
+.col-md-4.col-md-offset-4 ng-controller="talent.OauthCtrl"
+  .panel.panel-info
+    .panel-heading Для завершения регистрации укажите, пожалуйста, Ваш e-mail
+    .panel-body
+      p
+        input.form-control type="email" placeholder='E-mail' ng-model="identity.user_attributes.email"
+        p.err {{ error }}
+    .panel-footer
+      button.btn.btn-primary type="button" ng-click="saveIdentity()" Готово

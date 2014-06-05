@@ -18,19 +18,30 @@
         - else
           = @user.profile['birthdate']
 
+  hr
 
   section.tags
-    hr
+    h4 Теги
     span.kw ng-repeat="tag in user.tags"
       | {{ tag }}
       - if @user == current_user
         a.close href="javascript:;" ng-click="dropTag(tag)" &times;
     - if @user == current_user
       input.subtle type="text" placeholder="добавить" ng-model="newTag" ng-blur="addTag()" ng-keypress="addTag($event.charCode)"
-    div style="clear:both"
 
+  hr
+
+  - if @user.profile && @user.profile['work']
+    section.work
+      .well
+        h4 Опыт работы
+        - @user.profile['work'].each do |data|
+          = work_positon data
+
+    hr
 
   section.journal
+    h4 Профессиональный блог
     - @user.journal.each do |entry|
       hr
       p : small = "#{ entry.source.name } | #{ entry.created_at.strftime '%d.%m.%Y' }"

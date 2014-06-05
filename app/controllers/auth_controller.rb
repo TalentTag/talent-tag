@@ -38,35 +38,18 @@ class AuthController < ApplicationController
   end
 
 
-
   def callback
     @params = env["omniauth.auth"].slice(:provider, :uid, :info, :extra)
-    # raise @params = env["omniauth.auth"].to_yaml
-    if @user = Identity.from_omniauth(omniauth_params(@params), current_user).try(:user)
-      sign_user_in(@user, as: :specialist) unless signed_in?
-      redirect_to account_path
-    end
-  end
+    identity = Identity.from_omniauth(omniauth_params(@params), current_user)
 
-  def from_omniauth
-    if sign_user_in(Identity.from_omniauth(omniauth_params(params)).try(:user), as: :specialist)
+    if identity.valid?
+      identity.save unless identity.persisted?
+      sign_user_in identity.user, as: :specialist
       redirect_to account_path
     else
-      @params = params.slice(:provider, :uid, :info)
-      identity = User.find_by(email: params[:info][:email]).identities.first
-      flash.now[:alert] = if identity
-        "Этот адрес уже был зарегистрирован через #{ identity.provider.capitalize }. Если это Ваш e-mail, используйте для входа аккаунт #{ identity.provider.capitalize } или воспользуйтесь опцией восстановления пароля."
-      else
-        "Этот адрес уже зарегистрирован в системе. Если пароль от аккаутна утерян, воспользуйтесь опцией восстановления пароля."
-      end
-      render :callback
+      gon.identity  = identity
+      gon.info      = identity.generate_profile @params
     end
-  end
-
-  def bind
-    profile = current_user.identities.find_by(provider: params[:provider]).download_profile
-    current_user.update_personal_data profile
-    redirect_to account_path
   end
 
 

@@ -1,5 +1,6 @@
 TalentTag::Application.routes.draw do
 
+  get "identities/create"
   root to: "account#index", as: :account
   scope controller: :public do
     get :promo
@@ -23,7 +24,10 @@ TalentTag::Application.routes.draw do
     post :signin, :signout, :forgot
     get "/:provider/callback" => :callback, as: :proviter_callback
     post "/:provider/signup/:uid" => :from_omniauth, as: :signup_from_omniauth
-    get "/:provider/bind" => :bind, as: :bind_provider
+  end
+
+  scope :account, controller: :account do
+    put '/' => :update
   end
 
   namespace :profile do
@@ -62,12 +66,9 @@ TalentTag::Application.routes.draw do
   end
 
 
-  scope :specialists, module: :b2c do
-    get '/:id' => 'account#show'
-  end
-
-  scope :account, controller: :account do
-    put '/' => :update
+  scope module: :b2c do
+    resources :identities, only: :create
+    get 'specialists/:id' => 'account#show'
   end
 
 

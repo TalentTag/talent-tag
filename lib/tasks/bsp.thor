@@ -43,6 +43,15 @@ class Bsp < Thor
     data['entries'].map do |entry|
       if source = (entry['platform']['id'] rescue nil) && Source.find_by(id: entry['platform']['id'])
         entry = source.entries.new id: entry['id'], body: entry['body'].gsub(/<\/?[^>]*>/, ""), url: entry['url'], author: entry['author'], created_at: entry['created_at'], fetched_at: Time.now
+
+        if identity = entry.identity
+          user = identity.user
+          profile = user.profile || {}
+          profile['tags'] = ((profile['tags'] || []) + entry.hashtags).uniq
+          user.profile_will_change!
+          user.save
+        end
+
         if entry.valid? && entry.save
           saved_entries += 1
           print '.'

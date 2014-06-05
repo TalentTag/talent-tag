@@ -40,6 +40,15 @@ class Entry < ActiveRecord::Base
   end
 
 
+  def identity
+    Identity.find_by(anchor: author['guid']) rescue nil
+  end
+
+  def user
+    identity.try :user # TODO move to decorator
+  end
+
+
   def hashtags
     body.scan(/#(\S+)/).flatten.reject { |t| t=='ttag' }.uniq
   end
