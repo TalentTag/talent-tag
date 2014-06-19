@@ -1,6 +1,7 @@
 .well
   p = link_to "Персональные данные", profile_path
-  - if can? :update, current_account
-    p = link_to "Данные о компании", profile_company_path
-  - if can? :invite, User
-    p = link_to "Сотрудники", profile_employee_path
+  - if is_employer?
+    - if can? :update, current_account
+      p = link_to "Данные о компании", profile_company_path
+    - if can? :invite, User
+      p = link_to "Сотрудники", profile_employee_path
