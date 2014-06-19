@@ -72,6 +72,10 @@ class Identity < ActiveRecord::Base
     "https://plus.google.com/#{ uid }"
   end
 
+  def anchor_linkedin
+    user.profile['url_linkedin']
+  end
+
 
 
   def self.profile_facebook params
@@ -122,6 +126,19 @@ class Identity < ActiveRecord::Base
       profile: {
         image: params[:info]['image'],
         url_google_oauth2: params[:info]['urls']['Google']
+      }
+    }
+  end
+
+  def self.profile_linkedin params
+    {
+      firstname: params[:info]['first_name'],
+      lastname: params[:info]['last_name'],
+      profile: {
+        location: params[:info]['location'],
+        image: params[:info]['image'],
+        phone: params[:info]['phone'],
+        url_linkedin: params[:info]['urls']['public_profile']
       }
     }
   end

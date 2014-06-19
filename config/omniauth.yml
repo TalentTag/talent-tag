@@ -15,6 +15,11 @@ production: &production
     name:       "Google+"
     app_id:     "428047194229-mgif4uclcvujg0bma1d2lr2i57lp80s4.apps.googleusercontent.com"
     app_secret: "NOQvqMpHpfI1eZpkJfVWJUlM"
+  linkedin:
+    name:       "LinkedIn"
+    app_id:     "755qxe4ly65b57"
+    app_secret: "sPAYyGXwtV14xdn6"
+    scope:      "r_fullprofile r_emailaddress"
 
 
 development:

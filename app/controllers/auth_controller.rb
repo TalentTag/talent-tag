@@ -56,7 +56,7 @@ class AuthController < ApplicationController
   private
 
   def omniauth_params params
-    { provider: params[:provider], uid: params[:uid], info: params[:info], extra: params[:extra], user_attributes: { email: params[:info][:email]} }
+    { provider: params[:provider], uid: params[:uid], info: params[:info], extra: params[:extra], user_attributes: { email: params[:info]['email']} }
   end
 
 end
