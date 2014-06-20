@@ -16,6 +16,7 @@
         a ng-href="{{ entry.url }}" target="_blank" = "{{ entry.url }}"
         span.badge.new ng-show="isNewEntry(entry)" новая
       p {{ entry.body }}
+      p : small : a.pull-right href="/entries/{{ entry.id }}" target="_blank" перейти к записи &rarr;
 
   .well#bottom-gutter ng-show="canFetchMore()"
     a href="javascript:;" ng-click="fetchMore()" Загрузить еще
