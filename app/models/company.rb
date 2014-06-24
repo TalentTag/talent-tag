@@ -31,9 +31,9 @@ class Company < ActiveRecord::Base
     (premium_since && premium_until > Time.now) || owner.admin?
   end
 
-  def go_premium! rate
+  def go_premium! plan
     starting_point = [premium_until, Time.now].max rescue Time.now
-    update premium_since: Time.now, premium_until: starting_point + rate[:duration]
+    update premium_since: Time.now, premium_until: starting_point + plan.duration
   end
 
   def blocked?

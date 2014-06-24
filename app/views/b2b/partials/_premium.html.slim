@@ -9,12 +9,12 @@
         section ng-show="step == 1"
           p Выберите тариф:
           table.table.table-striped
-            - RATES.each_with_index do |rate, index|
+            - Plan.all.each do |plan|
               tr
-                td : b = rate[:name]
-                td = "#{ rate[:price] } руб."
+                td : b = plan.name
+                td = "#{ plan.price } руб."
                 td style="padding: 5px; text-align: right"
-                  button.btn.btn-primary ng-click="premiumRate = #{ index }; nextStep()" Выбрать
+                  button.btn.btn-primary ng-click="premiumRate = #{ plan.id }; nextStep()" Выбрать
 
         section ng-show="step == 2"
           h4 Заполните Ваш профиль

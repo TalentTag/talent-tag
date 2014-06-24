@@ -40,6 +40,11 @@ gem 'angular-ui-bootstrap-rails'
 gem 'ng-rails-csrf'
 gem 'font-awesome-rails'
 
+gem 'activemerchant'
+gem 'aasm'
+
+gem 'paper_trail', '~> 3.0'
+
 gem 'unicorn', group: :production
 group :development do
   gem 'thin'

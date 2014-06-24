@@ -1,5 +1,8 @@
 TalentTag::Application.routes.draw do
 
+  get "payments/index"
+  get "payments/show"
+  get "payments/create"
   get "identities/create"
   root to: "account#index", as: :account
   scope controller: :public do

@@ -1,0 +1,39 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  plan_id: 1
+  payer_id: 1
+  price: 1
+  firstname: MyString
+  middlename: MyString
+  lastname: MyString
+  payer_country: MyString
+  company: MyString
+  address1: MyString
+  address2: MyString
+  city: MyString
+  state: MyString
+  confirmed_at: 2014-06-09 14:07:40
+  completed_at: 2014-06-09 14:07:40
+  canceled_at: 2014-06-09 14:07:40
+  failed_at: 2014-06-09 14:07:40
+  token: MyString
+
+two:
+  plan_id: 1
+  payer_id: 1
+  price: 1
+  firstname: MyString
+  middlename: MyString
+  lastname: MyString
+  payer_country: MyString
+  company: MyString
+  address1: MyString
+  address2: MyString
+  city: MyString
+  state: MyString
+  confirmed_at: 2014-06-09 14:07:40
+  completed_at: 2014-06-09 14:07:40
+  canceled_at: 2014-06-09 14:07:40
+  failed_at: 2014-06-09 14:07:40
+  token: MyString
