@@ -50,7 +50,7 @@ class Entry < ActiveRecord::Base
 
 
   def hashtags
-    body.scan(/#(\S+)/).flatten.reject { |t| t=='ttag' }.uniq
+    body.scan(/#(\S+)/).flatten.reject { |t| t=='talenttag' }.uniq
   end
 
 end
