@@ -2,8 +2,9 @@ class CreatePayments < ActiveRecord::Migration
   def change
     create_table :payments do |t|
       t.integer :plan_id
-      t.integer :payer_id
+      t.integer :user_id
       t.integer :price
+      t.string :identifier
       t.string :firstname
       t.string :middlename
       t.string :lastname

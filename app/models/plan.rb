@@ -6,9 +6,11 @@ class Plan
   attr_accessor :price
 
 
-  def initialize(id: nil, name:nil)
+  def initialize(id: nil, name: nil, price: 0, duration: 0)
     @id = id
     @name = name
+    @price = price
+    @duration = duration
   end
 
   class << self

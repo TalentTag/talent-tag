@@ -15,6 +15,9 @@ class Payment < ActiveRecord::Base
 
   before_create :set_unique_identifier
 
+  belongs_to :plan
+  belongs_to :user
+
   # STATES:
   # click on Buy button
   # 1. fill billing form, payment not created yet
