@@ -6,6 +6,9 @@
 #= require angular-route
 #= require angular-sanitize
 
+#= require danthes
+Danthes.debug = true
+
 #= require_self
 #= require_tree ./shared
 #= require_tree ./b2b

@@ -1,0 +1,16 @@
+h1
+  | Conversations#index
+p
+  | Find me in app/views/conversations/index.html.erb
+
+#chat
+  | chat messages
+
+= subscribe_to "/messages/new"
+
+javascript:
+  console.log("subscribed");
+  Danthes.subscribe("/messages/new", function(data, channel) {
+    $("#chat").append(data.chat_message);
+    console.log(data.chat_message);
+  });

@@ -1,6 +1,9 @@
 TalentTag::Application.routes.draw do
 
+  get "conversations/index"
+
   get "identities/create"
+
   root to: "account#index", as: :account
   scope controller: :public do
     get :promo

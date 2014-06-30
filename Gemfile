@@ -25,6 +25,9 @@ gem 'omniauth-vkontakte'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-linkedin'
 
+gem 'faye'
+gem 'danthes'
+
 gem 'vkontakte_api'
 
 gem 'therubyracer'
@@ -51,3 +54,5 @@ group :development do
   gem 'rack-mini-profiler'
   gem 'letter_opener'
 end
+
+gem "faye-redis"
