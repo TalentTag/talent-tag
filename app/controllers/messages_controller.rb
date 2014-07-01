@@ -1,24 +1,26 @@
 class MessagesController < ApplicationController
 
-  def create
-    conversation = if params[:message][:conversation_id]
-      Conversation.with(current_user).find_by!(id: params[:message][:conversation_id])
-    else
-      Conversation.between([params[:message][:recipient_id], current_user]).first_or_create
-    end
+  respond_to :json
 
-    conversation.messages.create create_params.merge(user_id: current_user.id)
+
+  # def index
+  #   respond_with Conversation.between([params[:recipient_id], current_user]).first.try :messages
+  # end
+
+  def create
+    conversation = Conversation.between([params[:recipient_id], current_user]).first_or_create
+    message = conversation.messages.create create_params.merge(user_id: current_user.id)
 
     Danthes.publish_to "/conversations/#{conversation.id}", chat_message: params[:message][:text]
 
-    render json: conversation.id, status: :created
+    respond_with message, status: :created
   end
 
 
   private
 
   def create_params
-    params.require('message').permit(%w(text))
+    params.require(:message).permit(:text)
   end
 
 end

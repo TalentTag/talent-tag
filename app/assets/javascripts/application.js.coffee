@@ -7,7 +7,7 @@
 #= require angular-sanitize
 
 #= require danthes
-# Danthes.debug = true # Break angular auth controller
+# Danthes.debug = true # Breaks angular auth controller
 
 #= require_self
 #= require_tree ./shared

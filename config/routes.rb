@@ -27,7 +27,7 @@ TalentTag::Application.routes.draw do
 
   scope :account, controller: :account do
     put '/' => :update
-    resources :messages, only: :create
+    resources :messages, only: %i(index show create)
   end
 
   namespace :profile do
