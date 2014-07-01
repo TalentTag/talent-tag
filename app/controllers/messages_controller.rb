@@ -2,7 +2,7 @@ class MessagesController < ApplicationController
 
   def create
     conversation = if params[:message][:conversation_id]
-      Conversation.find_by!(id: params[:message][:conversation_id])
+      Conversation.with(current_user).find_by!(id: params[:message][:conversation_id])
     else
       Conversation.between([params[:message][:recipient_id], current_user]).first_or_create
     end
