@@ -10,7 +10,7 @@
           .row.carousel ng-init="tab='signin'" style="width: 400%" ng-class="{ 'add-company': tab=='add-company', signin: tab=='signin', signup: tab=='signup', forgot: tab=='forgot' }" 
 
             .col-md-3 style="padding: 0 40px"
-              = form_tag add_company_users_path, method: :put, remote: true
+              = form_tag add_company_users_path, method: :put, remote: true, 'tt-remote-form'=>true
                 input type="hidden" name="email" value="{{ newuser.email }}"
                 p style="margin-bottom: 20px" : small На адрес <b>{{ newuser.email }}</b> уже зарегистрирован аккаунт специалиста. Если этот e-mail принадлежит Вам и Вы хотите зарегистрировать на него компанию как работодатель, нажмите на кнопку "Зарегистрировать" ниже. Мы вышлем Вам указания о дальнейших действиях на указанный почтовый ящик.
                 = submit_tag "Зарегистрировать", class: "button btn btn-primary btn-sm"
