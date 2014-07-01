@@ -15,6 +15,7 @@ header
             - if can? :manage, :admin
               li = link_to "администрирование", admin_path, target: "_self"
             li = link_to "личный кабинет", account_path, target: "_self"
+            li = link_to "сообщения", conversations_path, target: "_self"
             li = link_to "профиль", profile_path, target: "_self"
         - else
           .btn-group

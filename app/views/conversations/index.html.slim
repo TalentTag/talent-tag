@@ -1,12 +1,21 @@
-h1 Conversations#index
-p Find me in app/views/conversations/index.html.erb
+.col-md-12
+  ul#conversations-list
+    - @conversations.each do |conversation|
+      li
+        - recipient = conversation.recipient(current_user)
+        a href="#{ with_conversations_path(recipient_id: recipient.id) }"
+          = recipient.name
+          '
+          span.badge = badge 10
+        div
+          small последнее сообщение: #{ time_ago_in_words conversation.last_message_at } назад
 
-#chat chat messages
+/ #chat chat messages
 
-= subscribe_to "/conv/id"
+/ = subscribe_to "/conv/id"
 
-coffee:
-  console.log "subscribed"
-  Danthes.subscribe "/messages/new", (data, channel) ->
-    $("#chat").append data.chat_message
-    console.log data.chat_message
+/ coffee:
+/   console.log "subscribed"
+/   Danthes.subscribe "/messages/new", (data, channel) ->
+/     $("#chat").append data.chat_message
+/     console.log data.chat_message

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140615185047) do
+ActiveRecord::Schema.define(version: 20140701184309) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,7 +46,8 @@ ActiveRecord::Schema.define(version: 20140615185047) do
   add_index "companies", ["name"], name: "index_companies_on_name", using: :btree
 
   create_table "conversations", force: true do |t|
-    t.integer "participants", array: true
+    t.integer  "participants",    array: true
+    t.datetime "last_message_at"
   end
 
   create_table "entries", id: false, force: true do |t|
