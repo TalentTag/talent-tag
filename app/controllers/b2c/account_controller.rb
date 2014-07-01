@@ -5,7 +5,7 @@ class B2c::AccountController < B2c::BaseController
     gon.user = @user.profile
     gon.current_user = current_user
 
-    @conversation     = Conversation.find_by(participants: [@user, current_user].map(&:id).sort)
+    @conversation     = Conversation.between([@user, current_user]).first
     gon.conversation  = @conversation
     gon.messages = @conversation.try :messages
 

@@ -8,7 +8,7 @@
   $scope.sendMessage = ->
     message = new Message
       user_id: talentData.currentUser.id
-      recipient_id: null #TODO: identify recipient user
+      recipient_id: talentData.user.id
       text: $scope.message
       created_at: 'Только что'
       conversation_id: talentData.conversation.id
