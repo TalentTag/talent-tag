@@ -21,7 +21,8 @@ html
   body lang="ru" ng-app="talent"
     #wrapper
       = render partial: "partials/header"
-      = subscribe_to "/users/#{current_user.id}/messages"
+      - if signed_in?
+        = subscribe_to "/users/#{current_user.id}/messages"
 
       .row
         - if flash[:notice]
