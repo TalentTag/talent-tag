@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
 
   def include_current_user
     if request.format.html?
-      gon.current_user = current_user
+      gon.rabl 'app/views/users/show.json', locals: { user: current_user }, as: :current_user
     end
   end
 

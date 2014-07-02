@@ -5,3 +5,7 @@
     truncated = truncated + "..." unless truncated[truncated.length-1] is '.'
     truncated
   else text
+
+
+@talent.filter 'timeago', -> (date) ->
+  moment(date).fromNow()

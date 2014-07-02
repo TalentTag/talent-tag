@@ -6,6 +6,9 @@
 #= require angular-route
 #= require angular-sanitize
 
+#= require moment
+#= require moment/ru.js
+
 #= require danthes
 # Danthes.debug = true # Breaks angular auth controller
 
