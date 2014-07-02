@@ -1,3 +1,8 @@
-.col-md-12
+coffee:
+  Danthes.subscribe "/users/#{talentData.currentUser.id}/messages", (data, channel) ->
+    $("#chat-messages").append "<p>#{data.chat.message} <font style='grey'>#{data.chat.date}</font></p>"
+
+
+.col-md-12#chat-messages
   - @messages.each do |message|
     p = message.text

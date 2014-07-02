@@ -11,7 +11,7 @@ class MessagesController < ApplicationController
     conversation = Conversation.between([params[:recipient_id], current_user]).first_or_create
     message = conversation.messages.create create_params.merge(user_id: current_user.id)
 
-    Danthes.publish_to "/users/#{params[:recipient_id]}/messages", chat: { message: params[:message][:text], user_id: current_user.id }
+    Danthes.publish_to "/users/#{params[:recipient_id]}/messages", chat: {conversation_id: conversation.id, message: params[:message][:text], user_id: current_user.id, date: message.created_at }
 
     respond_with message, status: :created
   end

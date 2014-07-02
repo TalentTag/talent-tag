@@ -1,12 +1,17 @@
+coffee:
+  Danthes.subscribe "/users/#{talentData.currentUser.id}/messages", (data, channel) ->
+    $("#conversation_#{data.chat.conversation_id} span.unread span").html parseInt($("#conversation_#{data.chat.conversation_id} span.unread span").html(), 10)+1
+
+
 .col-md-12
   ul#conversations-list
     - @conversations.each do |conversation|
-      li
+      li id="conversation_#{conversation.id}"
         - recipient = conversation.recipient(current_user)
         a href="#{ with_conversations_path(recipient_id: recipient.id) }"
           = recipient.name
           '
-          span.badge = badge 10
+          span.unread.badge = badge 10
         div
           small последнее сообщение: #{ time_ago_in_words conversation.last_message_at } назад
 
