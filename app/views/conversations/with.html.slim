@@ -1,10 +1,12 @@
-coffee:
-  Danthes.subscribe "/users/#{talentData.currentUser.id}/messages", (data, channel) ->
-    $("#chat-messages").append "<p>#{data.chat.message} <font style='grey'>#{data.chat.date}</font></p>"
+.col-md-12#chat-messages ng-controller="talent.ConversationCtrl"
+  p.message ng-repeat="message in messages" ng-class="{mine: message.user_id==#{ current_user.id} }"
+    small.info
+      ' {{ message.user_id }}
+      span.timeago title="{{ message.created_at }}"
+    | {{ message.text }}
+  
 
-
-.col-md-12#chat-messages
-  - @messages.each do |message|
-    p class="message #{ 'mine' if message.user_id == current_user.id }"
-      small.info = "#{ message.user.name } (#{ time_ago_in_words message.created_at } назад)"
-      = message.text
+  / - @messages.each do |message|
+  /   p class="message #{ 'mine' if message.user_id == current_user.id }"
+  /     small.info = "#{ message.user.name } (#{ time_ago_in_words message.created_at } назад)"
+  /     = message.text

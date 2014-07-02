@@ -17,3 +17,4 @@
 
 @talent = angular.module 'talent', ['ngResource', 'ng-rails-csrf', 'ngRoute', 'ngSanitize', 'ui.bootstrap']
 @talent.value 'talentData', window.talentData
+@talent.value 'Danthes', Danthes

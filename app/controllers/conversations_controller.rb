@@ -5,8 +5,9 @@ class ConversationsController < ApplicationController
   end
 
   def with
+    gon.user = User.find_by! id: params[:recipient_id]
     @conversation = Conversation.between([params[:recipient_id], current_user]).first
-    @messages = @conversation.try(:messages) || []
+    gon.messages = @conversation.try(:messages) || []
   end
 
 end
