@@ -9,6 +9,11 @@ class Message < ActiveRecord::Base
   default_scope -> { order :created_at }
 
 
+  def user
+    User.find user_id
+  end
+
+
   protected
 
   def touch_conversation

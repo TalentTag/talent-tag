@@ -5,4 +5,6 @@ coffee:
 
 .col-md-12#chat-messages
   - @messages.each do |message|
-    p = message.text
+    p class="message #{ 'mine' if message.user_id == current_user.id }"
+      small.info = "#{ message.user.name } (#{ time_ago_in_words message.created_at } назад)"
+      = message.text
