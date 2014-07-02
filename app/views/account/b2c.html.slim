@@ -56,22 +56,26 @@
       - oauth_providers.each do |provider, params|
         p == embedded_identity provider, params['name']
     - else
-      a.btn.btn-primary href="javascript:;" data-toggle="modal" data-target="#conversation"
+      a.btn.btn-primary href="#{ with_conversations_path(recipient_id: @user.id) }"
         i.glyphicon.glyphicon-envelope'
         | Личное сообщение
 
+      / a.btn.btn-primary href="javascript:;" data-toggle="modal" data-target="#conversation"
+      /   i.glyphicon.glyphicon-envelope'
+      /   | Личное сообщение
 
-#conversation.modal.fade ng-controller="talent.ConversationCtrl"
-  .modal-dialog
-    .modal-content
-      .modal-header
-        button type="button" class="close" data-dismiss="modal" aria-hidden="true" &times;
-        h4 = @user.name
-      .modal-body style="height: 270px; overflow: scroll"
-        p.message ng-repeat="message in messages" ng-class="{ mine: message.user_id==#{ current_user.id } }"
-          small.info ng-if="!messages[$index-1] || messages[$index-1].user_id!=message.user_id" {{ message.created_at }}
-          | {{ message.text }}
-      .modal-footer
-        .form-group
-          textarea.form-control placeholder="Сообщение" ng-model="message" style="margin-bottom: 12px"
-          button.btn.btn-primary ng-click="sendMessage()" Отправить
+
+/ #conversation.modal.fade ng-controller="talent.ConversationCtrl"
+/   .modal-dialog
+/     .modal-content
+/       .modal-header
+/         button type="button" class="close" data-dismiss="modal" aria-hidden="true" &times;
+/         h4 = @user.name
+/       .modal-body style="height: 270px; overflow: scroll"
+/         p.message ng-repeat="message in messages" ng-class="{ mine: message.user_id==#{ current_user.id } }"
+/           small.info ng-if="!messages[$index-1] || messages[$index-1].user_id!=message.user_id" {{ message.created_at }}
+/           | {{ message.text }}
+/       .modal-footer
+/         .form-group
+/           textarea.form-control placeholder="Сообщение" ng-model="message" style="margin-bottom: 12px"
+/           button.btn.btn-primary ng-click="sendMessage()" Отправить

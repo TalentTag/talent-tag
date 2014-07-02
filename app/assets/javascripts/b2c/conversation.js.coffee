@@ -5,26 +5,33 @@
   # Message.query recipient_id: talentData.user.id, (data) ->
   #   $scope.messages = data.map (attrs) -> new Message attrs
 
-  add_message = (data) ->
-    msg = new Message
-      recipient_id: talentData.user.id
+  recieveMessage = (data) ->
+    $scope.messages.push new Message
+      user_id:      data.user_id
+      recipient_id: talentData.currentUser.id
       text:         data.message
       created_at:   data.date
-    $scope.messages.push msg
     $scope.$apply()
 
-
-  $scope.sendMessage = ->
-    add_message message: $scope.message, created_at: 'Только что'
+  sendMessage = ->
+    message = new Message
+      user_id:      talentData.currentUser.id
+      recipient_id: talentData.user.id
+      text:         $scope.message
+      created_at:   'Только что'
+    $scope.messages.push message
     $scope.message = undefined
     message.$save()
 
-    # $('#conversation .modal-body').scrollTop($('#conversation .modal-body').height())
+  $scope.sendMessage = sendMessage
 
+
+  $scope.$watch 'messages.length', ->
+    _.defer -> $('html, body').animate { scrollTop: $(document).height() }, 'slow'
 
 
   Danthes.subscribe "/users/#{talentData.currentUser.id}/messages", (data) ->
     $rootScope.$broadcast 'signal:new_message', data
-    add_message data.chat
+    recieveMessage data.chat
 
 ]
