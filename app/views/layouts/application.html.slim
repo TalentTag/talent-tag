@@ -19,10 +19,9 @@ html
     = csrf_meta_tags
 
   body lang="ru" ng-app="talent"
-    #wrapper
+    #wrapper ng-controller="talent.MainCtrl"
       = render partial: "partials/header"
-      - if signed_in?
-        = subscribe_to "/users/#{current_user.id}/messages"
+      = render partial: "partials/subscription"
 
       .row
         - if flash[:notice]

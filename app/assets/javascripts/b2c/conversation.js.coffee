@@ -25,13 +25,11 @@
 
   $scope.sendMessage = sendMessage
 
+  $rootScope.$on 'signal:new_message', (event, data) ->
+    recieveMessage data.chat
+
 
   $scope.$watch 'messages.length', ->
     _.defer -> $('html, body').animate { scrollTop: $(document).height() }, 'slow'
-
-
-  Danthes.subscribe "/users/#{talentData.currentUser.id}/messages", (data) ->
-    $rootScope.$broadcast 'signal:new_message', data
-    recieveMessage data.chat
 
 ]

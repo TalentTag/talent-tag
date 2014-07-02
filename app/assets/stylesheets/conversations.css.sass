@@ -16,20 +16,19 @@
     color: #fff
     margin-bottom: 10px
     padding: 7px 12px
-    background-color: rgb(118,165,35)
+    background-color: #5cb85c
     float: right
     border-radius: 7px 7px 0 7px
     &.incoming
-      background-color: rgb(96,140,219)
+      background-color: #428bca
       float: left
       border-radius: 7px 7px 7px 0
     clear: both
 
     .info
       margin-bottom: 7px
-      font-size: 10px
+      font-size: 12px
       display: block
-
 
 
 #chat-form
@@ -43,3 +42,21 @@
   textarea
     margin-bottom: 12px
     height: 120px
+
+
+#new-message
+  max-width: 300px
+  color: #fff
+  padding: 7px 12px
+  background-color: #5cb85c
+  position: fixed
+  z-index: 300
+  right: 50px
+  top: 20px
+  text-decoration: none
+  border-radius: 7px
+  &:hover
+    background-color: #4cae4c
+
+  .message
+    font-size: 12px
