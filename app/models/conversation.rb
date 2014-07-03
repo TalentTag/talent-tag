@@ -6,7 +6,13 @@ class Conversation < ActiveRecord::Base
   has_and_belongs_to_many :users
 
   scope :with, ->(user) { user.conversations }
-  scope :between, ->(users) { joins(:conversations_users).where(conversations_users: {user_id: users.map{|u| u.try(:id) || u.to_i }}).distinct(:conversation) }
+  # scope :between, ->(users) { joins(:conversations_users).where(conversations_users: {user_id: users.map{|u| u.try(:id) || u.to_i }}).distinct(:conversation) }
+
+  def self.between users
+    users[0] = User.find(users[0]) unless users[0].kind_of? User
+    users[1] = users[1].id if users[0].kind_of? User
+    ConversationsUser.find_by(conversation_id: users[0].conversations.pluck(:id), user_id: users[1]).try :conversation
+  end
 
   def recipients user
     users.keep_if { |u| u.id != user.id }

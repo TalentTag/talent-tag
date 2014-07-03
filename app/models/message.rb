@@ -4,8 +4,6 @@ class Message < ActiveRecord::Base
 
   after_create :touch_conversation
 
-  # scope :connections, -> (user) { where "user_id IN (?) OR addressee_id IN (?)", [user1, user2], [user1, user2] }
-  # scope :conversation, -> (user1, user2) { where "user_id IN (?) OR addressee_id IN (?)", [user1, user2], [user1, user2] }
   default_scope -> { order :created_at }
 
 
@@ -17,7 +15,7 @@ class Message < ActiveRecord::Base
   protected
 
   def touch_conversation
-    conversation.update last_message_at: Time.now
+    conversation.touch_activity user
   end
 
 end

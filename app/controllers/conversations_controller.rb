@@ -6,7 +6,7 @@ class ConversationsController < ApplicationController
 
   def with
     @user = User.find_by! id: params[:recipient_id]
-    @conversation = Conversation.between([params[:recipient_id], current_user]).first
+    @conversation = Conversation.between([params[:recipient_id], current_user])
 
     @conversation.try(:touch_activity, current_user)
 
