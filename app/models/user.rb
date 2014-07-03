@@ -8,7 +8,9 @@ class User < ActiveRecord::Base
   has_many :folders
   has_many :comments
   has_one :blacklist, class_name: 'EntriesBlacklist'
-  has_many :conversations
+
+  has_many :conversations_users
+  has_and_belongs_to_many :conversations
 
   validates :email, presence: true, uniqueness: true, format: { with: /\A[^@]+@[^@]+\.[a-zа-я]{2,6}\z/ }
   validates :password, length: { minimum: 6, if: :validate_password?, too_short: "не менее 6 символов" }

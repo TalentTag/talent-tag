@@ -1,6 +1,6 @@
 class Message < ActiveRecord::Base
 
-  belongs_to :conversation
+  belongs_to :conversation, dependent: :destroy
 
   after_create :touch_conversation
 

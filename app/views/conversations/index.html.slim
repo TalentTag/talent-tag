@@ -11,9 +11,10 @@ coffee:
         a href="#{ with_conversations_path(recipient_id: recipient.id) }"
           = recipient.name
           '
-          span.unread.badge = badge 10
+          span.unread.badge = badge conversation.unread_messages(current_user)
         div
-          small последнее сообщение: #{ time_ago_in_words conversation.last_message_at } назад
+          - if conversation.last_message_at
+            small последнее сообщение: #{ time_ago_in_words conversation.last_message_at } назад
 
 / #chat chat messages
 
