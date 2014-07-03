@@ -7,7 +7,7 @@ class MessagesController < ApplicationController
     conversation = Conversation.between([params[:recipient_id], current_user]).first_or_create
     conversation.user_ids = [params[:recipient_id], current_user.id]
     
-    conversation.touch_activity(current_user)
+    conversation.try(:touch_activity, current_user)
 
     message = conversation.messages.create user_id: current_user.id, text: params[:text]
 
