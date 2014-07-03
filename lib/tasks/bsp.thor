@@ -1,14 +1,14 @@
 class Bsp < Thor
 
   desc "fetch", "fetch data from remote server"
-  method_option :date, aliases: "-d", desc: "Specify a date in a YYYY-MM-DD format, today is default"
+  method_option :date, aliases: "-d", desc: "Specify a date in a YYYY-MM-DD or YYYY-MM-DD:YYYY-MM-DD (for multiple dates) format"
   def fetch
     require 'open-uri'
     require 'json'
     require File.expand_path("config/environment.rb")
 
     started_at = Time.now
-    total_entries_fetched = if options[:date] then fetch_by_date(Date.strptime options[:date]) else fetch_recent end
+    total_entries_fetched = if options[:date] then fetch_by_date(options[:date]) else fetch_recent end
     puts "\n#{ Time.now.strftime("%d.%m.%Y %H:%M %Z") }: #{ total_entries_fetched } entries stored in #{ (Time.now - started_at).to_i } seconds\n"
 
     system "rake ts:index > /dev/null" unless total_entries_fetched.zero?
@@ -21,12 +21,17 @@ class Bsp < Thor
     request_and_parse "http://api.brandspotter.ru/clients/1071/words.json?api_key=ubx260cagzy287shpdjk935ntr2jl0cr"
   end
 
-  def fetch_by_date date
-    url   = "http://api.brandspotter.ru/clients/1071/words.json?filters[fromdate]=#{ date.strftime("%Y-%m-%d") }&filters[todate]=#{ (date+1).strftime("%Y-%m-%d") }&api_key=ubx260cagzy287shpdjk935ntr2jl0cr"
-    total = JSON.parse(open("#{ url }&pagesize=1").read)['meta']['total']
-    pages = (total.to_f/10).ceil
-    (0..pages-1).reduce(0) do |sum, page|
-      sum + request_and_parse("#{ url }&page=#{ page }")
+  def fetch_by_date dates
+    dates = dates.split(":")
+    (dates.first..dates.last).reduce(0) do |total_sum, date|
+      puts "\nfetching data for #{ date }\n"
+      date  = Date.strptime date
+      url   = "http://api.brandspotter.ru/clients/1071/words.json?filters[fromdate]=#{ date.strftime("%Y-%m-%d") }&filters[todate]=#{ (date+1).strftime("%Y-%m-%d") }&api_key=ubx260cagzy287shpdjk935ntr2jl0cr"
+      total = JSON.parse(open("#{ url }&pagesize=1").read)['meta']['total']
+      pages = (total.to_f/10).ceil
+      total_sum + (0..pages-1).reduce(0) do |sum, page|
+        sum + request_and_parse("#{ url }&page=#{ page }")
+      end
     end
   end
 
