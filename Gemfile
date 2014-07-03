@@ -46,8 +46,9 @@ gem 'ng-rails-csrf'
 gem 'font-awesome-rails'
 
 gem 'unicorn', group: :production
+gem 'thin'
+
 group :development do
-  gem 'thin'
   gem 'capistrano', '~> 2.15.0'
   gem 'capistrano-unicorn', require: false
   gem 'quiet_assets'
