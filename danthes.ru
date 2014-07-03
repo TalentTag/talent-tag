@@ -4,6 +4,7 @@ require "yaml"
 require "faye"
 require "danthes"
 require "thin"
+require "erb"
 
 Danthes.load_config(File.expand_path("../config/danthes.yml", __FILE__))
 Faye::WebSocket.load_adapter(Danthes.config[:adapter])
