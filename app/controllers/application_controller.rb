@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
 
   before_filter :mailer_set_url_options
 
+  before_action :include_current_user
+
   def current_user
     @current_user ||= if session[:user]
       User.find_by email: session[:user]
@@ -37,6 +39,13 @@ class ApplicationController < ActionController::Base
   end
 
 
+  private
+
+  def include_current_user
+    if request.format.html?
+      gon.rabl 'app/views/users/show.json', locals: { user: current_user }, as: :current_user
+    end
+  end
 
   protected
 

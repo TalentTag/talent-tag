@@ -1,6 +1,5 @@
 TalentTag::Application.routes.draw do
 
-  get "identities/create"
   root to: "account#index", as: :account
   scope controller: :public do
     get :promo
@@ -28,6 +27,10 @@ TalentTag::Application.routes.draw do
 
   scope :account, controller: :account do
     put '/' => :update
+    resources :conversations, only: :index do
+      collection { get '/with/:recipient_id' => "conversations#with", as: :with }
+    end
+    resources :messages, only: %i(index show create)
   end
 
   namespace :profile do

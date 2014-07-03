@@ -25,6 +25,9 @@ gem 'omniauth-vkontakte'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-linkedin'
 
+gem 'faye'
+gem 'danthes'
+
 gem 'vkontakte_api'
 
 gem 'therubyracer'
@@ -35,6 +38,7 @@ gem 'jquery-rails'
 gem 'anjlab-bootstrap-rails', '~> 3.0.0.3', require: 'bootstrap-rails'
 gem 'role-rails'
 gem 'maskedinput-rails'
+gem 'momentjs-rails'
 gem 'underscore-rails'
 gem 'angularjs-rails', '~> 1.2.0'
 gem 'angular-ui-bootstrap-rails'
@@ -50,4 +54,7 @@ group :development do
   gem 'better_errors'
   gem 'rack-mini-profiler'
   gem 'letter_opener'
+  gem 'binding_of_caller'
 end
+
+gem "faye-redis"

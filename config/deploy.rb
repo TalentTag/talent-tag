@@ -22,7 +22,7 @@ set :default_environment, {
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
-set :symlinks, %w(config/database.yml config/thinking_sphinx.yml)
+set :symlinks, %w(config/database.yml config/thinking_sphinx.yml config/danthes.yml)
 set :dir_symlinks, %w(log db/sphinx)
 
 set :whenever_command, "bundle exec whenever"

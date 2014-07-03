@@ -1,0 +1,13 @@
+.col-md-12 ng-controller="talent.ConversationCtrl"
+
+  h4 {{ user.name }}
+
+  #chat-messages
+    p.message ng-repeat="message in messages" ng-class="{ incoming: message.user_id==user.id }"
+      small.info {{ message.sender().name }} ({{ message.created_at | timeago }})
+      | {{ message.text }}
+
+  #chat-form.well
+    .form-group
+      textarea.form-control placeholder="Сообщение" ng-model="message"
+      button.btn.btn-primary ng-click="sendMessage()" Отправить

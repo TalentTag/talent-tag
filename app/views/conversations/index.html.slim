@@ -1,0 +1,27 @@
+coffee:
+  Danthes.subscribe "/users/#{talentData.currentUser.id}/messages", (data, channel) ->
+    $("#conversation_#{data.chat.conversation_id} span.unread span").html parseInt($("#conversation_#{data.chat.conversation_id} span.unread span").html(), 10)+1
+
+
+.col-md-12
+  ul#conversations-list
+    - @conversations.each do |conversation|
+      li id="conversation_#{conversation.id}"
+        - recipient = conversation.recipient(current_user)
+        a href="#{ with_conversations_path(recipient_id: recipient.id) }"
+          = recipient.name
+          '
+          span.unread.badge = badge conversation.unread_messages(current_user)
+        div
+          - if conversation.last_message_at
+            small последнее сообщение: #{ time_ago_in_words conversation.last_message_at } назад
+
+/ #chat chat messages
+
+/ = subscribe_to "/conv/id"
+
+/ coffee:
+/   console.log "subscribed"
+/   Danthes.subscribe "/messages/new", (data, channel) ->
+/     $("#chat").append data.chat_message
+/     console.log data.chat_message
