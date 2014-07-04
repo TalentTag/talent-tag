@@ -1,8 +1,7 @@
 class Conversation < ActiveRecord::Base
 
-  has_many :messages
-
-  has_many :conversations_users
+  has_many :messages, dependent: :destroy
+  has_many :conversations_users, dependent: :destroy
   has_and_belongs_to_many :users
 
   scope :with, ->(user) { user.conversations }
@@ -10,8 +9,8 @@ class Conversation < ActiveRecord::Base
 
   def self.between users
     users[0] = User.find(users[0]) unless users[0].kind_of? User
-    users[1] = users[1].id if users[0].kind_of? User
-    ConversationsUser.find_by(conversation_id: users[0].conversations.pluck(:id), user_id: users[1]).try :conversation
+    users[1] = users[1].id if users[1].kind_of? User
+    ConversationsUser.find_by(conversation_id: users[0].conversations_users.pluck(:conversation_id), user_id: users[1]).try :conversation
   end
 
   def recipients user
