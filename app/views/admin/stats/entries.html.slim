@@ -15,10 +15,18 @@ div style="overflow: hidden"
       ' Количество записей
       - if @current_source
         | из #{ @current_source.name }
+    p
+      ' Всего за все время:
+      b = @total_count
     - @months.each do |month|
-      .alert.alert-info = Date::MONTHNAMES[month.to_i]
+      - entries = @entries_counters.select { |entry| entry['month'] == month }
+      .alert.alert-info style="margin-bottom: 0"
+        = Date::MONTHNAMES[month.to_i]
+        .pull-right
+          ' всего за месяц:
+          = entries.reduce(0) { |sum, entry| sum+entry['count'].to_i }
       table.table.table-striped
-        - @entries_counters.select { |entry| entry['month'] == month }.each do |entry|
+        - entries.each do |entry|
           tr
             td = Date.parse(entry['date']).strftime("%d.%m.%Y")
             td = entry['count']
