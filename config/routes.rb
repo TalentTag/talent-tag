@@ -85,7 +85,7 @@ TalentTag::Application.routes.draw do
     resources :sources, only: %i(index update)
     resources :entries, only: :index
     namespace :stats do
-      get 'entries/(:source_id)' => :entries, as: :entries
+      get '/entries/:year(/sources/:source_id)' => :entries, as: :entries
     end
   end
 

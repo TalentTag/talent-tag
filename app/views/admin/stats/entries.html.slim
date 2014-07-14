@@ -3,17 +3,22 @@ div style="overflow: hidden"
     p: a href="#{ admin_stats_entries_path(source_id: nil) }" Все
     ul
       - @sources.each do |source|
-        li : a href="#{ admin_stats_entries_path(source_id: source.id) }" = source.name
+        li : a href="#{ admin_stats_entries_path(year: params[:year], source_id: source.id) }" = source.name
 
   .col-md-8
-    h3
+    h4 style="margin-top: 7px"
+      - %w(2014 2013).each do |year|
+        a href="#{ admin_stats_entries_path(year: year) }"
+          span.label.label-default style="margin: 0 10px 7px 0" = year
+
+    h3 style="margin: 25px 0"
       ' Количество записей
       - if @current_source
         | из #{ @current_source.name }
-    - @years.each do |year|
-      h4.alert.alert-info = year
+    - @months.each do |month|
+      .alert.alert-info = Date::MONTHNAMES[month.to_i]
       table.table.table-striped
-        - @entries_counters.select { |entry| entry['year'] == year }.each do |entry|
+        - @entries_counters.select { |entry| entry['month'] == month }.each do |entry|
           tr
             td = Date.parse(entry['date']).strftime("%d.%m.%Y")
             td = entry['count']
