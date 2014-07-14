@@ -17,6 +17,8 @@ nav.navbar.navbar-static-top.navbar-inverse
 
     li class="#{ 'active' if request.fullpath == admin_dictionaries_path }" = link_to 'Справочники', admin_dictionaries_path
 
+    li class="#{ 'active' if request.fullpath == admin_stats_entries_path }" = link_to 'Статистика', admin_stats_entries_path
+
   ul.nav.navbar-nav.navbar-right
     li = link_to 'Личный кабинет', account_path
     li = link_to 'Выход', auth_signout_path, method: :post

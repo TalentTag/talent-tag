@@ -1,0 +1,19 @@
+div style="overflow: hidden"
+  .col-md-4.well
+    p: a href="#{ admin_stats_entries_path(source_id: nil) }" Все
+    ul
+      - @sources.each do |source|
+        li : a href="#{ admin_stats_entries_path(source_id: source.id) }" = source.name
+
+  .col-md-8
+    h3
+      ' Количество записей
+      - if @current_source
+        | из #{ @current_source.name }
+    - @years.each do |year|
+      h4.alert.alert-info = year
+      table.table.table-striped
+        - @entries_counters.select { |entry| entry['year'] == year }.each do |entry|
+          tr
+            td = Date.parse(entry['date']).strftime("%d.%m.%Y")
+            td = entry['count']
