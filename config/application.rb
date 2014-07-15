@@ -20,5 +20,7 @@ module TalentTag
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     config.i18n.default_locale = :ru
     I18n.enforce_available_locales = false
+
+    config.cache_store = :redis_store, YAML.load_file("#{Rails.root}/config/redis.yml")[Rails.env.to_s]
   end
 end

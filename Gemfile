@@ -28,7 +28,7 @@ gem 'omniauth-linkedin'
 gem 'faye'
 gem 'danthes'
 
-gem 'vkontakte_api'
+gem 'redis-rails'
 
 gem 'therubyracer'
 gem 'sass-rails', '~> 4.0.0'
