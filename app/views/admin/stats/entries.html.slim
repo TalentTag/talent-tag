@@ -15,9 +15,16 @@ div style="overflow: hidden"
       ' Количество записей
       - if @current_source
         | из #{ @current_source.name }
+
     p
       ' Всего за все время:
       b = @total_count
+
+    - if @last_fetch_time      
+      p
+        ' Последнее обращение к API:
+        b = @last_fetch_time.strftime "%d.%m.%Y %H:%M"
+
     - @months.each do |month|
       - entries = @entries_counters.select { |entry| entry['month'] == month }
       .alert.alert-info style="margin-bottom: 0"
