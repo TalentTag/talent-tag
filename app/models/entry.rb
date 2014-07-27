@@ -20,13 +20,13 @@ class Entry < ActiveRecord::Base
     if params[:query]
       kw = KeywordGroup.where.contains(keywords: [params[:query]]).flat_map &:keywords
       params[:query] = kw.map { |w| "(#{w})" }.join(' | ') unless kw.empty?
-      conditions = {}.tap do |c|
-        c[:source_id] = params[:source] if params[:source].present?
-      end
-      excepts = {}.tap do |e|
-        e[:id] = params[:blacklist].first unless params[:blacklist].nil? || params[:blacklist].empty?
-        e[:source_id] = Source.unpublished unless params[:published].nil? or Source.unpublished.empty?
-      end
+
+      conditions = {}
+      conditions[:source_id] = params[:source] if params[:source].present?
+
+      excepts = {}
+      excepts[:id] = params[:blacklist] unless params[:blacklist].nil? || params[:blacklist].empty?
+      excepts[:source_id] = Source.unpublished unless params[:published].nil? or Source.unpublished.empty?
 
       entries = search(params[:query], with: conditions, without: excepts, retry_stale: true, excerpts: {around: 250}, order: 'created_at DESC')
       entries.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane

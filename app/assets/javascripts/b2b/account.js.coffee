@@ -15,30 +15,40 @@
         $scope.timeLeft = "#{ Math.floor timer/3600 }:#{ ("0" + Math.floor timer%3600/60).slice(-2) }:#{ ("0" + Math.floor timer%60).slice(-2) }"
     setInterval tickTimer, 1000
 
-  $scope.$watch 'search', ->
-    if $scope.search?
-      $scope.query = $scope.search.query
+
+  querystring = undefined
+
+  $scope.$watch 'search', (search) ->
+    if search?
+      $scope.query = querystring = search.query
       $scope.page = 1
       query()
-
 
   query = (config={}) ->
     $scope.folder = null
     params = if $scope.search
-      { search_id: $scope.search.id, page: $scope.page }
-    else if $scope.query
-      { query: $scope.query, page: $scope.page }
+      { query: querystring, search_id: $scope.search.id, page: $scope.page }
+    else if querystring
+      { query: querystring, page: $scope.page }
     Entry.query params, (data, parseHeaders) ->
       $scope.entries = if data.length
          if config.append then $scope.entries.concat(data) else data
       else []
       $scope.entriesTotal = parseInt parseHeaders()['tt-entriestotal']
+      unless $scope.entriesTotal
+        querystring = undefined
+        $scope.searchInResults = false
 
   $scope.fetch = (options={}) ->
     if $scope.query
       $scope.page = 1
-      $scope.search = undefined
+      $scope.search = undefined unless $scope.searchInResults
       $location.path('/account')
+
+      querystring = if querystring? and $scope.searchInResults 
+        "(#{ querystring }) && (#{ $scope.query })"
+      else
+        $scope.query
       query()
 
   $scope.fetchMore = ->

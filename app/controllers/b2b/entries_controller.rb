@@ -10,7 +10,8 @@ class B2b::EntriesController < B2b::BaseController
       current_user.folders.find_by!(id: params[:folder_id]).details
     elsif params[:search_id]
       search = Search.find_by!(id: params[:search_id])
-      Entry.filter(params.merge query: search.query, published: true, blacklist: search.blacklisted)
+      query = if search.query==params[:query] then search.query else "(#{ search.query }) && (#{ params[:query] })" end
+      Entry.filter(params.merge query: query, published: true, blacklist: search.blacklisted)
     elsif params[:query]
       Entry.filter(params.merge published: true)
     else
