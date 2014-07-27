@@ -27,7 +27,7 @@ class B2b::EntriesController < B2b::BaseController
     authorize! :create, Entry
 
     tt_entries_count = Entry.where(source_id: nil).count
-    Entry.create create_params.merge fetched_at: Time.now, id: tt_entries_count+1, author: build_author_data
+    Entry.create body: params[:body], fetched_at: Time.now, id: tt_entries_count+1, author: build_author_data, user_id: current_user.id
 
     return render text: nil
   end
@@ -52,10 +52,6 @@ class B2b::EntriesController < B2b::BaseController
 
 
   private
-
-  def create_params
-    params.require(:entry).permit(:body)
-  end
 
   def build_author_data
     {

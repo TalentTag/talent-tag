@@ -4,11 +4,8 @@ class Identity < ActiveRecord::Base
   accepts_nested_attributes_for :user
 
   before_create :generate_anchor
+  after_create :link_entries
 
-
-  def entries
-    Entry.where("author->> 'guid' = '#{ anchor }'")
-  end
 
   def hashtags
     entries.flat_map(&:hashtags).uniq
@@ -55,6 +52,12 @@ class Identity < ActiveRecord::Base
 
 
   protected
+
+  def link_entries
+    Entry.where("author->> 'guid' = '#{ anchor }'").update_all user_id: user.id
+  end
+
+
 
   def anchor_facebook
     "http://www.facebook.com/profile.php?id=#{ uid }"

@@ -29,7 +29,7 @@ section.btn-group
 br
 
 #profile.well ng-show="entry.author"
-  a.pull-right.btn.btn-default ng-if="entry.profile_id" href="/specialists/{{ entry.profile_id }}" target="_self" Полный профиль
+  a.pull-right.btn.btn-default ng-if="entry.user_id" href="/specialists/{{ entry.user_id }}" target="_self" Полный профиль
   h4 {{ entry.author.name }}
   p : a href="{{ entry.author.url }}" target="_blank" {{ entry.author.url }}
   section ng-show="entry.hasProfile()"

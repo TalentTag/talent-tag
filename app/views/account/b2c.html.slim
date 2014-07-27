@@ -48,7 +48,7 @@
       p : textarea.form-control ng-model="entryBody" rows="5"
       button.btn.btn-primary.pull-right ng-click="postEntry()" Опубликовать
 
-    - @user.journal.each do |entry|
+    - @user.entries.each do |entry|
       div
         hr
         / a.close href="javascript:;" &times;

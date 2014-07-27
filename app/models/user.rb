@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
 
   belongs_to :company
   has_many :identities
+  has_many :entries
   has_many :searches
   has_many :folders
   has_many :comments
@@ -45,13 +46,6 @@ class User < ActiveRecord::Base
     firstname && lastname ? "#{ firstname } #{ lastname }" : email
   end
 
-  def journal
-    unless identities.empty?
-      condition = identities.map { |id| "(author->>'guid' = '#{ id.anchor }')" }.push("(author->>'guid' = 'tt-#{ id }')").join(' OR ')
-      Entry.where(condition).includes(:source).order(created_at: :desc).references(:source)
-    end || []
-  end
-
   def update_password! values
     self.password = values['password']
     self.password_confirmation = values['password_confirmation']
@@ -76,6 +70,7 @@ class User < ActiveRecord::Base
     generate_auth_token!
     AuthMailer.add_company(self).deliver
   end
+
 
   protected
 

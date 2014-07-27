@@ -5,8 +5,11 @@ class Entry < ActiveRecord::Base
   ENTRIES_PER_PAGE = 10
   paginates_per ENTRIES_PER_PAGE
 
+  belongs_to :user
   belongs_to :source
   has_many :comments
+
+  before_create :link_to_author
 
   validates :id, presence: true, uniqueness: true
 
@@ -45,12 +48,18 @@ class Entry < ActiveRecord::Base
   end
 
   def user
-    identity.try :user # TODO move to decorator
+    identity.try :user
   end
-
 
   def hashtags
     body.scan(/#(\S+)/).flatten.reject { |t| t=='talenttag' }.uniq
+  end
+
+
+  protected
+
+  def link_to_author
+    self.user_id = user.try :id unless user_id
   end
 
 end
