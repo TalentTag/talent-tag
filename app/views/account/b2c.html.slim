@@ -41,11 +41,19 @@
     hr
 
   section.journal
+    a.pull-right href="javascript:;" ng-click="toggleEntryForm()" Добавить запись
     h4 Профессиональный блог
+
+    div ng-show="entryFormDisplayed" style="overflow:hidden"
+      p : textarea.form-control ng-model="entryBody" rows="5"
+      button.btn.btn-primary.pull-right ng-click="postEntry()" Опубликовать
+
     - @user.journal.each do |entry|
-      hr
-      p : small = "#{ entry.source.name } | #{ entry.created_at.strftime '%d.%m.%Y' }"
-      p == bold_tags entry.body
+      div
+        hr
+        / a.close href="javascript:;" &times;
+        p : small = "#{ entry.source.name rescue "TalentTag" } | #{ entry.created_at.strftime '%d.%m.%Y' }"
+        p == bold_tags entry.body
 
 
 

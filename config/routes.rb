@@ -56,7 +56,7 @@ TalentTag::Application.routes.draw do
       member { put :update_to_premium }
     end
 
-    resources :entries, only: %i(index show destroy) do
+    resources :entries, only: %i(index show create destroy) do
       resources :comments, only: %i(create update)
     end
 

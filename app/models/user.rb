@@ -47,7 +47,7 @@ class User < ActiveRecord::Base
 
   def journal
     unless identities.empty?
-      condition = identities.map { |id| "(author->>'guid' = '#{ id.anchor }')" }.join(' OR ')
+      condition = identities.map { |id| "(author->>'guid' = '#{ id.anchor }')" }.push("(author->>'guid' = 'tt-#{ id }')").join(' OR ')
       Entry.where(condition).includes(:source).order(created_at: :desc).references(:source)
     end || []
   end

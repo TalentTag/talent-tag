@@ -1,4 +1,4 @@
-@talent.controller "talent.B2cAccountCtrl", ["$scope", "$http", "talentData", ($scope, $http, talentData) ->
+@talent.controller "talent.B2cAccountCtrl", ["$scope", "$http", "talentData", "Entry", ($scope, $http, talentData, Entry) ->
 
   $scope.user = talentData.user
   $scope.user.tags ?= []
@@ -23,5 +23,14 @@
   $scope.$watch 'user.tags.length', ->
     $scope.saveProfile()
     $scope.newTag = undefined
+
+
+
+  $scope.toggleEntryForm = ->
+    $scope.entryFormDisplayed = !$scope.entryFormDisplayed
+
+  $scope.postEntry = ->
+    new Entry(body: $scope.entryBody).$save ->
+      window.location.reload()
 
 ]

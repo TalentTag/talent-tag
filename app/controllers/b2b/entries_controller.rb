@@ -3,6 +3,7 @@ class B2b::EntriesController < B2b::BaseController
   respond_to :json
 
   before_action :require_authentication!
+  skip_before_filter :b2b_users_only!, only: :create
 
 
   def index
@@ -22,6 +23,16 @@ class B2b::EntriesController < B2b::BaseController
   end
 
 
+  def create
+    authorize! :create, Entry
+
+    tt_entries_count = Entry.where(source_id: nil).count
+    Entry.create create_params.merge fetched_at: Time.now, id: tt_entries_count+1, author: build_author_data
+
+    return render text: nil
+  end
+
+
   def destroy
     authorize! :destroy, Entry
     respond_with Entry.find_by!(id: params[:id]).destroy
@@ -37,6 +48,20 @@ class B2b::EntriesController < B2b::BaseController
       end
       format.json { @entry = Entry.find_by! id: params[:id] }
     end
+  end
+
+
+  private
+
+  def create_params
+    params.require(:entry).permit(:body)
+  end
+
+  def build_author_data
+    {
+      guid: "tt-#{ current_user.id }",
+      name: current_user.name
+    }
   end
 
 end
