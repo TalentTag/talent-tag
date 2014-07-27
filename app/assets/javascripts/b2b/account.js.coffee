@@ -30,6 +30,7 @@
       { query: querystring, search_id: $scope.search.id, page: $scope.page }
     else if querystring
       { query: querystring, page: $scope.page }
+    params['club_members_only'] = true if $scope.clubMembersOnly
     Entry.query params, (data, parseHeaders) ->
       $scope.entries = if data.length
          if config.append then $scope.entries.concat(data) else data
