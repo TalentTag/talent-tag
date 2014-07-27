@@ -12,3 +12,4 @@ config/database.yml
 config/thinking_sphinx.yml
 config/*.sphinx.conf
 *.swp
+dump.rdb
