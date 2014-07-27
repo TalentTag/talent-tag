@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+source 'https://rails-assets.org'
 
 gem 'rails', '4.0.0'
 
@@ -43,6 +44,7 @@ gem 'underscore-rails'
 gem 'angularjs-rails', '~> 1.2.0'
 gem 'angular-ui-bootstrap-rails'
 gem 'ng-rails-csrf'
+gem 'rails-assets-ngInfiniteScroll'
 gem 'font-awesome-rails'
 
 gem 'unicorn', group: :production

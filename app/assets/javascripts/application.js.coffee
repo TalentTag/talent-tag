@@ -18,6 +18,6 @@
 #= require_tree ./b2c
 
 
-@talent = angular.module 'talent', ['ngResource', 'ng-rails-csrf', 'ngRoute', 'ngSanitize', 'ui.bootstrap']
+@talent = angular.module 'talent', ['ngResource', 'ng-rails-csrf', 'ngRoute', 'ngSanitize', 'ui.bootstrap', 'infinite-scroll']
 @talent.value 'talentData', window.talentData
 @talent.value 'Danthes', Danthes

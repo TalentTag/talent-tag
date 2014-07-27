@@ -1,41 +1,42 @@
 p.alert.alert-warning ng-show="entriesTotal == 0" Ничего не нашлось
 p.alert.alert-info ng-show="entriesTotal" Найдено записей: {{ entriesTotal }}
 
-div.entry ng-repeat="entry in entries" id="entry{{ entry.id }}"
-  p
-    .club-badge.fa.fa-star ng-if="entry.user_id"
-    a.close href="javascript:;" title="Больше не показывать" ng-show="search" ng-click="blacklist(entry)" &times;
-    a ng-show="entry.url" ng-href="{{ entry.url }}" target="_blank" = "{{ entry.url | truncate:60 }}"
-    span.new-entry ng-show="isNewEntry(entry)" новая
+div infinite-scroll="fetchMore()" infinite-scroll-distance="3" infinite-scroll-disabled="!query || fetchinInProgress || !canFetchMore()" infinite-scroll-immediate-check="false"
+  .entry ng-repeat="entry in entries" id="entry{{ entry.id }}"
+    p
+      .club-badge.fa.fa-star ng-if="entry.user_id"
+      a.close href="javascript:;" title="Больше не показывать" ng-show="search" ng-click="blacklist(entry)" &times;
+      a ng-show="entry.url" ng-href="{{ entry.url }}" target="_blank" = "{{ entry.url | truncate:60 }}"
+      span.new-entry ng-show="isNewEntry(entry)" новая
 
-  ul.info
-    li : span = "Добавлено {{ entry.created_at | date:'dd.MM.yyyy' }}"
-    li : span = "{{ entry.author.profile.city || entry.author.profile.location || '' }}"
+    ul.info
+      li : span = "Добавлено {{ entry.created_at | date:'dd.MM.yyyy' }}"
+      li : span = "{{ entry.author.profile.city || entry.author.profile.location || '' }}"
 
-  p = "{{ entry.body | truncate:250:{ byWords: true } }}"
-  / p ng-bind-html="entry.excerpt || entry.body"
+    p = "{{ entry.body | truncate:250:{ byWords: true } }}"
+    / p ng-bind-html="entry.excerpt || entry.body"
 
-  p
-    .kw ng-repeat="folder in folders" ng-show="folder.contains(entry)"
-      a.close href="javascript:;" ng-click="removeEntryFromFolder(folder, entry)" &times;
-      a href="/folders/{{ folder.id }}" = "{{ folder.name }}"
-  .clearfix
+    p
+      .kw ng-repeat="folder in folders" ng-show="folder.contains(entry)"
+        a.close href="javascript:;" ng-click="removeEntryFromFolder(folder, entry)" &times;
+        a href="/folders/{{ folder.id }}" = "{{ folder.name }}"
+    .clearfix
 
-  a.pull-right href="/entries/{{ entry.id }}" подробнее &rarr;
-  .btn-group
-    button.btn.btn-default.dropdown-toggle data-toggle="dropdown" type="button"
-      span.glyphicon.glyphicon-tags
-      | метки
-    ul@menu.dropdown-menu
-      li ng-repeat="folder in folders" : a href="javascript:;" ng-click="folder.addEntry(entry)" = "{{ folder.name }}"
-      li.divider
-      li ng-hide="showNewFolderInput" : a href="javascript:;" ng-click="addFolder($event)" добавить
-      li ng-show="showNewFolderInput"
-        .input-group style="margin: 0 7px"
-          input.form-control name="newfolder" placeholder="имя метки" ng-click="$event.stopPropagation()" ng-model="newFolderName" style="height: 26px; padding: 0 10px"
-          span.input-group-btn
-            button.btn.btn-primary ng-click="createFolder($event, entry)" style="height: 26px; padding: 0 10px" ok
-  hr
+    a.pull-right href="/entries/{{ entry.id }}" подробнее &rarr;
+    .btn-group
+      button.btn.btn-default.dropdown-toggle data-toggle="dropdown" type="button"
+        span.glyphicon.glyphicon-tags
+        | метки
+      ul@menu.dropdown-menu
+        li ng-repeat="folder in folders" : a href="javascript:;" ng-click="folder.addEntry(entry)" = "{{ folder.name }}"
+        li.divider
+        li ng-hide="showNewFolderInput" : a href="javascript:;" ng-click="addFolder($event)" добавить
+        li ng-show="showNewFolderInput"
+          .input-group style="margin: 0 7px"
+            input.form-control name="newfolder" placeholder="имя метки" ng-click="$event.stopPropagation()" ng-model="newFolderName" style="height: 26px; padding: 0 10px"
+            span.input-group-btn
+              button.btn.btn-primary ng-click="createFolder($event, entry)" style="height: 26px; padding: 0 10px" ok
+    hr
 
-.well#bottom-gutter ng-show="canFetchMore()"
-  a href="javascript:;" ng-click="fetchMore()" Загрузить еще
+/ .well#bottom-gutter ng-show="canFetchMore()"
+/   a href="javascript:;" ng-click="fetchMore()" Загрузить еще

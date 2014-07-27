@@ -25,6 +25,8 @@
       query()
 
   query = (config={}) ->
+    $scope.fetchinInProgress = true
+
     $scope.folder = null
     params = if $scope.search
       { query: querystring, search_id: $scope.search.id, page: $scope.page }
@@ -40,6 +42,8 @@
         querystring = undefined
         $scope.searchInResults = false
 
+      $scope.fetchinInProgress = false
+
   $scope.fetch = (options={}) ->
     if $scope.query
       $scope.page = 1
@@ -53,10 +57,12 @@
       query()
 
   $scope.fetchMore = ->
-    $scope.page = ($scope.page || 0) + 1
-    query append: true
+    if $scope.canFetchMore()
+      $scope.page = ($scope.page || 0) + 1
+      query append: true
 
-  $scope.canFetchMore = -> $scope.entries.length and $scope.entries.length < $scope.entriesTotal
+  $scope.canFetchMore = ->
+    $scope.entries.length and $scope.entries.length < $scope.entriesTotal
 
   $scope.blacklist = (entry) ->
     if confirm "Убрать запись из виртуальной папки?"
