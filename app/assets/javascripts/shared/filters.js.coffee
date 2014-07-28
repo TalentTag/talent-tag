@@ -9,3 +9,6 @@
 
 @talent.filter 'timeago', -> (date) ->
   moment(date).fromNow()
+
+@talent.filter 'prettyPrint', -> (text) ->
+  text.replace(/\n/g, "<br />")

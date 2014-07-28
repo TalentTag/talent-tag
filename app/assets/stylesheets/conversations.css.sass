@@ -12,6 +12,7 @@
   overflow: hidden
   padding-bottom: 200px
   .message
+    min-width: 40%
     max-width: 75%
     color: #fff
     margin-bottom: 10px
@@ -19,11 +20,18 @@
     background-color: #5cb85c
     float: right
     border-radius: 7px 7px 0 7px
+    clear: both
     &.incoming
       background-color: #428bca
       float: left
       border-radius: 7px 7px 7px 0
-    clear: both
+    small
+      white-space: nowrap
+    img
+      width: 50px
+      height: 50px
+      float: left
+      margin-right: 10px
 
     .info
       margin-bottom: 7px
