@@ -41,12 +41,14 @@
     hr
 
   section.journal
-    a.pull-right href="javascript:;" ng-click="toggleEntryForm()" Добавить запись
+    - if @user == current_user
+      a.pull-right href="javascript:;" ng-click="toggleEntryForm()" Добавить запись
     h4 Профессиональный блог
 
-    div ng-show="entryFormDisplayed" style="overflow:hidden"
-      p : textarea.form-control ng-model="entryBody" rows="5"
-      button.btn.btn-primary.pull-right ng-click="postEntry()" Опубликовать
+    - if @user == current_user
+      div ng-show="entryFormDisplayed" style="overflow:hidden"
+        p : textarea.form-control ng-model="entryBody" rows="5"
+        button.btn.btn-primary.pull-right ng-click="postEntry()" Опубликовать
 
     - @user.entries.each do |entry|
       div
