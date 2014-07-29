@@ -55,6 +55,7 @@
         hr
         / a.close href="javascript:;" &times;
         p : small = "#{ entry.source.name rescue "TalentTag" } | #{ entry.created_at.strftime '%d.%m.%Y' }"
+        p : a href=entry.url target="_blank" = truncate entry.url, length: 60
         p == bold_tags entry.body
 
 
