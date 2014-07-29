@@ -4,7 +4,7 @@ class Conversation < ActiveRecord::Base
   has_many :conversations_users, dependent: :destroy
   has_and_belongs_to_many :users
 
-  scope :with, ->(user) { user.conversations }
+  # scope :with, ->(user) { user.conversations }
   # scope :between, ->(users) { joins(:conversations_users).where(conversations_users: {user_id: users.map{|u| u.try(:id) || u.to_i }}).distinct(:conversation) }
 
   def self.between users
@@ -27,7 +27,9 @@ class Conversation < ActiveRecord::Base
   end
 
   def unread_messages(user)
-    messages.where.not(user_id: user.id).where("created_at > '#{last_user_activity(user)}'").count
+    msg = messages.where.not(user_id: user.id)
+    msg = msg.where("created_at > '#{last_user_activity(user)}'") if last_user_activity(user)
+    msg.count
   end
 
   def touch_activity(user)

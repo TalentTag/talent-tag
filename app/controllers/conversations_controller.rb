@@ -1,7 +1,7 @@
 class ConversationsController < ApplicationController
 
   def index
-    @conversations = Conversation.with current_user
+    @conversations = current_user.conversations
   end
 
   def with
