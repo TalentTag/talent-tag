@@ -1,7 +1,12 @@
 class B2b::CompaniesController < B2b::BaseController
 
   respond_to :json
-  skip_before_filter :b2b_users_only!, only: :create
+  skip_before_filter :b2b_users_only!, only: %i(show create)
+
+
+  def show
+    @company = Company.find_by! id: params[:id]
+  end
 
 
   def create

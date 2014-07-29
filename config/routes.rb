@@ -52,7 +52,7 @@ TalentTag::Application.routes.draw do
 
 
   scope module: :b2b do
-    resources :companies, only: %i(create update) do
+    resources :companies, only: %i(show create update) do
       member { put :update_to_premium }
     end
 
