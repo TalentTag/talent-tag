@@ -1,6 +1,7 @@
 @talent.controller "talent.ConversationCtrl", ["$scope", "$http", "talentData", "$rootScope", "Message", "Danthes", ($scope, $http, talentData, $rootScope, Message, Danthes) ->
 
   $scope.user         = talentData.user
+  $scope.currentUser  = talentData.currentUser
   $scope.messages     = talentData.messages?.map((attrs) -> new Message attrs) or []
   # Message.query recipient_id: talentData.user.id, (data) ->
   #   $scope.messages = data.map (attrs) -> new Message attrs

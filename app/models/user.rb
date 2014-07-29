@@ -71,6 +71,10 @@ class User < ActiveRecord::Base
     AuthMailer.add_company(self).deliver
   end
 
+  def avatar
+    profile['image'] || '/no_avatar.jpg'
+  end
+
 
   protected
 

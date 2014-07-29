@@ -4,7 +4,8 @@
 
   #chat-messages
     p.message ng-repeat="message in messages" ng-class="{ incoming: message.user_id==user.id }"
-      img src="/no_avatar.jpg"
+      img src="{{ user.avatar }}" ng-if="message.user_id==user.id"
+      img src="{{ currentUser.avatar }}" ng-if="message.user_id==currentUser.id"
       small.info {{ message.sender().name }} ({{ message.created_at | timeago }})
       span ng-bind-html="message.text | prettyPrint"
 
