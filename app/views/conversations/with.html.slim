@@ -3,11 +3,13 @@
   h4 {{ user.name }}
 
   #chat-messages
-    p.message ng-repeat="message in messages" ng-class="{ incoming: message.user_id==user.id }"
+    .message ng-repeat="message in messages" ng-class="{ incoming: message.user_id==user.id }"
       img src="{{ user.avatar }}" ng-if="message.user_id==user.id"
       img src="{{ currentUser.avatar }}" ng-if="message.user_id==currentUser.id"
-      small.info {{ message.sender().name }} ({{ message.created_at | timeago }})
-      span ng-bind-html="message.text | prettyPrint"
+      .message-contents
+        small.info {{ message.sender().name }} ({{ message.created_at | timeago }})
+        span ng-bind-html="message.text | prettyPrint"
+
 
   #chat-form.well
     .form-group
