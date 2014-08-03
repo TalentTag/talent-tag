@@ -1,5 +1,7 @@
 class Admin::StatsController < Admin::BaseController
 
+  before_action { authorize! :read, :statistics }
+
   def entries
     @sources          = Source.visible.sort_by { |s| s.name }
 

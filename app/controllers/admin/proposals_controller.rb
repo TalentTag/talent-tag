@@ -1,5 +1,8 @@
 class Admin::ProposalsController < Admin::BaseController
 
+  before_action { authorize! :update, Proposal }
+
+
   def index
     @proposals = Proposal.awaiting
   end

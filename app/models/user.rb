@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
   end
 
 
-  ROLES = %w[owner employee admin]
+  ROLES = %w[owner employee moderator admin]
   ROLES.each do |r|
     define_method("#{r}?") { r == role }
   end

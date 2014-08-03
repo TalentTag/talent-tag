@@ -30,6 +30,12 @@ class Ability
       end
     end
 
+    if user.moderator?
+      can :manage, :admin
+      can :update, Source
+      can :crud, Entry
+    end
+
     if user.admin? # admins
       can :manage, :all
       cannot :update_to_premium, Company
