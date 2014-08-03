@@ -1,6 +1,11 @@
 p
   a.close href="javascript:;" title="Больше не показывать" ng-show="search" ng-click="blacklist(entry)" &times;
   a href="javascript:history.back();" &larr; Назад
+
+p.well ng-show="entry.duplicate_of"
+  ' Это дубликат записи
+  a href="/entries/{{ entry.duplicate_of }}" {{ entry.duplicate_of }}
+
 p : a ng-show="entry.url" href="{{ entry.url }}" target="_blank" {{ entry.url | truncate:70 }}
 p : small
   ' Добавлено
@@ -45,6 +50,15 @@ br
               td : b Страна
               td {{ entry.author.profile.country }}
           pre : small = "{{ entry.author.profile }}"
+
+section ng-if="entry.duplicates.length" style="margin-bottom:20px"
+  h4 Похожие записи
+  ul 
+    li ng-repeat="duplicate in entry.duplicates"
+      p
+        | {{ duplicate.body }}
+        a.pull-right href="/entries/{{ duplicate.id }}" подробнее &rarr;
+
 
 section.clearfix
   p : textarea.form-control style="width:100%" rows="3" placeholder="Комментарий" ng-model="entry.comment.text" {{ entry.comment.text }}

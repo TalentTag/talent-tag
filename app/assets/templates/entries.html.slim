@@ -22,6 +22,10 @@ div infinite-scroll="fetchMore()" infinite-scroll-distance="3" infinite-scroll-d
         a href="/folders/{{ folder.id }}" = "{{ folder.name }}"
     .clearfix
 
+    p ng-show="entry.duplicates_count"
+      ' Похожих записей:
+      b {{ entry.duplicates_count }}
+
     a.pull-right href="/entries/{{ entry.id }}" подробнее &rarr;
     .btn-group
       button.btn.btn-default.dropdown-toggle data-toggle="dropdown" type="button"
@@ -36,6 +40,7 @@ div infinite-scroll="fetchMore()" infinite-scroll-distance="3" infinite-scroll-d
             input.form-control name="newfolder" placeholder="имя метки" ng-click="$event.stopPropagation()" ng-model="newFolderName" style="height: 26px; padding: 0 10px"
             span.input-group-btn
               button.btn.btn-primary ng-click="createFolder($event, entry)" style="height: 26px; padding: 0 10px" ok
+
     hr
 
 / .well#bottom-gutter ng-show="canFetchMore()"

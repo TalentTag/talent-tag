@@ -8,6 +8,7 @@ class Entry < ActiveRecord::Base
   belongs_to :user
   belongs_to :source
   has_many :comments
+  has_many :duplicates, class_name: 'Entry', foreign_key: :duplicate_of
 
   before_create :link_to_author
 
@@ -26,6 +27,7 @@ class Entry < ActiveRecord::Base
 
       conditions = {}
       conditions[:source_id] = params[:source] if params[:source].present?
+      conditions[:duplicate_of] = 0
 
       excepts = {}
       excepts[:id] = params[:blacklist] unless params[:blacklist].nil? || params[:blacklist].empty?

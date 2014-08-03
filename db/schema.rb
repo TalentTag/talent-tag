@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140727125117) do
+ActiveRecord::Schema.define(version: 20140803152854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,14 +60,15 @@ ActiveRecord::Schema.define(version: 20140727125117) do
   add_index "conversations_users", ["user_id"], name: "index_conversations_users_on_user_id", using: :btree
 
   create_table "entries", id: false, force: true do |t|
-    t.integer  "id",         null: false
-    t.text     "body",       null: false
+    t.integer  "id",           null: false
+    t.text     "body",         null: false
     t.integer  "source_id"
     t.string   "url"
-    t.datetime "created_at", null: false
+    t.datetime "created_at",   null: false
     t.json     "author"
-    t.datetime "fetched_at", null: false
+    t.datetime "fetched_at",   null: false
     t.integer  "user_id"
+    t.integer  "duplicate_of"
   end
 
   add_index "entries", ["id"], name: "index_entries_on_id", unique: true, using: :btree

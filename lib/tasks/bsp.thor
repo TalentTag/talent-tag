@@ -32,9 +32,6 @@ class Bsp < Thor
       puts "\nfetching data for #{ date }\n"
       date  = Date.strptime date
       url   = "#{ endpoint_url }&?filters[created_at_gte]=#{ date.strftime("%Y-%m-%d") }&filters[created_at_lt]=#{ (date+1).strftime("%Y-%m-%d") }"
-
-      p url
-
       pages = JSON.parse(open(url).read)['meta']['pagination']['total_pages']
       total_sum + (0..pages-1).reduce(0) do |sum, page|
         sum + request_and_parse("#{ url }&page=#{ page }")
@@ -63,6 +60,10 @@ class Bsp < Thor
           author: entry['author'],
           created_at: entry['created_at'],
           fetched_at: Time.now
+
+        if duplicate = Entry.order(:created_at).find_by(body: entry['body'])
+          entry[:duplicate_of] = duplicate.id
+        end
 
         if identity = entry.identity
           user = identity.user
