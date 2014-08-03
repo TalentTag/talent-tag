@@ -18,8 +18,12 @@ class Bsp < Thor
 
   private
 
+  def endpoint_url
+    "http://api.brandspotter.ru/v2/clients/1071/mentions.json?api_key=ubx260cagzy287shpdjk935ntr2jl0cr"
+  end
+
   def fetch_recent
-    request_and_parse "http://api.brandspotter.ru/clients/1071/words.json?api_key=ubx260cagzy287shpdjk935ntr2jl0cr"
+    request_and_parse endpoint_url
   end
 
   def fetch_by_date dates
@@ -27,9 +31,11 @@ class Bsp < Thor
     (dates.first..dates.last).reduce(0) do |total_sum, date|
       puts "\nfetching data for #{ date }\n"
       date  = Date.strptime date
-      url   = "http://api.brandspotter.ru/clients/1071/words.json?filters[fromdate]=#{ date.strftime("%Y-%m-%d") }&filters[todate]=#{ (date+1).strftime("%Y-%m-%d") }&api_key=ubx260cagzy287shpdjk935ntr2jl0cr"
-      total = JSON.parse(open("#{ url }&pagesize=1").read)['meta']['total']
-      pages = (total.to_f/10).ceil
+      url   = "#{ endpoint_url }&?filters[created_at_gte]=#{ date.strftime("%Y-%m-%d") }&filters[created_at_lt]=#{ (date+1).strftime("%Y-%m-%d") }"
+
+      p url
+
+      pages = JSON.parse(open(url).read)['meta']['pagination']['total_pages']
       total_sum + (0..pages-1).reduce(0) do |sum, page|
         sum + request_and_parse("#{ url }&page=#{ page }")
       end
@@ -41,18 +47,22 @@ class Bsp < Thor
     saved_entries = 0
     data          = JSON.parse open(url).read
 
-    data['entries'].each do |entry|
-      source = entry['platform']
-      Source.create(id: source['id'], name: source['name'], url: source['url'])
-    end
+    data['items'].each { |item| Source.create item['platform'] }
 
-    data['entries'].map do |entry|
+    data['items'].map do |entry|
+
       if source = (entry['platform']['id'] rescue nil) && Source.find_by(id: entry['platform']['id'])
 
         entry['body'].gsub!(/<\/?[^>]*>/, "")
         entry['body'].gsub!(/#linkedincorpus/, '').try :'strip!'
 
-        entry = source.entries.new id: entry['id'], body: entry['body'], url: entry['url'], author: entry['author'], created_at: entry['created_at'], fetched_at: Time.now
+        entry = source.entries.new \
+          id: entry['id'],
+          body: entry['body'],
+          url: entry['url'],
+          author: entry['author'],
+          created_at: entry['created_at'],
+          fetched_at: Time.now
 
         if identity = entry.identity
           user = identity.user
