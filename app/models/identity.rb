@@ -68,7 +68,7 @@ class Identity < ActiveRecord::Base
   end
 
   def anchor_vkontakte
-    uid
+    "http://vk.com/id#{ uid }"
   end
 
   def anchor_google_oauth2
@@ -76,7 +76,7 @@ class Identity < ActiveRecord::Base
   end
 
   def anchor_linkedin
-    user.profile['url_linkedin']
+    user.profile['url_linkedin'] || user.profile[:url_linkedin]
   end
 
 
