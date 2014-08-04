@@ -31,7 +31,7 @@ class Bsp < Thor
     (dates.first..dates.last).reduce(0) do |total_sum, date|
       puts "\nfetching data for #{ date }\n"
       date  = Date.strptime date
-      url   = "#{ endpoint_url }&?filters[created_at_gte]=#{ date.strftime("%Y-%m-%d") }&filters[created_at_lt]=#{ (date+1).strftime("%Y-%m-%d") }"
+      url   = "#{ endpoint_url }&filters[created_at_gte]=#{ date.strftime("%Y-%m-%d") }&filters[created_at_lt]=#{ (date+1).strftime("%Y-%m-%d") }"
       pages = JSON.parse(open(url).read)['meta']['pagination']['total_pages']
       total_sum + (0..pages-1).reduce(0) do |sum, page|
         sum + request_and_parse("#{ url }&page=#{ page }")
@@ -46,22 +46,31 @@ class Bsp < Thor
 
     data['items'].each { |item| Source.create item['platform'] }
 
-    data['items'].map do |entry|
+    data['items'].map do |entry_hash|
 
-      if source = (entry['platform']['id'] rescue nil) && Source.find_by(id: entry['platform']['id'])
+      if source = (entry_hash['platform']['id'] rescue nil) && Source.find_by(id: entry_hash['platform']['id'])
 
-        entry['body'].gsub!(/<\/?[^>]*>/, "")
-        entry['body'].gsub!(/#linkedincorpus/, '').try :'strip!'
+        entry_hash['body'].gsub!(/<\/?[^>]*>/, "")
+        entry_hash['body'].gsub!(/#linkedincorpus/, '').try :'strip!'
 
         entry = source.entries.new \
-          id: entry['id'],
-          body: entry['body'],
-          url: entry['url'],
-          author: entry['author'],
-          created_at: entry['created_at'],
+          id: entry_hash['id'],
+          body: entry_hash['body'],
+          url: entry_hash['url'],
+          created_at: entry_hash['created_at'],
           fetched_at: Time.now
 
-        if duplicate = Entry.order(:created_at).find_by(body: entry['body'])
+        if entry_hash['author']
+          entry['author'] = {
+            id: entry_hash['author']['id'],
+            url: entry_hash['author']['url'],
+            guid: entry_hash['author']['url'],
+            name: entry_hash['author']['name'],
+            profile: entry_hash['author']['profile'],
+          }
+        end
+
+        if duplicate = Entry.order(:created_at).find_by(body: entry_hash['body'])
           entry[:duplicate_of] = duplicate.id
         end
 
