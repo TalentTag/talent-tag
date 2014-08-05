@@ -3,8 +3,7 @@ class Identity < ActiveRecord::Base
   belongs_to :user
   accepts_nested_attributes_for :user
 
-  before_create :generate_anchor
-  after_create :link_entries
+  after_create :generate_anchor, :link_entries
 
 
   def hashtags
@@ -38,7 +37,7 @@ class Identity < ActiveRecord::Base
 
 
   def generate_anchor
-    self.anchor = send("anchor_#{ provider }")
+    update anchor: send("anchor_#{ provider }")
   end
 
   def generate_profile params
