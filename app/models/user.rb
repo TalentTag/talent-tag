@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
 
+  include ::GravatarImageTag
+
   has_secure_password
 
   belongs_to :company
@@ -72,7 +74,7 @@ class User < ActiveRecord::Base
   end
 
   def avatar
-    profile['image'] || '/no_avatar.jpg'
+    profile['image'] || gravatar_image_url(email) || '/no_avatar.jpg'
   end
 
 

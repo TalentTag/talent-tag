@@ -100,6 +100,7 @@ GEM
     gon (5.0.4)
       actionpack (>= 2.3.0)
       json
+    gravatar_image_tag (1.2.0)
     hashie (2.0.5)
     highline (1.6.20)
     hike (1.2.3)
@@ -316,6 +317,7 @@ DEPENDENCIES
   faye-redis
   font-awesome-rails
   gon
+  gravatar_image_tag
   jquery-rails
   kaminari
   letter_opener

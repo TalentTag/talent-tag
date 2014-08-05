@@ -26,6 +26,8 @@ gem 'omniauth-vkontakte'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-linkedin'
 
+gem 'gravatar_image_tag'
+
 gem 'faye'
 gem 'danthes'
 

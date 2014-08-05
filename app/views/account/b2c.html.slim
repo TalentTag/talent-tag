@@ -1,6 +1,7 @@
 .col-md-8 ng-controller="talent.B2cAccountCtrl"
   section.basic style="overflow: hidden"
     .left-side style="float:left;margin-right:20px"
+      /TODO: add gravatar when image is null
       - if @user.profile['image']
         @avatar style="background-image: url(#{ @user.profile['image'] });"
     .right-side
@@ -17,6 +18,10 @@
           input.subtle type="text" ng-model="user.birthdate" ng-blur="saveProfile()" placeholder="заполнить"
         - else
           = @user.profile['birthdate']
+      p
+        b> Фотография:
+        - if @user == current_user
+          input.subtle type="text" ng-model="user.image" ng-blur="saveProfile()" ng-pattern='/^https?\:\/\/.+/' placeholder="заполнить"
 
   hr
 
