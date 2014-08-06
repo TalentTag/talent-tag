@@ -5,7 +5,8 @@ class B2b::CommentsController < B2b::BaseController
 
 
   def create
-    respond_with @entry, current_user.post_comment(@entry, params[:text])
+    @comment = current_user.post_comment(@entry, params[:text])
+    render :show
   end
 
   def update

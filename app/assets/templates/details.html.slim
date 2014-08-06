@@ -60,8 +60,16 @@ section ng-if="entry.duplicates.length" style="margin-bottom:20px"
         a.pull-right href="/entries/{{ duplicate.id }}" подробнее &rarr;
 
 
-section.clearfix
-  p : textarea.form-control style="width:100%" rows="3" placeholder="Комментарий" ng-model="entry.comment.text" {{ entry.comment.text }}
-  p : button.btn.btn-primary.pull-right ng-click="saveComment(entry.comment, entry.id)" ng-disabled="commentUntouched" Сохранить
+section.clearfix role="comments-section"
+  h4 Комментарии
+  .comment ng-repeat="comment in entry.comments"
+    img.avatar ng-src="{{ comment.author.avatar }}"
+    .content
+      p
+        b' {{ comment.author.name }}
+        small.time {{ comment.created_at | timeago }}
+      | {{ comment.text }}
+  p : textarea.form-control rows="3" placeholder="Комментарий" ng-model="newComment" {{ newComment }}
+  p : button.btn.btn-primary.pull-right ng-click="postComment()" ng-disabled="!newComment" Сохранить
 
 p : a href="javascript:history.back();" &larr; Назад
