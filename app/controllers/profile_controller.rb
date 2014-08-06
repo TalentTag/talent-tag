@@ -8,6 +8,13 @@ class ProfileController < ApplicationController
     render :user
   end
 
+  def update_avatar
+    current_user.profile.merge! 'image_source' => params[:user][:avatar_type], 'image' => params[:user][:avatar]
+    current_user.profile_will_change!
+    flash.now[:notice] = "Данные обновлены" if current_user.save validate: false
+    render :user
+  end
+
   def company
     authorize! :read, current_account
   end

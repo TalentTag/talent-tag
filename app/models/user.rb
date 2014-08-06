@@ -74,7 +74,15 @@ class User < ActiveRecord::Base
   end
 
   def avatar
-    profile['image'] || gravatar_image_url(email) || '/no_avatar.jpg'
+    case profile['image_source']
+    when 'custom' then profile['image']
+    when 'gravatar' then gravatar_image_url(email)
+    else '/no_avatar.jpg'
+    end
+  end
+
+  def avatar_type
+    profile['image_source'] || 'none'
   end
 
 

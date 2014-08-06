@@ -36,6 +36,7 @@ TalentTag::Application.routes.draw do
   namespace :profile do
     root to: :user, as: ''
     put '/' => :update_user
+    put '/avatar' => :update_avatar
 
     get :company
     put '/company' => :update_account

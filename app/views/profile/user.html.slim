@@ -30,6 +30,25 @@
               .err = current_user.errors.messages[:phone].first
       .panel-footer = f.submit "Сохранить", class: 'btn btn-primary'
 
+  = form_for current_user, url: profile_avatar_path, method: :put do |f|
+    .panel.panel-info
+      .panel-heading Аватарка
+      .panel-body.avatar-section
+        .row
+          .col-md-2
+            .avatar style="background-image: url(#{ current_user.avatar })"
+          .col-md-10
+            .radio: label
+              = f.radio_button :avatar_type, 'none'
+              | Нет
+            .radio: label
+              = f.radio_button :avatar_type, 'gravatar'
+              | Gravatar
+            .radio: label
+              = f.radio_button :avatar_type, 'custom'
+              = text_field_tag 'user[avatar]', current_user.profile['image'], placeholder: "URL", class: "form-control"
+      .panel-footer = f.submit "Сохранить", class: 'btn btn-primary'
+
   = form_for current_user, url: profile_path, method: :put do |f|
     .panel.panel-info
       .panel-heading Сменить e-mail
