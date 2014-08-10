@@ -50,42 +50,45 @@ class Bsp < Thor
 
       if source = (entry_hash['platform']['id'] rescue nil) && Source.find_by(id: entry_hash['platform']['id'])
 
-        entry_hash['body'].gsub!(/<\/?[^>]*>/, "")
-        entry_hash['body'].gsub!(/#linkedincorpus/, '').try :'strip!'
+        unless entry_hash['is_spam']
+          entry_hash['body'].gsub!(/<\/?[^>]*>/, "")
+          entry_hash['body'].gsub!(/#linkedincorpus/, '').try :'strip!'
 
-        entry = source.entries.new \
-          id: entry_hash['id'],
-          body: entry_hash['body'],
-          url: entry_hash['url'],
-          created_at: entry_hash['created_at'],
-          fetched_at: Time.now
+          entry = source.entries.new \
+            id: entry_hash['id'],
+            body: entry_hash['body'],
+            url: entry_hash['url'],
+            created_at: entry_hash['created_at'],
+            fetched_at: Time.now
 
-        if entry_hash['author']
-          entry['author'] = {
-            id: entry_hash['author']['id'],
-            url: entry_hash['author']['url'],
-            guid: entry_hash['author']['url'],
-            name: entry_hash['author']['name'],
-            profile: entry_hash['author']['profile'],
-          }
+          if entry_hash['author']
+            entry['author'] = {
+              id: entry_hash['author']['id'],
+              url: entry_hash['author']['url'],
+              guid: entry_hash['author']['url'],
+              name: entry_hash['author']['name'],
+              profile: entry_hash['author']['profile'],
+            }
+          end
+
+          if duplicate = Entry.order(:created_at).find_by(body: entry_hash['body'])
+            entry[:duplicate_of] = duplicate.id
+          end
+
+          if identity = entry.identity
+            user = identity.user
+            profile = user.profile || {}
+            profile['tags'] = ((profile['tags'] || []) + entry.hashtags).uniq
+            user.profile_will_change!
+            user.save
+          end
+
+          if entry.valid? && entry.save
+            saved_entries += 1
+            print '.'
+          end
         end
 
-        if duplicate = Entry.order(:created_at).find_by(body: entry_hash['body'])
-          entry[:duplicate_of] = duplicate.id
-        end
-
-        if identity = entry.identity
-          user = identity.user
-          profile = user.profile || {}
-          profile['tags'] = ((profile['tags'] || []) + entry.hashtags).uniq
-          user.profile_will_change!
-          user.save
-        end
-
-        if entry.valid? && entry.save
-          saved_entries += 1
-          print '.'
-        end
       end
     end
 
