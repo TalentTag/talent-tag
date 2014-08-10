@@ -87,7 +87,7 @@ class Identity < ActiveRecord::Base
       profile: {
         location: params[:info]['location'],
         image: params[:info]['image'],
-        image_type: 'custom',
+        image_source: 'custom',
         education: params[:extra]['raw_info']['educaton'],
         work: params[:extra]['raw_info']['work'],
         url_facebook: params[:info]['urls']['Facebook']
@@ -103,7 +103,7 @@ class Identity < ActiveRecord::Base
       profile: {
         location: params[:info]['location'],
         image: params[:info]['image'],
-        image_type: 'custom',
+        image_source: 'custom',
         nickname: params[:info]['nickname'],
         url_twitter: params[:info]['urls']['Twitter']
       }
@@ -117,7 +117,7 @@ class Identity < ActiveRecord::Base
       profile: {
         location: params[:info]['location'],
         image: params[:extra]['raw_info']['photo_200_orig'],
-        image_type: 'custom',
+        image_source: 'custom',
         birthdate: params[:extra]['raw_info']['bdate'],
         url_vkontakte: params[:info]['urls']['Vkontakte']
       }
@@ -130,7 +130,7 @@ class Identity < ActiveRecord::Base
       lastname: params[:info]['last_name'],
       profile: {
         image: params[:info]['image'],
-        image_type: 'custom',
+        image_source: 'custom',
         url_google_oauth2: params[:info]['urls']['Google']
       }
     }
@@ -143,7 +143,7 @@ class Identity < ActiveRecord::Base
       profile: {
         location: params[:info]['location'],
         image: params[:info]['image'],
-        image_type: 'custom',
+        image_source: 'custom',
         phone: params[:info]['phone'],
         url_linkedin: params[:info]['urls']['public_profile']
       }

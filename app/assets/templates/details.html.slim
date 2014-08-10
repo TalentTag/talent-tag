@@ -63,7 +63,7 @@ section ng-if="entry.duplicates.length" style="margin-bottom:20px"
 section.clearfix role="comments-section"
   h4 Комментарии
   .comment ng-repeat="comment in entry.comments"
-    img.avatar ng-src="{{ comment.author.avatar }}"
+    .avatar style="background-image: url({{ comment.author.avatar }})"
     .content
       p
         b' {{ comment.author.name }}

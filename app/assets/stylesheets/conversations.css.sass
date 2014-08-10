@@ -1,3 +1,6 @@
+@import mixins
+
+
 #conversations-list
   border-top: 1px solid #ddd
   li
@@ -27,12 +30,12 @@
       border-radius: 7px 7px 7px 0
     small
       white-space: nowrap
-    img
-      width: 50px
-      height: 50px
+    .avatar
+      @include avatar(40px)
       float: left
+      border: 1px solid #fff
     .message-contents
-      margin-left: 62px
+      margin-left: 55px
     .info
       margin-bottom: 7px
       font-size: 12px

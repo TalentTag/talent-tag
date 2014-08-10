@@ -1,0 +1,30 @@
+@mixin horizontal-list($gap)
+  li
+    display: inline
+    &:first-child
+      a, span
+        margin-left: 0
+    &:last-child
+      a, span
+        margin-right: 0
+    a, span
+      margin: 0 $gap
+
+
+@mixin divided-list($gap)
+  @include horizontal-list($gap)
+  li
+    &:after
+      content: "|"
+    &:last-child
+      &:after
+        content: ""
+
+
+@mixin avatar($size)
+  width: $size
+  height: $size
+  background-size: cover
+  background-position: center
+  border-radius: $size/2
+  border: 1px solid #bce8f1

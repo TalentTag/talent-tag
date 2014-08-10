@@ -1,3 +1,6 @@
+@import mixins
+
+
 [role="comments-section"]
   .comment
     border-bottom: 1px solid #ddd
@@ -5,9 +8,9 @@
     overflow: hidden
 
     .avatar
+      @include avatar(50px)
       float: left
-      width: 50px
-      border: 1px solid #ddd
+      margin-right: 12px
 
     .content
       margin-left: 65px

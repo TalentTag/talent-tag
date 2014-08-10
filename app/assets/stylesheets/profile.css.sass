@@ -1,3 +1,6 @@
+@import mixins
+
+
 .avatar-section
   .radio
     padding: 1px 20px
@@ -6,8 +9,4 @@
       height: 24px
 
   .avatar
-    width: 100px
-    height: 100px
-    background-size: cover
-    background-position: center
-    border: 1px solid #bbb
+    @include avatar(100px)
