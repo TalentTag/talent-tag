@@ -13,7 +13,6 @@ tt = Company.create \
     password_confirmation:  "123456",
 
     firstname:  "Семен",
-    midname:    "Иванович",
     lastname:   "Носов",
     phone:      "+7(999)5555-5678",
 

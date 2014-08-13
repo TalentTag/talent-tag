@@ -50,7 +50,7 @@ class ProfileController < ApplicationController
   protected
 
   def user_params
-    params.require(:user).permit(:email, :firstname, :midname, :lastname, :phone, :password, :password_confirmation)
+    params.require(:user).permit(:email, :firstname, :lastname, :phone, :password, :password_confirmation)
   end
 
   def company_params
