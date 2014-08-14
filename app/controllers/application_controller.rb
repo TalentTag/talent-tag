@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from CanCan::AccessDenied do |exception|
-    render nothing: true, status: :forbidden
+    render text: "Forbidden on an ACL", status: :forbidden
   end
 
 

@@ -6,7 +6,7 @@ class B2b::BaseController < ApplicationController
   protected
 
   def b2b_users_only!
-    render nothing: true, status: :forbidden unless can?(:manage, :b2b) && is_employer?
+    render text: "No B2C users allowed!", status: :forbidden unless can?(:manage, :b2b) && is_employer?
   end
 
 end
