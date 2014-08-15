@@ -3,12 +3,20 @@
 
 #conversations-list
   border-top: 1px solid #ddd
-  li
+  a
     display: block
     padding: 7px 12px
     border-bottom: 1px solid #ddd
+    overflow: hidden
     &:hover
       background-color: #eee
+    .avatar
+      @include avatar(40px)
+      margin-right: 10px
+    .note
+      color: #808080
+      font-size: 12px
+      text-decoration: none
 
 
 #chat-messages

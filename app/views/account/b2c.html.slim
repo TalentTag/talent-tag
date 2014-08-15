@@ -65,7 +65,7 @@
       - oauth_providers.each do |provider, params|
         p == embedded_identity provider, params['name']
     - else
-      a.btn.btn-primary href="#{ with_conversations_path(recipient_id: @user.id) }"
+      a.btn.btn-primary href="#{ conversation_path(@user.id) }"
         i.glyphicon.glyphicon-envelope'
         | Личное сообщение
 

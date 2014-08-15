@@ -4,9 +4,7 @@ class MessagesController < ApplicationController
 
 
   def create
-    conversation = Conversation.between([params[:recipient_id], current_user]) || Conversation.create
-    conversation.user_ids = [params[:recipient_id], current_user.id]
-    
+    conversation = Conversation.between([params[:recipient_id], current_user]) || Conversation.create(user_ids: [params[:recipient_id], current_user.id])
     message = conversation.messages.create user_id: current_user.id, text: params[:text]
 
     Danthes.publish_to "/users/#{params[:recipient_id]}/messages", chat: {conversation_id: conversation.id, message: params[:message][:text], user_id: current_user.id, date: message.created_at }

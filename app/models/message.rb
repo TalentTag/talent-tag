@@ -15,7 +15,7 @@ class Message < ActiveRecord::Base
   protected
 
   def touch_conversation
-    conversation.touch_activity user
+    conversation.update last_message_at: Time.now
   end
 
 end

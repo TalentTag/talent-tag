@@ -27,9 +27,7 @@ TalentTag::Application.routes.draw do
 
   scope :account, controller: :account do
     put '/' => :update
-    resources :conversations, only: :index do
-      collection { get '/with/:recipient_id' => "conversations#with", as: :with }
-    end
+    resources :conversations, only: %i(index show)
     resources :messages, only: %i(index show create)
   end
 

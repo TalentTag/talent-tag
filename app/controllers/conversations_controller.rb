@@ -1,17 +1,30 @@
 class ConversationsController < ApplicationController
 
+  respond_to :json
+
+
   def index
-    @conversations = current_user.conversations
+    gon.rabl 'app/views/conversations/index.json', locals: { conversations: current_user.conversations }, as: :conversations
   end
 
-  def with
-    @user = User.find_by! id: params[:recipient_id]
-    @conversation = Conversation.between([params[:recipient_id], current_user])
 
-    @conversation.try(:touch_activity, current_user)
+  def show
+    conversation = Conversation.between([params[:id], current_user])
 
-    gon.rabl 'app/views/users/show.json', locals: { user: @user }, as: :user
-    gon.messages = @conversation.messages rescue []
+    respond_to do |format|
+      format.html do
+        conversations = current_user.conversations
+        conversations = [Conversation.new(user_ids: [params[:id], current_user.id])] + conversations unless conversation
+
+        gon.rabl 'app/views/conversations/index.json', locals: { conversations: conversations }, as: :conversations
+        render :index
+      end
+
+      format.json do
+        conversation.touch_activity! current_user
+        respond_with conversation.messages
+      end
+    end
   end
 
 end

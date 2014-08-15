@@ -1,16 +1,7 @@
 .col-md-12
-
-  - if current_account.proposal && current_account.proposal.awaiting?
-
-    .alert.alert-success
-      h4 Спасибо за регистрацию на Talent-Tag!
-      p Ваша заявка на предоставление доступа к системе отправлена модератору. Как только она будет рассмотрена, Вы получите оповещение на адрес #{content_tag :b, current_user.email }.
-
-  - else
-
+  - if can?(:update_to_premium, current_account)
+    = render partial: "b2b/partials/premium" if can?(:update_to_premium, current_account)
+  .alert.alert-danger
+    h4 Время действия тестового периода истекло
     - if can?(:update_to_premium, current_account)
-      = render partial: "b2b/partials/premium" if can?(:update_to_premium, current_account)
-    .alert.alert-danger
-      h4 Время действия тестового периода истекло
-      - if can?(:update_to_premium, current_account)
-        p = raw "Чтобы продолжить работу в системе, #{ link_to "выберите свой тариф", "#premium", "data-toggle"=>"modal" }"
+      p = raw "Чтобы продолжить работу в системе, #{ link_to "выберите свой тариф", "#premium", "data-toggle"=>"modal" }"

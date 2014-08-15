@@ -12,7 +12,11 @@
     templateUrl: '/assets/entries.html.slim'
     controller: 'talent.FoldersCtrl'
 
-  $routeProvider.otherwise redirectTo: '/'
+
+  $routeProvider.when '/account/conversations/:recipient_id',
+    templateUrl: '/assets/conversation.html.slim'
+    controller: 'talent.MessagesCtrl'
+
 
   $locationProvider.html5Mode(true)
 ]
