@@ -52,8 +52,11 @@ br
           pre : small = "{{ entry.author.profile }}"
 
 section ng-if="entry.duplicates.length" style="margin-bottom:20px"
-  h4 Похожие записи
-  ul 
+  h4 ng-click="duplicatesDisplayed=!duplicatesDisplayed" style="cursor:pointer"
+    ' Похожие записи
+    a href="javascript:;"
+      .fa ng-class="{'fa-angle-down': !duplicatesDisplayed, 'fa-angle-up': duplicatesDisplayed}"
+  ul ng-show="duplicatesDisplayed"
     li ng-repeat="duplicate in entry.duplicates"
       p
         | {{ duplicate.body }}

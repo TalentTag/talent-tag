@@ -5,10 +5,10 @@ class User < ActiveRecord::Base
   has_secure_password
 
   belongs_to :company
-  has_many :identities
+  has_many :identities, dependent: :destroy
   has_many :entries
-  has_many :searches
-  has_many :folders
+  has_many :searches, dependent: :destroy
+  has_many :folders, dependent: :destroy
   has_many :comments
   has_one :blacklist, class_name: 'EntriesBlacklist'
 

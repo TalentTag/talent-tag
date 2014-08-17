@@ -35,7 +35,7 @@
     params['club_members_only'] = true if $scope.clubMembersOnly
     Entry.query params, (data, parseHeaders) ->
       $scope.entries = if data.length
-         if config.append then $scope.entries.concat(data) else data
+        if config.append then $scope.entries.concat(data) else data
       else []
       $scope.entriesTotal = parseInt parseHeaders()['tt-entriestotal']
       unless $scope.entriesTotal
@@ -48,7 +48,7 @@
     if $scope.query
       $scope.page = 1
       $scope.search = undefined unless $scope.searchInResults
-      $location.path('/account')
+      $location.path('/')
 
       querystring = if querystring? and $scope.searchInResults 
         "(#{ querystring }) && (#{ $scope.query })"

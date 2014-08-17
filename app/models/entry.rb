@@ -46,12 +46,8 @@ class Entry < ActiveRecord::Base
   end
 
 
-  def identity
-    Identity.find_by(anchor: author['guid']) rescue nil
-  end
-
   def user
-    identity.try :user
+    Identity.find_by(anchor: author['guid']).user rescue nil
   end
 
   def hashtags

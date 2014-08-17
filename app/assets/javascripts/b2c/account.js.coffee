@@ -20,9 +20,10 @@
   $scope.dropTag = (tag) ->
     $scope.user.tags.splice $scope.user.tags.indexOf(tag), 1
 
-  $scope.$watch 'user.tags.length', ->
-    $scope.saveProfile()
-    $scope.newTag = undefined
+  $scope.$watch 'user.tags.length', (count) ->
+    if count and talentData.profileEditable
+      $scope.saveProfile()
+      $scope.newTag = undefined
 
 
 

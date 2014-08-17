@@ -17,7 +17,7 @@ gem 'rabl'
 gem 'kaminari'
 gem 'redcarpet'
 gem 'whenever', require: false
-gem 'thinking-sphinx'
+gem 'thinking-sphinx', '~> 3.1.1'
 gem 'mysql2' # thinking-sphinx dependency
 
 gem 'omniauth-facebook'

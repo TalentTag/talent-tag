@@ -1,11 +1,13 @@
 class Bsp < Thor
 
+  require File.expand_path("config/environment.rb")
+
+
   desc "fetch", "fetch data from remote server"
   method_option :date, aliases: "-d", desc: "Specify a date in a YYYY-MM-DD or YYYY-MM-DD:YYYY-MM-DD (for multiple dates) format"
   def fetch
     require 'open-uri'
     require 'json'
-    require File.expand_path("config/environment.rb")
 
     started_at = Time.now
     total_entries_fetched = if options[:date] then fetch_by_date(options[:date]) else fetch_recent end
@@ -14,6 +16,17 @@ class Bsp < Thor
     system "rake ts:index > /dev/null" unless total_entries_fetched.zero?
     TalentTag::Application::Redis.set "stats:last_fetch_time", Time.now
   end
+
+  desc "link", "associate entries with user profiles"
+  def link
+    Entry.all.each do |entry|
+      if user = entry.user
+        entry.update(user_id: user.id)
+      end
+    end
+  end
+
+  default_task :fetch
 
 
   private
@@ -55,28 +68,28 @@ class Bsp < Thor
           entry_hash['body'].gsub!(/#linkedincorpus/, '').try :'strip!'
 
           entry = source.entries.new \
-            id: entry_hash['id'],
-            body: entry_hash['body'],
-            url: entry_hash['url'],
-            created_at: entry_hash['created_at'],
-            fetched_at: Time.now
+            'id' => entry_hash['id'],
+            'body' => entry_hash['body'],
+            'url' => entry_hash['url'],
+            'created_at' => entry_hash['created_at'],
+            'fetched_at' => Time.now,
+            'is_spam' => entry_hash['is_spam']
 
           if entry_hash['author']
             entry['author'] = {
-              id: entry_hash['author']['id'],
-              url: entry_hash['author']['url'],
-              guid: entry_hash['author']['url'],
-              name: entry_hash['author']['name'],
-              profile: entry_hash['author']['profile'],
+              'id' => entry_hash['author']['id'],
+              'url' => entry_hash['author']['url'],
+              'guid' => entry_hash['author']['url'],
+              'name' => entry_hash['author']['name'],
+              'profile' => entry_hash['author']['profile'],
             }
           end
 
           if duplicate = Entry.order(:created_at).find_by(body: entry_hash['body'])
-            entry[:duplicate_of] = duplicate.id
+            entry['duplicate_of'] = duplicate.id
           end
 
-          if identity = entry.identity
-            user = identity.user
+          if user = entry.user
             profile = user.profile || {}
             profile['tags'] = ((profile['tags'] || []) + entry.hashtags).uniq
             user.profile_will_change!

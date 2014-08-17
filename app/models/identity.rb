@@ -63,7 +63,7 @@ class Identity < ActiveRecord::Base
   end
 
   def anchor_twitter
-    "http://twitter.com/#{ user.profile['nickname'] }"
+    "http://twitter.com/#{ user.profile['nickname'] || user.profile[:nickname] }"
   end
 
   def anchor_vkontakte
