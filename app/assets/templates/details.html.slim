@@ -71,9 +71,9 @@ section.clearfix role="comments-section"
       p
         b' {{ comment.author.name }}
         small.time {{ comment.created_at | timeago }}
-      div contenteditable=true {{ comment.text }}
+      div id="comment{{ comment.id }}_content" contenteditable=true {{ comment.text }}
     ul.pull-right.horizontal-list
-      / li: a href="javascript:;" ng-click="editComment(comment)" : i.fa.fa-edit
+      li: a href="javascript:;" tt-contenteditable="comment" data-target="#comment{{ comment.id }}_content" : i.fa.fa-edit
       li: a href="javascript:;" ng-click="deleteComment(comment)" : i.fa.fa-trash-o
   p : textarea.form-control rows="3" placeholder="Комментарий" ng-model="newComment" {{ newComment }}
   p : button.btn.btn-primary.pull-right ng-click="postComment()" ng-disabled="!newComment" Сохранить
