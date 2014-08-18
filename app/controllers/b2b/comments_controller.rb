@@ -15,6 +15,10 @@ class B2b::CommentsController < B2b::BaseController
     respond_with @entry, comment.update(text: params[:text])
   end
 
+  def destroy
+    respond_with current_user.comments.destroy(params[:id]), status: :no_content
+  end
+
 
   private
 

@@ -1,6 +1,8 @@
 @talent.controller "talent.DetailsCtrl", ["$scope", "$routeParams", "talentData", "Entry", "Comment", ($scope, $routeParams, talentData, Entry, Comment) ->
 
-  $scope.entry = Entry.get id: $routeParams.id, (entry) -> $scope.entry = entry
+  $scope.entry = Entry.get id: $routeParams.id, (entry) ->
+    entry.comments = (new Comment(attrs) for attrs in entry.comments)
+    $scope.entry = entry
   $scope.$parent.lastEntry = $scope.entry
 
   $scope.blacklist = (entry) ->
@@ -16,4 +18,10 @@
       comment.$save()
       $scope.entry.comments.push comment
       $scope.newComment = null
+
+  $scope.deleteComment = (comment) ->
+    if confirm("Удалить комментарий?")
+      comment.$delete()
+      $scope.entry.comments = _.without $scope.entry.comments, comment
+
 ]

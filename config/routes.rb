@@ -56,7 +56,7 @@ TalentTag::Application.routes.draw do
     end
 
     resources :entries, only: %i(index show create destroy) do
-      resources :comments, only: %i(create update)
+      resources :comments, only: %i(create update destroy)
     end
 
     resources :searches, only: %i(create update destroy) do
