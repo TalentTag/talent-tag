@@ -40,5 +40,6 @@
         unless scope.ttContenteditable.text is target.text()
           scope.ttContenteditable.text = target.text()
           scope.ttContenteditable.$update()
-          target.addClass('highlighted')
+          target.addClass('highlighted') # blink effect
           setTimeout (-> target.removeClass('highlighted')), 300
+      target.on 'keypress' , (e) -> e.which isnt 13 # prevent new lines
