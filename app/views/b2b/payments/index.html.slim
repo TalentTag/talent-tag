@@ -1,0 +1,18 @@
+.col-md-3
+  = render partial: 'profile/partials/nav'
+
+.col-md-9
+  h4 Платежи
+
+  table.table.payments
+    - @payments.each do |payment|
+      tr class="#{ payment.state }"
+        td = payment.created_at.strftime "%d.%m.%Y %H:%M"
+        td = "#{ payment.plan.price } р."
+        td = t "payment.state.#{ payment.state }"
+        td
+          - unless payment.completed? || payment.failed?
+            = link_to "Оплатить", complete_payment_path(payment.id), method: :put, confirm: "Подтвердить платеж?"
+        td
+          - unless payment.completed? || payment.failed?
+            = link_to "Отменить", fail_payment_path(payment.id), method: :put, confirm: "Отменить платеж?"

@@ -28,13 +28,6 @@ class B2b::CompaniesController < B2b::BaseController
     respond_with current_account
   end
 
-  def update_to_premium
-    authorize! :update_to_premium, current_account
-    plan = Plan.find(params[:rate] || 1) # insecure
-    flash[:notice] = "Тариф Premium подключен" if current_account.detailed? && current_account.go_premium!(plan)
-    render nothing: true, status: :no_content
-  end
-
 
   private
 

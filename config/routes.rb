@@ -44,6 +44,7 @@ TalentTag::Application.routes.draw do
     delete '/employee/:id' => :remove_employee, as: :remove_employee
   end
 
+
   resources :users, only: %i(create update) do
     collection { put :add_company, :create_company }
     member { post :signin }
@@ -51,9 +52,7 @@ TalentTag::Application.routes.draw do
 
 
   scope module: :b2b do
-    resources :companies, only: %i(show create update) do
-      member { put :update_to_premium }
-    end
+    resources :companies, only: %i(show create update)
 
     resources :entries, only: %i(index show create destroy) do
       resources :comments, only: %i(create update destroy)
@@ -64,6 +63,15 @@ TalentTag::Application.routes.draw do
     end
     resources :folders, only: %i(show create update destroy) do
       member { put :add_entry, :remove_entry }
+    end
+
+    scope :profile do
+      resources :payments, only: %i(index create) do
+        member do
+          put :complete, as: :complete
+          put :fail, as: :fail
+        end
+      end
     end
   end
 

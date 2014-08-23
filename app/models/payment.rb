@@ -9,30 +9,23 @@ class Payment < ActiveRecord::Base
   scope :pending, -> { with_state('pending') }
   scope :processing, -> { with_state('processing') }
   scope :failed, -> { with_state('failed') }
+  default_scope -> { order(created_at: :desc).limit(30) }
 
-  has_paper_trail only: [:state, :user_id]
+  # has_paper_trail only: [:state, :user_id]
   #TODO: admin page to watch payments processing and changing
 
   before_create :set_unique_identifier
 
-  belongs_to :plan
-  belongs_to :user
+  belongs_to :company
+  def plan() Plan.find plan_id end
 
-  # STATES:
-  # click on Buy button
-  # 1. fill billing form, payment not created yet
-  # 2. click process, create pending payment
-  # if information given valid
-  #   3. trying to process payment, state changes to processing
-  #   4. after payment been processed, state changes to completed
-  # else 
-  #   3. state changes to invalid
 
+  aasm_column :state
   aasm do
     state :pending, initial: true
     state :confirmed
     state :processing
-    state :completed, before_enter: :do_complete
+    state :completed, after_enter: :complete_callback
     state :failed
     state :invalid
 
@@ -44,7 +37,7 @@ class Payment < ActiveRecord::Base
       transitions to: :processing, from: [:pending, :processing, :completed, :confirmed]
     end
 
-    event :failture do
+    event :fail do
       transitions to: :failed, from: [:pending, :processing]
     end
 
@@ -57,19 +50,18 @@ class Payment < ActiveRecord::Base
     end
   end
 
-  def do_complete
+
+  def complete_callback
+    company.go_premium! plan
   end
+
 
   private
 
-    def set_unique_identifier
-      begin
-        self.identifier = generate_identifier
-      end while self.class.exists?(identifier: self.identifier)
-    end
-
-    def generate_identifier
-      Array.new(8){ IDENTIFIER_CHARS.sample }.join
-    end
+  def set_unique_identifier
+    begin
+      self.identifier = Array.new(8){ IDENTIFIER_CHARS.sample }.join
+    end while self.class.exists?(identifier: self.identifier)
+  end
 
 end

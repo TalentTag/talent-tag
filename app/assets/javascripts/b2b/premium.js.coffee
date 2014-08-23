@@ -33,6 +33,7 @@
     $http.put("/companies/#{ $scope.company.id }.json", company: $scope.company).success( -> $scope.nextStep() ).error(parseErrors)
     
   $scope.buy = ->
-    $http.put("/companies/#{ $scope.company.id }/update_to_premium.json", { rate: $scope.premiumRate }).success -> window.location.reload()
+    $http.post("/profile/payments.json", { rate: $scope.premiumRate }).success ->
+      window.location = "/profile/payments"
 
 ]

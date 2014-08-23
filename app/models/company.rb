@@ -4,6 +4,7 @@ class Company < ActiveRecord::Base
   has_many :users
   has_many :invites
   has_one :proposal
+  has_many :payments
 
   accepts_nested_attributes_for :owner
 

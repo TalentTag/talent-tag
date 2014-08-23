@@ -1,1 +1,8 @@
 ru:
+
+  payment:
+    state:
+      pending: "В ожидании"
+      processing: "Обрабатывается"
+      completed: "Завершен"
+      failed: "Отменен"

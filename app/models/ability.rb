@@ -22,6 +22,7 @@ class Ability
 
     if user.owner? # owners
       can :crud, Company, owner: user
+      can :crud, Payment, company: user.company
       can :update_to_premium, Company, owner: user
       if user.company.premium?
         can :invite, User
