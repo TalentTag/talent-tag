@@ -53,7 +53,14 @@ class Identity < ActiveRecord::Base
   protected
 
   def link_entries
-    Entry.where("author->> 'guid' = '#{ anchor }'").update_all user_id: user.id
+    Entry.where("author->> 'guid' = '#{ anchor }'").each do |entry|
+      profile = user.profile || {}
+      profile['tags'] = ((profile['tags'] || []) + entry.hashtags).uniq
+      user.profile_will_change!
+      user.save
+
+      update user_id: user.id
+    end
   end
 
 
