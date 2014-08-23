@@ -6,11 +6,18 @@
 #= require angular-route
 #= require angular-sanitize
 
+#= require moment
+#= require moment/ru.js
+
+#= require danthes
+# Danthes.debug = true # Breaks angular auth controller
+
 #= require_self
 #= require_tree ./shared
 #= require_tree ./b2b
 #= require_tree ./b2c
 
 
-@talent = angular.module 'talent', ['ngResource', 'ng-rails-csrf', 'ngRoute', 'ngSanitize', 'ui.bootstrap']
+@talent = angular.module 'talent', ['ngResource', 'ng-rails-csrf', 'ngRoute', 'ngSanitize', 'ui.bootstrap', 'infinite-scroll']
 @talent.value 'talentData', window.talentData
+@talent.value 'Danthes', Danthes

@@ -1,0 +1,81 @@
+@import mixins
+
+
+#conversations-list
+  border-top: 1px solid #ddd
+  a
+    display: block
+    padding: 7px 12px
+    border-bottom: 1px solid #ddd
+    overflow: hidden
+    &:hover
+      background-color: #eee
+    .avatar
+      @include avatar(40px)
+      margin-right: 10px
+    .note
+      color: #808080
+      font-size: 12px
+      text-decoration: none
+
+
+#chat-messages
+  overflow: hidden
+  padding-bottom: 200px
+  .message
+    min-width: 40%
+    max-width: 75%
+    color: #fff
+    margin-bottom: 10px
+    padding: 12px
+    background-color: #5cb85c
+    float: right
+    border-radius: 7px 7px 0 7px
+    clear: both
+    &.incoming
+      background-color: #428bca
+      float: left
+      border-radius: 7px 7px 7px 0
+    small
+      white-space: nowrap
+    .avatar
+      @include avatar(40px)
+      float: left
+      border: 1px solid #fff
+    .message-contents
+      margin-left: 55px
+    .info
+      margin-bottom: 7px
+      font-size: 12px
+      display: block
+
+
+#chat-form
+  margin: 0
+  height: 200px
+  position: fixed
+  bottom: 0
+  width: 900px
+  .form-group
+    margin: 0
+  textarea
+    margin-bottom: 12px
+    height: 120px
+
+
+#new-message
+  max-width: 300px
+  color: #fff
+  padding: 7px 12px
+  background-color: #5cb85c
+  position: fixed
+  z-index: 300
+  right: 50px
+  top: 20px
+  text-decoration: none
+  border-radius: 7px
+  &:hover
+    background-color: #4cae4c
+
+  .message
+    font-size: 12px

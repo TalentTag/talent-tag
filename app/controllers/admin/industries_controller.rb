@@ -1,6 +1,8 @@
 class Admin::IndustriesController < Admin::BaseController
 
   respond_to :json
+
+  before_action { authorize! :update, :dictionaries }
   before_action :find_industry, except: :create
 
 

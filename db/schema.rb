@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140609100740) do
+ActiveRecord::Schema.define(version: 20140813200505) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,9 +26,10 @@ ActiveRecord::Schema.define(version: 20140609100740) do
     t.integer  "entry_id"
     t.text     "text",       null: false
     t.datetime "created_at"
+    t.integer  "company_id", null: false
   end
 
-  add_index "comments", ["user_id", "entry_id"], name: "index_comments_on_user_id_and_entry_id", unique: true, using: :btree
+  add_index "comments", ["company_id"], name: "index_comments_on_company_id", using: :btree
 
   create_table "companies", force: true do |t|
     t.string   "name",          limit: 30, null: false
@@ -45,18 +46,35 @@ ActiveRecord::Schema.define(version: 20140609100740) do
 
   add_index "companies", ["name"], name: "index_companies_on_name", using: :btree
 
+  create_table "conversations", force: true do |t|
+    t.integer  "participants",    array: true
+    t.datetime "last_message_at"
+  end
+
+  create_table "conversations_users", force: true do |t|
+    t.integer  "conversation_id"
+    t.integer  "user_id"
+    t.datetime "last_activity_at"
+  end
+
+  add_index "conversations_users", ["conversation_id"], name: "index_conversations_users_on_conversation_id", using: :btree
+  add_index "conversations_users", ["user_id"], name: "index_conversations_users_on_user_id", using: :btree
+
   create_table "entries", id: false, force: true do |t|
-    t.integer  "id",         null: false
-    t.text     "body",       null: false
+    t.integer  "id",           null: false
+    t.text     "body",         null: false
     t.integer  "source_id"
     t.string   "url"
-    t.datetime "created_at", null: false
+    t.datetime "created_at",   null: false
     t.json     "author"
-    t.datetime "fetched_at", null: false
+    t.datetime "fetched_at",   null: false
+    t.integer  "user_id"
+    t.integer  "duplicate_of"
   end
 
   add_index "entries", ["id"], name: "index_entries_on_id", unique: true, using: :btree
   add_index "entries", ["source_id"], name: "index_entries_on_source_id", using: :btree
+  add_index "entries", ["user_id"], name: "index_entries_on_user_id", using: :btree
 
   create_table "folders", force: true do |t|
     t.string  "name"
@@ -89,6 +107,13 @@ ActiveRecord::Schema.define(version: 20140609100740) do
     t.string  "keywords",    array: true
     t.integer "industry_id"
     t.integer "area_id"
+  end
+
+  create_table "messages", force: true do |t|
+    t.integer  "conversation_id"
+    t.integer  "user_id",         null: false
+    t.text     "text",            null: false
+    t.datetime "created_at"
   end
 
   create_table "payments", force: true do |t|
@@ -142,7 +167,6 @@ ActiveRecord::Schema.define(version: 20140609100740) do
     t.string   "password_digest",                         null: false
     t.integer  "company_id"
     t.string   "firstname",       limit: 30
-    t.string   "midname",         limit: 30
     t.string   "lastname",        limit: 30
     t.string   "phone",           limit: 20
     t.string   "note"

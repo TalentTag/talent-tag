@@ -1,10 +1,3 @@
-@talent.factory 'Entry', ["$resource", ($resource) ->
-  Entry = $resource "/entries/:id.json", { id: "@id" }, { update: { method: "PUT" } }
-  Entry::hasProfile = -> @author and @author.profile? and not _.isEmpty @author.profile
-  Entry
-]
-
-
 @talent.factory 'Search', ["$resource", "$http", ($resource, $http) ->
   Search = $resource "/searches/:id.json", { id: "@id" }, { update: { method: "PUT" } }
   Search::blacklist = (entry) -> $http.post "/searches/#{ @id }/blacklist/#{ entry.id }.json"
@@ -21,4 +14,9 @@
   Folder::removeEntry = (entry) -> $http.put "/folders/#{ @id }/remove_entry.json", entry_id: entry.id
   Folder::contains    = (entry) -> entry.id in @entries if @entries? and entry?
   Folder
+]
+
+
+@talent.factory 'Comment', ["$resource", ($resource) ->
+  $resource "/entries/:entry_id/comments/:id.json", { entry_id: '@entry_id', id: '@id' }, { update: { method: "PUT" } }
 ]

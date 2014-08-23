@@ -1,8 +1,7 @@
 .col-md-8 ng-controller="talent.B2cAccountCtrl"
   section.basic style="overflow: hidden"
     .left-side style="float:left;margin-right:20px"
-      - if @user.profile['image']
-        @avatar style="background-image: url(#{ @user.profile['image'] });"
+      @avatar style="background-image: url(#{ @user.avatar });"
     .right-side
       h3 style="margin:0 0 12px" = "#{ @user.name }"
       p
@@ -17,7 +16,6 @@
           input.subtle type="text" ng-model="user.birthdate" ng-blur="saveProfile()" placeholder="заполнить"
         - else
           = @user.profile['birthdate']
-
   hr
 
   section.tags
@@ -41,11 +39,24 @@
     hr
 
   section.journal
+    - if @user == current_user
+      a.pull-right href="javascript:;" ng-click="toggleEntryForm()" Добавить запись
     h4 Профессиональный блог
-    - @user.journal.each do |entry|
-      hr
-      p : small = "#{ entry.source.name } | #{ entry.created_at.strftime '%d.%m.%Y' }"
-      p == bold_tags entry.body
+
+    - if @user == current_user
+      div ng-show="entryFormDisplayed" style="overflow:hidden"
+        p : textarea.form-control ng-model="entryBody" rows="5"
+        button.btn.btn-primary.pull-right ng-click="postEntry()" Опубликовать
+
+    - @user.entries.each do |entry|
+      div
+        hr
+        / a.close href="javascript:;" &times;
+        p : small = "#{ entry.source.name rescue "TalentTag" } | #{ entry.created_at.strftime '%d.%m.%Y' }"
+        p : a href=entry.url target="_blank" = truncate entry.url, length: 60
+        p == bold_tags entry.body
+
+
 
 .col-md-4
   .well
@@ -54,6 +65,6 @@
       - oauth_providers.each do |provider, params|
         p == embedded_identity provider, params['name']
     - else
-      a.btn.btn-primary href="javascript:;"
+      a.btn.btn-primary href="#{ conversation_path(@user.id) }"
         i.glyphicon.glyphicon-envelope'
         | Личное сообщение

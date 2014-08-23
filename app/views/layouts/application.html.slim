@@ -19,8 +19,9 @@ html
     = csrf_meta_tags
 
   body lang="ru" ng-app="talent"
-    #wrapper
+    #wrapper ng-controller="talent.MainCtrl"
       = render partial: "partials/header"
+      = render partial: "partials/subscription"
 
       .row
         - if flash[:notice]

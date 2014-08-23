@@ -1,0 +1,7 @@
+.col-md-12 role="company-details"
+  h3 = @company.name
+  p : a href="http://#{ @company.website }" target="_blank" = @company.website
+  ul.contacts
+    li : span = @company.phone
+    li : span = @company.address
+  p = @company.details

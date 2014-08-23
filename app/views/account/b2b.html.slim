@@ -16,11 +16,21 @@
           .input-group
 
             .composite-input
-              a#clear-search.close.glyphicon.glyphicon-remove-circle href="/account" ng-show="query" ng-click="clearSearch()"
+              a#clear-search.close.glyphicon.glyphicon-remove-circle href="/" ng-show="query" ng-click="clearSearch()"
               input#search.form-control type="search" name="query" placeholder="Поиск" autofocus=true autocomplete="off" ng-model="query" typeahead="keyword for keyword in keywords | filter:$viewValue | limitTo:10"
 
             span.input-group-btn
               button.btn.btn-primary ng-click="fetch()" Искать
+
+          .checkbox ng-class="{disabled: !entriesTotal}"
+            label
+              input type="checkbox" ng-model="searchInResults" ng-disabled="!entriesTotal"
+              | Искать в найденном
+          .checkbox
+            label
+              input type="checkbox" ng-model="clubMembersOnly"
+              | Только по зарегистрированным специалистам
+
         .col-md-3
           a.btn.btn-default ng-show="query" href="javascript:;" ng-click="saveSearch()"
             span.glyphicon.glyphicon-floppy-disk style="margin-right: 7px"

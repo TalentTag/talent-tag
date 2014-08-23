@@ -1,0 +1,39 @@
+div style="overflow: hidden"
+  .col-md-4.well
+    p: a href="#{ admin_stats_entries_path(source_id: nil) }" Все
+    ul
+      - @sources.each do |source|
+        li : a href="#{ admin_stats_entries_path(year: params[:year], source_id: source.id) }" = source.name
+
+  .col-md-8
+    h4 style="margin-top: 7px"
+      - %w(2014 2013).each do |year|
+        a href="#{ admin_stats_entries_path(year: year, source_id: params[:source_id]) }"
+          span.label.label-default style="margin: 0 10px 7px 0" = year
+
+    h3 style="margin: 25px 0"
+      ' Количество записей
+      - if @current_source
+        | из #{ @current_source.name }
+
+    p
+      ' Всего за все время:
+      b = @total_count
+
+    - if @last_fetch_time      
+      p
+        ' Последнее обращение к API:
+        b = @last_fetch_time.strftime "%d.%m.%Y %H:%M"
+
+    - @months.each do |month|
+      - entries = @entries_counters.select { |entry| entry['month'] == month }
+      .alert.alert-info style="margin-bottom: 0"
+        = Date::MONTHNAMES[month.to_i]
+        .pull-right
+          ' всего за месяц:
+          = entries.reduce(0) { |sum, entry| sum+entry['count'].to_i }
+      table.table.table-striped
+        - entries.each do |entry|
+          tr
+            td = Date.parse(entry['date']).strftime("%d.%m.%Y")
+            td = entry['count']

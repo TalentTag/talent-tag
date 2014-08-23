@@ -1,11 +1,16 @@
 class B2b::CompaniesController < B2b::BaseController
 
   respond_to :json
-  skip_before_filter :b2b_users_only!, only: :create
+  skip_before_filter :b2b_users_only!, only: %i(show create)
+
+
+  def show
+    @company = Company.find_by! id: params[:id]
+  end
 
 
   def create
-    return render nothing: true, status: :forbidden if User.exists?(email: params[:company][:owner_attributes][:email], role: nil)
+    return render text: "Error: currently you are a B2C user", status: :forbidden if User.exists?(email: params[:company][:owner_attributes][:email], role: nil)
     company = Company.new create_params
     if company.save
       sign_user_in company.owner, as: :employer

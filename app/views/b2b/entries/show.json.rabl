@@ -1,9 +1,8 @@
 object @entry
-attributes :id, :body, :source_id, :created_at, :fetched_at, :author
+attributes :id, :body, :source_id, :created_at, :fetched_at, :author, :user_id, :duplicate_of, :duplicates
 attribute :url if can?(:read, :premium_data)
-node :comment do |entry|
-  (@comments || entry.comments).find { |c| c.entry_id == entry.id }.try :attributes
-end
-node :profile_id do |entry|
-  entry.user.id rescue nil
+node :comments do |entry|
+  entry.comments.where(company_id: current_account.id).map do |comment|
+    partial "/b2b/comments/show", object: comment
+  end
 end

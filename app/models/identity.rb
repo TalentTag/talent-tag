@@ -3,12 +3,8 @@ class Identity < ActiveRecord::Base
   belongs_to :user
   accepts_nested_attributes_for :user
 
-  before_create :generate_anchor
+  after_create :generate_anchor, :link_entries
 
-
-  def entries
-    Entry.where("author->> 'guid' = '#{ anchor }'")
-  end
 
   def hashtags
     entries.flat_map(&:hashtags).uniq
@@ -41,7 +37,7 @@ class Identity < ActiveRecord::Base
 
 
   def generate_anchor
-    self.anchor = send("anchor_#{ provider }")
+    update anchor: send("anchor_#{ provider }")
   end
 
   def generate_profile params
@@ -56,20 +52,37 @@ class Identity < ActiveRecord::Base
 
   protected
 
+  def link_entries
+    Entry.where("author->> 'guid' = '#{ anchor }'").each do |entry|
+      profile = user.profile || {}
+      profile['tags'] = ((profile['tags'] || []) + entry.hashtags).uniq
+      user.profile_will_change!
+      user.save
+
+      update user_id: user.id
+    end
+  end
+
+
+
   def anchor_facebook
     "http://www.facebook.com/profile.php?id=#{ uid }"
   end
 
   def anchor_twitter
-    "http://twitter.com/#{ user.profile['nickname'] }"
+    "http://twitter.com/#{ user.profile['nickname'] || user.profile[:nickname] }"
   end
 
   def anchor_vkontakte
-    uid
+    "http://vk.com/id#{ uid }"
   end
 
   def anchor_google_oauth2
     "https://plus.google.com/#{ uid }"
+  end
+
+  def anchor_linkedin
+    user.profile['url_linkedin'] || user.profile[:url_linkedin]
   end
 
 
@@ -81,6 +94,7 @@ class Identity < ActiveRecord::Base
       profile: {
         location: params[:info]['location'],
         image: params[:info]['image'],
+        image_source: 'custom',
         education: params[:extra]['raw_info']['educaton'],
         work: params[:extra]['raw_info']['work'],
         url_facebook: params[:info]['urls']['Facebook']
@@ -96,6 +110,7 @@ class Identity < ActiveRecord::Base
       profile: {
         location: params[:info]['location'],
         image: params[:info]['image'],
+        image_source: 'custom',
         nickname: params[:info]['nickname'],
         url_twitter: params[:info]['urls']['Twitter']
       }
@@ -109,6 +124,7 @@ class Identity < ActiveRecord::Base
       profile: {
         location: params[:info]['location'],
         image: params[:extra]['raw_info']['photo_200_orig'],
+        image_source: 'custom',
         birthdate: params[:extra]['raw_info']['bdate'],
         url_vkontakte: params[:info]['urls']['Vkontakte']
       }
@@ -121,7 +137,22 @@ class Identity < ActiveRecord::Base
       lastname: params[:info]['last_name'],
       profile: {
         image: params[:info]['image'],
+        image_source: 'custom',
         url_google_oauth2: params[:info]['urls']['Google']
+      }
+    }
+  end
+
+  def self.profile_linkedin params
+    {
+      firstname: params[:info]['first_name'],
+      lastname: params[:info]['last_name'],
+      profile: {
+        location: params[:info]['location'],
+        image: params[:info]['image'],
+        image_source: 'custom',
+        phone: params[:info]['phone'],
+        url_linkedin: params[:info]['urls']['public_profile']
       }
     }
   end

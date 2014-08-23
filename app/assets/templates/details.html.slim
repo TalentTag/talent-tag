@@ -1,7 +1,12 @@
 p
   a.close href="javascript:;" title="Больше не показывать" ng-show="search" ng-click="blacklist(entry)" &times;
   a href="javascript:history.back();" &larr; Назад
-p : a ng-show="entry.url" href="{{ entry.url }}" target="_blank" {{ entry.url }}
+
+p.well ng-show="entry.duplicate_of"
+  ' Это дубликат записи
+  a href="/entries/{{ entry.duplicate_of }}" {{ entry.duplicate_of }}
+
+p : a ng-show="entry.url" href="{{ entry.url }}" target="_blank" {{ entry.url | truncate:70 }}
 p : small
   ' Добавлено
   | {{ entry.created_at | date:'dd.MM.yyyy' }}
@@ -29,7 +34,7 @@ section.btn-group
 br
 
 #profile.well ng-show="entry.author"
-  a.pull-right.btn.btn-default ng-if="entry.profile_id" href="/specialists/{{ entry.profile_id }}" target="_self" Полный профиль
+  a.pull-right.btn.btn-default ng-if="entry.user_id" href="/specialists/{{ entry.user_id }}" target="_self" Полный профиль
   h4 {{ entry.author.name }}
   p : a href="{{ entry.author.url }}" target="_blank" {{ entry.author.url }}
   section ng-show="entry.hasProfile()"
@@ -46,8 +51,31 @@ br
               td {{ entry.author.profile.country }}
           pre : small = "{{ entry.author.profile }}"
 
-section.clearfix
-  p : textarea.form-control style="width:100%" rows="3" placeholder="Комментарий" ng-model="entry.comment.text" {{ entry.comment.text }}
-  p : button.btn.btn-primary.pull-right ng-click="saveComment(entry.comment, entry.id)" ng-disabled="commentUntouched" Сохранить
+section ng-if="entry.duplicates.length" style="margin-bottom:20px"
+  h4 ng-click="duplicatesDisplayed=!duplicatesDisplayed" style="cursor:pointer"
+    ' Похожие записи
+    a href="javascript:;"
+      .fa ng-class="{'fa-angle-down': !duplicatesDisplayed, 'fa-angle-up': duplicatesDisplayed}"
+  ul ng-show="duplicatesDisplayed"
+    li ng-repeat="duplicate in entry.duplicates"
+      p
+        | {{ duplicate.body }}
+        a.pull-right href="/entries/{{ duplicate.id }}" подробнее &rarr;
+
+
+section.clearfix role="comments-section"
+  h4 Комментарии
+  .comment ng-repeat="comment in entry.comments"
+    .avatar style="background-image: url({{ comment.author.avatar }})"
+    .content
+      p
+        b' {{ comment.author.name }}
+        small.time {{ comment.created_at | timeago }}
+      div id="comment{{ comment.id }}_content" contenteditable=true {{ comment.text }}
+    ul.pull-right.horizontal-list
+      li: a href="javascript:;" tt-contenteditable="comment" data-target="#comment{{ comment.id }}_content" : i.fa.fa-edit
+      li: a href="javascript:;" ng-click="deleteComment(comment)" : i.fa.fa-trash-o
+  p : textarea.form-control rows="3" placeholder="Комментарий" ng-model="newComment" {{ newComment }}
+  p : button.btn.btn-primary.pull-right ng-click="postComment()" ng-disabled="!newComment" Сохранить
 
 p : a href="javascript:history.back();" &larr; Назад

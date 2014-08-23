@@ -6,29 +6,7 @@
 @import "twitter/bootstrap"
 @import font-awesome
 
-
-@mixin horizontal-list($gap)
-  li
-    display: inline
-    &:first-child
-      a, span
-        margin-left: 0
-    &:last-child
-      a, span
-        margin-right: 0
-    a, span
-      margin: 0 $gap
-
-
-@mixin divided-list($gap)
-  @include horizontal-list($gap)
-  li
-    &:after
-      content: "|"
-    &:last-child
-      &:after
-        content: ""
-
+@import mixins
 
 
 html, body
@@ -50,6 +28,7 @@ ul
   background-color: #fff
 
 #auth
+  width: 80%
   .modal-dialog
     width: 300px
     &.medium
@@ -58,10 +37,15 @@ ul
       width: 650px
   .signedin
     text-align: right
+    wid
   #mainmenu
     @include divided-list(8px)
     text-align: right
     color: #aaa
+  .avatar
+    @include avatar(40px)
+    margin-left: 10px
+
 
 
   #forgot-credentials
@@ -132,10 +116,20 @@ form
   .entry
     padding: 12px 22px
     border-bottom: 1px solid #eee
+    overflow: hidden
+    position: relative
     &:hover
       background-color: #f7f7f7
     &:last-child
       border-bottom: none
+
+.club-badge
+  color: #DF8F00
+  margin-top: -3px
+  font-size: 22px
+  position: absolute
+  left: -14px
+
 
 .entry
   .info
@@ -281,3 +275,13 @@ input.subtle
     margin: 0
   hr:last-of-type
     display: none
+
+
+.checkbox.disabled
+  label
+    color: #aaaaaa
+
+
+[role=company-details]
+  .contacts
+    @include divided-list(8px)

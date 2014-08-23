@@ -5,13 +5,18 @@ class B2b::CommentsController < B2b::BaseController
 
 
   def create
-    respond_with @entry, current_user.post_comment(@entry, params[:text])
+    @comment = current_user.post_comment(@entry, params[:text])
+    render :show
   end
 
   def update
     comment = Comment.find_by!(id: params[:id])
     authorize! :update, comment
     respond_with @entry, comment.update(text: params[:text])
+  end
+
+  def destroy
+    respond_with current_user.comments.destroy(params[:id]), status: :no_content
   end
 
 

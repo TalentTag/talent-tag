@@ -1,5 +1,5 @@
 .position
-  p: small = "#{ Date.parse(data['start_date']).strftime("%d.%m.%Y") } - #{ Date.parse(data['end_date']).strftime("%d.%m.%Y") }"
+  p: small = "#{ Date.parse(data['start_date']).strftime("%d.%m.%Y") } - #{ Date.parse(data['end_date']).strftime("%d.%m.%Y") }" rescue ""
   p: b = data['position']['name']
   p = "#{ data['employer']['name'] } (#{ data['location']['name'] })"
   hr

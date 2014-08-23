@@ -42,8 +42,8 @@ class AuthController < ApplicationController
     @params = env["omniauth.auth"].slice(:provider, :uid, :info, :extra)
     identity = Identity.from_omniauth(omniauth_params(@params), current_user)
 
-    if identity.valid?
-      identity.save unless identity.persisted?
+    if identity.user.email
+      identity.save(validate: false) unless identity.persisted?
       sign_user_in identity.user, as: :specialist
       redirect_to account_path
     else
@@ -56,7 +56,7 @@ class AuthController < ApplicationController
   private
 
   def omniauth_params params
-    { provider: params[:provider], uid: params[:uid], info: params[:info], extra: params[:extra], user_attributes: { email: params[:info][:email]} }
+    { provider: params[:provider], uid: params[:uid], info: params[:info], extra: params[:extra], user_attributes: { email: params[:info]['email']} }
   end
 
 end

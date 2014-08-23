@@ -1,9 +1,5 @@
 TalentTag::Application.routes.draw do
 
-  get "payments/index"
-  get "payments/show"
-  get "payments/create"
-  get "identities/create"
   root to: "account#index", as: :account
   scope controller: :public do
     get :promo
@@ -20,7 +16,7 @@ TalentTag::Application.routes.draw do
     end
 
     get :add_company
-  #   get :excerpts
+    get :excerpts
   end
 
   namespace :auth do
@@ -31,11 +27,14 @@ TalentTag::Application.routes.draw do
 
   scope :account, controller: :account do
     put '/' => :update
+    resources :conversations, only: %i(index show)
+    resources :messages, only: %i(index show create)
   end
 
   namespace :profile do
     root to: :user, as: ''
     put '/' => :update_user
+    put '/avatar' => :update_avatar
 
     get :company
     put '/company' => :update_account
@@ -52,12 +51,12 @@ TalentTag::Application.routes.draw do
 
 
   scope module: :b2b do
-    resources :companies, only: %i(create update) do
+    resources :companies, only: %i(show create update) do
       member { put :update_to_premium }
     end
 
-    resources :entries, only: %i(index show destroy) do
-      resources :comments, only: %i(create update)
+    resources :entries, only: %i(index show create destroy) do
+      resources :comments, only: %i(create update destroy)
     end
 
     resources :searches, only: %i(create update destroy) do
@@ -84,6 +83,9 @@ TalentTag::Application.routes.draw do
     resources :industries, :areas, :keyword_groups, only: %i(create update destroy), defaults: { format: :json }
     resources :sources, only: %i(index update)
     resources :entries, only: :index
+    namespace :stats do
+      get '/entries/:year(/sources/:source_id)' => :entries, as: :entries
+    end
   end
 
 end

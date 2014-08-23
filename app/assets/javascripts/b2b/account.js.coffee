@@ -15,37 +15,54 @@
         $scope.timeLeft = "#{ Math.floor timer/3600 }:#{ ("0" + Math.floor timer%3600/60).slice(-2) }:#{ ("0" + Math.floor timer%60).slice(-2) }"
     setInterval tickTimer, 1000
 
-  $scope.$watch 'search', ->
-    if $scope.search?
-      $scope.query = $scope.search.query
+
+  querystring = undefined
+
+  $scope.$watch 'search', (search) ->
+    if search?
+      $scope.query = querystring = search.query
       $scope.page = 1
       query()
 
-
   query = (config={}) ->
+    $scope.fetchinInProgress = true
+
     $scope.folder = null
     params = if $scope.search
-      { search_id: $scope.search.id, page: $scope.page }
-    else if $scope.query
-      { query: $scope.query, page: $scope.page }
+      { query: querystring, search_id: $scope.search.id, page: $scope.page }
+    else if querystring
+      { query: querystring, page: $scope.page }
+    params['club_members_only'] = true if $scope.clubMembersOnly
     Entry.query params, (data, parseHeaders) ->
       $scope.entries = if data.length
-         if config.append then $scope.entries.concat(data) else data
+        if config.append then $scope.entries.concat(data) else data
       else []
       $scope.entriesTotal = parseInt parseHeaders()['tt-entriestotal']
+      unless $scope.entriesTotal
+        querystring = undefined
+        $scope.searchInResults = false
+
+      $scope.fetchinInProgress = false
 
   $scope.fetch = (options={}) ->
     if $scope.query
       $scope.page = 1
-      $scope.search = undefined
-      $location.path('/account')
+      $scope.search = undefined unless $scope.searchInResults
+      $location.path('/')
+
+      querystring = if querystring? and $scope.searchInResults 
+        "(#{ querystring }) && (#{ $scope.query })"
+      else
+        $scope.query
       query()
 
   $scope.fetchMore = ->
-    $scope.page = ($scope.page || 0) + 1
-    query append: true
+    if $scope.canFetchMore()
+      $scope.page = ($scope.page || 0) + 1
+      query append: true
 
-  $scope.canFetchMore = -> $scope.entries.length and $scope.entries.length < $scope.entriesTotal
+  $scope.canFetchMore = ->
+    $scope.entries.length and $scope.entries.length < $scope.entriesTotal
 
   $scope.blacklist = (entry) ->
     if confirm "Убрать запись из виртуальной папки?"
@@ -90,25 +107,4 @@
     $location.hash "entry#{ $scope.lastEntry.id }"
     $anchorScroll()
   $scope.lastEntry = null
-]
-
-
-@talent.controller "talent.DetailsCtrl", ["$scope", "$routeParams", "Entry", "$http", ($scope, $routeParams, Entry, $http) ->
-  $scope.entry = Entry.get id: $routeParams.id, (entry) -> $scope.entry = entry
-  $scope.$parent.lastEntry = $scope.entry
-
-  $scope.blacklist = (entry) ->
-    if $scope.search and confirm("Убрать запись из виртуальной папки?")
-      $scope.search.blacklist entry
-      $scope.entries = _.reject $scope.entries, (e) -> e is entry
-
-  $scope.$watch "entry.comment.text", ->
-    $scope.commentUntouched = false
-    
-  $scope.saveComment = (comment, entry_id) ->
-    if comment.id?
-      $http.put "/entries/#{ entry_id }/comments/#{ comment.id }.json", text: comment.text
-    else
-      $http.post "/entries/#{ entry_id }/comments.json", text: comment.text
-    $scope.commentUntouched = true
 ]

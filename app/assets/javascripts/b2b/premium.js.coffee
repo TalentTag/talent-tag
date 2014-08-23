@@ -1,7 +1,7 @@
 @talent.controller "talent.PremiumCtrl", ["$scope", "$http", ($scope, $http) ->
 
   $scope.user               = talentData.user
-  $scope.user.isDetailed    = -> _.every [@firstname?, @midname?, @lastname?, @phone?]
+  $scope.user.isDetailed    = -> _.every [@firstname?, @lastname?, @phone?]
 
   $scope.company            = talentData.company
   $scope.company.isDetailed = -> _.every [@website?, @phone?, @address?, @details?]

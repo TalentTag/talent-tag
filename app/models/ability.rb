@@ -7,19 +7,20 @@ class Ability
 
     alias_action :create, :read, :update, :destroy, to: :crud
 
-    if user.persisted?
+    if user.persisted? # specialists
       can :manage, :b2c
+      can :create, Entry
       can :update, User, id: user.id
     end
 
-    if user.company.present?
+    if user.company.present? # owners & employee
       can :manage, :b2b
       can :read, Entry
       can :manage, Comment, user_id: user.id
       can :read, :premium_data if user.company.premium?
     end
 
-    if user.owner?
+    if user.owner? # owners
       can :crud, Company, owner: user
       can :update_to_premium, Company, owner: user
       if user.company.premium?
@@ -29,7 +30,13 @@ class Ability
       end
     end
 
-    if user.admin?
+    if user.moderator?
+      can :manage, :admin
+      can :update, Source
+      can :crud, Entry
+    end
+
+    if user.admin? # admins
       can :manage, :all
       cannot :update_to_premium, Company
       cannot :extend_premium, Company

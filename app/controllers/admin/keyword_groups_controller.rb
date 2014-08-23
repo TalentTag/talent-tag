@@ -2,6 +2,7 @@ class Admin::KeywordGroupsController < Admin::BaseController
 
   respond_to :json
 
+  before_action { authorize! :update, :dictionaries }
   before_action :find_keyword_group, except: :create
 
 

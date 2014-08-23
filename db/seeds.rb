@@ -13,7 +13,6 @@ tt = Company.create \
     password_confirmation:  "123456",
 
     firstname:  "Семен",
-    midname:    "Иванович",
     lastname:   "Носов",
     phone:      "+7(999)5555-5678",
 
@@ -32,8 +31,8 @@ tt.users.create \
 
 
 # dictionaries
-#NOTE password authentication is not working here
-%x( psql -d #{ Rails.configuration.database_configuration[Rails.env]["database"] } -U #{ Rails.configuration.database_configuration[Rails.env]["username"] } -f #{ Rails.root }/db/seeds/dictionaries.dump.sql )
+%x( rails db < #{ Rails.root }/db/seeds/dictionaries.dump.sql )
+
 
 # entries
 %x( thor bsp:fetch )

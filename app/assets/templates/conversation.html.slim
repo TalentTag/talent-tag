@@ -1,0 +1,20 @@
+h4 {{ currentConversation.recipient.name }}
+
+#chat-messages
+  .message ng-repeat="message in messages" ng-class="{ incoming: message.user_id==currentConversation.recipient.id }"
+    div ng-if="message.user_id==currentConversation.recipient.id"
+      .avatar style="background-image: url({{ currentConversation.recipient.avatar }})" 
+      .message-contents
+        small.info {{ currentConversation.recipient.name }} ({{ message.created_at | timeago }})
+        span ng-bind-html="message.text | prettyPrint"
+    div ng-if="message.user_id==currentUser.id"
+      .avatar style="background-image: url({{ currentUser.avatar }})"
+      .message-contents
+        small.info {{ currentUser.name }} ({{ message.created_at | timeago }})
+        span ng-bind-html="message.text | prettyPrint"
+
+
+#chat-form.well style="width: 600px" ng-show="currentConversation"
+  .form-group
+    textarea.form-control placeholder="Сообщение" ng-model="message"
+    button.btn.btn-primary ng-click="sendMessage(currentConversation)" Отправить

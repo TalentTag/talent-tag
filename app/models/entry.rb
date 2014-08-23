@@ -5,8 +5,12 @@ class Entry < ActiveRecord::Base
   ENTRIES_PER_PAGE = 10
   paginates_per ENTRIES_PER_PAGE
 
+  belongs_to :user
   belongs_to :source
   has_many :comments
+  has_many :duplicates, class_name: 'Entry', foreign_key: :duplicate_of
+
+  before_create :link_to_author
 
   validates :id, presence: true, uniqueness: true
 
@@ -20,13 +24,15 @@ class Entry < ActiveRecord::Base
     if params[:query]
       kw = KeywordGroup.where.contains(keywords: [params[:query]]).flat_map &:keywords
       params[:query] = kw.map { |w| "(#{w})" }.join(' | ') unless kw.empty?
-      conditions = {}.tap do |c|
-        c[:source_id] = params[:source] if params[:source].present?
-      end
-      excepts = {}.tap do |e|
-        e[:id] = params[:blacklist].first unless params[:blacklist].nil? || params[:blacklist].empty?
-        e[:source_id] = Source.unpublished unless params[:published].nil? or Source.unpublished.empty?
-      end
+
+      conditions = {}
+      conditions[:source_id] = params[:source] if params[:source].present?
+      conditions[:duplicate_of] = 0
+
+      excepts = {}
+      excepts[:id] = params[:blacklist] unless params[:blacklist].nil? || params[:blacklist].empty?
+      excepts[:source_id] = Source.unpublished unless params[:published].nil? or Source.unpublished.empty?
+      excepts[:user_id] = 0 if params[:club_members_only]
 
       entries = search(params[:query], with: conditions, without: excepts, retry_stale: true, excerpts: {around: 250}, order: 'created_at DESC')
       entries.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane
@@ -40,17 +46,19 @@ class Entry < ActiveRecord::Base
   end
 
 
-  def identity
-    Identity.find_by(anchor: author['guid']) rescue nil
-  end
-
   def user
-    identity.try :user # TODO move to decorator
+    Identity.find_by(anchor: author['guid']).user rescue nil
   end
-
 
   def hashtags
-    body.scan(/#(\S+)/).flatten.reject { |t| t=='ttag' }.uniq
+    body.scan(/#(\S+)/).flatten.reject { |t| t=='talenttag' }.uniq
+  end
+
+
+  protected
+
+  def link_to_author
+    self.user_id = user.try :id unless user_id
   end
 
 end

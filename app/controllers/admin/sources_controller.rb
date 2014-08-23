@@ -2,6 +2,8 @@ class Admin::SourcesController < Admin::BaseController
 
   respond_to :json
 
+  before_action { authorize! :update, Source }
+
 
   def index
     gon.sources = Source.all

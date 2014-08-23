@@ -1,0 +1,31 @@
+@import mixins
+
+
+[role="comments-section"]
+  .comment
+    border-bottom: 1px solid #ddd
+    padding: 7px 0
+    overflow: hidden
+
+    .avatar
+      @include avatar(50px)
+      float: left
+      margin-right: 12px
+
+    .content
+      margin: 0 3px 0 65px
+
+      > div
+        transition: 0.3s all
+        white-space: pre-line
+
+      .time
+        float: right
+        color: #999
+
+  textarea
+    width: 100%
+
+
+.highlighted
+  background-color: rgb(169, 255, 173)

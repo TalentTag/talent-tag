@@ -1,18 +1,24 @@
 class User < ActiveRecord::Base
 
+  include ::GravatarImageTag
+
   has_secure_password
 
   belongs_to :company
-  has_many :identities
-  has_many :searches
-  has_many :folders
+  has_many :identities, dependent: :destroy
+  has_many :entries
+  has_many :searches, dependent: :destroy
+  has_many :folders, dependent: :destroy
   has_many :comments
   has_one :blacklist, class_name: 'EntriesBlacklist'
+
+  has_many :conversations_users
+  has_and_belongs_to_many :conversations
 
   validates :email, presence: true, uniqueness: true, format: { with: /\A[^@]+@[^@]+\.[a-zа-я]{2,6}\z/ }
   validates :password, length: { minimum: 6, if: :validate_password?, too_short: "не менее 6 символов" }
   validates :phone, format: { with: /\A[+\-\(\)\d]+\z/ }, length: { in: 5..20 }, if: ->{ phone.present? }
-  validates_presence_of :firstname, :midname, :lastname, :phone, on: :update, if: ->{ role.present? }
+  validates_presence_of :firstname, :lastname, :phone, on: :update, if: ->{ role.present? }
 
   after_create :send_signup_notification
   after_update :send_update_confirmation
@@ -33,20 +39,13 @@ class User < ActiveRecord::Base
   end
 
 
-  ROLES = %w[owner employee admin]
+  ROLES = %w[owner employee moderator admin]
   ROLES.each do |r|
     define_method("#{r}?") { r == role }
   end
 
   def name
     firstname && lastname ? "#{ firstname } #{ lastname }" : email
-  end
-
-  def journal
-    unless identities.empty?
-      condition = identities.map { |id| "(author->>'guid' = '#{ id.anchor }')" }.join(' OR ')
-      Entry.where(condition).includes(:source).order(created_at: :desc).references(:source)
-    end || []
   end
 
   def update_password! values
@@ -73,6 +72,19 @@ class User < ActiveRecord::Base
     generate_auth_token!
     AuthMailer.add_company(self).deliver
   end
+
+  def avatar
+    case profile['image_source']
+    when 'custom' then profile['image']
+    when 'gravatar' then gravatar_image_url(email)
+    else '/no_avatar.jpg'
+    end
+  end
+
+  def avatar_type
+    profile['image_source'] || 'none'
+  end
+
 
   protected
 
