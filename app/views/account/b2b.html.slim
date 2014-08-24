@@ -42,6 +42,13 @@
       ng-view
 
     .col-md-4
+      ul
+        - notifications[0..2].each do |n|
+          li style="padding: 5px 0" : small == t "notifications.#{ n.event }", name: n.author.name
+        - if notifications.count > 3
+          a href="#" : small Все оповещения
+      hr
+
       - if current_account.premium?
         - if can? :update_to_premium, current_account
           .well.well-sm.well-blue style="color: white"

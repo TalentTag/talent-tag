@@ -29,6 +29,8 @@ class B2b::EntriesController < B2b::BaseController
     tt_entries_count = Entry.where(source_id: nil).count
     Entry.create body: params[:body], fetched_at: Time.now, id: tt_entries_count+1, author: build_author_data, user_id: current_user.id
 
+    Notification.create author_id: current_user.id, event: "new_post" # TODO move to a callback
+
     return render text: nil
   end
 
