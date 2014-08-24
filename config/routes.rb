@@ -27,6 +27,7 @@ TalentTag::Application.routes.draw do
 
   scope :account, controller: :account do
     put '/' => :update
+    put '/status' => :update_status
     resources :conversations, only: %i(index show)
     resources :messages, only: %i(index show create)
   end

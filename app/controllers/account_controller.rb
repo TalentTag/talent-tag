@@ -12,7 +12,7 @@ class AccountController < ApplicationController
     elsif is_specialist?
       @user = current_user
       gon.user = @user.profile
-      gon.profile_editable = @user==current_user
+      gon.statuses = Hash[User::STATUSES.map { |s| [s, I18n.t("user.status.#{s}")] }] # TODO move to a decorator
       render 'account/b2c'
     else
       render text: "Error 403", status: :forbidden # TODO raise a 403 exception
@@ -21,6 +21,11 @@ class AccountController < ApplicationController
 
   def update
     current_user.update profile: params[:data]
+    render nothing: true, status: :no_content
+  end
+
+  def update_status
+    current_user.update status: params[:status]
     render nothing: true, status: :no_content
   end
 

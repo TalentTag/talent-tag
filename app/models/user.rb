@@ -44,6 +44,10 @@ class User < ActiveRecord::Base
     define_method("#{r}?") { r == role }
   end
 
+
+  STATUSES = %w(ignore active passive)
+
+
   def name
     firstname && lastname ? "#{ firstname } #{ lastname }" : email
   end

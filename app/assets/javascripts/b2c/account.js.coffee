@@ -3,6 +3,12 @@
   $scope.user = talentData.user
   $scope.user.tags ?= []
 
+  $scope.statuses = talentData.statuses
+  $scope.userStatus = talentData.currentUser.status
+  $scope.$watch 'userStatus', (status, oldStatus) ->
+    $http.put '/account/status', { status } if status isnt oldStatus
+
+
   normalizeParams = (params) ->
     for key, value of params
       delete params[key] if !value or value==''

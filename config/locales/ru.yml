@@ -1,5 +1,11 @@
 ru:
 
+  user:
+    status:
+      ignore: "пока не рассматриваю"
+      passive: "открыт предложениям"
+      active: "ищу работу"
+
   payment:
     state:
       pending: "В ожидании"

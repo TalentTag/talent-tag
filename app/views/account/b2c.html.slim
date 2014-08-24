@@ -4,18 +4,27 @@
       @avatar style="background-image: url(#{ @user.avatar });"
     .right-side
       h3 style="margin:0 0 12px" = "#{ @user.name }"
+      - if @user.profile['location']
+        p
+          b> Местонахождение:
+          - if @user == current_user
+            input.subtle type="text" ng-model="user.location" ng-blur="saveProfile()" placeholder="заполнить"
+          - else
+            = @user.profile['location']
+      - if @user.profile['birthdate']
+        p
+          b> Дата рождения:
+          - if @user == current_user
+            input.subtle type="text" ng-model="user.birthdate" ng-blur="saveProfile()" placeholder="заполнить"
+          - else
+            = @user.profile['birthdate']
       p
-        b> Местонахождение:
+        b> Статус:
         - if @user == current_user
-          input.subtle type="text" ng-model="user.location" ng-blur="saveProfile()" placeholder="заполнить"
+          select ng-model="userStatus" ng-options="status as text for (status, text) in statuses"
         - else
-          = @user.profile['location']
-      p
-        b> Дата рождения:
-        - if @user == current_user
-          input.subtle type="text" ng-model="user.birthdate" ng-blur="saveProfile()" placeholder="заполнить"
-        - else
-          = @user.profile['birthdate']
+          = t "user.status.#{ @user.status }"
+
   hr
 
   section.tags
