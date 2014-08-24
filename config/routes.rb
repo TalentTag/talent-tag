@@ -48,7 +48,10 @@ TalentTag::Application.routes.draw do
 
   resources :users, only: %i(create update) do
     collection { put :add_company, :create_company }
-    member { post :signin }
+    member do
+      post :signin
+      post :follow
+    end
   end
 
 

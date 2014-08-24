@@ -47,6 +47,11 @@ class UsersController < ApplicationController
     end
   end
 
+  def follow
+    if params[:follow] then current_user.follow! params[:id] else current_user.unfollow! params[:id] end
+    render nothing: true, status: :created
+  end
+
 
   private
 

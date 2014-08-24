@@ -15,6 +15,9 @@ class User < ActiveRecord::Base
   has_many :conversations_users
   has_and_belongs_to_many :conversations
 
+  has_many :followers, class_name: 'Following', foreign_key: :following_id
+  has_many :follows, class_name: 'Following', foreign_key: :user_id
+
   validates :email, presence: true, uniqueness: true, format: { with: /\A[^@]+@[^@]+\.[a-zа-я]{2,6}\z/ }
   validates :password, length: { minimum: 6, if: :validate_password?, too_short: "не менее 6 символов" }
   validates :phone, format: { with: /\A[+\-\(\)\d]+\z/ }, length: { in: 5..20 }, if: ->{ phone.present? }
@@ -87,6 +90,22 @@ class User < ActiveRecord::Base
 
   def avatar_type
     profile['image_source'] || 'none'
+  end
+
+
+  def follows? user
+    id = user.kind_of?(User) ? user.id : user
+    !!follows.exists?(following_id: id)
+  end
+
+  def follow! user
+    id = user.kind_of?(User) ? user.id : user
+    follows.create following_id: id
+  end
+
+  def unfollow! user
+    id = user.kind_of?(User) ? user.id : user
+    follows.where(following_id: id).first.try :destroy
   end
 
 

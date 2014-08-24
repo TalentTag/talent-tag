@@ -32,6 +32,10 @@
       $scope.newTag = undefined
 
 
+  $scope.follow = (follow=true) ->
+    $http.post "/users/#{ talentData.user.id }/follow", { follow }
+    $scope.follows = follow
+
 
   $scope.toggleEntryForm = ->
     $scope.entryFormDisplayed = !$scope.entryFormDisplayed
