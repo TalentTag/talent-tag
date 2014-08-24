@@ -11,6 +11,7 @@ class Entry < ActiveRecord::Base
   has_many :duplicates, class_name: 'Entry', foreign_key: :duplicate_of
 
   before_create :link_to_author
+  after_create :notify
 
   validates :id, presence: true, uniqueness: true
 
@@ -59,6 +60,10 @@ class Entry < ActiveRecord::Base
 
   def link_to_author
     self.user_id = user.try :id unless user_id
+  end
+
+  def notify
+    Notification.create(author_id: user.id, event: "new_post") if user
   end
 
 end

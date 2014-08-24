@@ -1,7 +1,7 @@
 class Notification
   include ActiveModel::Model
 
-  attr_accessor :author_id, :event, :created_at
+  attr_accessor :author_id, :event, :created_at, :data
 
 
   def initialize params={}

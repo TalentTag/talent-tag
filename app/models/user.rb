@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
   validates_presence_of :firstname, :lastname, :phone, on: :update, if: ->{ role.present? }
 
   after_create :send_signup_notification
-  after_update :send_update_confirmation
+  after_update :send_update_confirmation, :notify
 
   %w(auth forgot).each do |name|
     define_method("generate_#{name}_token".to_sym) do
@@ -122,6 +122,10 @@ class User < ActiveRecord::Base
   def send_update_confirmation
     AuthMailer.forgot(self).deliver if forgot_token_changed? && forgot_token
     AuthMailer.credentials(self).deliver if email_changed? || password_digest_changed?
+  end
+
+  def notify
+    Notification.create author_id: id, event: "status_change", data: status if status_changed?
   end
 
 end

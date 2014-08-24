@@ -26,7 +26,6 @@ class AccountController < ApplicationController
 
   def update_status
     current_user.update status: params[:status]
-    Notification.create author_id: current_user.id, event: "status.#{ params[:status] }" # TODO move to a callback
     render nothing: true, status: :no_content
   end
 
