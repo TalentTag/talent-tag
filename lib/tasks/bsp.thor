@@ -72,8 +72,7 @@ class Bsp < Thor
             'body' => entry_hash['body'],
             'url' => entry_hash['url'],
             'created_at' => entry_hash['created_at'],
-            'fetched_at' => Time.now,
-            'is_spam' => entry_hash['is_spam']
+            'fetched_at' => Time.now
 
           if entry_hash['author']
             entry['author'] = {
