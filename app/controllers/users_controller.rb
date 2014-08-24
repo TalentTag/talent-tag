@@ -49,7 +49,11 @@ class UsersController < ApplicationController
 
   def follow
     if params[:follow] then current_user.follow! params[:id] else current_user.unfollow! params[:id] end
-    render nothing: true, status: :created
+    if request.xhr?
+      render nothing: true, status: :created
+    else
+      redirect_to :back, notice: "Пользователь удален из подписок"
+    end
   end
 
 

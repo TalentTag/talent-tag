@@ -43,6 +43,8 @@ TalentTag::Application.routes.draw do
     get :employee
     post '/employee' => :add_employee
     delete '/employee/:id' => :remove_employee, as: :remove_employee
+
+    get :following
   end
 
 
@@ -82,7 +84,7 @@ TalentTag::Application.routes.draw do
 
   scope module: :b2c do
     resources :identities, only: :create
-    get 'specialists/:id' => 'account#show'
+    get 'specialists/:id' => 'account#show', as: :specialist
   end
 
 

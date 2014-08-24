@@ -1,0 +1,18 @@
+.col-md-3
+  = render partial: 'profile/partials/nav'
+
+.col-md-9
+  h4 Фолловинг
+
+  .followings
+    - current_user.follows.each do |follow|
+      - user = follow.following
+      .entry
+        a.avatar.pull-left style="background-image: url(#{ user.avatar })" href=specialist_path(user.id)
+        .content
+          = link_to 'x', follow_user_path(user.id), method: :post, title: "Отписаться", class: "pull-right unfollow", confirm: "Отписаться?"
+          p : a href=specialist_path(user.id) : b = user.name
+          - if user.profile['tags']
+            p
+              - user.profile['tags'].each do |tag|
+                span.kw = tag
