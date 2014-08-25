@@ -7,13 +7,13 @@ class AccountController < ApplicationController
     return render 'public/promo' unless signed_in?
     if is_employer?
       fetch_account_data
-      return render :blocked if current_account.blocked?
-      render 'account/b2b'
+      return render 'b2b/blocked' if current_account.blocked?
+      render 'b2b/account'
     elsif is_specialist?
       @user = current_user
       gon.user = @user.profile
       gon.statuses = Hash[User::STATUSES.map { |s| [s, I18n.t("user.status.#{s}")] }] # TODO move to a decorator
-      render 'account/b2c'
+      render 'b2c/account'
     else
       render text: "Error 403", status: :forbidden # TODO raise a 403 exception
     end
