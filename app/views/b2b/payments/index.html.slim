@@ -12,12 +12,10 @@
           td = "#{ payment.plan.price } р."
           td = t "payment.state.#{ payment.state }"
           td
-            - unless payment.completed? || payment.failed?
-              / = link_to "Оплатить", complete_payment_path(payment.id), method: :put, confirm: "Подтвердить платеж?"
-              == paylink_for payment
-
+            - if payment.pending?
+              = link_to "Оплатить", init_payment_path(payment.id), method: :put
           td
-            - unless payment.completed? || payment.failed?
-              = link_to "Отменить", fail_payments_path(id: payment.identifier), method: :post, confirm: "Отменить платеж?"
+            - if payment.pending?
+              = link_to "Отменить", payment_fail_path(payment_id: payment.identifier), method: :post, confirm: "Отменить платеж?"
     - else
       p style="color: #999" Нет платежей

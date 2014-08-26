@@ -20,20 +20,39 @@ class B2b::PaymentsController < B2b::BaseController
   end
 
 
+  def init
+    payment = Payment.find_by!(id: params[:id])
+    authorize! :update, payment
+
+    params = {
+      pg_amount: payment.plan.price,
+      pg_description: "Премиум-аккаунт: #{ payment.plan.name }",
+      pg_failure_url: payment_fail_url(payment_id: payment.identifier),
+      pg_language: 'ru',
+      pg_merchant_id: 6246,
+      pg_order_id: payment.identifier,
+      pg_salt: Digest::MD5.hexdigest("TT-#{ Time.now }"),
+      pg_success_url: payment_complete_url(payment_id: payment.identifier)
+    }
+    hash = "payment.php;#{ params.values.join(';') };pudyxihigyvojuqy"
+    signature = Digest::MD5.hexdigest hash
+
+    redirect_to "https://www.platron.ru/payment.php?#{ URI.encode_www_form params.merge(pg_sig: signature) }"
+  end
+
+
   def complete
     authorize! :update, @payment
     @payment.started_processing
     @payment.complete!
-    flash[:notice] = "Платеж проведен"
-    redirect_to payments_url
+    redirect_to payments_url, flash: { notice: "Платеж проведен" }
   end
 
 
   def fail
     authorize! :update, @payment
     @payment.fail!
-    flash[:notice] = "Платеж отменен"
-    redirect_to payments_url
+    redirect_to payments_url, flash: { notice: "Платеж отменен" }
   end
 
 

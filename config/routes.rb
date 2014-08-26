@@ -73,10 +73,9 @@ TalentTag::Application.routes.draw do
 
     scope :profile do
       resources :payments, only: %i(index create) do
-        collection do
-          post :complete, as: :complete
-          post :fail, as: :fail
-        end
+        member { put :init, as: :init }
+        post :complete
+        post :fail
       end
     end
   end
