@@ -11,7 +11,9 @@
         a.avatar.pull-left style="background-image: url(#{ user.avatar })" href=specialist_path(user.id)
         .content
           = link_to 'x', follow_user_path(user.id), method: :post, title: "Отписаться", class: "pull-right unfollow", confirm: "Отписаться?"
-          p : a href=specialist_path(user.id) : b = user.name
+          p
+            a' style="margin-right: 10px" href=specialist_path(user.id) : b = user.name
+            span.badge = t "user.status.#{ user.status }"
           - if user.profile['tags']
             p
               - user.profile['tags'].each do |tag|
