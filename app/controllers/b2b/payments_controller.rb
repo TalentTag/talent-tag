@@ -2,8 +2,14 @@ class B2b::PaymentsController < B2b::BaseController
 
   respond_to :json
 
-  before_action :all_payments, only: %i(index complete fail)
   before_action :find_payment, only: %i(complete fail)
+  before_action :check_gateway_signature, only: :complete
+  skip_before_filter :verify_authenticity_token, only: %i(complete fail)
+
+
+  def index
+    @payments = current_account.payments
+  end
 
 
   def create
@@ -16,17 +22,10 @@ class B2b::PaymentsController < B2b::BaseController
 
   def complete
     authorize! :update, @payment
-    @payment.started_processing!
-    if credit_card.validate.empty?
-      response = TalentTag::Application::GATEWAY.purchase(@payment.plan.price, credit_card)
-      if response.success?
-        @payment.complete!
-        flash[:notice] = "Платеж проведен"
-      else
-        flash[:error] = "Ошибка при проведении транзакции"
-      end
-      render :index
-    end
+    @payment.started_processing
+    @payment.complete!
+    flash[:notice] = "Платеж проведен"
+    redirect_to payments_url
   end
 
 
@@ -34,29 +33,21 @@ class B2b::PaymentsController < B2b::BaseController
     authorize! :update, @payment
     @payment.fail!
     flash[:notice] = "Платеж отменен"
-    render :index
+    redirect_to payments_url
   end
 
 
   private
 
-  def all_payments
-    @payments = current_account.payments
-  end
-
   def find_payment
-    @payment = Payment.find_by!(id: params[:id])
+    @payment = Payment.find_by!(identifier: params[:pg_order_id])
   end
 
-
-  def credit_card # TODO temp
-    ActiveMerchant::Billing::CreditCard.new\
-      :first_name         => 'John',
-      :last_name          => 'Doe',
-      :number             => '4242000000000000',
-      :month              => Time.now.month,
-      :year               => Time.now.year+1,
-      :verification_value => '123'
+  def check_gateway_signature
+    pg_sig = params.delete :pg_sig
+    sorted_params = params.select { |key, value| key.to_s.match(/\Apg_/) }.sort.map { |e| e[1] }
+    signature = Digest::MD5.hexdigest("complete;#{ sorted_params.join(';') };pudyxihigyvojuqy")
+    raise "Invalid signature" unless signature==pg_sig
   end
 
 end

@@ -39,8 +39,7 @@ class Ability
 
     if user.admin? # admins
       can :manage, :all
-      cannot :update_to_premium, Company
-      cannot :extend_premium, Company
+      # cannot :update_to_premium, Company
     end
 
   end
