@@ -18,16 +18,18 @@
   $scope.saveProfile = ->
     $http.put '/account', data: normalizeParams($scope.user)
 
-  $scope.addTag = (keyCode=null) ->
-    if $scope.newTag?
-      unless (keyCode? and keyCode isnt 13)
-        $scope.user.tags.push $scope.newTag
 
-  $scope.dropTag = (tag) ->
-    $scope.user.tags.splice $scope.user.tags.indexOf(tag), 1
+  $scope.tags = 
+    add: (keyCode=null) ->
+      if $scope.newTag?
+        unless (keyCode? and keyCode isnt 13)
+          $scope.user.tags.push $scope.newTag
+          $scope.newTag = ""
+    drop: (tag) ->
+      $scope.user.tags.splice $scope.user.tags.indexOf(tag), 1
 
   $scope.$watch 'user.tags.length', (count) ->
-    if count and talentData.profileEditable
+    if count
       $scope.saveProfile()
       $scope.newTag = undefined
 

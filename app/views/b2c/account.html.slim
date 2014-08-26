@@ -36,14 +36,17 @@
 
   hr
 
-  section.tags
+  section.tags style="overflow:hidden"
     h4 Теги
-    span.kw ng-repeat="tag in user.tags"
-      | {{ tag }}
-      - if @user == current_user
-        a.close href="javascript:;" ng-click="dropTag(tag)" &times;
     - if @user == current_user
-      input.subtle type="text" placeholder="добавить" ng-model="newTag" ng-blur="addTag()" ng-keypress="addTag($event.charCode)"
+      span.kw ng-repeat="tag in user.tags"
+        | {{ tag }}
+        a.close href="javascript:;" ng-click="tags.drop(tag)" &times;
+      input.subtle type="text" placeholder="добавить" ng-model="newTag" ng-blur="tags.add()" ng-keypress="tags.add($event.charCode)"
+    - else
+      - @user.profile['tags'].each do |tag|
+        span.kw = tag
+
 
   hr
 
@@ -68,11 +71,11 @@
 
     - @user.entries.each do |entry|
       div
-        hr
         / a.close href="javascript:;" &times;
         p : small = "#{ entry.source.name rescue "TalentTag" } | #{ entry.created_at.strftime '%d.%m.%Y' }"
         p : a href=entry.url target="_blank" = truncate entry.url, length: 60
         p == bold_tags entry.body
+        hr
 
 
 
