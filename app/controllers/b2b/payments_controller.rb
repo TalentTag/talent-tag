@@ -32,6 +32,7 @@ class B2b::PaymentsController < B2b::BaseController
       pg_merchant_id: 6246,
       pg_order_id: payment.identifier,
       pg_salt: Digest::MD5.hexdigest("TT-#{ Time.now }"),
+      pg_site_url: payments_url,
       pg_success_url: payment_complete_url(payment_id: payment.identifier)
     }
     hash = "payment.php;#{ params.values.join(';') };pudyxihigyvojuqy"
