@@ -14,7 +14,7 @@
           p
             a' style="margin-right: 10px" href=specialist_path(user.id) : b = user.name
             span.badge = t "user.status.#{ user.status }"
-          - if user.profile['tags']
+          - if user.tags
             p
-              - user.profile['tags'].each do |tag|
+              - user.tags.each do |tag|
                 span.kw = tag

@@ -18,4 +18,9 @@ module B2cHelper
     render partial: 'b2c/partials/work', locals: { data: data }
   end
 
+
+  def owns_account? user
+    user == current_user
+  end
+
 end

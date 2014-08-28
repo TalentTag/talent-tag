@@ -11,7 +11,6 @@ class AccountController < ApplicationController
       render 'b2b/account'
     elsif is_specialist?
       @user = current_user
-      gon.user = @user.profile
       gon.statuses = Hash[User::STATUSES.map { |s| [s, I18n.t("user.status.#{s}")] }] # TODO move to a decorator
       render 'b2c/account'
     else

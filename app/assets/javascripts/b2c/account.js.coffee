@@ -1,6 +1,6 @@
 @talent.controller "talent.B2cAccountCtrl", ["$scope", "$http", "talentData", "Entry", ($scope, $http, talentData, Entry) ->
 
-  $scope.user = talentData.user
+  $scope.user = talentData.currentUser
   $scope.user.tags ?= []
 
   $scope.statuses = talentData.statuses
@@ -16,7 +16,7 @@
 
 
   $scope.saveProfile = ->
-    $http.put '/account', data: normalizeParams($scope.user)
+    $http.put '/account', data: normalizeParams($scope.user.profile)
 
 
   $scope.tags = 
@@ -28,9 +28,9 @@
     drop: (tag) ->
       $scope.user.tags.splice $scope.user.tags.indexOf(tag), 1
 
-  $scope.$watch 'user.tags.length', (count) ->
-    if count
-      $scope.saveProfile()
+  $scope.$watch 'user.tags.length', (count, prev) ->
+    if count && count isnt prev
+      $http.put "/users/#{ $scope.user.id }", tags: $scope.user.tags
       $scope.newTag = undefined
 
 
