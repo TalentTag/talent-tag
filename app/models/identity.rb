@@ -37,7 +37,8 @@ class Identity < ActiveRecord::Base
 
 
   def generate_anchor
-    update anchor: send("anchor_#{ provider }")
+    self.anchor = send("anchor_#{ provider }")
+    save validate: false
   end
 
   def generate_profile params
