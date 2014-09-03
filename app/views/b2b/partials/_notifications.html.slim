@@ -1,0 +1,7 @@
+- if notifications.any?
+  ul.notifications
+    - notifications[0..2].each do |notification|
+      li = send "notification_#{ notification.event }", notification
+    / - if notifications.count > 3
+    /   a href="#" : small Все оповещения
+  hr

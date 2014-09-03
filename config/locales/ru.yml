@@ -12,7 +12,3 @@ ru:
       processing: "Обрабатывается"
       completed: "Завершен"
       failed: "Отменен"
-
-  notifications:
-    status_change: "изменил статус на %{data}"
-    new_post: "добавил запись в личный блог"
