@@ -19,7 +19,7 @@ class Bsp < Thor
 
   desc "link", "associate entries with user profiles"
   def link
-    Entry.all.each do |entry|
+    Entry.find_each do |entry|
       if user = entry.user
         entry.update(user_id: user.id)
       end
@@ -41,9 +41,11 @@ class Bsp < Thor
 
   def fetch_by_date dates
     dates = dates.split(":")
-    (dates.first..dates.last).reduce(0) do |total_sum, date|
+    start_date = Date.strptime dates.first
+    fin_date = Date.strptime dates.last
+
+    (start_date..fin_date).reduce(0) do |total_sum, date|
       puts "\nfetching data for #{ date }\n"
-      date  = Date.strptime date
       url   = "#{ endpoint_url }&filters[created_at_gte]=#{ date.strftime("%Y-%m-%d") }&filters[created_at_lt]=#{ (date+1).strftime("%Y-%m-%d") }"
       pages = JSON.parse(open(url).read)['meta']['pagination']['total_pages']
       total_sum + (0..pages-1).reduce(0) do |sum, page|
