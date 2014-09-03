@@ -63,7 +63,7 @@ class Entry < ActiveRecord::Base
   end
 
   def notify
-    Notification.create(author_id: user.id, event: "new_post") if user
+    Notification.create(author_id: user_id, event: "new_post", data: id) if user_id
   end
 
 end

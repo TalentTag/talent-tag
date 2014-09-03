@@ -46,7 +46,7 @@
         ul.notifications
           - notifications[0..2].each do |n|
             li
-              a' href=specialist_path(n.author.id) : b = n.author.name
+              a' href=specialist_path(n.author.id) target="_self" : b = n.author.name
               == t "notifications.#{ n.event }", data: content_tag(:b, I18n.t("user.status.#{ n.data }"))
           / - if notifications.count > 3
           /   a href="#" : small Все оповещения
