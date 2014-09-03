@@ -18,7 +18,7 @@ class Notification
   end
 
   def save
-    redis.sadd "notifications:#{ author_id }", self
+    KeyValue.sadd "notifications:#{ author_id }", self
   end
 
   def self.create attrs
@@ -28,19 +28,8 @@ class Notification
   def self.where authors
     Array.wrap(authors).flat_map do |author|
       id = if author.kind_of?(User) then author.id else author end
-      redis.smembers("notifications:#{ id }").map { |n| new JSON.parse n }
+      KeyValue.smembers("notifications:#{ id }").map { |n| new JSON.parse n }
     end.sort_by { |n| n.created_at }.reverse
-  end
-
-
-  private
-
-  def redis
-    self.class.redis
-  end
-
-  def self.redis
-    TalentTag::Application::Redis
   end
 
 end
