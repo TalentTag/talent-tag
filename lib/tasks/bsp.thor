@@ -14,7 +14,7 @@ class Bsp < Thor
     puts "\n#{ Time.now.strftime("%d.%m.%Y %H:%M %Z") }: #{ total_entries_fetched } entries stored in #{ (Time.now - started_at).to_i } seconds\n"
 
     system "rake ts:index > /dev/null" unless total_entries_fetched.zero?
-    TalentTag::Application::Redis.set "stats:last_fetch_time", Time.now
+    KeyValue.set "stats:last_fetch_time", Time.now
   end
 
   desc "link", "associate entries with user profiles"
