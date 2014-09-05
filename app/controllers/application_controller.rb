@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
   private
 
   def include_current_user
-    if request.format.html?
+    if request.format.html? && signed_in?
       gon.rabl 'app/views/users/show.json', locals: { user: current_user }, as: :current_user
     end
   end
