@@ -14,10 +14,14 @@
 
   Message = $resource "/account/messages/:id", { id: "@id" }
 
+  Message::conversation = ->
+    _.findWhere talentData.conversations, id: @conversation_id
+
   Message::sender = ->
-    switch @user_id
-      when talentData.user.id then talentData.user
-      when talentData.currentUser.id then talentData.currentUser
+    if @user_id is talentData.currentUser.id
+      talentData.currentUser
+    else
+      @conversation().recipient
 
   Message
 

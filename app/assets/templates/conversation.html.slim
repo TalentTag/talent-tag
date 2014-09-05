@@ -1,20 +1,16 @@
-h4 {{ currentConversation.recipient.name }}
-
 #chat-messages
-  .message ng-repeat="message in messages" ng-class="{ incoming: message.user_id==currentConversation.recipient.id }"
-    div ng-if="message.user_id==currentConversation.recipient.id"
-      .avatar style="background-image: url({{ currentConversation.recipient.avatar }})" 
-      .message-contents
-        small.info {{ currentConversation.recipient.name }} ({{ message.created_at | timeago }})
-        span ng-bind-html="message.text | prettyPrint"
-    div ng-if="message.user_id==currentUser.id"
-      .avatar style="background-image: url({{ currentUser.avatar }})"
-      .message-contents
-        small.info {{ currentUser.name }} ({{ message.created_at | timeago }})
-        span ng-bind-html="message.text | prettyPrint"
+  .message ng-repeat="message in messages"
+    .avatar style="background-image: url({{ message.sender().avatar }})"
+    .message-contents
+      p
+        b> {{ message.sender().name }}
+        a ng-if="message.sender().company" href="/companies/{{ message.sender().company.id }}" target="_self" {{ message.sender().company.name }}
+      P {{ message.text | prettyPrint }}
+      small.info {{ message.created_at | timeago }}
 
 
-#chat-form.well style="width: 600px" ng-show="currentConversation"
+#chat-form ng-show="currentConversation"
+  .avatar style="background-image: url({{ currentUser.avatar }})"
   .form-group
     textarea.form-control placeholder="Сообщение" ng-model="message"
-    button.btn.btn-primary ng-click="sendMessage(currentConversation)" Отправить
+    button.btn.btn-primary.pull-right ng-click="sendMessage(currentConversation)" Отправить

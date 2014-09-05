@@ -23,49 +23,45 @@
   overflow: hidden
   padding-bottom: 200px
   .message
-    min-width: 40%
-    max-width: 75%
-    color: #fff
-    margin-bottom: 10px
     padding: 12px
-    background-color: #5cb85c
-    float: right
     border-radius: 7px 7px 0 7px
     clear: both
-    &.incoming
-      background-color: #428bca
-      float: left
-      border-radius: 7px 7px 7px 0
+    p
+      margin-bottom: 6px
     small
       white-space: nowrap
     .avatar
       @include avatar(40px)
       float: left
-      border: 1px solid #fff
+      border: 1px solid #ccc
     .message-contents
       margin-left: 55px
-      a
-        color: #fff
-        text-decoration: underline
-        &:hover
-          text-decoration: none
     .info
-      margin-bottom: 7px
       font-size: 12px
       display: block
+      color: #bbb
 
 
 #chat-form
+  padding: 12px 10px
   margin: 0
-  height: 200px
+  height: 112px
   position: fixed
   bottom: 0
-  width: 900px
+  width: 600px
+  background-color: #eee
+  border: solid #ddd
+  border-width: 1px 1px 0
+  box-shadow: 0 4px 12px rgba(0,0,0,.2)
+  .avatar
+    @include avatar(40px)
+    float: left
+    border: 1px solid #ccc
   .form-group
-    margin: 0
+    margin-left: 50px
   textarea
     margin-bottom: 12px
-    height: 120px
+    height: 42px
 
 
 #new-message
