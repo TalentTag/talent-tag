@@ -28,7 +28,9 @@
         - else
           = t "user.status.#{ @user.status }"
           
-      - unless owns_account? @user
+      - if owns_account? @user
+        = t "user.followers.number", count: current_user.followers.count
+      - else
         div ng-init="follows=#{ current_user.follows? @user }"
           a.btn.btn-primary href="javascript:;" ng-click="follow(false)" ng-show="follows" tt-confirm="Отписаться?"
             .fa.fa-check'

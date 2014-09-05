@@ -5,6 +5,11 @@ ru:
       ignore: "пока не рассматриваю"
       passive: "открыт предложениям"
       active: "ищу работу"
+    followers:
+      number:
+        one: "%{count} подписчик"
+        few: "%{count} подписчика"
+        other: "%{count} подписчиков"
 
   payment:
     state:
