@@ -9,8 +9,9 @@
       small.info {{ message.created_at | timeago }}
 
 
-#chat-form ng-show="currentConversation"
+#chat-form ng-show="currentConversation" ng-class="{ expanded: typing }"
   .avatar style="background-image: url({{ currentUser.avatar }})"
   .form-group
-    textarea.form-control placeholder="Сообщение" ng-model="message"
-    button.btn.btn-primary.pull-right ng-click="sendMessage(currentConversation)" Отправить
+    textarea.form-control placeholder="Сообщение" ng-model="message" ng-focus="typing=true"
+    button.btn.btn-primary.pull-right ng-show="typing" ng-click="sendMessage(currentConversation)" Отправить
+    button.btn.btn-default.pull-right ng-show="typing" ng-click="typing=false" Отмена

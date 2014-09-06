@@ -14,21 +14,5 @@ div ng-controller="talent.ConversationsCtrl"
           span.unread.badge ng-if="conversation.unread_messages" {{ conversation.unread_messages }}
           .note ng-if="conversation.messages_count" {{ conversation.last_message_at | timeago }}
 
-  / .col-md-4
-  /   - if @conversations.count.zero?
-  /     p Переписок не найдено
-
-  /   ul#conversations-list
-  /     - @conversations.each do |conversation|
-  /       - recipient = conversation.recipient current_user
-  /       li id="conversation_#{ conversation.id }"
-  /         a href="/account/conversations/#{ recipient.id }"
-  /           .avatar.pull-left style="background-image: url(#{ recipient.avatar })"
-  /           =' recipient.name
-  /           - unless conversation.unread_messages(current_user).zero?
-  /             span.unread.badge = conversation.unread_messages current_user
-  /           - if conversation.messages.count
-  /             .note = "#{ time_ago_in_words conversation.last_message_at } назад"
-
   .col-md-8
     ng-view
