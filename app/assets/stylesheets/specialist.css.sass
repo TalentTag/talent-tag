@@ -50,3 +50,16 @@
   [role=menu], [role=new-entry], .entry
     border-bottom: 1px solid #ccc
     padding: 15px 0
+
+  [role=new-entry]
+    overflow: hidden
+    textarea
+      transition: all 150ms ease
+      height: 32px
+      margin-bottom: 0
+    &.expanded
+      textarea
+        height: 100px
+        margin-bottom: 10px
+    button
+      margin-left: 12px

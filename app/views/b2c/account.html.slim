@@ -73,9 +73,10 @@
 
     .journal ng-show="current_tab=='journal'"
       - if owns_account? @user
-        @new-entry
-          p : textarea.form-control ng-model="entryBody" rows="3" placeholder="Добавить запись в блог"
-          button.btn.btn-primary ng-click="postEntry()" Опубликовать
+        @new-entry ng-class="{ expanded: typing==true }"
+          textarea.form-control ng-model="entryBody" ng-focus="typing=true" placeholder="Добавить запись в блог"
+          button.btn.btn-primary.pull-right ng-click="postEntry()" ng-show="typing" Опубликовать
+          button.btn.btn-default.pull-right ng-click="typing=false" ng-show="typing" Отмена
 
       - @user.entries.each do |entry|
         .entry
