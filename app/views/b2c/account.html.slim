@@ -3,7 +3,7 @@
 
     section.basic
       @avatar style="background-image: url(#{ @user.avatar });"
-      h4 = @user.name
+      h4@name = @user.name
 
       - unless owns_account? @user
         .row@interact
@@ -18,19 +18,31 @@
 
           .col-md-6
             a.btn.btn-default href="#{ conversation_path(@user.id) }"
-              i.glyphicon.glyphicon-envelope'
+              =' icon :message
               | Написать
 
 
       - if @user.profile['location'] || @user.profile['birthdate']
-        .row@personal
-          .col-md-6@location = @user.profile['location']
-          .col-md-6@birthdate = @user.profile['birthdate']
-          / .col-md-6@location : input.subtle type="text" ng-model="user.profile.location" ng-blur="saveProfile()" placeholder="заполнить"
-          / .col-md-6@birtdate : input.subtle type="text" ng-model="user.profile.birthdate" ng-blur="saveProfile()" placeholder="заполнить"
+        @personal
+          @location
+            =' icon :location
+            = @user.profile['location']
+          @birthdate
+            =' icon :birthday
+            = @user.profile['birthdate']
+
+        / .row@personal
+        /   .col-md-6@location
+        /     =' icon :location
+        /     = @user.profile['location']
+        /   .col-md-6@birthdate
+        /     =' icon :birthday
+        /     = @user.profile['birthdate']
+        /   / .col-md-6@location : input.subtle type="text" ng-model="user.profile.location" ng-blur="saveProfile()" placeholder="заполнить"
+        /   / .col-md-6@birtdate : input.subtle type="text" ng-model="user.profile.birthdate" ng-blur="saveProfile()" placeholder="заполнить"
 
       p
-        i.fa.fa-star-o>
+        =' icon :star
         = t "user.followers.number", count: current_user.followers.count
 
     section.status
@@ -44,7 +56,7 @@
       ul@social.horizontal
         - oauth_providers.each do |provider, params|
           li.identity == embedded_identity @user, provider, params['name'] do
-            i.fa class="fa-#{ provider }"
+            = icon provider
 
       h5 Теги
       @tags

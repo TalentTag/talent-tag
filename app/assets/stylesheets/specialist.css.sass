@@ -27,12 +27,18 @@
       [role=avatar]
         @include avatar(80px)
         margin-bottom: 12px
+      [role=name]
+        margin-bottom: 20px
 
       [role=personal], [role=interact]
-        margin: 20px 0
+        margin: 10px 0
         width: 100%
         > *
           padding: 0
+
+      [role=personal] > *
+        padding: 0 7px
+        display: inline
 
       [role=tags]
         overflow: hidden
