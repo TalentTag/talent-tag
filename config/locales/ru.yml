@@ -7,9 +7,10 @@ ru:
       active: "ищу работу"
     followers:
       number:
+        zero: "нет подписчиков"
         one: "%{count} подписчик"
         few: "%{count} подписчика"
-        other: "%{count} подписчиков"
+        many: "%{count} подписчиков"
 
   payment:
     state:
