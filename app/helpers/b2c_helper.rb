@@ -22,7 +22,7 @@ module B2cHelper
 
 
   def owns_account? user
-    user == current_user
+    !!@owns_account
   end
 
 end

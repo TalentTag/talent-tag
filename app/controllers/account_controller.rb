@@ -12,6 +12,7 @@ class AccountController < ApplicationController
     elsif is_specialist?
       @user = current_user
       gon.statuses = Hash[User::STATUSES.map { |s| [s, I18n.t("user.status.#{s}")] }] # TODO move to a decorator
+      @owns_account = true
       render 'b2c/account'
     else
       render text: "Error 403", status: :forbidden # TODO raise a 403 exception
