@@ -47,17 +47,18 @@
             i.icon.fa class="fa-#{ provider }"
 
       h5 Теги
-      - if owns_account? @user
-        span.kw ng-repeat="tag in user.tags"
-          | {{ tag }}
-          a.close href="javascript:;" ng-click="tags.drop(tag)" &times;
-        input.subtle type="text" placeholder="добавить" ng-model="newTag" ng-blur="tags.add()" ng-keypress="tags.add($event.charCode)"
-      - else
-        - @user.tags.each do |tag|
-          span.kw = tag
+      @tags
+        - if owns_account? @user
+          span.kw ng-repeat="tag in user.tags"
+            | {{ tag }}
+            a.close href="javascript:;" ng-click="tags.drop(tag)" &times;
+          input.subtle type="text" placeholder="добавить" ng-model="newTag" ng-blur="tags.add()" ng-keypress="tags.add($event.charCode)"
+        - else
+          - @user.tags.each do |tag|
+            span.kw = tag
 
       h5 Контакты
-      = @user.email
+      @contacts = @user.email
 
 
 
