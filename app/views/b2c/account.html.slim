@@ -30,16 +30,8 @@
           @birthdate
             =' icon :birthday
             = @user.profile['birthdate']
-
-        / .row@personal
-        /   .col-md-6@location
-        /     =' icon :location
-        /     = @user.profile['location']
-        /   .col-md-6@birthdate
-        /     =' icon :birthday
-        /     = @user.profile['birthdate']
-        /   / .col-md-6@location : input.subtle type="text" ng-model="user.profile.location" ng-blur="saveProfile()" placeholder="заполнить"
-        /   / .col-md-6@birtdate : input.subtle type="text" ng-model="user.profile.birthdate" ng-blur="saveProfile()" placeholder="заполнить"
+          / .col-md-6@location : input.subtle type="text" ng-model="user.profile.location" ng-blur="saveProfile()" placeholder="заполнить"
+          / .col-md-6@birtdate : input.subtle type="text" ng-model="user.profile.birthdate" ng-blur="saveProfile()" placeholder="заполнить"
 
       p
         =' icon :star

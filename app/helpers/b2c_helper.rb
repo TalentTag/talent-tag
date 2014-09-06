@@ -10,7 +10,7 @@ module B2cHelper
       link_to(user.profile["url_#{ provider }"], target: "_blank", title: name, class: "social-round #{ provider }") { block.call }
     else
       if @user==current_user
-        link_to("/auth/#{ provider }", title: name, class: "social-round disabled") { block.call }
+        link_to("/auth/#{ provider }", target: "_self", title: name, class: "social-round disabled") { block.call }
       end
     end
   end
