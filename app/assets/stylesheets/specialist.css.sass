@@ -1,0 +1,75 @@
+@import mixins
+
+#b2c
+
+  [role=overview]
+    section
+      border-bottom: 1px solid #ccc
+      &:last-of-type
+        border: none
+
+
+  section
+    padding: 15px 0
+    h5
+      color: #999
+      text-transform: uppercase
+      margin: 25px 0 15px
+      &:first-of-type
+        margin-top: 0
+
+
+    &.basic, &.status
+      text-align: center
+      > *
+        margin: auto
+
+      [role=avatar]
+        @include avatar(80px)
+        margin-bottom: 12px
+
+      [role=personal], [role=interact]
+        margin: 20px 0
+        width: 100%
+        > *
+          padding: 0
+
+  [role=social]
+    overflow: hidden
+    .identity
+      float: left
+      margin-right: 10px
+      &:last-of-type
+        margin-right: 0
+      a
+        display: block
+        border: 1px dashed #999
+        width: 40px
+        height: 40px
+        border-radius: 20px
+        text-align: center
+        font-size: 20px
+        &.pluggedin
+          border: 1px solid #ccc
+          background-color: #ccc
+          color: #fff
+          &:hover
+            border: 1px solid #bbb
+            background-color: #bbb
+
+        .icon
+          line-height: 40px
+
+
+  [role=menu]
+    text-transform: uppercase
+    font-weight: bold
+    font-size: 12px
+    a
+      text-decoration: none
+      &.current
+        color: #000
+
+  [role=menu], [role=new-entry], .entry
+    border-bottom: 1px solid #ccc
+    padding: 15px 0

@@ -5,11 +5,13 @@ module B2cHelper
   end
 
 
-  def embedded_identity provider, name
-    if current_user.identities.exists?(provider: provider)
-      link_to name, current_user.profile["url_#{ provider }"], target: "_blank"
+  def embedded_identity user, provider, name, &block
+    if user.identities.exists?(provider: provider)
+      link_to(user.profile["url_#{ provider }"], target: "_blank", title: name, class: "pluggedin") { block.call }
     else
-      link_to "Подключить #{ name }", "/auth/#{ provider }", title: name
+      if @user==current_user
+        link_to("/auth/#{ provider }", title: name) { block.call }
+      end
     end
   end
 

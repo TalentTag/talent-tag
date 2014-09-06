@@ -1,97 +1,91 @@
-.col-md-8 ng-controller="talent.B2cAccountCtrl"
-  section.basic style="overflow: hidden"
-    .left-side style="float:left;margin-right:20px"
+#b2c ng-controller="talent.B2cAccountCtrl"
+  .col-md-4@overview
+
+    section.basic
       @avatar style="background-image: url(#{ @user.avatar });"
-    .right-side
-      h3 style="margin:0 0 12px" = "#{ @user.name }"
+      h4 = @user.name
 
-      p@location
-        b> Местонахождение:
-        - if owns_account? @user
-          input.subtle type="text" ng-model="user.profile.location" ng-blur="saveProfile()" placeholder="заполнить"
-        - else
-          - if @user.profile['location']
-            = @user.profile['location']
+      - unless owns_account? @user
+        .row@interact
+          .col-md-6
+            div ng-init="follows=#{ current_user.follows? @user }"
+              a.btn.btn-default href="javascript:;" ng-click="follow(false)" ng-show="follows" tt-confirm="Отписаться?"
+                .fa.fa-check'
+                | Вы подписаны
+              a.btn.btn-default href="javascript:;" ng-click="follow()" ng-hide="follows"
+                .fa.fa-users'
+                | Подписаться
 
-      p@birthdate
-        b> Дата рождения:
-        - if @user == current_user
-          input.subtle type="text" ng-model="user.profile.birthdate" ng-blur="saveProfile()" placeholder="заполнить"
-        - else
-          - if @user.profile['birthdate']
-            = @user.profile['birthdate']
-      
-      p@status
-        b> Статус:
-        - if owns_account? @user
-          select ng-model="userStatus" ng-options="status as text for (status, text) in statuses"
-        - else
-          = t "user.status.#{ @user.status }"
-          
-      - if owns_account? @user
+          .col-md-6
+            a.btn.btn-default href="#{ conversation_path(@user.id) }"
+              i.glyphicon.glyphicon-envelope'
+              | Написать
+
+
+      - if @user.profile['location'] || @user.profile['birthdate']
+        .row@personal
+          .col-md-6@location = @user.profile['location']
+          .col-md-6@birthdate = @user.profile['birthdate']
+          / .col-md-6@location : input.subtle type="text" ng-model="user.profile.location" ng-blur="saveProfile()" placeholder="заполнить"
+          / .col-md-6@birtdate : input.subtle type="text" ng-model="user.profile.birthdate" ng-blur="saveProfile()" placeholder="заполнить"
+
+      p
+        i.fa.fa-star-o>
         = t "user.followers.number", count: current_user.followers.count
+
+    section.status
+      - if owns_account? @user
+        select ng-model="userStatus" ng-options="status as text for (status, text) in statuses"
       - else
-        div ng-init="follows=#{ current_user.follows? @user }"
-          a.btn.btn-primary href="javascript:;" ng-click="follow(false)" ng-show="follows" tt-confirm="Отписаться?"
-            .fa.fa-check'
-            | Вы подписаны
-          a.btn.btn-primary href="javascript:;" ng-click="follow()" ng-hide="follows"
-            .fa.fa-users'
-            | Подписаться
+        = t "user.status.#{ @user.status }"
+
+    section.contacts
+      h5 Аккаунты в социальных сетях
+      ul@social
+        - oauth_providers.each do |provider, params|
+          li.identity == embedded_identity @user, provider, params['name'] do
+            i.icon.fa class="fa-#{ provider }"
+
+      h5 Теги
+      - if owns_account? @user
+        span.kw ng-repeat="tag in user.tags"
+          | {{ tag }}
+          a.close href="javascript:;" ng-click="tags.drop(tag)" &times;
+        input.subtle type="text" placeholder="добавить" ng-model="newTag" ng-blur="tags.add()" ng-keypress="tags.add($event.charCode)"
+      - else
+        - @user.tags.each do |tag|
+          span.kw = tag
+
+      h5 Контакты
+      = @user.email
 
 
-  hr
-
-  section.tags style="overflow:hidden"
-    h4 Теги
-    - if owns_account? @user
-      span.kw ng-repeat="tag in user.tags"
-        | {{ tag }}
-        a.close href="javascript:;" ng-click="tags.drop(tag)" &times;
-      input.subtle type="text" placeholder="добавить" ng-model="newTag" ng-blur="tags.add()" ng-keypress="tags.add($event.charCode)"
-    - else
-      - @user.tags.each do |tag|
-        span.kw = tag
 
 
-  hr
+  .col-md-8@details
 
-  - if @user.profile && @user.profile['work']
-    section.work
-      .well
-        h4 Опыт работы
+    section@menu
+      ul.horizontal ng-init="current_tab='journal'"
+        li: a href="javascript:;" ng-class="{ current: current_tab=='journal' }" ng-click="current_tab='journal'" Блог
+        li: a href="javascript:;" ng-class="{ current: current_tab=='portfolio' }" ng-click="current_tab='portfolio'" Портфолио
+        li: a href="javascript:;" ng-class="{ current: current_tab=='about' }" ng-click="current_tab='about'" Обо мне
+
+    .journal ng-show="current_tab=='journal'"
+      - if owns_account? @user
+        @new-entry
+          p : textarea.form-control ng-model="entryBody" rows="3" placeholder="Добавить запись в блог"
+          button.btn.btn-primary ng-click="postEntry()" Опубликовать
+
+      - @user.entries.each do |entry|
+        .entry
+          / a.close href="javascript:;" &times;
+          p : small = "#{ entry.source.name rescue "TalentTag" } | #{ entry.created_at.strftime '%d.%m.%Y' }"
+          p : a href=entry.url target="_blank" = truncate entry.url, length: 60
+          == bold_tags entry.body
+    
+    section.portfolio ng-show="current_tab=='portfolio'"
+
+    section.about ng-show="current_tab=='about'"
+      - if @user.profile && @user.profile['work']
         - @user.profile['work'].each do |data|
           = work_positon data
-
-    hr
-
-  section.journal
-    - if owns_account? @user
-      a.pull-right href="javascript:;" ng-click="toggleEntryForm()" Добавить запись
-    h4 Профессиональный блог
-
-    - if owns_account? @user
-      div ng-show="entryFormDisplayed" style="overflow:hidden"
-        p : textarea.form-control ng-model="entryBody" rows="5"
-        button.btn.btn-primary.pull-right ng-click="postEntry()" Опубликовать
-
-    - @user.entries.each do |entry|
-      div
-        / a.close href="javascript:;" &times;
-        p : small = "#{ entry.source.name rescue "TalentTag" } | #{ entry.created_at.strftime '%d.%m.%Y' }"
-        p : a href=entry.url target="_blank" = truncate entry.url, length: 60
-        p == bold_tags entry.body
-        hr
-
-
-
-.col-md-4
-  .well
-    - if owns_account? @user
-      h4 Учетные записи
-      - oauth_providers.each do |provider, params|
-        p == embedded_identity provider, params['name']
-    - else
-      a.btn.btn-primary href="#{ conversation_path(@user.id) }"
-        i.glyphicon.glyphicon-envelope'
-        | Личное сообщение
