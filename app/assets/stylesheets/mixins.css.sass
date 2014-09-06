@@ -1,6 +1,6 @@
 @mixin horizontal-list($gap)
   overflow: hidden
-  li
+  > li
     float: left
     &:first-child
       a, span
@@ -8,13 +8,13 @@
     &:last-child
       a, span
         margin-right: 0
-    a, span
+    > a, span
       margin: 0 $gap
 
 
 @mixin divided-list($gap)
   @include horizontal-list($gap)
-  li
+  > li
     &:after
       content: "|"
     &:last-child
@@ -31,12 +31,12 @@
   border: 1px solid #bce8f1
 
 
-@mixin social-outlook($color)
+=social-outlook($color)
   border: 1px solid $color
   background-color: $color
 
 
-@mixin social($size)
+=social($size)
   display: block
   width: $size
   height: $size
@@ -44,15 +44,15 @@
   font-size: $size/2
   color: #fff
   &.facebook
-    @include social-outlook(#496194)
+    +social-outlook(#496194)
   &.twitter
-    @include social-outlook(#28c3ff)
+    +social-outlook(#28c3ff)
   &.vkontakte
-    @include social-outlook(#6996c7)
+    +social-outlook(#6996c7)
   &.google_oauth2
-    @include social-outlook(#ff6d4a)
+    +social-outlook(#ff6d4a)
   &.linkedin
-    @include social-outlook(#0077b5)
+    +social-outlook(#0077b5)
   &:hover
     color: #fff
 
@@ -64,12 +64,41 @@
   i
     line-height: $size
 
-@mixin social-round($size)
-  @include social($size)
+=social-round($size)
+  +social($size)
   border-radius: $size/2
 
 .social
-  @include social(40px)
+  +social(40px)
 
 .social-round
-  @include social-round(40px)
+  +social-round(40px)
+
+
+
+=dropdown($width)
+  width: $width
+  left: -60px
+  font-size: 12px
+  line-height: 16px
+
+=dropdown-arrow($width, $offset)
+  +dropdown($width)
+  &::before
+    position: absolute
+    top: -7px
+    left: $offset
+    border-bottom: 7px solid rgba(0, 0, 0, 0.2)
+    border-left: 7px solid transparent
+    border-right: 7px solid transparent
+    content: ""
+    display: inline-block
+  &::after
+    position: absolute
+    top: -6px
+    left: $offset+1
+    display: inline-block
+    border-right: 6px solid transparent
+    border-bottom: 6px solid white
+    border-left: 6px solid transparent
+    content: ""
