@@ -35,16 +35,16 @@
 
     section.status
       - if owns_account? @user
-        select ng-model="userStatus" ng-options="status as text for (status, text) in statuses"
+        select.form-control ng-model="userStatus" ng-options="status as text for (status, text) in statuses"
       - else
         = t "user.status.#{ @user.status }"
 
     section.contacts
       h5 Аккаунты в социальных сетях
-      ul@social
+      ul@social.horizontal
         - oauth_providers.each do |provider, params|
           li.identity == embedded_identity @user, provider, params['name'] do
-            i.icon.fa class="fa-#{ provider }"
+            i.fa class="fa-#{ provider }"
 
       h5 Теги
       @tags
