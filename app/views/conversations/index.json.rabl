@@ -15,3 +15,5 @@ end
 node :messages_count do |conversation|
   conversation.messages.count
 end
+
+attribute :last_message

@@ -10,9 +10,12 @@ div ng-controller="talent.ConversationsCtrl"
       li ng-repeat="conversation in conversations" id="conversation_{{ conversation.id }}"
         a href="/account/conversations/{{ conversation.recipient.id }}"
           .avatar.pull-left style="background-image: url({{ conversation.recipient.avatar }})"
-          ' {{ conversation.recipient.name }}
-          span.unread.badge ng-if="conversation.unread_messages" {{ conversation.unread_messages }}
-          .note ng-if="conversation.messages_count" {{ conversation.last_message_at | timeago }}
+          .content
+            .name {{ conversation.recipient.name }}
+            span.unread.badge ng-if="conversation.unread_messages" {{ conversation.unread_messages }}
+            div ng-if="conversation.messages_count"
+              .text &laquo;{{ conversation.last_message.text | truncate:80:{byWords:true} }}&raquo;
+              .note {{ conversation.last_message_at | timeago }}
 
   .col-md-8
     ng-view

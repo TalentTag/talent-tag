@@ -8,15 +8,25 @@
     padding: 7px 12px
     border-bottom: 1px solid #ddd
     overflow: hidden
+    text-decoration: none
     &:hover
       background-color: #eee
     .avatar
       @include avatar(40px)
       margin-right: 10px
-    .note
-      color: #808080
-      font-size: 12px
-      text-decoration: none
+    .content
+      margin-left: 50px
+      .name
+        color: #000
+        margin-bottom: 4px
+        font-weight: bold
+      .text
+        color: #000
+        font-size: 12px
+        margin-bottom: 4px
+      .note
+        color: #bbb
+        font-size: 12px
 
 
 #chat-messages

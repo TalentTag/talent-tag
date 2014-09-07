@@ -22,6 +22,10 @@ class Conversation < ActiveRecord::Base
     recipients(user).first
   end
 
+  def last_message
+    messages.last
+  end
+
   def last_user_activity(user)
     conversations_users.where(user_id: user.id).first.try(:last_activity_at)
   end
