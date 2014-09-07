@@ -18,17 +18,21 @@ class Notification
   end
 
   def save
-    KeyValue.sadd "notifications:#{ author_id }", self
+    KeyValue.setex "notifications:#{ author_id }:#{ Time.now.to_i }", 7.days, self
   end
 
   def self.create attrs
     new(attrs.merge created_at: Time.now).save
   end
 
-  def self.where authors
+  def self.where authors, last_check=nil
+    last_check ||= 7.days.ago
     Array.wrap(authors).flat_map do |author|
       id = if author.kind_of?(User) then author.id else author end
-      KeyValue.smembers("notifications:#{ id }").map { |n| new JSON.parse n }
+      KeyValue.keys("notifications:#{ id }:*").map do |key|
+        timestamp_of_creation = key.split(':').last
+        new JSON.parse KeyValue.get(key) if timestamp_of_creation.to_i > last_check.to_i
+      end.compact
     end.sort_by { |n| n.created_at }.reverse
   end
 

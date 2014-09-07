@@ -30,6 +30,9 @@ TalentTag::Application.routes.draw do
     put '/status' => :update_status
     resources :conversations, only: %i(index show)
     resources :messages, only: %i(index show create)
+    resources :notifications, only: :index do
+      collection { post :mark_checked, as: :check }
+    end
   end
 
   namespace :profile do

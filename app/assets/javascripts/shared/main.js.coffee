@@ -1,4 +1,7 @@
-@talent.controller "talent.MainCtrl", ["$scope", "$rootScope", ($scope, $rootScope) ->
+@talent.controller "talent.MainCtrl", ["$scope", "$rootScope", "Notifications", ($scope, $rootScope, Notifications) ->
+
+  $scope.Notifications = Notifications
+
 
   Danthes.subscribe "/users/#{talentData.currentUser.id}/messages", (data) ->
     $rootScope.$broadcast 'signal:new_message', data

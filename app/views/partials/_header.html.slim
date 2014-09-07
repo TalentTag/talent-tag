@@ -12,7 +12,7 @@ header
           li = link_to(conversations_path, target: "_self") { icon :message }
 
           li.dropdown@notifications
-            a.dropdown-toggle data-toggle="dropdown" href="#" = icon :notification
+            a.dropdown-toggle data-toggle="dropdown" ng-click="Notifications.markChecked()" href="#" = icon :notification
             .dropdown-menu@menu = render partial: "b2b/partials/notifications"
 
           li: .avatar style="background-image: url(#{ current_user.avatar })"

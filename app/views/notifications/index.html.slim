@@ -1,0 +1,6 @@
+.col-md-12
+  - if @notifications.any?
+    - @notifications.each do |notification|
+      p = send "notification_#{ notification.event }", notification
+  - else
+    p.no-notifications Нет новых уведомлений
