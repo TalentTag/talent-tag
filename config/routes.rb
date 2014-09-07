@@ -95,7 +95,10 @@ TalentTag::Application.routes.draw do
     resources :proposals, only: %i(index show update)
     resources :industries, :areas, :keyword_groups, only: %i(create update destroy), defaults: { format: :json }
     resources :sources, only: %i(index update)
-    resources :entries, only: :index
+    resources :entries, only: :index do
+      collection { get :deleted }
+      member { put :delete, :restore }
+    end
     namespace :stats do
       get '/entries/:year(/sources/:source_id)' => :entries, as: :entries
     end

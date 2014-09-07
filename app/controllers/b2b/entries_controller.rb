@@ -33,7 +33,8 @@ class B2b::EntriesController < B2b::BaseController
 
   def destroy
     authorize! :destroy, Entry
-    respond_with Entry.find_by!(id: params[:id]).destroy
+    Entry.find_by!(id: params[:id]).mark_as_deleted!
+    render nothing: true, status: :no_content
   end
 
 

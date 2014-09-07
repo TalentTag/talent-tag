@@ -1,5 +1,7 @@
 class Entry < ActiveRecord::Base
 
+  include AASM
+
   self.primary_key = :id
 
   ENTRIES_PER_PAGE = 10
@@ -18,6 +20,8 @@ class Entry < ActiveRecord::Base
   default_scope -> { order created_at: :desc }
   scope :from_published_sources, -> { joins(:source).where('sources.hidden' => false).references(:sources) }
   scope :except_blacklisted_by, -> (user) { where.not id: user.blacklist }
+  scope :visible, -> { where state: :normal }
+  scope :marked, -> { where state: :marked }
 
 
   def self.filter params={}
@@ -39,7 +43,7 @@ class Entry < ActiveRecord::Base
       entries.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane
       entries.page(page).per(ENTRIES_PER_PAGE)
     else
-      entries = self
+      entries = visible
       entries = entries.where(source_id: params[:source]) if params[:source]
       entries = entries.from_published_sources if params[:published]
       entries.page(page).load
@@ -53,6 +57,26 @@ class Entry < ActiveRecord::Base
 
   def hashtags
     body.scan(/#(\S+)/).flatten.reject { |t| t=='talenttag' }.uniq
+  end
+
+
+  aasm_column :state
+  aasm do
+    state :normal, initial: true
+    state :marked
+    state :deleted
+
+    event :mark_as_deleted do
+      transitions to: :marked, from: :normal
+    end
+
+    event :delete do
+      transitions to: :deleted, from: %i(normal marked)
+    end
+
+    event :restore do
+      transitions to: :normal, from: :marked
+    end
   end
 
 

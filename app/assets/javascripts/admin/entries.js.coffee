@@ -22,7 +22,7 @@
     new Date(entry.fetched_at) > $scope.lastLogin
 
   $scope.delete = (entry) ->
-    if confirm "Удалить запись навсегда?"
+    if confirm "Удалить запись?"
       entry.$delete()
       $scope.entries = $scope.entries.filter (e) -> e isnt entry
 

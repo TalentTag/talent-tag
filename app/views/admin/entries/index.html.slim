@@ -1,6 +1,10 @@
 .row ng-controller="talent.EntryCtrl"
+  p: a.btn.btn-default href=deleted_admin_entries_path
+    ' Удаленные
+    span.badge = Entry.marked.count
+
   .well
-    .checkbox : label
+    .checkbox style="margin-top: 0" : label
       input type="checkbox" ng-model="publishedOnly" ng-change="fetch()"
       | Только из опубликованных источников
 
