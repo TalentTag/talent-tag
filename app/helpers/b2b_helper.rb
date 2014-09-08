@@ -1,8 +1,7 @@
 module B2bHelper
 
   def notifications
-    ids = current_user.follows.map { |f| f.following.id }
-    Notification.where ids, current_user.last_notifications_check
+    @recent_notifications ||= NotificationsService.new(current_user).all unseen_only: true
   end
 
   %w(status_change new_post).each do |event|

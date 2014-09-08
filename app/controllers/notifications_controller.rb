@@ -1,15 +1,17 @@
 class NotificationsController < ApplicationController
 
+  before_action do
+    @notifications_service = NotificationsService.new(current_user)
+  end
+
+
   def index
-    @notifications = begin
-      ids = current_user.follows.map { |f| f.following.id }
-      Notification.where ids
-    end
-    current_user.check_notifications!
+    @notifications = @notifications_service.all
+    @notifications_service.mark_checked!
   end
 
   def mark_checked
-    current_user.check_notifications!
+    @notifications_service.mark_checked!
     render nothing: true, status: :no_content
   end
 

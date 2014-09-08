@@ -109,14 +109,6 @@ class User < ActiveRecord::Base
   end
 
 
-  def check_notifications!
-    KeyValue.setex "notifications:checked:#{ id }", 7.days, Time.now.to_i
-  end
-
-  def last_notifications_check
-    Time.at(KeyValue.get("notifications:checked:#{ id }").to_i).to_datetime
-  end
-
 
   protected
 
