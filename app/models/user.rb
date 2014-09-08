@@ -109,6 +109,10 @@ class User < ActiveRecord::Base
   end
 
 
+  def unread_messages_count
+    conversations.map { |c| c.unread_messages self }.sum
+  end
+
 
   protected
 
