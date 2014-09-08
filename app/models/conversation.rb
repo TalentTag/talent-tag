@@ -33,7 +33,11 @@ class Conversation < ActiveRecord::Base
   def unread_messages(user)
     msg = messages.where.not(user_id: user.id)
     msg = msg.where("created_at > '#{last_user_activity(user)}'") if last_user_activity(user)
-    msg.count
+    msg
+  end
+
+  def unread_messages_count(user)
+    unread_messages(user).count
   end
 
   def touch_activity!(user)

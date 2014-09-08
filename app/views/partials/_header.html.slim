@@ -9,14 +9,10 @@ header
 
           li = link_to "Личный кабинет", account_path, target: "_self"
 
-          li
-            = link_to conversations_path, target: "_self", style: "position:relative"
-              = icon :message
-              - unless current_user.unread_messages_count.zero?
-                .look-at-me = current_user.unread_messages_count
+          li.dropdown@messages = render partial: "partials/messages"
 
           li.dropdown@notifications
-            a.dropdown-toggle data-toggle="dropdown" ng-click="Notifications.markChecked()" href="#"
+            a.dropdown-toggle data-toggle="dropdown" ng-click="Notifications.markChecked()" href="javascript:;"
               = icon :notification
               - if notifications.any?
                 .look-at-me = notifications.count
@@ -25,7 +21,7 @@ header
           li: .avatar style="background-image: url(#{ current_user.avatar })"
 
           li.dropdown@actions
-            a.dropdown-toggle data-toggle="dropdown" href="#"
+            a.dropdown-toggle data-toggle="dropdown" href="javascript:;"
               = current_user.name
               span.caret
             ul.dropdown-menu@menu

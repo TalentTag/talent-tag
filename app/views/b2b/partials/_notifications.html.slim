@@ -2,6 +2,6 @@
   ul.notifications
     - notifications[0..2].each do |notification|
       li = send "notification_#{ notification.event }", notification
-    li: a href=notifications_path target="_self" Все оповещения
+    li: a href=notifications_path target="_self" Просмотреть все оповещения
 - else
-  p.no-notifications Нет новых уведомлений
+  p.no-items Нет новых уведомлений

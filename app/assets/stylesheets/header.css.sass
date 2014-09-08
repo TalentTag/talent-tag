@@ -22,19 +22,32 @@
   .dropdown-toggle
     position: relative
 
-  [role=notifications]
+  [role=messages], [role=notifications]
+    li
+      margin: 7px 14px 0
+      padding-bottom: 7px
+      border-bottom: 1px solid #ccc
+      &:last-of-type
+        border-bottom: none
+      a
+        margin: 0
+
     .dropdown-menu
       +dropdown-arrow(300px, 70px)
-    .notifications
-      li
-        margin: 7px 14px 0
-        padding-bottom: 7px
-        border-bottom: 1px solid #ccc
-        &:last-of-type
-          border-bottom: none
-        a
-          margin: 0
-    .no-notifications
+
+    .messages
+      .avatar
+        margin: 0
+      .content
+        margin-left: 45px
+      a
+        color: #000
+      p
+        margin: 0
+      .info
+        color: #999
+
+    .no-items
       color: #999
       margin: 20px 0
       text-align: center

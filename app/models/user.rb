@@ -109,8 +109,12 @@ class User < ActiveRecord::Base
   end
 
 
+  def unread_messages
+    conversations.flat_map { |c| c.unread_messages self }.sort_by { |m| m.created_at }.reverse
+  end
+
   def unread_messages_count
-    conversations.map { |c| c.unread_messages self }.sum
+    conversations.map { |c| c.unread_messages_count self }.sum
   end
 
 
