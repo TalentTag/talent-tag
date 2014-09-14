@@ -17,13 +17,23 @@
     $scope.messages = (new Message(attrs) for attrs in messages)
     $scope.currentConversation.unread_messages = 0
 
+
   recieveMessage = (data) ->
-    $scope.messages.push new Message
-      user_id:      data.user_id
-      recipient_id: $scope.currentUser.id
-      text:         data.message
-      created_at:   data.date
+    newMessage = new Message
+      user_id:          data.user_id
+      recipient_id:     $scope.currentUser.id
+      text:             data.message
+      created_at:       data.date
+      conversation_id:  $scope.currentConversation.id
+    $scope.messages.push newMessage
+
+    conversation = newMessage.conversation()
+    if $scope.currentConversation and conversation is $scope.currentConversation
+      $http.put "/account/conversations/#{ conversation.id }/touch"
+    else
+      conversation.unread_messages = (newMessage.conversation().unread_messages || 0) + 1
     $scope.$apply()
+
 
   sendMessage = (conversation) ->
     message = new Message
@@ -36,6 +46,7 @@
     message.$save()
 
   $scope.sendMessage = sendMessage
+
 
   $rootScope.$on 'signal:new_message', (event, data) ->
     recieveMessage data.chat

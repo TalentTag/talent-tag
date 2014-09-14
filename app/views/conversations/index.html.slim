@@ -1,7 +1,3 @@
-coffee:
-  Danthes.subscribe "/users/#{talentData.currentUser.id}/messages", (data, channel) ->
-    $("#conversation_#{data.chat.conversation_id} span.unread span").html parseInt($("#conversation_#{data.chat.conversation_id} span.unread span").html(), 10)+1
-
 div ng-controller="talent.ConversationsCtrl"
   .col-md-4
     p ng-if="!conversations.length" Переписок не найдено

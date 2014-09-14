@@ -20,19 +20,24 @@ class ConversationsController < ApplicationController
         conversations = [Conversation.new(user_ids: [params[:id], current_user.id])] + conversations unless conversation
 
         gon.rabl 'app/views/conversations/index.json', locals: { conversations: conversations }, as: :conversations
-        # TODO pick current conversation in JS
         render :index
       end
 
       format.json do
         if conversation
           conversation.touch_activity! current_user
-          respond_with conversation.messages
+          respond_with conversation.messages.order(created_at: :desc).limit(20).reverse
         else
           respond_with []
         end
       end
     end
+  end
+
+
+  def touch
+    Conversation.find_by!(id: params[:id]).touch_activity! current_user
+    render nothing: true, status: :no_content
   end
 
 end
