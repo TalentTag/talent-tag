@@ -1,4 +1,4 @@
-a' href=specialist_path(notification.author.id) : b = notification.author.name
+a' target="_self" href=specialist_path(notification.author.id) : b = notification.author.name
 ' изменил статус на
 b' = t "user.status.#{ notification.data }"
 =' time_ago_in_words notification.created_at
