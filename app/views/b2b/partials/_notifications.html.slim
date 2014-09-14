@@ -1,7 +1,14 @@
-- if notifications.any?
-  ul.notifications
-    - notifications[0..2].each do |notification|
-      li = send "notification_#{ notification.event }", notification
-    li: a href=notifications_path target="_self" Просмотреть все оповещения
+- if notifications.present?
+  a.dropdown-toggle data-toggle="dropdown" ng-click="Notifications.markChecked()" href="javascript:;"
+    = icon :notification
+    - if notifications.any?
+      .look-at-me = notifications.count
+  .dropdown-menu@menu
+    ul.notifications
+      - notifications[0..2].each do |notification|
+        li = send "notification_#{ notification.event }", notification
+      li: a href=notifications_path target="_self" Просмотреть все оповещения
+
 - else
-  p.no-items Нет новых уведомлений
+  a href=notifications_path target="_self"
+    = icon :notification

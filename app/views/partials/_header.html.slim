@@ -10,13 +10,7 @@ header
           li = link_to "Личный кабинет", account_path, target: "_self"
 
           li.dropdown@messages = render partial: "partials/messages"
-
-          li.dropdown@notifications
-            a.dropdown-toggle data-toggle="dropdown" ng-click="Notifications.markChecked()" href="javascript:;"
-              = icon :notification
-              - if notifications.any?
-                .look-at-me = notifications.count
-            .dropdown-menu@menu = render partial: "b2b/partials/notifications"
+          li.dropdown@notifications = render partial: "b2b/partials/notifications"
 
           li: .avatar style="background-image: url(#{ current_user.avatar })"
 
