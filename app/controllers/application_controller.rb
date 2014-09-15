@@ -3,9 +3,11 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   helper_method :current_user, :current_account, :signed_in?, :is_employer?, :is_specialist?
 
-  before_filter :mailer_set_url_options
-
   before_action :include_current_user
+  before_action do
+    ActionMailer::Base.default_url_options[:host] = request.host_with_port
+  end
+
 
   def current_user
     @current_user ||= if session[:user]
@@ -39,7 +41,7 @@ class ApplicationController < ActionController::Base
   end
 
 
-  private
+  protected
 
   def include_current_user
     if request.format.html?
@@ -47,10 +49,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  protected
 
-  def sign_user_in user=nil, options={}
-    user ||= @user
+  def sign_user_in user, options={}
     if user.kind_of? User
       session[:user] = user.email
       session[:role] = options[:as] if options[:as].present?
@@ -59,36 +59,14 @@ class ApplicationController < ActionController::Base
         u.generate_auth_token
       end.save validate: false
       user.generate_cookie { |cookie| cookies[:rememberme] = cookie } if params[:rememberme]
+      @current_user = user
     end
     signed_in?
   end
 
 
-  def account_type
-    @account_type ||= session[:role].try :to_sym
-  end
-
-  def is_employer?
-    account_type == :employer
-  end
-
-  def is_specialist?
-    account_type == :specialist
-  end
-
-  def mailer_set_url_options
-    ActionMailer::Base.default_url_options[:host] = request.host_with_port
-  end
-
-  def fetch_account_data
-    gon.push \
-      user:           current_user,
-      company:        current_account,
-      keyword_groups: KeywordGroup.all,
-      industries:     Industry.all,
-      areas:          Area.all,
-      searches:       current_user.searches,
-      folders:        current_user.folders
-  end
+  def account_type;   @account_type ||= session[:role].try :to_sym end
+  def is_employer?;   account_type == :employer end
+  def is_specialist?; account_type == :specialist end
 
 end
