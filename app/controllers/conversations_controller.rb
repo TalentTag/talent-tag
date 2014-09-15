@@ -6,7 +6,7 @@ class ConversationsController < ApplicationController
 
 
   def index
-    gon.rabl 'app/views/conversations/index.json', locals: { conversations: current_user.conversations }, as: :conversations
+    gon.rabl template: 'app/views/conversations/index.json', locals: { conversations: current_user.conversations }, as: :conversations
   end
 
 
@@ -19,7 +19,7 @@ class ConversationsController < ApplicationController
         conversations = current_user.conversations
         conversations = [Conversation.new(user_ids: [params[:id], current_user.id])] + conversations unless conversation
 
-        gon.rabl 'app/views/conversations/index.json', locals: { conversations: conversations }, as: :conversations
+        gon.rabl template: 'app/views/conversations/index.json', locals: { conversations: conversations }, as: :conversations
         render :index
       end
 
