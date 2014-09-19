@@ -39,3 +39,31 @@
               .err = current_account.errors.messages[:details].first
 
       .panel-footer = f.submit "Сохранить", class: 'btn btn-primary'
+
+  = form_tag profile_company_path, method: :put
+    .panel.panel-info
+      .panel-heading Соцсети
+      .panel-body
+        table width="100%"
+          tr
+            td width="200px" Вконтакте
+            td : .input-group style="width: 100%"
+              = text_field_tag 'company[social[vk]]', current_account.social_vk, class: 'form-control'
+          tr
+            td width="200px" Twiiter
+            td : .input-group style="width: 100%"
+              = text_field_tag 'company[social[twitter]]', current_account.social_twitter, class: 'form-control'
+          tr
+            td width="200px" Facebook
+            td : .input-group style="width: 100%"
+              = text_field_tag 'company[social[facebook]]', current_account.social_facebook, class: 'form-control'
+          tr
+            td width="200px" Google+
+            td : .input-group style="width: 100%"
+              = text_field_tag 'company[social[gplus]]', current_account.social_gplus, class: 'form-control'
+          tr
+            td width="200px" LinkedIn
+            td : .input-group style="width: 100%"
+              = text_field_tag 'company[social[linkedin]]', current_account.social_linkedin, class: 'form-control'
+
+      .panel-footer = submit_tag "Сохранить", class: 'btn btn-primary'
