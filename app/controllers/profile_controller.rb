@@ -42,7 +42,7 @@ class ProfileController < ApplicationController
   def remove_employee
     user = current_account.users.find params[:id]
     authorize! :destroy, user
-    flash.now[:notice] = "Пользователь удален из системы" if user.delete
+    flash.now[:notice] = "Пользователь удален из системы" if user.update role: nil, company_id: nil
     redirect_to profile_employee_path
   end
 
