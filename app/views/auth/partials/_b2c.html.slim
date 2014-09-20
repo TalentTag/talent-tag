@@ -10,12 +10,9 @@
           .row#social-wrapper
             .col-md-12
               p style="margin: 0 20px 0 0; float: left; line-height: 28px" : small style="text-align:center" Выберите соцсеть
-              ul#social
-                li = link_to fa_icon('facebook-square'), '/auth/facebook', title: "Facebook"
-                li = link_to fa_icon('twitter'), '/auth/twitter', title: "Twitter"
-                li = link_to fa_icon('vk'), '/auth/vkontakte', title: "Вконтакте"
-                li = link_to fa_icon('google-plus-square'), '/auth/google_oauth2', title: "Google"
-                li = link_to fa_icon('linkedin-square'), '/auth/linkedin', title: "LinkedIn"
+              ul#social.horizontal
+                - SocialNetworks::oauth.each do |network|
+                  li = link_to icon(network), "/auth/#{ oauth_providers(network)['name'] }", title: t("social_network.#{ network }"), class: network
 
           .row.carousel ng-init="tab='signin'" style="width: 300%" ng-class="{ signin: tab=='signin', signup: tab=='signup', forgot: tab=='forgot' }"
             .col-md-4

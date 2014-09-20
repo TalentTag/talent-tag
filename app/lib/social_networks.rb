@@ -8,6 +8,7 @@ module SocialNetworks
     end
 
     alias company all
+    alias oauth all
   end
 
 end

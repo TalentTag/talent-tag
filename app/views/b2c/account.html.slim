@@ -46,7 +46,7 @@
     section.contacts
       h5 Аккаунты в социальных сетях
       ul@social.horizontal
-        - oauth_providers.each do |provider, params|
+        - SocialNetworks::oauth.each do |provider|
           li.identity == embedded_identity @user, provider, params['name'] do
             = icon provider
 

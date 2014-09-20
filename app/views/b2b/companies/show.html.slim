@@ -9,7 +9,8 @@
     h4 Социальные сети
     ul.horizontal.social_networks
       - SocialNetworks::company.each do |network|
-        li: a href="#{ @company.social[network.to_s] }" = t "social_networks.#{ network }"
+        - if @company.social[network.to_s].present?
+          li = link_to icon(network), @company.social[network.to_s], class: "social-round #{ network }"
 
   section
     h4 Контакты
