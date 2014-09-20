@@ -24,14 +24,6 @@ class Company < ActiveRecord::Base
     users.where role: :employee
   end
 
-  # Social networking
-  %i(vk twitter facebook gplus linkedin).each do |network|
-    define_method "social_#{ network }" do
-      social[network.to_s]
-    end
-  end
-
-
   def detailed?
     %w(website phone address details).map { |f| send(f).present? }.all?
   end

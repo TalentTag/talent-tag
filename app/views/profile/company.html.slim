@@ -2,6 +2,10 @@
   = render partial: 'profile/partials/nav'
 
 .col-md-9
+  p.well
+    a> href=company_path(current_account.id) target="_self" Страница компании
+    | &rarr;
+
   h4 Редактирование данных компании
   = form_for current_account, url: profile_company_path, method: :put do |f|
     .panel.panel-info
@@ -45,25 +49,9 @@
       .panel-heading Соцсети
       .panel-body
         table width="100%"
-          tr
-            td width="200px" Вконтакте
-            td : .input-group style="width: 100%"
-              = text_field_tag 'company[social[vk]]', current_account.social_vk, class: 'form-control'
-          tr
-            td width="200px" Twiiter
-            td : .input-group style="width: 100%"
-              = text_field_tag 'company[social[twitter]]', current_account.social_twitter, class: 'form-control'
-          tr
-            td width="200px" Facebook
-            td : .input-group style="width: 100%"
-              = text_field_tag 'company[social[facebook]]', current_account.social_facebook, class: 'form-control'
-          tr
-            td width="200px" Google+
-            td : .input-group style="width: 100%"
-              = text_field_tag 'company[social[gplus]]', current_account.social_gplus, class: 'form-control'
-          tr
-            td width="200px" LinkedIn
-            td : .input-group style="width: 100%"
-              = text_field_tag 'company[social[linkedin]]', current_account.social_linkedin, class: 'form-control'
-
+          - SocialNetworks::company.each do |network|
+            tr
+              td width="200px" = t "social_network.#{ network }"
+              td : .input-group style="width: 100%"
+                = text_field_tag "company[social[#{ network }]]", current_account.social[network.to_s], class: 'form-control'
       .panel-footer = submit_tag "Сохранить", class: 'btn btn-primary'

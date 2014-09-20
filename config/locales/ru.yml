@@ -12,6 +12,13 @@ ru:
         few: "%{count} подписчика"
         many: "%{count} подписчиков"
 
+  social_network:
+    vk: "Вконтакте"
+    twitter: "Twitter"
+    facebook: "Facebook"
+    gplus: "Google+"
+    linkedin: "LinkedIn"
+
   payment:
     state:
       pending: "В ожидании"

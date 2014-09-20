@@ -54,7 +54,7 @@ class ProfileController < ApplicationController
   end
 
   def company_params
-    params.require(:company).permit(:name, :website, :phone, :address, :details, social: %i(vk twitter facebook gplus linkedin))
+    params.require(:company).permit(:name, :website, :phone, :address, :details, social: SocialNetworks::company)
   end
 
 end

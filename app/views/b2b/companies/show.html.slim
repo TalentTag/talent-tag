@@ -1,7 +1,18 @@
 .col-md-12 role="company-details"
-  h3 = @company.name
-  p : a href="http://#{ @company.website }" target="_blank" = @company.website
-  ul.contacts
-    li : span = @company.phone
-    li : span = @company.address
-  p = @company.details
+
+  section
+    h3 = @company.name
+    div: a href="http://#{ @company.website }" target="_blank" = @company.website
+    = @company.details
+
+  section
+    h4 Социальные сети
+    ul.horizontal.social_networks
+      - SocialNetworks::company.each do |network|
+        li: a href="#{ @company.social[network.to_s] }" = t "social_networks.#{ network }"
+
+  section
+    h4 Контакты
+    ul.contacts
+      li : span = @company.phone
+      li : span = @company.address
