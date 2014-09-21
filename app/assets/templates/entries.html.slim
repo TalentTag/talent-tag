@@ -2,7 +2,7 @@ p.alert.alert-warning ng-show="entriesTotal == 0" Ничего не нашлос
 p.alert.alert-info ng-show="entriesTotal" Найдено записей: {{ entriesTotal }}
 
 div infinite-scroll="fetchMore()" infinite-scroll-distance="3" infinite-scroll-disabled="!query || fetchinInProgress || !canFetchMore()" infinite-scroll-immediate-check="false"
-  .entry ng-repeat="entry in entries" id="entry{{ entry.id }}"
+  .entry ng-repeat="entry in entries" id="entry{{ entry.id }}" ng-controller="talent.EntryCtrl"
     p
       .club-badge.fa.fa-star ng-if="entry.user_id"
       a.close href="javascript:;" title="Больше не показывать" ng-show="search" ng-click="blacklist(entry)" &times;

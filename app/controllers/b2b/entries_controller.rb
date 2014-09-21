@@ -42,7 +42,7 @@ class B2b::EntriesController < B2b::BaseController
     authorize! :read, Entry
     respond_to do |format|
       format.html do
-        fetch_account_data
+        setup_account_data
         render 'b2b/account'
       end
       format.json { @entry = Entry.find_by! id: params[:id] }

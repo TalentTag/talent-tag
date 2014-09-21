@@ -1,8 +1,6 @@
 .col-md-12 ng-controller="talent.AccountCtrl"
   - unless current_account.premium?
-    #promo-time-left.pull-right
-      | До завершения тестового периода
-      h2 {{ timeLeft }}
+    #promo-time-left.pull-right tt-timer=true data-company="company"
 
   .row
     .col-md-8
@@ -11,7 +9,7 @@
           .input-group
 
             .composite-input
-              a#clear-search.close.glyphicon.glyphicon-remove-circle href="/" ng-show="query" ng-click="clearSearch()"
+              a#clear-search.close.glyphicon.glyphicon-remove-circle href="/" ng-show="query" ng-click="reset()"
               input#search.form-control type="search" name="query" placeholder="Поиск" autofocus=true autocomplete="off" ng-model="query" typeahead="keyword for keyword in keywords | filter:$viewValue | limitTo:10"
 
             span.input-group-btn

@@ -1,5 +1,6 @@
-@talent.controller "talent.EntryCtrl", ["$scope", "Entry", "SourceCollection", ($scope, Entry, SourceCollection) ->
-  $scope.sources = SourceCollection.filter()
+@talent.controller "talent.EntryCtrl", ["$scope", "Entry", "Source", ($scope, Entry, Source) ->
+
+  $scope.sources = Source.filter()
 
   query = (config={}) ->
     Entry.query { source: $scope.source?.id, page: $scope.page, published: ($scope.publishedOnly || null) }, (data, parseHeaders) ->
@@ -27,4 +28,5 @@
       $scope.entries = $scope.entries.filter (e) -> e isnt entry
 
   $scope.fetch()
+
 ]

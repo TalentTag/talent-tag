@@ -1,10 +1,10 @@
 .row ng-controller="talent.SourceCtrl"
   .col-md-8
 
-    ul.nav.nav-tabs
+    ul.nav.nav-tabs ng-init="group = 'all'"
       li ng-class="{ active: group=='all' }" : a href="javascript:;" ng-click="group = 'all'" Все
       li ng-class="{ active: group=='public' }" : a href="javascript:;" ng-click="group = 'public'" Опубликованные
-      li ng-class="{ active: group=='hidden' })" : a href="javascript:;" ng-click="group = 'hidden'" Скрытые
+      li ng-class="{ active: group=='hidden' }" : a href="javascript:;" ng-click="group = 'hidden'" Скрытые
 
     table.table.table-striped
       tr ng-repeat="source in sources | orderBy:'name'"

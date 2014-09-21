@@ -1,8 +1,9 @@
-@talent.controller "talent.KeywordGroupCtrl", ["$scope", "$location", "$anchorScroll", "KeywordGroup", "KeywordGroupCollection", ($scope, $location, $anchorScroll, KeywordGroup, KeywordGroupCollection) ->
-  $scope.keywordGroups = KeywordGroupCollection.items
+@talent.controller "talent.KeywordGroupCtrl", ["$scope", "$location", "$anchorScroll", "KeywordGroup", ($scope, $location, $anchorScroll, KeywordGroup) ->
+
+  $scope.keywordGroups = KeywordGroup.items
 
   $scope.filter = ->
-    $scope.keywordGroups = KeywordGroupCollection.filter industry: $scope.industry, area: $scope.area
+    $scope.keywordGroups = KeywordGroup.filter industry: $scope.industry, area: $scope.area
     $scope.clear()
 
   $scope.clear = -> $scope.focusOn null
@@ -32,6 +33,7 @@
 
   $scope.delete = (group) ->
     if confirm "Удалить?"
-      KeywordGroupCollection.remove(group)
-      $scope.keywordGroups = KeywordGroupCollection.items
+      KeywordGroup.remove(group)
+      $scope.keywordGroups = KeywordGroup.items
+
 ]

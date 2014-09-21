@@ -1,10 +1,10 @@
-.well@searches ng-controller="talent.SearchesCtrl"
+.well@searches ng-controller="talent.SearchListCtrl" ng-init="searchesEditMode = false"
   a.edit.pull-right href="javascript:;" title="Редактировать" ng-click="toggleSearchesEditMode()" ng-show="searches.length" = icon :edit
   h4 Виртуальные папки
-  div ng-hide="searches.length" Сохраняйте результаты поиска в виртуальные папки. Вы всегда можете вернуться к ним позже.
+  div ng-hide="Search.items.length" Сохраняйте результаты поиска в виртуальные папки. Вы всегда можете вернуться к ним позже.
 
   ul ng-hide="searchesEditMode"
-    li ng-repeat="search in searches"
+    li ng-repeat="search in Search.items"
       span.glyphicon.glyphicon-folder-open
       a href="/" ng-click="loadSearch(search)" = "{{ search.name }}"
 
@@ -16,13 +16,13 @@
         small.input-group-btn = submit_tag "ok", class: "btn", "ng-click"=>"updateSearch(search)"
 
 
-.well@folders ng-controller="talent.FoldersListCtrl"
+.well@folders ng-controller="talent.FolderListCtrl" ng-init="foldersEditMode = false"
   a.edit.pull-right href="javascript:;" title="Редактировать" ng-click="toggleFoldersEditMode()" ng-show="folders.length" = icon :edit
   h4 Метки
-  div ng-hide="folders.length" Добавляйте метки к интересующим записям. Это поможет вам эффективно подбирать специалистов.
+  div ng-hide="Folder.items.length" Добавляйте метки к интересующим записям. Это поможет вам эффективно подбирать специалистов.
 
   ul ng-hide="foldersEditMode"
-    li ng-repeat="folder in folders"
+    li ng-repeat="folder in Folder.items"
       a href="/folders/{{ folder.id }}" = "{{ folder.name }}"
       span.badge.pull-right = "{{ folder.entries.length }}"
 

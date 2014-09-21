@@ -6,7 +6,7 @@ class B2b::FoldersController < B2b::BaseController
 
 
   def show
-    fetch_account_data
+    setup_account_data
     render 'account/b2b'
   end
 
