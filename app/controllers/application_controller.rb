@@ -69,4 +69,20 @@ class ApplicationController < ActionController::Base
   def is_employer?;   account_type == :employer end
   def is_specialist?; account_type == :specialist end
 
+
+  def setup_account_data
+    if is_employer?
+      gon.push \
+        user:           current_user,
+        company:        current_account,
+        keyword_groups: KeywordGroup.all,
+        industries:     Industry.all,
+        areas:          Area.all,
+        searches:       current_user.searches,
+        folders:        current_user.folders
+    else
+      gon.statuses = Hash[User::STATUSES.map { |s| [s, I18n.t("user.status.#{s}")] }]
+    end
+  end
+
 end
