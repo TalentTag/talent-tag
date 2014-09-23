@@ -35,21 +35,7 @@ br
 
 #profile.well ng-show="entry.author"
   a.pull-right.btn.btn-default ng-if="entry.user_id" href="/specialists/{{ entry.user_id }}" target="_self" Полный профиль
-  h4 {{ entry.author.name }}
-  p : a href="{{ entry.author.url }}" target="_blank" {{ entry.author.url }}
-  section ng-show="entry.hasProfile()"
-    table.simpletable 
-      tr valign="top"
-        td : img ng-src="{{ entry.author.profile.photo }}" width="200"
-        td style="padding-left: 12px; width: 100%"
-          table.table
-            tr ng-show="entry.author.profile.birthday"
-              td : b Дата рождения
-              td {{ entry.author.profile.birthday | date:'dd.MM.yyyy' }}
-            tr ng-show="entry.author.profile.country"
-              td : b Страна
-              td {{ entry.author.profile.country }}
-          pre : small = "{{ entry.author.profile }}"
+  section ng-if="entry.hasProfile()" tt-short-profile="entry.author"
 
 section ng-if="entry.duplicates.length" style="margin-bottom:20px"
   h4 ng-click="duplicatesDisplayed=!duplicatesDisplayed" style="cursor:pointer"
