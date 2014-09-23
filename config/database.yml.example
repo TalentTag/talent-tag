@@ -1,17 +1,6 @@
-production:
-  adapter: postgresql
-  encoding: unicode
-  host: localhost
-  username: postgres
-  password:
-  database: talent_tag
-  pool: 5
-
 development:
   adapter: postgresql
   encoding: unicode
-  database: talent_tag
-  username: postgres
-  password:
+  database: talent_tag_dev
   host: localhost
   pool: 5
