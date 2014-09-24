@@ -1,5 +1,5 @@
 .well@searches ng-controller="talent.SearchListCtrl" ng-init="searchesEditMode = false"
-  a.edit.pull-right href="javascript:;" title="Редактировать" ng-click="toggleSearchesEditMode()" ng-show="searches.length" = icon :edit
+  a.edit.pull-right href="javascript:;" title="Редактировать" ng-click="toggleSearchesEditMode()" ng-show="Search.items.length" = icon :edit
   h4 Виртуальные папки
   div ng-hide="Search.items.length" Сохраняйте результаты поиска в виртуальные папки. Вы всегда можете вернуться к ним позже.
 
@@ -17,7 +17,7 @@
 
 
 .well@folders ng-controller="talent.FolderListCtrl" ng-init="foldersEditMode = false"
-  a.edit.pull-right href="javascript:;" title="Редактировать" ng-click="toggleFoldersEditMode()" ng-show="folders.length" = icon :edit
+  a.edit.pull-right href="javascript:;" title="Редактировать" ng-click="toggleFoldersEditMode()" ng-show="Folder.items.length" = icon :edit
   h4 Метки
   div ng-hide="Folder.items.length" Добавляйте метки к интересующим записям. Это поможет вам эффективно подбирать специалистов.
 
@@ -27,7 +27,7 @@
       span.badge.pull-right = "{{ folder.entries.length }}"
 
   ul.edit-mode ng-show="foldersEditMode"
-    li ng-repeat="folder in folders"
+    li ng-repeat="folder in Folder.items"
       a.remove-item.pull-right href="javascript:;" ng-click="deleteFolder(folder)" &times;
       .input-group
         = text_field_tag :name, nil, class: "form-control", "ng-model"=>"folder.name"
