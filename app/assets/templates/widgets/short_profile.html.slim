@@ -12,12 +12,9 @@ table.simpletable
         tr ng-if="profile.birthday"
           td : b Дата рождения
           td {{ profile.birthday | date:'D MMMM YYYY' }}
-        tr ng-if="profile.city"
+        tr ng-if="location"
           td : b Город
-          td {{ profile.city }}, {{ profile.country }}
-        tr ng-if="profile.location"
-          td : b Город
-          td {{ profile.location }}
+          td {{ location }}
         tr ng-if="schools || universities"
           td : b Образование
           td

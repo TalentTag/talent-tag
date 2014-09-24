@@ -8,6 +8,10 @@
     scope.url     = scope.author.url
     scope.profile = scope.author.profile
 
+    scope.location = scope.profile.location or do ->
+      str = scope.profile.city
+      str += ", " + scope.profile.country if scope.profile.country?
+
     scope.schools = scope.profile.schools.map (school) ->
       str = (school.type_str || "Средняя школа") + " " + school.name
       str += ", г.#{ school.city }" if school.city?
