@@ -1,4 +1,4 @@
-@talent.controller "talent.EntryCtrl", ["$scope", "Entry", "Source", ($scope, Entry, Source) ->
+@talent.controller "talent.AdminEntryCtrl", ["$scope", "Entry", "Source", ($scope, Entry, Source) ->
 
   $scope.sources = Source.filter()
 
