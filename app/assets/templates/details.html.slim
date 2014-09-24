@@ -8,8 +8,8 @@ p.well ng-show="entry.duplicate_of"
 
 p : a ng-show="entry.url" href="{{ entry.url }}" target="_blank" {{ entry.url | truncate:70 }}
 p : small
-  ' Добавлено
-  | {{ entry.created_at | date:'dd.MM.yyyy' }}
+  b> Добавлено
+  | {{ entry.created_at | date:'D MMMM YYYY' }}
 p {{ entry.body }}
 
 section.clearfix

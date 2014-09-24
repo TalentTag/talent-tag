@@ -11,7 +11,7 @@ table.simpletable
           td {{ profile.name }}
         tr ng-if="profile.birthday"
           td : b Дата рождения
-          td {{ profile.birthday | date:'dd.MM.yyyy' }}
+          td {{ profile.birthday | date:'D MMMM YYYY' }}
         tr ng-if="profile.city"
           td : b Город
           td {{ profile.city }}, {{ profile.country }}
