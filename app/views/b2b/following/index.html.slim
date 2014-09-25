@@ -1,0 +1,20 @@
+.col-md-12
+  .row
+    .col-md-8
+
+      - @users.each do |user|
+
+         .follow
+          .avatar style="background-image: url(#{ user.avatar })"
+
+          .management
+            = link_to 'Отписаться', follow_user_path(id: user.id), method: :post, confirm: "Удалить из подписок?"
+            = link_to 'Написать', conversation_path(id: user.id)
+
+          .details
+            p: a href=specialist_path(user.id) : b = user.name
+            p 
+              - user.tags.each do |tag|
+                span.kw = tag
+
+    .col-md-4

@@ -35,6 +35,7 @@ TalentTag::Application.routes.draw do
     resources :notifications, only: :index do
       collection { post :mark_checked, as: :check }
     end
+    get :following
   end
 
   namespace :profile do

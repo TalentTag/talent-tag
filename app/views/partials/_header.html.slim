@@ -9,7 +9,7 @@ header
 
           li = link_to "Личный кабинет", account_path, target: "_self"
 
-          li = link_to profile_following_path, target: "_self" do
+          li = link_to following_path, target: "_self" do
             i.fa.fa-star-o style="font-size: 16px"
 
           li.dropdown@messages = render partial: "partials/messages"

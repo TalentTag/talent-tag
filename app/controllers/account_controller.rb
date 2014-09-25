@@ -29,4 +29,9 @@ class AccountController < ApplicationController
     render nothing: true, status: :no_content
   end
 
+  def following
+    @users = current_user.follows.includes('following').map &:following
+    render 'b2b/following/index'
+  end
+
 end
