@@ -1,6 +1,20 @@
-@talent.controller "talent.EntryCtrl", ["$scope", "Folder", ($scope, Folder) ->
+@talent.controller "talent.EntryCtrl", ["$scope", "$http", "talentData", "Folder", ($scope, $http, talentData, Folder) ->
 
   $scope.folders = Folder.items
+
+  currentUser = talentData.currentUser
+
+  $scope.authorIsFollowed = (userId=nil) ->
+    userId? and userId in currentUser.follows
+
+  $scope.followAuthor = (userId) ->
+    if $scope.authorIsFollowed(userId)
+      if confirm("Убрать пользователя из подписок?")
+        currentUser.follows = _.without(currentUser.follows, userId)
+        $http.post "/users/#{ userId }/follow"
+    else
+      (currentUser.follows ?= []).push userId
+      $http.post "/users/#{ userId }/follow", follow: true
 
   toggleNewFolderInput = ->
     $scope.showNewFolderInput = !$scope.showNewFolderInput
