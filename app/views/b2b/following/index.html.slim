@@ -1,20 +1,47 @@
 .col-md-12
-  .row
+  h3 Вы подписаны
+
+  .row ng-controller="talent.FollowsCtrl"
     .col-md-8
 
-      - @users.each do |user|
+      .kw-wrapper style="overflow:hidden"
+        .form-control
+          span.kw ng-repeat="tag in tags"
+            ' {{ tag }}
+            a href="javascript:;" ng-click="toggleTag(tag)" &times;
+          input.addfilter placeholder="теги для фильтрации" ng-model="newTag" ng-blur="addTag()" ng-keypress="addTag($event.charCode)"
+        br
 
-         .follow
-          .avatar style="background-image: url(#{ user.avatar })"
+      .follow ng-repeat="user in users" ng-show="passesFilters(user)"
+        .avatar style="background-image: url({{ user.avatar }})"
 
-          .management
-            = link_to 'Отписаться', follow_user_path(id: user.id), method: :post, confirm: "Удалить из подписок?"
-            = link_to 'Написать', conversation_path(id: user.id)
+        .management
+          a href="/account/conversations/{{ user.id }}" Написать
+          a href="/users/{{ user.id }}/follow" data-method="POST" data-confirm="Удалить из подписок?" Отписаться
 
-          .details
-            p: a href=specialist_path(user.id) : b = user.name
-            p 
-              - user.tags.each do |tag|
-                span.kw = tag
+        .details
+          p
+            a' href="/specialist/{{ user.id }}" : b {{ user.name }}
+            span.badge "user.status.{{ user.status }}"
+          p
+            a.kw href="javascript:;" ng-repeat="tag in user.tags" ng-click="toggleTag(tag)" {{ tag }}
 
     .col-md-4
+      .well
+        - User::STATUSES.each do |status|
+          div
+            label ng-click="alterStatus('#{ status }')"
+              input' type="checkbox" ng-click="toggleStatus('#{ status }')"
+              = t "user.status.#{ status }"
+
+
+sass:
+  .kw-wrapper
+    .addfilter
+      border: none
+      height: 26px
+      &:focus
+        outline: none
+    .form-control
+      padding: 3px 12px
+      height: auto
