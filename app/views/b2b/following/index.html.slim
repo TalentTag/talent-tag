@@ -22,7 +22,7 @@
         .details
           p
             a' href="/specialist/{{ user.id }}" : b {{ user.name }}
-            span.badge "user.status.{{ user.status }}"
+            / span.badge "user.status.{{ user.status }}"
           p
             a.kw href="javascript:;" ng-repeat="tag in user.tags" ng-click="toggleTag(tag)" {{ tag }}
 
