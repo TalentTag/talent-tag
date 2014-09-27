@@ -1,14 +1,7 @@
-@talent.controller "talent.FollowsCtrl", ["$scope", "talentData", ($scope, talentData) ->
-
-  $scope.users = talentData.users
+@talent.controller "talent.FollowsCtrl", ["$scope", "talentData", "User", ($scope, talentData, User) ->
 
   $scope.statuses = []
   $scope.tags     = []
-
-  $scope.passesFilters = (user) ->
-    return false if $scope.statuses.length and user.status not in $scope.statuses
-    return false if $scope.tags.length and _.intersection($scope.tags, user.tags).length is 0
-    true
 
   $scope.toggleStatus = (status) ->
     if status in $scope.statuses
@@ -28,5 +21,11 @@
         $scope.tags.push $scope.newTag unless $scope.newTag in $scope.tags
         $scope.newTag = ""
 
+  $scope.$watch 'tags.length', (count) ->
+    if count
+      User.search tags: $scope.tags, (users) ->
+        $scope.users = users
+    else
+      $scope.users = talentData.users
 
 ]

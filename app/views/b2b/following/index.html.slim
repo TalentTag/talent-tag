@@ -12,7 +12,7 @@
           input.addfilter placeholder="теги для фильтрации" ng-model="newTag" ng-blur="addTag()" ng-keypress="addTag($event.charCode)"
         br
 
-      .follow ng-repeat="user in users" ng-show="passesFilters(user)"
+      .follow ng-repeat="user in users | filter:{ status: statuses }"
         .avatar style="background-image: url({{ user.avatar }})"
 
         .management
