@@ -21,6 +21,9 @@
         $scope.tags.push $scope.newTag unless $scope.newTag in $scope.tags
         $scope.newTag = ""
 
+  $scope.byStatus = (user) ->
+    _.isEmpty($scope.statuses) or user.status in $scope.statuses
+
   $scope.$watch 'tags.length', (count) ->
     if count
       User.search tags: $scope.tags, (users) ->
