@@ -120,6 +120,8 @@ GEM
     hiredis (0.5.2)
     http_parser.rb (0.6.0)
     i18n (0.6.9)
+    i18n-js (2.1.2)
+      i18n
     innertube (1.1.0)
     joiner (0.2.0)
       activerecord (>= 3.1.0, < 4.1.0)
@@ -341,6 +343,7 @@ DEPENDENCIES
   font-awesome-rails
   gon
   gravatar_image_tag
+  i18n-js
   jquery-rails
   kaminari
   letter_opener

@@ -11,6 +11,13 @@ ru:
         one: "%{count} подписчик"
         few: "%{count} подписчика"
         many: "%{count} подписчиков"
+    following:
+      number:
+        zero: "нет специалистов"
+        one: "%{count} специалист"
+        few: "%{count} специалиста"
+        many: "%{count} специалистов"
+
 
   social_network:
     vk: "Вконтакте"

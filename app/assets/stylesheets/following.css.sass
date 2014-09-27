@@ -1,18 +1,39 @@
 @import mixins
 
-.follow
-  overflow: hidden
-  padding: 14px 0
-  border-bottom: 1px solid #eee
 
-  .avatar
-    +avatar(40px)
-    float: left
+[role=followings]
 
-  .details
-    margin-left: 60px
+  .kw-wrapper
+    overflow:hidden
 
-  .management
-    float: right
-    a
-      display: block
+    .addfilter
+      border: none
+      height: 26px
+      &:focus
+        outline: none
+
+    .form-control
+      padding: 3px 12px
+      height: auto
+
+  .follow
+    overflow: hidden
+    padding: 14px 0
+    border-bottom: 1px solid #eee
+
+    .avatar
+      +avatar(40px)
+      float: left
+
+    .details
+      margin-left: 60px
+
+    .management
+      float: right
+      a
+        display: block
+
+  .total
+    margin: 12px auto
+    text-align: center
+    color: #999

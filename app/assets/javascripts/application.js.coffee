@@ -16,6 +16,7 @@
 #= require maskedinput
 #= require moment
 #= require moment/ru.js
+#= require i18n
 
 #= require danthes
 # Danthes.debug = true # Breaks angular auth controller
@@ -26,6 +27,7 @@
 #= require_tree ./filters
 #= require_tree ./models
 #= require_tree ./services
+#= require_tree ./utils
 
 
 @talent = angular.module 'talent', ['ngResource', 'ng-rails-csrf', 'ngRoute', 'ngSanitize', 'ui.bootstrap', 'infinite-scroll']

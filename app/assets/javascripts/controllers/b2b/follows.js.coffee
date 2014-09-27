@@ -1,5 +1,7 @@
 @talent.controller "talent.FollowsCtrl", ["$scope", "talentData", "User", ($scope, talentData, User) ->
 
+  users = talentData.users.map (attrs) -> new User attrs
+
   $scope.statuses = []
   $scope.tags     = []
 
@@ -29,6 +31,6 @@
       User.search tags: $scope.tags, (users) ->
         $scope.users = users
     else
-      $scope.users = talentData.users
+      $scope.users = users
 
 ]

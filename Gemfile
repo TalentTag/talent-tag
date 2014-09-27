@@ -48,6 +48,7 @@ gem 'angular-ui-bootstrap-rails'
 gem 'ng-rails-csrf'
 gem 'rails-assets-ngInfiniteScroll'
 gem 'font-awesome-rails'
+gem 'i18n-js'
 
 gem 'activemerchant'
 gem 'aasm'
