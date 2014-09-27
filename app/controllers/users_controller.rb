@@ -56,6 +56,11 @@ class UsersController < ApplicationController
     end
   end
 
+  def search
+    @users = User.search params[:tags]
+    render 'users/index'
+  end
+
 
   private
 
