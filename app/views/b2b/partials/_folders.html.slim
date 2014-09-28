@@ -9,7 +9,7 @@
       a href="/" ng-click="loadSearch(search)" = "{{ search.name }}"
 
   ul.edit-mode ng-show="searchesEditMode"
-    li ng-repeat="search in searches"
+    li ng-repeat="search in Search.items"
       a.remove-item.pull-right href="javascript:;" ng-click="deleteSearch(search)" &times;
       .input-group
         = text_field_tag :name, nil, class: "form-control", "ng-model"=>"search.name"
