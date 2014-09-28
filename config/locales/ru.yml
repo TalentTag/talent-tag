@@ -3,7 +3,7 @@ ru:
   user:
     status:
       ignore: "пока не рассматриваю"
-      passive: "открыт предложениям"
+      passive: "рассматриваю предложения"
       active: "ищу работу"
     followers:
       number:
