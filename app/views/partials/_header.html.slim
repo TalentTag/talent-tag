@@ -9,8 +9,9 @@ header
 
           li = link_to "Личный кабинет", account_path, target: "_self"
 
-          li = link_to following_path, target: "_self" do
-            i.fa.fa-star-o style="font-size: 16px"
+          - if is_employer?
+            li = link_to following_path, target: "_self" do
+              i.fa.fa-star-o style="font-size: 16px"
 
           li.dropdown@messages = render partial: "partials/messages"
           li.dropdown@notifications = render partial: "b2b/partials/notifications"
