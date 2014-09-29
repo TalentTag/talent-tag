@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
   validates :email, presence: true, uniqueness: true, format: { with: /\A[^@]+@[^@]+\.[a-zа-я]{2,6}\z/ }
   validates :password, length: { minimum: 6, if: :validate_password?, too_short: "не менее 6 символов" }
   validates :phone, format: { with: /\A[+\-\(\)\d]+\z/ }, length: { in: 5..20 }, if: ->{ phone.present? }
-  validates_presence_of :firstname, :lastname, :phone, on: :update, if: ->{ role.present? }
+  # validates_presence_of :firstname, :lastname, :phone, on: :update, if: ->{ role.present? }
 
   after_create :send_signup_notification
   after_update :send_update_confirmation, :notify
