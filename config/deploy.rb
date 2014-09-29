@@ -34,6 +34,8 @@ require 'capistrano-unicorn'
 after "deploy:finalize_update", "deploy:make_symlinks:"
 after "deploy:update", "deploy:migrate"
 
+after 'deploy:assets:precompile', 'deploy:assets:export_i18n'
+
 after 'deploy:restart', 'unicorn:reload'    # app IS NOT preloaded
 after 'deploy:restart', 'unicorn:restart'   # app preloaded
 after 'deploy:restart', 'unicorn:duplicate' # before_fork hook implemented (zero downtime deployments)
@@ -57,6 +59,13 @@ namespace :deploy do
     %w(pids sockets).each do |dir|
       run "mkdir -p #{shared_path}/#{dir}"
       run "rm -rf #{release_path}/tmp/#{dir} && ln -nfs #{shared_path}/#{dir} #{release_path}/tmp/#{dir}"
+    end
+  end
+
+  namespace :assets do
+    desc "Export translations into a JS file"
+    task :export_i18n, :roles => :app do
+      run "cd #{release_path}; RAILS_ENV=#{rails_env} bundle exec rake i18n:js:export"
     end
   end
 end
