@@ -5,6 +5,12 @@
     $scope.entry = entry
   $scope.$parent.lastEntry = $scope.entry
 
+  $scope.removeEntryFromFolder = (folder, entry) ->
+    if confirm "Снять метку #{ folder.name } с записи?"
+      folder.entries = _.reject(folder.entries, (e) -> entry.id is e)
+      $scope.entries = _.reject($scope.entries, (e) -> entry is e) if folder is $scope.folder
+      folder.removeEntry entry
+
   $scope.blacklist = (entry) ->
     if $scope.search and confirm("Убрать запись из виртуальной папки?")
       $scope.search.blacklist entry

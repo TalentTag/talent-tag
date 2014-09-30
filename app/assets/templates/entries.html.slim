@@ -19,7 +19,7 @@ div infinite-scroll="fetchMore()" infinite-scroll-distance="3" infinite-scroll-d
     / p ng-bind-html="entry.excerpt || entry.body"
 
     p
-      .kw ng-repeat="folder in folders" ng-show="folder.contains(entry)"
+      .kw ng-repeat="folder in Folder.items" ng-show="folder.contains(entry)"
         a.close href="javascript:;" ng-click="removeEntryFromFolder(folder, entry)" &times;
         a href="/folders/{{ folder.id }}" = "{{ folder.name }}"
     .clearfix
@@ -34,7 +34,7 @@ div infinite-scroll="fetchMore()" infinite-scroll-distance="3" infinite-scroll-d
         span.glyphicon.glyphicon-tags
         | метки
       ul@menu.dropdown-menu
-        li ng-repeat="folder in folders" : a href="javascript:;" ng-click="folder.addEntry(entry)" = "{{ folder.name }}"
+        li ng-repeat="folder in Folder.items" : a href="javascript:;" ng-click="folder.addEntry(entry)" = "{{ folder.name }}"
         li.divider
         li ng-hide="showNewFolderInput" : a href="javascript:;" ng-click="addFolder($event)" добавить
         li ng-show="showNewFolderInput"

@@ -13,7 +13,7 @@ p : small
 p {{ entry.body }}
 
 section.clearfix
-  .kw ng-repeat="folder in folders" ng-show="folder.contains(entry)"
+  .kw ng-repeat="folder in Folder.items" ng-show="folder.contains(entry)"
     a.close href="javascript:;" ng-click="removeEntryFromFolder(folder, entry)" &times;
     a href="/account/folders/{{ folder.id }}" {{ folder.name }}
 
@@ -22,7 +22,7 @@ section.btn-group
     span.glyphicon.glyphicon-tags
     | метки
   ul@menu.dropdown-menu
-    li ng-repeat="folder in folders" ng-if="folders.length" : a href="javascript:;" ng-click="folder.addEntry(entry)" {{ folder.name }}
+    li ng-repeat="folder in Folder.items" : a href="javascript:;" ng-click="folder.addEntry(entry)" {{ folder.name }}
     li.divider ng-if="folders.length"
     li ng-hide="showNewFolderInput" : a href="javascript:;" ng-click="addFolder($event)" добавить
     li ng-show="showNewFolderInput"
