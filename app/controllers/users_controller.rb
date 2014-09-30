@@ -57,7 +57,7 @@ class UsersController < ApplicationController
   end
 
   def search
-    @users = User.search params[:tags]
+    @users = User.search Array.wrap(params[:tags].split(',')).map { |tag| "(#{ tag })" }.join(" | ")
     render 'users/index'
   end
 

@@ -8,7 +8,6 @@
       isArray: true
 
   User::location = ->
-    console.log @profile
     @profile.location || @profile.city
 
   User

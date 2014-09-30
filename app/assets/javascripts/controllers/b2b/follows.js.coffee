@@ -28,7 +28,7 @@
 
   $scope.$watch 'tags.length', (count) ->
     if count
-      User.search tags: $scope.tags, (users) ->
+      User.search tags: $scope.tags.join(','), (users) ->
         $scope.users = users
     else
       $scope.users = users
