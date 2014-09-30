@@ -4,7 +4,7 @@
 
   currentUser = talentData.currentUser
 
-  $scope.authorIsFollowed = (userId=nil) ->
+  $scope.authorIsFollowed = (userId=null) ->
     userId? and userId in currentUser.follows
 
   $scope.followAuthor = (userId) ->
