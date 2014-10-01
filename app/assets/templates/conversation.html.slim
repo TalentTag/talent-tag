@@ -5,7 +5,7 @@
       p
         b> {{ message.sender().name }}
         a ng-if="message.sender().company" href="/companies/{{ message.sender().company.id }}" target="_self" {{ message.sender().company.name }}
-      P {{ message.text | prettyPrint }}
+      p ng-bind-html="message.text | prettyPrint"
       small.info {{ message.created_at | timeago }}
 
 
