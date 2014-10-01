@@ -33,9 +33,10 @@
           / .col-md-6@location : input.subtle type="text" ng-model="user.profile.location" ng-blur="saveProfile()" placeholder="заполнить"
           / .col-md-6@birtdate : input.subtle type="text" ng-model="user.profile.birthdate" ng-blur="saveProfile()" placeholder="заполнить"
 
-      p
-        =' icon :star
-        = t "user.followers.number", count: current_user.followers.count
+      - if owns_account? @user
+        p
+          =' icon :star
+          = t "user.followers.number", count: current_user.followers.count
 
     section.status
       - if owns_account? @user
