@@ -29,6 +29,9 @@
       $scope.newFolderName = ''
       folder.addEntry entry
 
+  $scope.keyPressCreateFolder = (e, entry) ->
+    $scope.createFolder(e, entry) if e.charCode is 13
+
   $scope.removeEntryFromFolder = (folder, entry) ->
     if confirm "Снять метку #{ folder.name } с записи?"
       folder.entries = _.reject(folder.entries, (e) -> entry.id is e)

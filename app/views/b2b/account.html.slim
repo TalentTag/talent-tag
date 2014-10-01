@@ -12,7 +12,7 @@
 
             .composite-input
               a#clear-search.close.glyphicon.glyphicon-remove-circle href="/" ng-show="query" ng-click="reset()"
-              input#search.form-control type="search" name="query" placeholder="Поиск" autofocus=true autocomplete="off" ng-model="query" typeahead="keyword for keyword in keywords | filter:$viewValue | limitTo:10"
+              input#search.form-control type="search" name="query" placeholder="Поиск" autofocus=true autocomplete="off" ng-model="query" typeahead="keyword for keyword in keywords | filter:$viewValue | limitTo:10" ng-keypress="keyPressFetch($event.charCode)"
 
             span.input-group-btn
               button.btn.btn-primary ng-click="fetch()" Искать

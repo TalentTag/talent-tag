@@ -51,6 +51,10 @@
         $scope.query
       query()
 
+  $scope.keyPressFetch = (keyCode) ->
+    $scope.fetch() if keyCode is 13
+
+
   $scope.fetchMore = ->
     if $scope.canFetchMore()
       $scope.page = ($scope.page || 0) + 1
