@@ -21,7 +21,7 @@
 
         .details
           p
-            a' href="/specialist/{{ user.id }}" : b {{ user.name }}
+            a' href="/specialists/{{ user.id }}" : b {{ user.name }}
             span.badge {{ "user.status."+user.status | i18n }}
           p ng-if="user.location()"
             i.icon-location>
