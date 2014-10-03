@@ -39,16 +39,20 @@
 
       $scope.fetchinInProgress = false
 
-  $scope.fetch = (options={}) ->
-    if $scope.query
+  $scope.fetch = (searchquery=null) ->
+    if searchquery
+      $scope.query = searchquery
+    else searchquery ?= $scope.query
+
+    if searchquery
       $scope.page = 1
       $scope.search = undefined unless $scope.searchInResults
       $location.path('/')
 
       querystring = if querystring? and $scope.searchInResults 
-        "(#{ querystring }) && (#{ $scope.query })"
+        "(#{ querystring }) && (#{ searchquery })"
       else
-        $scope.query
+        searchquery
       query()
 
   $scope.keyPressFetch = (keyCode) ->

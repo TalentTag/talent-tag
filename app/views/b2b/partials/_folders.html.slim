@@ -19,7 +19,7 @@
 .well@folders ng-controller="talent.FolderListCtrl" ng-init="foldersEditMode = false"
   a.edit.pull-right href="javascript:;" title="Редактировать" ng-click="toggleFoldersEditMode()" ng-show="Folder.items.length" = icon :edit
   h4 Метки
-  div ng-hide="Folder.items.length" Добавляйте метки к интересующим записям. Это поможет вам эффективно подбирать специалистов.
+  div ng-hide="Folder.items.length" Добавляйте метки к записям. Метки помогут вам организовать свою работу и быстро найти нужные записи.
 
   ul ng-hide="foldersEditMode"
     li ng-repeat="folder in Folder.items"
