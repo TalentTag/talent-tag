@@ -6,6 +6,8 @@ div ng-show="presets && !query"
   p.central.tip Кликните на тег, чтобы добавить его в строку поиска
 
 
+.back ng-show="entries.length && !query" : a href="/" &larr; назад
+
 
 p.alert.alert-warning ng-show="entriesTotal == 0" Ничего не нашлось
 p.alert.alert-warning ng-show="entriesTotalInFolder == 0" Нет записей с выбранной меткой
