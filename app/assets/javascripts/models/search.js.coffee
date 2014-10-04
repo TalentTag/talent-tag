@@ -10,9 +10,9 @@
       @items.push search
       search.$save()
 
-  Search.remove = (search) ->
-    @items = _.reject @items, (s) -> search is s
-    search.$remove()
+  Search::remove = ->
+    Search.items = _.without Search.items, @
+    @$remove()
 
   Search::blacklist = (entry) -> $http.post "/searches/#{ @id }/blacklist/#{ entry.id }.json"
 

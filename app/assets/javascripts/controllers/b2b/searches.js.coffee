@@ -1,5 +1,3 @@
-# TODO fix me
-
 @talent.controller "talent.SearchListCtrl", ["$scope", "Search", ($scope, Search) ->
 
   $scope.loadSearch = (search) ->
@@ -14,9 +12,7 @@
     $scope.toggleSearchesEditMode()
 
   $scope.deleteSearch = (search) ->
-    if confirm "Удалить виртуальную папку?"
-      Search.remove search
-      $scope.searches = Search.items
+    search.remove() if confirm "Удалить виртуальную папку?"
 ]
 
 
