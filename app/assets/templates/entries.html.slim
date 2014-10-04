@@ -1,16 +1,8 @@
-div ng-hide="query"
+div ng-show="presets && !query"
   p Наберите запрос в поисковой строке или воспользуйтесь рубрикатором
   .presets
     p.central Популярные запросы
-    .kw ng-click="fetch('редактор')" редактор
-    .kw ng-click="fetch('пресс-секретарь')" пресс-секретарь
-    .kw ng-click="fetch('дизайнер-верстальщик')" дизайнер-верстальщик
-    .kw ng-click="fetch('маркетолог')" маркетолог
-    .kw ng-click="fetch('журналист')" журналист
-    .kw ng-click="fetch('программист')" программист
-    .kw ng-click="fetch('бухгалтер')" бухгалтер
-    .kw ng-click="fetch('охранник')" охранник
-    .kw ng-click="fetch('дизайнер')" дизайнер
+    .kw ng-repeat="preset in presets" ng-click="fetch(preset)" {{ preset }}
   p.central.tip Кликните на тег, чтобы добавить его в строку поиска
 
 

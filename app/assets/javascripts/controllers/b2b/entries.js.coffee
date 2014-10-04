@@ -1,4 +1,7 @@
-@talent.controller "talent.EntriesCtrl", ["$scope", ($scope) ->
+@talent.controller "talent.EntriesCtrl", ["$scope", "Presets", ($scope, Presets) ->
+
+  $scope.presets  = Presets.all
+
 
   if $scope.lastEntry
     _.defer ->
