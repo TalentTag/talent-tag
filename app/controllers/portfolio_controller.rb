@@ -14,6 +14,7 @@ class PortfolioController < ApplicationController
   protected
 
   def create_params
+    params[:portfolio].update href: "http://#{ params[:portfolio][:href] }" unless params[:portfolio][:href].include? 'http://'
     params.require(:portfolio).permit %i(title href)
   end
 
