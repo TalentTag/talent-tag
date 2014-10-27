@@ -46,6 +46,8 @@
 
     section.contacts
       h5 Аккаунты в социальных сетях
+      - unless @user.identities.present?
+        p Подключите социальные сети, которыми вы пользуетесь - ваши личные данные подтянутся в ваш профиль автоматически, и он будет уже частично заполнен
       ul@social.horizontal
         - SocialNetworks::oauth.each do |provider|
           li.identity == embedded_identity @user, provider, params['name'] do
@@ -54,6 +56,8 @@
       h5 Теги
       @tags
         - if owns_account? @user
+          - unless @user.tags.present?
+            p Добавьте теги, характеризующие ваши основные навыки, чтобы работодатели могли найти вас по тегам
           span.kw ng-repeat="tag in user.tags"
             | {{ tag }}
             a.close href="javascript:;" ng-click="tags.drop(tag)" &times;
@@ -74,7 +78,10 @@
       ul.horizontal ng-init="current_tab='journal'"
         li: a href="javascript:;" ng-class="{ current: current_tab=='journal' }" ng-click="current_tab='journal'" Блог
         li: a href="javascript:;" ng-class="{ current: current_tab=='portfolio' }" ng-click="current_tab='portfolio'" Портфолио
-        li: a href="javascript:;" ng-class="{ current: current_tab=='about' }" ng-click="current_tab='about'" Обо мне
+        - if @user.profile && @user.profile['work']        
+          li: a href="javascript:;" ng-class="{ current: current_tab=='about' }" ng-click="current_tab='about'" Обо мне
+        - else
+          li: span.inactive Обо мне
 
     - %w(journal portfolio about).each do |section|
       = render partial: "b2c/partials/#{ section }"
