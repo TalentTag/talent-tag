@@ -29,7 +29,8 @@ class Company < ActiveRecord::Base
   end
 
   def premium?
-    (premium_since && premium_until > Time.now) || owner.admin?
+    # (premium_since && premium_until > Time.now) || owner.admin?
+    true
   end
 
   def go_premium! plan
