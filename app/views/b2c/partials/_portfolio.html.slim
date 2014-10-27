@@ -1,0 +1,33 @@
+sass:
+  .new-portfolio-link
+    border-bottom: 1px solid #ccc
+    form
+      overflow: hidden
+      padding: 12px 0
+
+  [role=portfolio]
+    padding: 12px 0
+
+
+section.portfolio ng-show="current_tab=='portfolio'"
+
+  .new-portfolio-link
+    .central
+      p: button.btn.btn-default ng-click="displayPortfolioForm = true" + Добавить ссылку
+
+    = form_tag portfolio_index_path, method: :post, class: 'new-portfolio-link', 'ng-show'=>'displayPortfolioForm'
+      p Добавьте ссылку на ваш проект, презентацию или полное резюме
+
+      p: input.form-control name="portfolio[title]" placeholder="Заголовок"
+      p: input.form-control name="portfolio[href]" placeholder="Ссылка"
+      p
+        button.btn.btn-primary.pull-right type="submit" Сохранить
+        button.btn.btn-default.pull-right type="button" ng-click="displayPortfolioForm = false" Отмена
+
+  @portfolio
+    - @portfolio.each do |entry|
+      p
+        ul.horizontal.pull-right
+          li = link_to(portfolio_path(entry.id), method: :delete, confirm: "Удалить ссылку?") do
+            i.fa.fa-trash-o
+        a href=entry.href target="_blank" = entry.title

@@ -12,6 +12,7 @@ class AccountController < ApplicationController
       render 'b2b/account'
     elsif is_specialist?
       @user = current_user
+      @portfolio = current_user.portfolio
       @owns_account = true
       render 'b2c/account'
     else

@@ -76,23 +76,5 @@
         li: a href="javascript:;" ng-class="{ current: current_tab=='portfolio' }" ng-click="current_tab='portfolio'" Портфолио
         li: a href="javascript:;" ng-class="{ current: current_tab=='about' }" ng-click="current_tab='about'" Обо мне
 
-    .journal ng-show="current_tab=='journal'"
-      - if owns_account? @user
-        @new-entry ng-class="{ expanded: typing==true }"
-          textarea.form-control ng-model="entryBody" ng-focus="typing=true" placeholder="Добавить запись в блог"
-          button.btn.btn-primary.pull-right ng-click="postEntry()" ng-show="typing" Опубликовать
-          button.btn.btn-default.pull-right ng-click="typing=false" ng-show="typing" Отмена
-
-      - @user.entries.each do |entry|
-        .entry
-          / a.close href="javascript:;" &times;
-          p : small = "#{ entry.source.name rescue "TalentTag" } | #{ entry.created_at.strftime '%d.%m.%Y' }"
-          p : a href=entry.url target="_blank" = truncate entry.url, length: 60
-          == bold_tags entry.body
-    
-    section.portfolio ng-show="current_tab=='portfolio'"
-
-    section.about ng-show="current_tab=='about'"
-      - if @user.profile && @user.profile['work']
-        - @user.profile['work'].each do |data|
-          = work_positon data
+    - %w(journal portfolio about).each do |section|
+      = render partial: "b2c/partials/#{ section }"

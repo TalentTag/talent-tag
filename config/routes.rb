@@ -36,6 +36,7 @@ TalentTag::Application.routes.draw do
       collection { post :mark_checked, as: :check }
     end
     get :following
+    resources :portfolio, only: %i(create destroy)
   end
 
   namespace :profile do

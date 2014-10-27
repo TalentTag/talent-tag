@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   has_many :folders, dependent: :destroy
   has_many :comments
   has_one :blacklist, class_name: 'EntriesBlacklist'
+  has_many :portfolio
 
   has_many :conversations_users
   has_and_belongs_to_many :conversations

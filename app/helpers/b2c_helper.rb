@@ -21,11 +21,6 @@ module B2cHelper
   end
 
 
-  def work_positon data
-    render partial: 'b2c/partials/work', locals: { data: data }
-  end
-
-
   def owns_account? user
     !!@owns_account
   end
