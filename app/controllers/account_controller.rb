@@ -12,8 +12,8 @@ class AccountController < ApplicationController
       render 'b2b/account'
     elsif is_specialist?
       @user = current_user
-      @portfolio = current_user.portfolio.load
       @owns_account = true
+      gon.portfolio = current_user.portfolio.load
       render 'b2c/account'
     else
       render text: "Error 403", status: :forbidden # TODO raise a 403 exception

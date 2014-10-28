@@ -1,15 +1,17 @@
-section.portfolio ng-show="current_tab=='portfolio'"
+section.portfolio ng-show="current_tab=='portfolio'" ng-controller="talent.PortfolioCtrl"
 
   - if owns_account? @user
     .new-portfolio-link
       .central
         p: button.btn.btn-default ng-click="displayPortfolioForm = true" + Добавить ссылку
 
-      = form_tag portfolio_index_path, method: :post, class: 'new-portfolio-link', 'ng-show'=>'displayPortfolioForm'
+      form ng-show="displayPortfolioForm" ng-init="newLink={}" ng-submit="postLink(newLink)"
         p Добавьте ссылку на ваш проект, презентацию или полное резюме
 
-        p: input.form-control name="portfolio[title]" placeholder="Заголовок"
-        p: input.form-control name="portfolio[href]" placeholder="Ссылка"
+        p: input.form-control ng-model="newLink.title" placeholder="Заголовок"
+        p.input-group
+          span.input-group-addon http://
+          input.form-control ng-model="newLink.href" placeholder="Ссылка"
         p
           button.btn.btn-primary.pull-right type="submit" Сохранить
           button.btn.btn-default.pull-right type="button" ng-click="displayPortfolioForm = false" Отмена
@@ -17,21 +19,15 @@ section.portfolio ng-show="current_tab=='portfolio'"
 
   @portfolio
 
-    - if @portfolio.present?
+    p ng-show="portfolio.length" ng-repeat="link in portfolio"
+      - if owns_account? @user
+        a.pull-right href="javscript:;" ng-click="deleteLink(link)": i.fa.fa-trash-o
+      a href="{{ link.href }}" target="_blank" {{ link.title }}
 
-      - @portfolio.each do |entry|
-        p
-          - if owns_account? @user
-            ul.horizontal.pull-right
-              li = link_to(portfolio_path(entry.id), method: :delete, confirm: "Удалить ссылку?") do
-                i.fa.fa-trash-o
-          a href=entry.href target="_blank" = entry.title
-
-    - else
-      .account-tip
-        - if owns_account? @user
-          h4 В вашем портфолио пока пусто
-          p Добавьте ссылки на ваши проекты, презентации, личный сайт или полное резюме
-        - else        
-          h4 Пока нет опубликованных работ
-          p Вы можете запросить портфолио специалиста в личной переписке
+    .account-tip ng-hide="portfolio.length"
+      - if owns_account? @user
+        h4 В вашем портфолио пока пусто
+        p Добавьте ссылки на ваши проекты, презентации, личный сайт или полное резюме
+      - else        
+        h4 Пока нет опубликованных работ
+        p Вы можете запросить портфолио специалиста в личной переписке
