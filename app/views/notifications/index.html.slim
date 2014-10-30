@@ -1,0 +1,8 @@
+.col-md-12
+  h3 = "Уведомления (#{ @notifications.count })"
+
+  - if @notifications.any?
+    - @notifications.each do |notification|
+      .notification = send "notification_#{ notification.event }", notification
+  - else
+    p.no-notifications Нет новых уведомлений

@@ -1,0 +1,7 @@
+p Здравствуйте.
+p Вы добавили заявку на регистрацию компании на сайте talent-tag.ru.
+p
+  | Чтобы подтверить регистрацию, пожалуйста, пройдите по ссылке: 
+  = link_to add_company_url(token: @user.auth_token), add_company_url(token: @user.auth_token)
+hr
+p С уважением, команда TalentTag

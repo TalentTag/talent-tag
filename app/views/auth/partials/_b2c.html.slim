@@ -1,0 +1,58 @@
+.modal.fade#signup-b2c
+  .modal-dialog.medium
+    .modal-content
+      .modal-header
+        button type="button" class="close" data-dismiss="modal" aria-hidden="true" &times;
+        h4 class="modal-title" Для специалистов
+
+      .modal-body.carousel-wrapper
+        div style="position: relative; height: 260px"
+          .row#social-wrapper
+            .col-md-12
+              p style="margin: 0 20px 0 0; float: left; line-height: 28px" : small style="text-align:center" Выберите соцсеть
+              ul#social.horizontal
+                - SocialNetworks::oauth.each do |network|
+                  li = link_to icon(network), "/auth/#{ oauth_providers(network)['name'] }", title: t("social_network.#{ network }"), class: network
+
+          .row.carousel ng-init="tab='signin'" style="width: 300%" ng-class="{ signin: tab=='signin', signup: tab=='signup', forgot: tab=='forgot' }"
+            .col-md-4
+              form@signup-form ng-submit="signup_b2c()"
+                p : small или заполните поля формы
+                .form-group.error-placeholder
+                  input.form-control type="email" placeholder="Email" ng-model="newuser.email"
+                  p.form-error = "{{ errors.email }}"
+                .form-group.error-placeholder
+                  input.form-control type="password" placeholder="Пароль" ng-model="newuser.password"
+                  p.form-error = "{{ errors.password }}"
+                .form-group.error-placeholder
+                  input.form-control type="password" placeholder="Повторите пароль" ng-model="newuser.password_confirmation"
+                  p.form-error = "{{ errors.password_confirmation }}"
+                button.btn.btn-primary.btn-sm Зарегистрироваться
+
+            .col-md-4
+              form@signin-form ng-submit="signin('b2c')" tt-form-autofill-fix=""
+                p : small или введите e-mail и пароль
+                .form-group ng-class="{ 'has-error': errors.credentials }"
+                  input.form-control type="email" name="user[email]" placeholder="Email" ng-model="user.email"
+                .form-group.error-placeholder ng-class="{ 'has-error': errors.credentials }"
+                  input.form-control type="password" name="user[password]" placeholder="Пароль" ng-model="user.password"
+                  p.form-error = "{{ errors.credentials }}"
+                .checkbox
+                  label
+                    input type="checkbox" ng-model="rememberme" value="1"
+                    | запомнить меня
+                button.btn.btn-primary.btn-sm Войти
+    
+            .col-md-4
+              form@forgot-form ng-submit="forgot()" tt-form-autofill-fix=""
+                p : small Пожалуйста, укажите Ваш e-mail, и мы вышлем на него инструкции по восстанолению пароля
+                .form-group#error-placeholder ng-class="{ 'has-error': errors.email }"
+                  input.form-control type="email" name="user[email]" placeholder="Email" ng-model="email"
+                  p.form-error = "{{ errors.email }}"
+                button.btn.btn-primary.btn-sm Восстановить
+
+      .modal-footer
+        ul.divided style="text-align: center"
+          li : a href="javascript:;" ng-click="tab='signup'" Регистрация
+          li : a href="javascript:;" ng-click="tab='signin'" Вход
+          li : a href="javascript:;" ng-click="tab='forgot'" Вспомнить пароль

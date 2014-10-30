@@ -1,6 +1,0 @@
-.well
-  p = link_to "Персональные данные", account_profile_path
-  - if can? :manage, current_account
-    p = link_to "Данные о компании", account_company_path
-  - if can? :invite, User
-    p = link_to "Сотрудники", account_employee_path

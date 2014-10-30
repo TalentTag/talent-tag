@@ -1,0 +1,65 @@
+.modal.fade#signup-b2b
+  .modal-dialog.medium
+    .modal-content
+      .modal-header
+        button type="button" class="close" data-dismiss="modal" aria-hidden="true" &times;
+        h4 class="modal-title" Для работодателей
+
+      .modal-body.carousel-wrapper
+        div style="position: relative; height: 260px"
+          .row.carousel ng-init="tab='signin'" style="width: 400%" ng-class="{ 'add-company': tab=='add-company', signin: tab=='signin', signup: tab=='signup', forgot: tab=='forgot' }" 
+
+            .col-md-3 style="padding: 0 40px"
+              = form_tag add_company_users_path, method: :put, remote: true, 'tt-remote-form'=>true
+                input type="hidden" name="email" value="{{ newuser.email }}"
+                p style="margin-bottom: 20px" : small На адрес <b>{{ newuser.email }}</b> уже зарегистрирован аккаунт специалиста. Если этот e-mail принадлежит Вам и Вы хотите зарегистрировать на него компанию как работодатель, нажмите на кнопку "Зарегистрировать" ниже. Мы вышлем Вам указания о дальнейших действиях на указанный почтовый ящик.
+                = submit_tag "Зарегистрировать", class: "button btn btn-primary btn-sm"
+                button.btn.btn-default.btn-sm.pull-right type="button" ng-click="tab='signup'" Назад
+
+            .col-md-3
+              form ng-submit="signup_b2b()"
+                p : small Или зарегистрируйтесь в системе
+                .form-group.error-placeholder ng-class="{ 'has-error': errors['owner.email'] }"
+                  input.form-control type="email" name="newuser[email]" placeholder="Email" ng-model="newuser.email"
+                  p.form-error = "{{ errors['owner.email'] }}"
+                .form-group.error-placeholder ng-class="{ 'has-error': errors.name }"
+                  input.form-control type="text" name="company[name]" placeholder="Компания" ng-model="company.name"
+                  p.form-error = "{{ errors.name }}"
+                .form-group.error-placeholder ng-class="{ 'has-error': errors['owner.password'] }"
+                  input.form-control type="password" name="newuser[password]" placeholder="Пароль" ng-model="newuser.password"
+                  p.form-error = "{{ errors['owner.password'] }}"
+                .form-group.error-placeholder ng-class="{ 'has-error': errors['owner.password_confirmation'] }"
+                  input.form-control type="password" name="newuser[password_confirmation]" placeholder="Повторите пароль" ng-model="newuser.password_confirmation"
+                  p.form-error = "{{ errors['owner.password_confirmation'] }}"
+                button.btn.btn-primary.btn-sm Зарегистрироваться
+                button.btn.btn-default.btn-sm.pull-right type="button" ng-click="tab='signin'" Войти в систему
+
+            .col-md-3
+              form@signin-form ng-submit="signin('b2b')" tt-form-autofill-fix=""
+                p : small Для входа введите e-mail и пароль
+                .form-group ng-class="{ 'has-error': errors.credentials }"
+                  input.form-control type="email" name="user[email]" placeholder="Email" ng-model="user.email"
+                .form-group.error-placeholder ng-class="{ 'has-error': errors.credentials }"
+                  input.form-control type="password" name="user[password]" placeholder="Пароль" ng-model="user.password"
+                  p.form-error = "{{ errors.credentials }}"
+                .checkbox
+                  label
+                    input type="checkbox" ng-model="rememberme" value="1"
+                    | запомнить меня
+                p : a href="javascript:;" ng-click="tab='forgot'" Забыли пароль?
+                button.btn.btn-primary.btn-sm Войти
+                button.btn.btn-default.pull-right.btn-sm type="button" ng-click="tab='signup'" У меня еще нет аккаунта
+
+            .col-md-3
+              form@forgot-form ng-submit="forgot()" tt-form-autofill-fix=""
+                p : small Пожалуйста, укажите Ваш e-mail, и мы вышлем на него инструкции по восстанолению пароля
+                .form-group.error-placeholder ng-class="{ 'has-error': errors.email }"
+                  input.form-control type="email" name="user[email]" placeholder="Email" ng-model="email"
+                  p.form-error = "{{ errors.email }}"
+                button.btn.btn-primary.btn-sm Восстановить
+
+      .modal-footer
+        ul
+          li : a href="javascript:;" ng-click="tab='signup'" Регистрация
+          li : a href="javascript:;" ng-click="tab='signin'" Вход
+          li : a href="javascript:;" ng-click="tab='forgot'" Вспомнить пароль

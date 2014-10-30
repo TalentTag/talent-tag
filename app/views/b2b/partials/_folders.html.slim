@@ -1,0 +1,34 @@
+.well@searches ng-controller="talent.SearchListCtrl" ng-init="searchesEditMode = false"
+  a.edit.pull-right href="javascript:;" title="Редактировать" ng-click="toggleSearchesEditMode()" ng-show="Search.items.length" = icon :edit
+  h4 Виртуальные папки
+  div ng-hide="Search.items.length" Сохраняйте результаты поиска в виртуальные папки. Вы всегда можете вернуться к ним позже.
+
+  ul ng-hide="searchesEditMode"
+    li ng-repeat="search in Search.items"
+      span.glyphicon.glyphicon-folder-open
+      a href="/" ng-click="loadSearch(search)" = "{{ search.name }}"
+
+  ul.edit-mode ng-show="searchesEditMode"
+    li ng-repeat="search in Search.items"
+      a.remove-item.pull-right href="javascript:;" ng-click="deleteSearch(search)" &times;
+      .input-group
+        = text_field_tag :name, nil, class: "form-control", "ng-model"=>"search.name"
+        small.input-group-btn = submit_tag "ok", class: "btn", "ng-click"=>"updateSearch(search)"
+
+
+.well@folders ng-controller="talent.FolderListCtrl" ng-init="foldersEditMode = false"
+  a.edit.pull-right href="javascript:;" title="Редактировать" ng-click="toggleFoldersEditMode()" ng-show="Folder.items.length" = icon :edit
+  h4 Метки
+  div ng-hide="Folder.items.length" Добавляйте метки к записям. Метки помогут вам организовать свою работу и быстро найти нужные записи.
+
+  ul ng-hide="foldersEditMode"
+    li ng-repeat="folder in Folder.items"
+      a href="/folders/{{ folder.id }}" = "{{ folder.name }}"
+      span.badge.pull-right = "{{ folder.entries.length }}"
+
+  ul.edit-mode ng-show="foldersEditMode"
+    li ng-repeat="folder in Folder.items"
+      a.remove-item.pull-right href="javascript:;" ng-click="deleteFolder(folder)" &times;
+      .input-group
+        = text_field_tag :name, nil, class: "form-control", "ng-model"=>"folder.name"
+        small.input-group-btn = submit_tag "ok", class: "btn", "ng-click"=>"updateFolder(folder)"

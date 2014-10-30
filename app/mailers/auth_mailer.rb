@@ -2,6 +2,10 @@ class AuthMailer < ActionMailer::Base
 
   default from: NOTIFICATIONS_EMAIL, template_path: 'mail/auth'
 
+  def signup_default user
+    mail to: user.email, subject: "Регистрация на talent-tag.ru"
+  end
+
   def signup_owner user
     mail to: user.email, subject: "Регистрация на talent-tag.ru"
   end
@@ -23,6 +27,11 @@ class AuthMailer < ActionMailer::Base
   def invite invite
     @invite = invite
     mail to: invite.email, subject: "Приглашение на talent-tag.ru"
+  end
+
+  def add_company user
+    @user = user
+    mail to: user.email, subject: "Регистрация компании на talent-tag.ru"
   end
 
 end

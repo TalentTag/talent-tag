@@ -1,0 +1,12 @@
+.col-md-4
+.col-md-4
+  = form_tag create_company_users_path, method: :put
+    = hidden_field_tag :user_id, @user.id
+    .panel.panel-info
+      .panel-heading Пожалуйста, укажите название компании
+      .panel-body
+        div
+          = text_field_tag 'company[name]', nil, class: 'form-control', placeholder: 'Компания'
+          p.err = @user && @user.company && @user.company.errors.messages[:name] && @user.company.errors.messages[:name].first
+      .panel-footer = submit_tag "Готово", class: 'btn btn-primary'
+.col-md-4

@@ -15,7 +15,7 @@ TalentTag::Application.configure do
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors  = false
-  config.action_mailer.delivery_method        = :sendmail
+  config.action_mailer.delivery_method        = :letter_opener
   config.action_mailer.sendmail_settings      = { location: '/usr/sbin/sendmail', arguments: '-i -t' }
 
   # Print deprecation notices to the Rails logger.
@@ -28,4 +28,7 @@ TalentTag::Application.configure do
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = true
+
+  ActiveMerchant::Billing::Base.mode = :test
+  TalentTag::Application::GATEWAY = ActiveMerchant::Billing::TrustCommerceGateway.new login: 'TestMerchant', password: 'password'
 end

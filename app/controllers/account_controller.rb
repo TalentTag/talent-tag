@@ -1,58 +1,44 @@
 class AccountController < ApplicationController
 
-  before_action :require_authentication!, except: %i(signup signup_employee)
+  before_action :require_authentication!, except: %i(index signup signup_employee)
   before_action :forbid_authenticated!, only: %i(signup signup_employee)
+  before_action :setup_account_data, only: :index
 
 
-  def update_user
-    if current_user.update_attributes(user_params)
-      sign_user_in(current_user)
-      flash.now[:notice] = "Данные обновлены"
+  def index
+    return render 'public/promo' unless signed_in?
+    if is_employer?
+      # return render 'b2b/blocked' if current_account.blocked?
+      render 'b2b/account'
+    elsif is_specialist?
+      @user = current_user
+      @owns_account = true
+      gon.portfolio = current_user.portfolio.load
+      render 'b2c/account'
+    else
+      render text: "Error 403", status: :forbidden # TODO raise a 403 exception
     end
-    render :profile
   end
 
-  def company
-    authorize! :read, current_account
+  def update
+    current_user.update profile: params[:data]
+    render nothing: true, status: :no_content
   end
 
-  def update_account
-    authorize! :update, current_account
-    if current_account.update_attributes(company_params)
-      flash.now[:notice] = "Данные обновлены"
+  def update_status
+    if params[:status].in? User::STATUSES
+      current_user.status = params[:status]
+      current_user.save validate: false
+      render nothing: true, status: :no_content
+    else
+      render nothing: true, status: :bad_request
     end
-    render :company
   end
 
-  def employee
-    authorize! :invite, User
-  end
-
-  def add_employee
-    authorize! :invite, User
-    if current_account.invites.create(email: params[:email])
-      flash.now[:notice] = "Уведомление отправлено на #{ params[:email] }"
-    end
-    render :employee
-  end
-
-
-  def remove_employee
-    user = current_account.users.find params[:id]
-    authorize! :destroy, user
-    flash.now[:notice] = "Пользователь удален из системы" if user.delete
-    redirect_to account_employee_path
-  end
-
-
-  private
-
-  def user_params
-    params.require(:user).permit(:email, :firstname, :midname, :lastname, :phone, :password, :password_confirmation)
-  end
-
-  def company_params
-    params.require(:company).permit(:name, :website, :phone, :address, :details)
+  def following
+    @users = current_user.follows.includes('following').map &:following
+    gon.rabl template: 'app/views/users/index.json', as: :users
+    render 'b2b/following/index'
   end
 
 end

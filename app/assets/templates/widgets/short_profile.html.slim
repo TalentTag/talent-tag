@@ -1,0 +1,22 @@
+h4 {{ name }}
+p : a href="{{ url }}" target="_blank" {{ url }}
+
+table.simpletable 
+  tr valign="top"
+    td : img ng-src="{{ profile.photo }}" width="200"
+    td style="padding-left: 12px; width: 100%"
+      table.table
+        tr ng-if="profile.name && name!=profile.name"
+          td : b Имя
+          td {{ profile.name }}
+        tr ng-if="profile.birthday"
+          td : b Дата рождения
+          td {{ profile.birthday | date:'D MMMM YYYY' }}
+        tr ng-if="location"
+          td : b Город
+          td {{ location }}
+        tr ng-if="schools || universities"
+          td : b Образование
+          td
+            p ng-repeat="school in schools" {{ school }}
+            p ng-repeat="university in universities" {{ university }}

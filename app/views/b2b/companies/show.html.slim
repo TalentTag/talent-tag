@@ -1,0 +1,19 @@
+.col-md-12@company-details
+
+  section
+    h3 = @company.name
+    div: a href="http://#{ @company.website }" target="_blank" = @company.website
+    = @company.details
+
+  section
+    h4 Социальные сети
+    ul.horizontal.social_networks
+      - SocialNetworks::company.each do |network|
+        - if @company.social[network.to_s].present?
+          li = link_to icon(network), @company.social[network.to_s], class: "social-round #{ network }"
+
+  section
+    h4 Контакты
+    ul.contacts
+      li : span = @company.phone
+      li : span = @company.address

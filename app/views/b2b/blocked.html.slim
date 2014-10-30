@@ -1,0 +1,7 @@
+.col-md-12
+  - if can?(:update_to_premium, current_account)
+    = render partial: "b2b/partials/premium" if can?(:update_to_premium, current_account)
+  .alert.alert-danger
+    h4 Время действия тестового периода истекло
+    - if can?(:update_to_premium, current_account)
+      p = raw "Чтобы продолжить работу в системе, #{ link_to "выберите свой тариф", "#premium", "data-toggle"=>"modal" }"

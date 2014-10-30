@@ -1,0 +1,93 @@
+@import mixins
+
+#b2c
+
+  .account-tip
+    width: 70%
+    text-align: center
+    margin: 40px auto
+    h4
+      font-size: 20px
+      font-weight: normal
+
+  [role=overview]
+    section
+      border-bottom: 1px solid #ccc
+      &:last-of-type
+        border: none
+
+
+  section
+    padding: 15px 0
+    h5
+      color: #999
+      text-transform: uppercase
+      margin: 25px 0 15px
+      &:first-of-type
+        margin-top: 0
+    button
+      margin-left: 12px
+
+
+    &.basic, &.status
+      text-align: center
+      > *
+        margin: auto
+
+    [role=avatar]
+      @include avatar(80px)
+      margin-bottom: 12px
+
+    [role=name]
+      margin-bottom: 20px
+
+    [role=personal], [role=interact]
+      margin: 10px 0
+      width: 100%
+      > *
+        padding: 0
+
+    [role=personal] > *
+      padding: 0 7px
+      display: inline
+
+    [role=tags]
+      overflow: hidden
+
+
+  [role=menu]
+    text-transform: uppercase
+    font-weight: bold
+    font-size: 12px
+    margin: 0
+    a
+      text-decoration: none
+      &.current
+        color: #000
+
+  [role=menu], [role=new-entry], .entry
+    border-bottom: 1px solid #ccc
+    padding: 15px 0
+
+  [role=new-entry]
+    overflow: hidden
+    textarea
+      transition: all 150ms ease
+      height: 32px
+      margin-bottom: 0
+    &.expanded
+      textarea
+        height: 100px
+        margin-bottom: 10px
+    button
+      margin-left: 12px
+
+
+  .new-portfolio-link
+    border-bottom: 1px solid #ccc
+    form
+      overflow: hidden
+      padding: 12px 0
+
+  [role=portfolio]
+    padding: 12px 0

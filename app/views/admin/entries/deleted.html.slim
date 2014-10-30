@@ -1,0 +1,15 @@
+p : a href=admin_entries_path &larr; Все записи
+
+- @entries.each_with_index  do |entry, index|
+  h3 style="float: left; margin-top: 0" = "##{ index+1 }"
+  div style="margin-left: 50px"
+    p
+      - if entry.source
+        =' entry.source.name
+        ' |
+      a href=entry.url target="_blank" = entry.url
+    p = entry.body
+    ul.horizontal
+      li = link_to 'Удалить', delete_admin_entry_path(entry.id), method: 'PUT', class: 'btn btn-primary', confirm: "Удалить запись навсегда?"
+      li = link_to 'Восстановить', restore_admin_entry_path(entry.id), method: 'PUT', class: 'btn btn-default'
+  hr

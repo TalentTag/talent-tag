@@ -1,0 +1,87 @@
+#b2c ng-controller="talent.B2cAccountCtrl"
+  .col-md-4@overview
+
+    section.basic
+      @avatar style="background-image: url(#{ @user.avatar });"
+      h4@name = @user.name
+
+      - unless owns_account? @user
+        .row@interact
+          .col-md-6
+            div ng-init="follows=#{ current_user.follows? @user }"
+              a.btn.btn-default href="javascript:;" ng-click="follow(false)" ng-show="follows" tt-confirm="Отписаться?"
+                .fa.fa-star'
+                | Вы подписаны
+              a.btn.btn-default href="javascript:;" ng-click="follow()" ng-hide="follows"
+                .fa.fa-star-o'
+                | Подписаться
+
+          .col-md-6
+            a.btn.btn-default href="#{ conversation_path(@user.id) }" target="_self"
+              =' icon :message
+              | Написать
+
+
+      - if @user.profile['location'] || @user.profile['birthdate']
+        @personal
+          @location
+            =' icon :location
+            = @user.profile['location']
+          @birthdate
+            =' icon :birthday
+            = @user.profile['birthdate']
+          / .col-md-6@location : input.subtle type="text" ng-model="user.profile.location" ng-blur="saveProfile()" placeholder="заполнить"
+          / .col-md-6@birtdate : input.subtle type="text" ng-model="user.profile.birthdate" ng-blur="saveProfile()" placeholder="заполнить"
+
+      - if owns_account? @user
+        p
+          =' icon :star
+          = t "user.followers.number", count: current_user.followers.count
+
+    section.status
+      - if owns_account? @user
+        select.form-control ng-model="userStatus" ng-options="status as text for (status, text) in statuses"
+      - else
+        = t "user.status.#{ @user.status }"
+
+    section.contacts
+      h5 Аккаунты в социальных сетях
+      - unless @user.identities.present?
+        p Подключите социальные сети, которыми вы пользуетесь - ваши личные данные подтянутся в ваш профиль автоматически, и он будет уже частично заполнен
+      ul@social.horizontal
+        - SocialNetworks::oauth.each do |provider|
+          li.identity == embedded_identity @user, provider, params['name'] do
+            = icon provider
+
+      h5 Теги
+      @tags
+        - if owns_account? @user
+          - unless @user.tags.present?
+            p Добавьте теги, характеризующие ваши основные навыки, чтобы работодатели могли найти вас по тегам
+          span.kw ng-repeat="tag in user.tags"
+            | {{ tag }}
+            a.close href="javascript:;" ng-click="tags.drop(tag)" &times;
+          input.subtle type="text" placeholder="добавить" ng-model="newTag" ng-blur="tags.add()" ng-keypress="tags.add($event.charCode)"
+        - else
+          - @user.tags.each do |tag|
+            span.kw = tag
+
+      h5 Контакты
+      @contacts = @user.email
+
+
+
+
+  .col-md-8@details
+
+    section@menu
+      ul.horizontal ng-init="current_tab='journal'"
+        li: a href="javascript:;" ng-class="{ current: current_tab=='journal' }" ng-click="current_tab='journal'" Блог
+        li: a href="javascript:;" ng-class="{ current: current_tab=='portfolio' }" ng-click="current_tab='portfolio'" Портфолио
+        - if @user.profile && @user.profile['work']        
+          li: a href="javascript:;" ng-class="{ current: current_tab=='about' }" ng-click="current_tab='about'" Обо мне
+        - else
+          li: span.inactive Обо мне
+
+    - %w(journal portfolio about).each do |section|
+      = render partial: "b2c/partials/#{ section }"

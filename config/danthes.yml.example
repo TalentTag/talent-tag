@@ -1,0 +1,16 @@
+development:
+  adapter: thin
+  server: "http://localhost:9292"
+  secret_token: "secret"
+  mount: '/faye'
+test:
+  adapter: thin
+  server: "http://localhost:9292"
+  secret_token: "secret"
+  mount: '/faye'
+production:
+  adapter: thin
+  server: "http://talent-tag.ru:9292"
+  mount: '/faye'
+  secret_token: "jahaixahjaphahph0echaeFou4phungeengohgeevio1iutei1siequiebi2fah4"
+  signature_expiration: 7200 # one hour

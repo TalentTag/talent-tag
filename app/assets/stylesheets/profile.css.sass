@@ -1,0 +1,35 @@
+@import mixins
+
+
+.avatar-section
+  .radio
+    padding: 1px 20px
+    input[type=radio]
+    input[type=text]
+      height: 24px
+
+  .avatar
+    @include avatar(100px)
+
+
+.payments
+  .completed
+    background-color: #a9ffad
+  .failed
+    background-color: #f6baba
+
+
+.followings
+  .entry
+    display: block
+    overflow: hidden
+    padding: 7px 12px
+    border-bottom: 1px solid #ddd
+    &:last-child
+      border: none
+    .avatar
+      @include avatar(60px)
+    .unfollow
+      font-size: 16px
+    .content
+      margin-left: 90px

@@ -1,0 +1,34 @@
+production: &production
+  facebook:
+    name:       "facebook"
+    app_id:     "176776305712139"
+    app_secret: "ddc868dc01d6ce0a6504d8f226e1ec0c"
+  twitter:
+    name:       "twitter"
+    app_id:     "QICEypsZC5l5CqgdJbVT7eO4t"
+    app_secret: "xcsHAbpZ8KYaC9eWoTifypeemuoagAQe7WtsQGkw8aB7YJcMo2"
+  vk:
+    name:       "vkontakte"
+    app_id:     "4201311"
+    app_secret: "5qFEBPOnhd4aFAOCS4Eh"
+  gplus:
+    name:       "google_oauth2"
+    app_id:     "428047194229-mgif4uclcvujg0bma1d2lr2i57lp80s4.apps.googleusercontent.com"
+    app_secret: "NOQvqMpHpfI1eZpkJfVWJUlM"
+  linkedin:
+    name:       "linkedin"
+    app_id:     "755qxe4ly65b57"
+    app_secret: "sPAYyGXwtV14xdn6"
+    scope:      "r_fullprofile r_emailaddress"
+
+
+development:
+  <<: *production
+  facebook:
+    name:       "facebook"
+    app_id:     "778009828890303"
+    app_secret: "f11dbbfe3821b63883ad5c844ddcc69b"
+  gplus:
+    name:       "google_oauth2"
+    app_id:     "428047194229-h8nkf9rvi1d0psbr07fvek939h75p9gc.apps.googleusercontent.com"
+    app_secret: "H26rvGIlVM1aFAN6avK15Vca"

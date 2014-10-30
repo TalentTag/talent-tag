@@ -1,0 +1,57 @@
+.col-md-3
+  = render partial: 'profile/partials/nav'
+
+.col-md-9
+  p.well
+    a> href=company_path(current_account.id) target="_self" Страница компании
+    | &rarr;
+
+  h4 Редактирование данных компании
+  = form_for current_account, url: profile_company_path, method: :put do |f|
+    .panel.panel-info
+      .panel-heading Название
+      .panel-body
+        = f.text_field :name, class: 'form-control'
+        .error : small = current_account.errors.messages[:name].first
+      .panel-footer = f.submit "Сохранить", class: 'btn btn-primary'
+
+    .panel.panel-info
+      .panel-heading Контакты
+      .panel-body
+        table width="100%"
+          tr
+            td width="200px" Веб-сайт
+            td
+              .input-group
+                span.input-group-addon http://
+                = f.text_field :website, class: 'form-control'
+              .err = current_account.errors.messages[:website].first
+          tr
+            td width="200px" Телефон
+            td
+              = f.text_field :phone, class: 'form-control phone', 'tt-mask'=>'+7(999)999-9999'
+              .err = current_account.errors.messages[:phone].first
+          tr
+            td width="200px" Адрес
+            td
+              = f.text_field :address, class: 'form-control'
+              .err = current_account.errors.messages[:address].first
+          tr
+            td width="200px" Общая информация
+            td
+              = f.text_area :details, class: 'form-control', rows: 5
+              .err = current_account.errors.messages[:details].first
+
+      .panel-footer = f.submit "Сохранить", class: 'btn btn-primary'
+
+  = form_tag profile_company_path, method: :put
+    .panel.panel-info
+      .panel-heading Соцсети
+      .panel-body
+        table width="100%"
+          - SocialNetworks::company.each do |network|
+            tr
+              td width="200px" = t "social_network.#{ network }"
+              td : .input-group style="width: 100%"
+                = text_field_tag "company[social[#{ network }]]", current_account.social[network.to_s], class: 'form-control'
+      .panel-footer = submit_tag "Сохранить", class: 'btn btn-primary'

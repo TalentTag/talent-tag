@@ -1,0 +1,40 @@
+.col-md-12
+  h3 Избранные специалисты
+
+  .row ng-controller="talent.FollowsCtrl"
+    .col-md-8@followings
+
+      .kw-wrapper
+        .form-control
+          span.kw ng-repeat="tag in tags"
+            ' {{ tag }}
+            a href="javascript:;" ng-click="toggleTag(tag)" &times;
+          input.addfilter placeholder="Поиск по тегам" ng-model="newTag" ng-blur="addTag()" ng-keypress="addTag($event.charCode)"
+        br
+
+      .follow ng-repeat="user in users | filter:byStatus"
+        .avatar style="background-image: url({{ user.avatar }})"
+
+        .management
+          a href="/account/conversations/{{ user.id }}" Написать
+          a href="/users/{{ user.id }}/follow" data-method="POST" data-confirm="Удалить из подписок?" Отписаться
+
+        .details
+          p
+            a' href="/specialists/{{ user.id }}" : b {{ user.name }}
+            span.badge {{ "user.status."+user.status | i18n }}
+          p ng-if="user.location()"
+            i.icon-location>
+            | {{ user.location() }}
+          p
+            a.kw href="javascript:;" ng-repeat="tag in user.tags" ng-click="toggleTag(tag)" {{ tag }}
+
+      p.total {{ "user.following.number" | i18n:{ count: users.length } }}
+
+    .col-md-4
+      .well
+        - User::STATUSES.each do |status|
+          div
+            label ng-click="alterStatus('#{ status }')"
+              input' type="checkbox" ng-click="toggleStatus('#{ status }')"
+              = t "user.status.#{ status }"

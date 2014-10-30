@@ -1,0 +1,21 @@
+.col-md-3
+  = render partial: 'profile/partials/nav'
+
+.col-md-9
+  h4 Платежи
+
+  table.table.payments
+    - if @payments.any?
+      - @payments.each do |payment|
+        tr class="#{ payment.state }"
+          td = payment.created_at.strftime "%d.%m.%Y %H:%M"
+          td = "#{ payment.plan.price } р."
+          td = t "payment.state.#{ payment.state }"
+          td
+            - if payment.pending?
+              = link_to "Оплатить", init_payment_path(payment.id), method: :put
+          td
+            - if payment.pending?
+              = link_to "Отменить", payment_fail_path(payment_id: payment.identifier), method: :post, confirm: "Отменить платеж?"
+    - else
+      p style="color: #999" Нет платежей

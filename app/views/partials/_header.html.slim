@@ -2,24 +2,38 @@ header
   .row
     .col-md-12
 
-      #auth.pull-right
-        - if signed_in?
-          .signedin
-            | Пользователь 
-            b = current_user.name
-            = raw " [ #{ link_to "выйти", auth_signout_path, method: :post } ]"
-          ul
-            - if can? :manage, :admin
-              li = link_to "администрирование", admin_path
-            li = link_to "личный кабинет", account_path
-            li = link_to "профиль", account_profile_path
-        - else
-          .btn-group
-            a.btn.btn-primary data-toggle="modal" href="#signin-modal" Вход
-            a.btn.btn-primary data-toggle="modal" href="#signup-modal" Регистрация
+      - if signed_in?
+        ul@mainmenu
+          - if can? :manage, :admin
+            li = link_to "Администрирование", admin_path, target: "_self"
 
-          - %w(signup signin forgot).each do |modal|
-            = render partial: "partials/#{ modal }"
+          li = link_to "Личный кабинет", account_path, target: "_self"
 
-      h1 = link_to "TalentTag", root_path, title: "TalentTag"
+          - if is_employer?
+            li = link_to following_path, target: "_self" do
+              i.fa.fa-star-o style="font-size: 16px"
+
+          li.dropdown@messages = render partial: "partials/messages"
+          li.dropdown@notifications = render partial: "b2b/partials/notifications"
+
+          li: .avatar style="background-image: url(#{ current_user.avatar })"
+
+          li.dropdown@actions
+            a.dropdown-toggle data-toggle="dropdown" href="javascript:;"
+              = current_user.name
+              span.caret
+            ul.dropdown-menu@menu
+              li = link_to "Настройки аккаунта", profile_path, target: "_self"
+              li = link_to "Выйти", auth_signout_path, method: :post, target: "_self"
+
+      - else
+        .btn-group.pull-right
+          a.btn.btn-primary data-toggle="modal" href="#signup-b2b" Для работодателей
+          a.btn.btn-primary data-toggle="modal" href="#signup-b2c" Для специалистов
+
+        #auth ng-controller="talent.AuthCtrl"
+          = render partial: "auth/partials/b2b"
+          = render partial: "auth/partials/b2c"
+
+      h2#logo = link_to "#TalentTag", account_path, title: "TalentTag", target: "_self"
       hr

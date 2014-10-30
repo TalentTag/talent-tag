@@ -1,0 +1,65 @@
+.col-md-3
+  = render partial: 'profile/partials/nav'
+
+.col-md-9
+  h4 Редактирование профиля пользователя
+  = form_for current_user, url: profile_path, method: :put do |f|
+    .panel.panel-info
+      .panel-heading Персональные данные
+      .panel-body
+        table width="100%"
+          tr
+            td Фамилия
+            td
+              = f.text_field :lastname, class: 'form-control'
+              .err = current_user.errors.messages[:lastname].first
+          tr
+            td width="200px" Имя
+            td
+              = f.text_field :firstname, class: 'form-control'
+              .err = current_user.errors.messages[:firstname].first
+          tr
+            td Контактный телефон
+            td
+              = f.text_field :phone, class: 'form-control phone', 'tt-mask'=>'+7(999)999-9999'
+              .err = current_user.errors.messages[:phone].first
+      .panel-footer = f.submit "Сохранить", class: 'btn btn-primary'
+
+  = form_for current_user, url: profile_avatar_path, method: :put do |f|
+    .panel.panel-info
+      .panel-heading Аватарка
+      .panel-body.avatar-section
+        .row
+          .col-md-2
+            .avatar style="background-image: url(#{ current_user.avatar })"
+          .col-md-10
+            .radio: label
+              = f.radio_button :avatar_type, 'none'
+              | Нет
+            .radio: label
+              = f.radio_button :avatar_type, 'gravatar'
+              | Gravatar
+            .radio: label
+              = f.radio_button :avatar_type, 'custom'
+              = text_field_tag 'user[avatar]', current_user.profile['image'], placeholder: "URL", class: "form-control"
+      .panel-footer = f.submit "Сохранить", class: 'btn btn-primary'
+
+  = form_for current_user, url: profile_path, method: :put do |f|
+    .panel.panel-info
+      .panel-heading Сменить e-mail
+      .panel-body
+        = f.email_field :email, class: 'form-control'
+        .err = current_user.errors.messages[:email].first
+      .panel-footer = f.submit "Сохранить", class: 'btn btn-primary'
+
+  = form_for current_user, url: profile_path, method: :put do |f|
+    .panel.panel-info
+      .panel-heading Сменить пароль
+      .panel-body
+        p
+          = f.password_field :password, class: 'form-control', placeholder: 'Пароль'
+          .err = current_user.errors.messages[:password].first
+        div
+          = f.password_field :password_confirmation, class: 'form-control', placeholder: 'Подтверждение пароля'
+          .err = current_user.errors.messages[:password_confirmation].first
+      .panel-footer = f.submit "Сохранить", class: 'btn btn-primary'

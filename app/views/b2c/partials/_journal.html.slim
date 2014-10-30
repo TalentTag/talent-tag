@@ -1,0 +1,30 @@
+.journal ng-show="current_tab=='journal'"
+
+  - if owns_account? @user
+    @new-entry ng-class="{ expanded: typing==true }"
+      textarea.form-control ng-model="entryBody" ng-focus="typing=true" placeholder="Добавить запись в блог"
+      button.btn.btn-primary.pull-right ng-click="postEntry()" ng-show="typing" Опубликовать
+      button.btn.btn-default.pull-right ng-click="typing=false" ng-show="typing" Отмена
+
+
+  - if @user.entries.present?
+
+    - @user.entries.each do |entry|
+      .entry
+        / a.close href="javascript:;" &times;
+        p : small = "#{ entry.source.name rescue "TalentTag" } | #{ entry.created_at.strftime '%d.%m.%Y' }"
+        p : a href=entry.url target="_blank" = truncate entry.url, length: 60
+        == bold_tags entry.body
+
+  - else
+
+    .account-tip
+      - if owns_account? @user
+        h4 В вашем блоге пока нет записей
+        - if @user.identities.present?
+          p Теперь записи, оставленные вами в социальной сети с тегом #talenttag, будут попадать в ваш блог, а вы в любой момент можете перейти к своему профилю в социальной сети прямо из личного кабинета
+        - else
+          p Подключите социальные сети, которыми вы пользуетесь, чтобы записи, помеченные тегом #talenttag, попадали в ваш профессиональный блог на TalentTag
+      - else
+        h4 В блоге пока нет записей
+        p Вы можете подписаться на специалиста и следить за обновлениями в его блоге
