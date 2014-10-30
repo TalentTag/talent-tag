@@ -5,8 +5,8 @@ production: &production
     app_secret: "ddc868dc01d6ce0a6504d8f226e1ec0c"
   twitter:
     name:       "twitter"
-    app_id:     "5E7GchtEUZDfSi4Azz87w"
-    app_secret: "N9onKDLHbvKTNb0m4nICF1pYr3g0KX6pl89kphbo1M"
+    app_id:     "QICEypsZC5l5CqgdJbVT7eO4t"
+    app_secret: "xcsHAbpZ8KYaC9eWoTifypeemuoagAQe7WtsQGkw8aB7YJcMo2"
   vk:
     name:       "vkontakte"
     app_id:     "4201311"
