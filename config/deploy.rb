@@ -1,9 +1,11 @@
 require "bundler/capistrano"
 
-server "188.226.157.222", :web, :app, :db, primary: true
-
 set :application,     "talenttag"
 set :deploy_to,       "/var/www/#{application}"
+
+set :stages,          %w(production staging)
+set :default_stage,   "staging"
+require 'capistrano/ext/multistage'
 
 set :rails_env,       :production
 set :bundle_without,  [:development, :test]
@@ -12,8 +14,6 @@ set :keep_releases, 3
 
 set :scm,             :git
 set :repository,      "git@github.com:TalentTag/talent-tag.git"
-set :branch,          :development
-set :user,            "deploy"
 
 set :default_environment, {
   'PATH' => "$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH"
