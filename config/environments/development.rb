@@ -28,7 +28,4 @@ TalentTag::Application.configure do
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = true
-
-  ActiveMerchant::Billing::Base.mode = :test
-  TalentTag::Application::GATEWAY = ActiveMerchant::Billing::TrustCommerceGateway.new login: 'TestMerchant', password: 'password'
 end

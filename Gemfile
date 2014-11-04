@@ -17,6 +17,8 @@ gem 'rabl'
 gem 'kaminari'
 gem 'redcarpet'
 gem 'whenever', require: false
+gem 'aasm'
+# gem 'paper_trail', '~> 3.0'
 gem 'thinking-sphinx', '~> 3.1.1'
 gem 'mysql2' # thinking-sphinx dependency
 
@@ -49,11 +51,6 @@ gem 'ng-rails-csrf'
 gem 'rails-assets-ngInfiniteScroll'
 gem 'font-awesome-rails'
 gem 'i18n-js'
-
-gem 'activemerchant'
-gem 'aasm'
-
-gem 'paper_trail', '~> 3.0'
 
 gem 'unicorn', group: :production
 gem 'thin'
