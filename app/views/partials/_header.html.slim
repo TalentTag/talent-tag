@@ -30,6 +30,10 @@ header
         .btn-group.pull-right
           a.btn.btn-primary data-toggle="modal" href="#signup-b2b" Для работодателей
           a.btn.btn-primary data-toggle="modal" href="#signup-b2c" Для специалистов
+        ul.horizontal.pull-right@faq-links
+          li: a href="#" Возможности TalentTag
+          li: a href=faq_path Как это работает/FAQ
+
 
         #auth ng-controller="talent.AuthCtrl"
           = render partial: "auth/partials/b2b"
