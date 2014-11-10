@@ -5,16 +5,32 @@ $specialist-hover-color: #47A552
 
 $grayed-color: #98A1A4
 
-[role=promo]
+
+.content
+  font-size: 16px
   section
     border-bottom: 1px solid #E9F0F2
     overflow: hidden
     padding: 55px 0
-    color: $grayed-color
+  h1
+    margin: 0
+    font-size: 32px
+    font-weight: normal
   h2
     margin: 0
     font-size: 26px
     font-weight: normal
+  .headline
+    padding: 40px 0
+  .text
+    margin: 0 150px
+    p
+      margin-bottom: 1em
+  .small
+    font-size: 14px
+
+[role=promo]
+  color: $grayed-color
   ul
     font-size: 16px
     margin: 40px 0 45px
@@ -30,12 +46,9 @@ $grayed-color: #98A1A4
 
   .headline
     padding: 60px 100px
-    font-size: 16px
-    color: #98A1A4
     h1
-      font-size: 30px
       font-weight: normal
-      margin: 0 0 24px
+      margin-bottom: 24px
 
   .employers
     h2
@@ -64,7 +77,8 @@ $grayed-color: #98A1A4
 
 
 [role=footer]
+  font-size: 14px
   color: $grayed-color
   padding: 50px 0 30px
   li
-    margin: 0 32px
+    margin: 0 30px

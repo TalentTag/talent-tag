@@ -2,7 +2,7 @@ TalentTag::Application.routes.draw do
 
   root to: "account#index", as: :account
   scope controller: :public do
-    get :promo
+    get :promo, :about
   end
 
 
