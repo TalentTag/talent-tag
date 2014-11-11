@@ -84,6 +84,10 @@ class Bsp < Thor
           }
         end
 
+        entry['location'] = if (entry_hash['author']['profile'] rescue false)
+          entry_hash['author']['profile']['city'] || entry_hash['author']['profile']['location']
+        end
+
         if duplicate = Entry.order(:created_at).find_by(body: entry_hash['body'])
           entry['duplicate_of'] = duplicate.id
         end
