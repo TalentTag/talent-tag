@@ -24,7 +24,7 @@ class AuthController < ApplicationController
       cookies.delete :rememberme
       cookies.delete :role
     end
-    redirect_to account_path, notice: "Вы вышли из системы"
+    redirect_to account_path
   end
 
   def forgot

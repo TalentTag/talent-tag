@@ -29,11 +29,11 @@ class ApplicationController < ActionController::Base
   end
 
   def require_authentication!
-    return render text: "Error 401", status: :unauthorized unless signed_in?
+    return redirect_to '/' unless signed_in?
   end
 
   def forbid_authenticated!
-    return render text: "Error 403", status: :forbidden if signed_in?
+    return redirect_to '/' if signed_in?
   end
 
   rescue_from CanCan::AccessDenied do |exception|

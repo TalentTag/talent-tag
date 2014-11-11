@@ -1,5 +1,7 @@
 class ProfileController < ApplicationController
 
+  before_action :require_authentication!
+
   def update_user
     if current_user.update_attributes(user_params)
       sign_user_in(current_user)
