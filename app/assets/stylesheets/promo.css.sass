@@ -4,22 +4,28 @@ $specialist-color: #53BC60
 $specialist-hover-color: #47A552
 
 $grayed-color: #98A1A4
+$pale-color: #E9F0F2
 
 
 [role=content]
   font-size: 16px
+  line-height: 150%
   section
-    border-bottom: 1px solid #E9F0F2
+    border-bottom: 1px solid $pale-color
     overflow: hidden
     padding: 55px 0
   h1
     margin: 0
-    font-size: 32px
+    font-size: 30px
     font-weight: normal
   h2
     margin: 0
-    font-size: 26px
+    font-size: 24px
     font-weight: normal
+  h3
+    margin: 0
+    font-size: 20px
+    font-weight: normal    
   .headline
     padding: 40px 0
   .text
@@ -89,6 +95,20 @@ $grayed-color: #98A1A4
       font-size: 22px
     p
       margin-bottom: 10px
+
+
+
+[role=features]
+  font-size: 14px
+  h2
+    margin-bottom: 2em
+  h3
+    margin-bottom: 1em
+  .column:first-of-type
+    border-right: 1px solid $pale-color
+    padding-right: 60px
+  .column:last-of-type
+    padding-left: 60px
 
 
 
