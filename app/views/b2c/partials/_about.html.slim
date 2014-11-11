@@ -8,3 +8,7 @@ section.about ng-show="current_tab=='about'"
         p: b = data['position']['name']
         p = "#{ data['employer']['name'] } (#{ data['location']['name'] })"
         hr
+
+  - else
+    .account-tip
+      p Расскажите немного о себе: чем занимаетесь, чем интересуетесь, какую работу хотели бы найти
