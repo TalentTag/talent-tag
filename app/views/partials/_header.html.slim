@@ -39,5 +39,8 @@ header
           = render partial: "auth/partials/b2b"
           = render partial: "auth/partials/b2c"
 
-      h2#logo = link_to "#TalentTag", account_path, title: "TalentTag", target: "_self"
+      h2#logo
+        a href=account_path title="TalentTag" target="_self"
+          ' #
+          span TalentTag
       hr
