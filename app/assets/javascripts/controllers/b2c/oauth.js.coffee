@@ -4,6 +4,7 @@
     provider: talentData.identity.provider
     uid: talentData.identity.uid
     user_attributes: talentData.info
+    raw_data: talentData.identity.raw_data
 
   $scope.saveIdentity = ->
     $scope.error = undefined

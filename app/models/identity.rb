@@ -15,7 +15,7 @@ class Identity < ActiveRecord::Base
     data = params.slice :provider, :uid
     find_by(data) || begin
       data[:user_attributes] = params[:user_attributes] || {}
-      if user
+      identity = if user
         identity = new data
 
         profile = Identity.generate_profile(params)
@@ -32,6 +32,8 @@ class Identity < ActiveRecord::Base
         data[:user_attributes].merge! Identity.generate_profile(params)
         new data
       end
+      identity.raw_data = params
+      identity
     end
   end
 

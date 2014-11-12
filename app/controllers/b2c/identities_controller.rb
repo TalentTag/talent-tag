@@ -5,6 +5,7 @@ class B2c::IdentitiesController < B2c::BaseController
 
   def create
     identity = Identity.new create_params
+    identity.raw_data = params[:identity][:raw_data] # temp
     if identity.save
       sign_user_in identity.user, as: :specialist
       render nothing: true, status: :created
