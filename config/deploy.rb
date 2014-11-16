@@ -29,22 +29,18 @@ set :whenever_command, "bundle exec whenever"
 
 require "whenever/capistrano"
 require 'thinking_sphinx/capistrano'
-require 'capistrano-unicorn'
+require 'puma/capistrano'
+
+set :puma_config_file, "config/puma.rb"
 
 after "deploy:finalize_update", "deploy:make_symlinks:"
 after "deploy:update", "deploy:migrate"
-
 after 'deploy:assets:precompile', 'deploy:assets:export_i18n'
-
-after 'deploy:restart', 'unicorn:reload'    # app IS NOT preloaded
-after 'deploy:restart', 'unicorn:restart'   # app preloaded
-after 'deploy:restart', 'unicorn:duplicate' # before_fork hook implemented (zero downtime deployments)
-
 after "deploy:restart", "deploy:cleanup"
 
 namespace :deploy do
   desc "Creates additional symlinks for the shared configs."
-  task :make_symlinks, :roles => :app, :except => { :no_release => true } do
+  task :make_symlinks, roles: :app, except: { no_release: true } do
     fetch(:dir_symlinks, []).each do |path|
       run "mkdir -p #{shared_path}/#{path}"
       run "rm -rf #{release_path}/#{path} && ln -nfs #{shared_path}/#{path} #{release_path}/#{path}"
@@ -64,15 +60,20 @@ namespace :deploy do
 
   namespace :assets do
     desc "Export translations into a JS file"
-    task :export_i18n, :roles => :app do
+    task :export_i18n, roles: :app do
       run "cd #{release_path}; RAILS_ENV=#{rails_env} bundle exec rake i18n:js:export"
     end
+  end
+
+  desc "Restart puma"
+  task :restart, roles: :app do
+    run "kill -USR2 `cat #{File.join shared_path, 'pids', 'puma.pid'}`"
   end
 end
 
 namespace :admin do
   desc "Tail production log files."
-  task :tail_logs, :roles => :app do
+  task :tail_logs, roles: :app do
     invoke_command "tail -f #{shared_path}/log/production.log" do |channel, stream, data|
       puts "#{channel[:host]}: #{data}" if stream == :out
       warn "[err :: #{channel[:server]}] #{data}" if stream == :err

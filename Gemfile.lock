@@ -52,8 +52,6 @@ GEM
     capistrano-multistage (0.0.4)
       capistrano (>= 2.12.0)
       rake
-    capistrano-unicorn (0.2.0)
-      capistrano (< 3.0)
     chronic (0.10.2)
     coderay (1.1.0)
     coffee-rails (4.0.1)
@@ -64,7 +62,6 @@ GEM
       execjs
     coffee-script-source (1.7.0)
     cookiejar (0.3.2)
-    daemons (1.1.9)
     danthes (1.0.5)
       faye (>= 1.0.1)
       yajl-ruby (~> 1.2.0)
@@ -126,7 +123,6 @@ GEM
     kaminari (0.15.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
-    kgio (2.9.2)
     launchy (2.4.2)
       addressable (~> 2.3)
     letter_opener (1.2.0)
@@ -199,6 +195,8 @@ GEM
       slop (~> 3.4)
     pry-rails (0.3.2)
       pry (>= 0.9.10)
+    puma (2.9.2)
+      rack (>= 1.1, < 2.0)
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
     rabl (0.9.3)
@@ -224,7 +222,6 @@ GEM
       activesupport (= 4.0.0)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    raindrops (0.13.0)
     rake (10.1.1)
     redcarpet (3.1.1)
     redis (3.1.0)
@@ -272,10 +269,6 @@ GEM
     therubyracer (0.12.1)
       libv8 (~> 3.16.14.0)
       ref
-    thin (1.6.1)
-      daemons (>= 1.0.9)
-      eventmachine (>= 1.0.0)
-      rack (>= 1.0.0)
     thinking-sphinx (3.1.1)
       activerecord (>= 3.1.0)
       builder (>= 2.1.2)
@@ -295,10 +288,6 @@ GEM
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     underscore-rails (1.5.2)
-    unicorn (4.8.2)
-      kgio (~> 2.6)
-      rack
-      raindrops (~> 0.7)
     websocket-driver (0.3.4)
     whenever (0.9.0)
       activesupport (>= 2.3.4)
@@ -319,7 +308,6 @@ DEPENDENCIES
   cancan
   capistrano (~> 2.15.0)
   capistrano-multistage
-  capistrano-unicorn
   coffee-rails (~> 4.0.0)
   danthes
   faye
@@ -343,6 +331,7 @@ DEPENDENCIES
   pg
   postgres_ext
   pry-rails
+  puma
   quiet_assets
   rabl
   rack-mini-profiler
@@ -355,10 +344,8 @@ DEPENDENCIES
   sass-rails (~> 4.0.0)
   slim
   therubyracer
-  thin
   thinking-sphinx (~> 3.1.1)
   uglifier (>= 1.3.0)
   underscore-rails
-  unicorn
   whenever
   yajl-ruby

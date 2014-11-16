@@ -3,6 +3,8 @@ source 'https://rails-assets.org'
 
 gem 'rails', '4.0.0'
 
+gem 'puma'
+
 gem 'pg'
 
 gem 'pry-rails'
@@ -52,13 +54,9 @@ gem 'rails-assets-ngInfiniteScroll'
 gem 'font-awesome-rails'
 gem 'i18n-js'
 
-gem 'unicorn', group: :production
-gem 'thin'
-
 group :development do
   gem 'capistrano', '~> 2.15.0'
   gem 'capistrano-multistage'
-  gem 'capistrano-unicorn', require: false
   gem 'quiet_assets'
   gem 'better_errors'
   gem 'rack-mini-profiler'
