@@ -1,9 +1,8 @@
-# Run with: rackup danthes.ru -s thin -E production
+# Run with: rake danthes:start
 require "bundler/setup"
 require "yaml"
 require "faye"
 require "danthes"
-require "thin"
 require "erb"
 
 Danthes.load_config(File.expand_path("../config/danthes.yml", __FILE__))
