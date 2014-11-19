@@ -126,7 +126,7 @@ class User < ActiveRecord::Base
   end
 
   def send_signup_notification
-    AuthMailer.send("signup_#{ role || "default" }", self).deliver unless role.nil?
+    AuthMailer.send("signup_#{ role || "default" }", self).deliver
   end
 
   def send_update_confirmation
