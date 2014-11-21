@@ -27,9 +27,9 @@ header
               li = link_to "Выйти", auth_signout_path, method: :post, target: "_self"
 
       - else
-        .btn-group.pull-right
-          a.btn.btn-primary data-toggle="modal" href="#signup-b2b" Для работодателей
-          a.btn.btn-primary data-toggle="modal" href="#signup-b2c" Для специалистов
+        ul@auth.horizontal.pull-right
+          li: a.btn.btn-primary.employers data-toggle="modal" href="#signup-b2b" Для работодателей
+          li: a.btn.btn-primary.specialists data-toggle="modal" href="#signup-b2c" Для специалистов
         ul.horizontal.pull-right@faq-links
           li: a href=features_path Возможности TalentTag
           li: a href=faq_path Как это работает/FAQ
