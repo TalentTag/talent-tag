@@ -37,6 +37,11 @@ class PublicController < ApplicationController
   end
 
 
+  def blog
+    return render "public/blog/#{ params[:id] }" if params[:id].present?
+  end
+
+
   private
 
   def find_user_by_forgot_token
