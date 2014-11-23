@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141111203714) do
+ActiveRecord::Schema.define(version: 20141121113214) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -118,6 +118,14 @@ ActiveRecord::Schema.define(version: 20141111203714) do
     t.string  "keywords",    array: true
     t.integer "industry_id"
     t.integer "area_id"
+  end
+
+  create_table "media", force: true do |t|
+    t.string "title",        null: false
+    t.string "source",       null: false
+    t.string "link",         null: false
+    t.date   "published_at"
+    t.string "tags",                      array: true
   end
 
   create_table "messages", force: true do |t|

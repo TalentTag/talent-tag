@@ -1,0 +1,22 @@
+.col-md-12@content
+  section.headline: h1.central Статьи и обзоры
+
+  section@media ng-controller="talent.MediaCtrl"
+    .row
+      .col-md-9
+        - Media.all.each do |article|
+          .article ng-show="!currentTag || tagIn(#{ article.tags })"
+            p.source = article.source
+            h3: a href="#{ article.link }" target="_blank" = article.title
+            - if article.tags.present?
+              div
+                - article.tags.each do |tag|
+                  a href="javascript:;" ng-click="pickTag('#{ tag }')" : .badge = tag
+
+
+      .col-md-3.well
+        - Media.tags.each do |tag|
+          a href="javascript:;" ng-click="pickTag('#{ tag }')" : .badge = tag
+
+
+  = render partial: "partials/footer"

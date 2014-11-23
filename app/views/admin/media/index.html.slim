@@ -1,0 +1,17 @@
+h3 Публикации
+p = link_to 'Добавить', new_admin_medium_path
+
+table.table
+  tr
+    th #
+    th Заголовок
+    th Источник
+    th 
+  - Media.newest.each_with_index do |article, index|
+    tr
+      td = index+1
+      td = article.title
+      td = article.source
+      td align="right"
+        =' link_to fa_icon('edit'), edit_admin_medium_path(article.id)
+        = link_to fa_icon('trash-o'), admin_medium_path(article.id), method: :delete, confirm: "Удалить запись?"

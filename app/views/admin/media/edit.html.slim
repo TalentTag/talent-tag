@@ -1,0 +1,27 @@
+.col-md-12
+  = form_for [:admin, @medium] do |f|
+    .panel.panel-info
+      .panel-heading Редактирование публикации
+
+      .panel-body
+        table width="100%"
+          tr
+            td width="200px" Название статьи
+            td = f.text_field :title, class: 'form-control'
+          tr
+            td Источник
+            td = f.text_field :source, class: 'form-control'
+          tr
+            td Ссылка
+            td = f.text_field :link, class: 'form-control'
+          tr
+            td Дата публикации
+            td = f.text_field :published_at, class: 'form-control'
+          tr
+            td Теги (через запятую)
+            td = f.text_field :tags, value: @medium.tags.join(', '), class: 'form-control'
+
+
+      .panel-footer
+        button.btn.btn-primary Сохранить
+        button.btn.btn-default.pull-right Отмена

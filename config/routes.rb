@@ -2,7 +2,7 @@ TalentTag::Application.routes.draw do
 
   root to: "account#index", as: :account
   scope controller: :public do
-    get :promo, :about, :contacts, :faq, :features
+    get :promo, :about, :contacts, :faq, :features, :media
   end
 
 
@@ -107,6 +107,7 @@ TalentTag::Application.routes.draw do
       collection { get :deleted }
       member { put :delete, :restore }
     end
+    resources :media, except: :show
     namespace :stats do
       get '/entries/:year(/sources/:source_id)' => :entries, as: :entries
     end

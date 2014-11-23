@@ -1,0 +1,27 @@
+.col-md-12
+  = form_tag admin_media_path
+    .panel.panel-info
+      .panel-heading Добавить публикацию
+
+      .panel-body
+        table width="100%"
+          tr
+            td width="200px" Название статьи
+            td: input.form-control name="media[title]"
+          tr
+            td Источник
+            td: input.form-control name="media[source]"
+          tr
+            td Ссылка
+            td: input.form-control name="media[link]"
+          tr
+            td Дата публикации
+            td: input.form-control name="media[published_at]" placeholder="YYYY-MM-DD"
+          tr
+            td Теги (через запятую)
+            td: input.form-control name="media[tags]"
+
+
+      .panel-footer
+        button.btn.btn-primary Сохранить
+        button.btn.btn-default.pull-right Отмена
