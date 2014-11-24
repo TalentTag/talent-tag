@@ -8,7 +8,7 @@
   .note
     color: $grayed-color
     font-size: 12px
-    margin-bottom: 16px
+    margin-bottom: 7px
 
 
   font-size: 16px
@@ -37,7 +37,7 @@
       font-size: 28px
     h3
       margin-bottom: 24px
-      font-size: 24px
+      font-size: 20px
     ul, ol
       margin-left: 35px
       margin-bottom: 24px
@@ -128,19 +128,37 @@
 
 
 
-[role=media]
+[role=media], [role=blog]
   .article
     margin-bottom: 30px
-    .source
-      color: $grayed-color
-      font-size: 12px
-      margin-bottom: 0
   .badge
     margin-right: 8px
     color: $grayed-color
     background-color: $pale-color
   h2
     margin-bottom: 24px
+
+[role=media]
+  h3
+    margin-bottom: 7px
+
+[role=blog]
+  .article
+    border-bottom: 1px solid #E9F0F2
+    padding-bottom: 30px
+    .body
+      p:last-of-type
+        margin-bottom: 0
+    .more
+      width: 30px
+      margin: 10px 0
+      a
+        font-size: 16px
+        padding: 0 8px
+        border: 1px solid
+        border-radius: 3px
+
+
 
 
 

@@ -6,7 +6,7 @@
       .col-md-9
         - Media.all.each do |article|
           .article ng-show="!currentTag || tagIn(#{ article.tags })"
-            p.source = article.source
+            .note = article.source
             h3: a href="#{ article.link }" target="_blank" = article.title
             - if article.tags.present?
               div
