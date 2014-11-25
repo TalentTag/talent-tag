@@ -10,11 +10,11 @@ table.table
     th Заголовок
     th Источник
     th 
-  - Media.newest.each_with_index do |article, index|
+  - Media.all.each_with_index do |article, index|
     tr
       td = index+1
       td = article.title
       td = article.source
-      td align="right"
+      td align="right" width="60"
         =' link_to fa_icon('edit'), edit_admin_medium_path(article.id)
         = link_to fa_icon('trash-o'), admin_medium_path(article.id), method: :delete, confirm: "Удалить запись?"
