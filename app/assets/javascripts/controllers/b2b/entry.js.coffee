@@ -41,6 +41,6 @@
   $scope.blacklist = (entry) ->
     if confirm "Убрать запись из виртуальной папки?"
       $scope.search.blacklist entry
-      $scope.entries = _.reject $scope.entries, (e) -> e is entry
+      $scope.$parent.$parent.entries = _.without($scope.entries, entry)
 
 ]

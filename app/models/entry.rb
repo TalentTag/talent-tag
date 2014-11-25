@@ -35,7 +35,7 @@ class Entry < ActiveRecord::Base
       conditions[:duplicate_of] = 0
 
       excepts = {}
-      excepts[:id] = params[:blacklist] unless params[:blacklist].nil? || params[:blacklist].empty?
+      # excepts[:id] = params[:blacklist].map(&:to_i) if params[:blacklist].present?
       excepts[:source_id] = Source.unpublished unless params[:published].nil? or Source.unpublished.empty?
       excepts[:user_id] = 0 if params[:club_members_only]
 
