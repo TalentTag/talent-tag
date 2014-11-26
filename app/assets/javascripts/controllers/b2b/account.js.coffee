@@ -19,6 +19,7 @@
       $scope.page = 1
       query()
 
+
   query = (config={}) ->
     $scope.fetchinInProgress = true
 
@@ -28,6 +29,8 @@
     else if querystring
       { query: querystring, page: $scope.page }
     params['club_members_only'] = true if $scope.clubMembersOnly
+
+    $scope.entries = []
     Entry.query params, (data, parseHeaders) ->
       $scope.entries = if data.length
         if config.append then $scope.entries.concat(data) else data
@@ -38,6 +41,7 @@
         $scope.searchInResults = false
 
       $scope.fetchinInProgress = false
+
 
   $scope.fetch = (searchquery=null) ->
     if searchquery
@@ -74,4 +78,6 @@
     $scope.entries = []
     $scope.search = $scope.entriesTotal = undefined
 
+  $scope.$watch 'query', (query) ->
+    $scope.entries = [] if query is ''
 ]
