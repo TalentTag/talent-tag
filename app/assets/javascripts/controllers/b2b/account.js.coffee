@@ -31,6 +31,7 @@
     params['club_members_only'] = true if $scope.clubMembersOnly
 
     $scope.entries = []
+    $scope.entriesTotal = undefined
     Entry.query params, (data, parseHeaders) ->
       $scope.entries = if data.length
         if config.append then $scope.entries.concat(data) else data
@@ -79,5 +80,8 @@
     $scope.search = $scope.entriesTotal = undefined
 
   $scope.$watch 'query', (query) ->
-    $scope.entries = [] if query is ''
+    if query is ''
+      $scope.entries = []
+      $scope.search = $scope.entriesTotal = undefined
+
 ]
