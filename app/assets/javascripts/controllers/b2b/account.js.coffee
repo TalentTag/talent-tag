@@ -30,8 +30,6 @@
       { query: querystring, page: $scope.page }
     params['club_members_only'] = true if $scope.clubMembersOnly
 
-    $scope.entries = []
-    $scope.entriesTotal = undefined
     Entry.query params, (data, parseHeaders) ->
       $scope.entries = if data.length
         if config.append then $scope.entries.concat(data) else data
@@ -74,14 +72,10 @@
 
   $scope.saveSearch = -> Search.add $scope.query
 
-  $scope.reset = ->
-    $scope.query = ''
+  reset = ->
     $scope.entries = []
     $scope.search = $scope.entriesTotal = undefined
-
-  $scope.$watch 'query', (query) ->
-    if query is ''
-      $scope.entries = []
-      $scope.search = $scope.entriesTotal = undefined
+  $scope.reset = -> $scope.query = ''; reset()
+  $scope.$watch 'search', -> reset()
 
 ]
