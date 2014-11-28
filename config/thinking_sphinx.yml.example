@@ -3,9 +3,12 @@ production:
   morphology: stem_enru
   indexed_models:
     - Entry
+    - User
+  indices_location: "/var/www/talenttag/shared/db/sphinx"
 
 development:
   utf8: true
   morphology: stem_enru
   indexed_models:
     - Entry
+    - User
