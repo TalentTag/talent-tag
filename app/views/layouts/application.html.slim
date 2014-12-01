@@ -8,7 +8,14 @@ html
     meta http-equiv="keywords" content=""
     meta http-equiv="description" content=""
     meta name="viewport" content="width=device-width, initial-scale=1.0"
+
     meta name="title" content="#{ yield(:title).presence || Rails.application.class.parent_name }"
+    meta name="description" content="#{ yield(:description).presence || 'TalentTag – простой и удобный сервис по поиску работы и сотрудников через социальные сети' }"
+
+    meta property="og:title" content="#{ yield(:title).presence || Rails.application.class.parent_name }"
+    / meta property="og:image" content=""
+    meta property="og:site_name" content="TalentTag"
+    meta property="og:description" content="#{ yield(:description).presence || 'TalentTag – простой и удобный сервис по поиску работы и сотрудников через социальные сети' }"
 
     link rel="shortcut icon" href="favicon.ico"
     link rel="apple-touch-icon" href="favicon.png"
