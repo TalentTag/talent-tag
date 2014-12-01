@@ -2,12 +2,12 @@ section.about ng-show="current_tab=='about'"
 
   - if @user.profile && @user.profile['work']
 
-    - @user.profile['work'].each do |data|
-      .position
-        p: small = "#{ Date.parse(data['start_date']).strftime("%d.%m.%Y") } - #{ Date.parse(data['end_date']).strftime("%d.%m.%Y") }" rescue ""
-        p: b = data['position']['name']
-        p = "#{ data['employer']['name'] } (#{ data['location']['name'] })"
-        hr
+    / - @user.profile['work'].each do |data|
+    /   .position
+    /     p: small = "#{ Date.parse(data['start_date']).strftime("%d.%m.%Y") } - #{ Date.parse(data['end_date']).strftime("%d.%m.%Y") }" rescue ""
+    /     p: b = data['position']['name']
+    /     p = "#{ data['employer']['name'] } (#{ data['location']['name'] })"
+    /     hr
 
   - else
     .account-tip
