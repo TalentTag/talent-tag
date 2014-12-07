@@ -6,7 +6,6 @@
 #= require underscore
 #= require angular
 #= require angular-resource
-#= require ng-rails-csrf
 
 #= require angular-ui-bootstrap
 #= require angular-ui-bootstrap-tpls
@@ -30,7 +29,7 @@
 #= require_tree ./utils
 
 
-@talent = angular.module 'talent', ['ngResource', 'ng-rails-csrf', 'ngRoute', 'ngSanitize', 'ui.bootstrap', 'infinite-scroll']
+@talent = angular.module 'talent', ['ngResource', 'ngRoute', 'ngSanitize', 'ui.bootstrap', 'infinite-scroll']
 @talent.value 'talentData', window.talentData
 @talent.value 'Danthes', Danthes
 
