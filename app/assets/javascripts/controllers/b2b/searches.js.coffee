@@ -2,6 +2,7 @@
 
   $scope.loadSearch = (search) ->
     $scope.$parent.search = search
+    Search.current = search
 
   $scope.searchesEditMode = false
   $scope.toggleSearchesEditMode = ->

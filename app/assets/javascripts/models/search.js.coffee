@@ -3,6 +3,7 @@
   Search = $resource "/searches/:id.json", { id: "@id" }, { update: { method: "PUT" } }
 
   Search.items = _.map talentData.searches, (params) -> new Search params
+  Search.current = null
 
 
   Search.add = (query) ->
