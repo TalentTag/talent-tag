@@ -22,7 +22,7 @@ set :default_environment, {
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
-set :symlinks, %w(config/database.yml config/thinking_sphinx.yml config/danthes.yml)
+set :symlinks, %w(config/database.yml config/danthes.yml)
 set :dir_symlinks, %w(log db/sphinx)
 
 set :whenever_command, "bundle exec whenever"
@@ -44,7 +44,7 @@ after "deploy:restart", "deploy:cleanup"
 
 namespace :deploy do
   desc "Creates additional symlinks for the shared configs."
-  task :make_symlinks, :roles => :app, :except => { :no_release => true } do
+  task :make_symlinks, roles: :app, except: { no_release: true } do
     fetch(:dir_symlinks, []).each do |path|
       run "mkdir -p #{shared_path}/#{path}"
       run "rm -rf #{release_path}/#{path} && ln -nfs #{shared_path}/#{path} #{release_path}/#{path}"
@@ -72,7 +72,7 @@ end
 
 namespace :admin do
   desc "Tail production log files."
-  task :tail_logs, :roles => :app do
+  task :tail_logs, roles: :app do
     invoke_command "tail -f #{shared_path}/log/production.log" do |channel, stream, data|
       puts "#{channel[:host]}: #{data}" if stream == :out
       warn "[err :: #{channel[:server]}] #{data}" if stream == :err

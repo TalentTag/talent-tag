@@ -9,7 +9,6 @@ assets_manifest.json
 db/sphinx/*
 config/danthes.yml
 config/database.yml
-config/thinking_sphinx.yml
 config/*.sphinx.conf
 *.swp
 dump.rdb
