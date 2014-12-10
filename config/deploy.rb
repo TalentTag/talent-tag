@@ -22,14 +22,13 @@ set :default_environment, {
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
-set :symlinks, %w(config/database.yml config/thinking_sphinx.yml config/danthes.yml)
+set :symlinks, %w(config/database.yml config/danthes.yml)
 set :dir_symlinks, %w(log db/sphinx)
 
 set :whenever_command, "bundle exec whenever"
 
 require "whenever/capistrano"
 require 'thinking_sphinx/capistrano'
-require 'puma/capistrano'
 
 set :puma_config_file, "config/puma.rb"
 
