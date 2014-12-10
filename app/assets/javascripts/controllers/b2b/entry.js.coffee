@@ -1,5 +1,6 @@
-@talent.controller "talent.EntryCtrl", ["$scope", "$http", "talentData", "Folder", ($scope, $http, talentData, Folder) ->
+@talent.controller "talent.EntryCtrl", ["$scope", "$http", "talentData", "Search", "Folder", ($scope, $http, talentData, Search, Folder) ->
 
+  $scope.search = Search.current
   $scope.folders = Folder.items
 
   currentUser = talentData.currentUser

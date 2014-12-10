@@ -15,7 +15,7 @@
 
   $scope.$watch 'search', (search) ->
     if search?
-      $scope.query = querystring = search.query
+      $scope.query = querystring = Search.current.query
       $scope.page = 1
       query()
 
@@ -49,7 +49,9 @@
 
     if searchquery
       $scope.page = 1
-      $scope.search = undefined unless $scope.searchInResults
+      unless $scope.searchInResults
+        $scope.search   = undefined
+        Search.current  = undefined
       $location.path('/')
 
       querystring = if querystring? and $scope.searchInResults 
