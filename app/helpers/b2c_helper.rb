@@ -12,10 +12,10 @@ module B2cHelper
   def embedded_identity user, provider, name, &block
     provider_name = oauth_providers(provider)['name']
     if user.identities.exists?(provider: provider_name)
-      link_to user.profile["url_#{ provider_name }"], { target: "_self", title: name, class: "social-round #{ provider }" } { block.call }
+      link_to user.profile["url_#{ provider_name }"], { target: "_blank", title: name, class: "social-round #{ provider }" } { block.call }
     else
       if @user==current_user
-        link_to("/auth/#{ provider_name }", target: "_self", class: "social-round disabled") { block.call }
+        link_to("/auth/#{ provider_name }", target: "_blank", class: "social-round disabled") { block.call }
       end
     end
   end

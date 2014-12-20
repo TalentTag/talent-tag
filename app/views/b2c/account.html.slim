@@ -24,12 +24,14 @@
 
       - if @user.profile['location'] || @user.profile['birthdate']
         @personal
-          @location
-            =' icon :location
-            = @user.profile['location']
-          @birthdate
-            =' icon :birthday
-            = @user.profile['birthdate']
+          - if @user.profile['location'].present?
+            @location
+              =' icon :location
+              = @user.profile['location']
+          - if @user.profile['birthdate'].present?
+            @birthdate
+              =' icon :birthday
+              = @user.profile['birthdate']
           / .col-md-6@location : input.subtle type="text" ng-model="user.profile.location" ng-blur="saveProfile()" placeholder="заполнить"
           / .col-md-6@birtdate : input.subtle type="text" ng-model="user.profile.birthdate" ng-blur="saveProfile()" placeholder="заполнить"
 
