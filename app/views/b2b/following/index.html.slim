@@ -33,7 +33,7 @@
 
     .col-md-4
       .well
-        - User::STATUSES.each do |status|
+        - Specialist::STATUSES.each do |status|
           div
             label ng-click="alterStatus('#{ status }')"
               input' type="checkbox" ng-click="toggleStatus('#{ status }')"

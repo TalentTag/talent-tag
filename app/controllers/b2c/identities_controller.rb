@@ -8,10 +8,11 @@ class B2c::IdentitiesController < B2c::BaseController
     identity.raw_data = params[:identity][:raw_data] # temp
     if identity.save
       sign_user_in identity.user, as: :specialist
-      render nothing: true, status: :created
+      return render nothing: true, status: :created
     else
-      return render json: { errors: { 'user.email' => "Этот адрес уже зарегистрирован в системе. Если пароль от аккаутна утерян, воспользуйтесь опцией восстановления пароля." } }, status: 422 if User.exists?(email: params[:identity][:user_attributes][:email])
+      return render json: { errors: { 'user.email' => "Этот адрес уже зарегистрирован в системе. Если пароль от аккаутна утерян, воспользуйтесь опцией восстановления пароля." } }, status: 422 if Specialist.exists?(email: params[:identity][:user_attributes][:email])
     end
+    render json: identity.errors.messages, status: :bad_request
   end
 
 

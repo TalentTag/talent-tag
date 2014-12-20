@@ -7,8 +7,8 @@ class PublicController < ApplicationController
 
   def update_password
     if @user.update_password! password_params
-      # sign_user_in @user, as: :employer
-      redirect_to account_path, flash: { notice: "Пароль изменен, вы можете использовать его для входа в систему" }
+      sign_user_in @user, as: @user.type
+      redirect_to account_path, flash: { notice: "Пароль изменен" }
     else
       render :edit_password
     end
@@ -45,12 +45,12 @@ class PublicController < ApplicationController
   private
 
   def find_user_by_forgot_token
-    @user = User.find_by! forgot_token: params[:token]
-  end
+    @user = User.find_by(forgot_token: params[:token]) || Specialist.find_by(forgot_token: params[:token])
+  end # TODO throw 404 if none found
 
   def find_user_by_auth_token
-    @user = User.find_by! auth_token: params[:token]
-  end
+    @user = User.find_by(auth_token: params[:token]) || Specialist.find_by(auth_token: params[:token])
+  end # TODO throw 404 if none found
 
   def find_invite
     @invite = Invite.find_by! code: params[:code], company_id: params[:company_id]

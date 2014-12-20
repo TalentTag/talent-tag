@@ -7,7 +7,8 @@ class AuthController < ApplicationController
 
 
   def signin
-    if @user = User.find_by(email: params[:user][:email]).try(:authenticate, params[:user][:password])
+    @user = User.find_as(params[:type].to_sym, email: params[:user][:email]).try(:authenticate, params[:user][:password])
+    if @user
       sign_user_in @user, as: params[:type]
       render nothing: true, status: :no_content
     else
@@ -28,7 +29,7 @@ class AuthController < ApplicationController
   end
 
   def forgot
-    if user = User.find_by(email: params[:user][:email])
+    if user = User.find_as(params[:type].to_sym, email: params[:user][:email])
       user.generate_forgot_token!
       flash[:notice] = "Инструкции по восстановлению пароля высланы на адрес #{ params[:user][:email] }"
       render nothing: true

@@ -24,7 +24,7 @@ class Admin::StatsController < Admin::BaseController
   end
 
   def specialists
-    @specialists = User.includes(:identities).order(id: :desc)
+    @specialists = Specialist.includes(:identities).order(created_at: :desc)
   end
 
 end

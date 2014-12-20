@@ -27,9 +27,9 @@
     signup.success -> window.location = '/'
     signup.error (response) -> $scope.errors[key] = values[0] for key, values of response.errors
 
-  $scope.forgot = ->
+  $scope.forgot = (scope) ->
     reset_errors()
-    forgot = $http.post "/auth/forgot.json", { user: { email: $scope.email } }
+    forgot = $http.post "/auth/forgot.json", { user: { email: $scope.email }, type: account_types[scope] }
     forgot.success -> window.location.reload()
     forgot.error (response) -> $scope.errors.email = response.errors?.email?[0]
 

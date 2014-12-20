@@ -7,7 +7,7 @@ class Entry < ActiveRecord::Base
   ENTRIES_PER_PAGE = 10
   paginates_per ENTRIES_PER_PAGE
 
-  belongs_to :user
+  belongs_to :user, class_name: 'Specialist'
   belongs_to :source
   has_many :comments
   has_many :duplicates, class_name: 'Entry', foreign_key: :duplicate_of

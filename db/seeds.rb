@@ -16,7 +16,7 @@ tt = Company.create \
     lastname:   "Носов",
     phone:      "+7(999)5555-5678",
 
-    role:       User::ROLES.first
+    role:       UserConcern::ROLES.first
   },
 
   confirmed_at: Date.today

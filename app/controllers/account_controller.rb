@@ -26,7 +26,7 @@ class AccountController < ApplicationController
   end
 
   def update_status
-    if params[:status].in? User::STATUSES
+    if params[:status].in? Specialist::STATUSES
       current_user.status = params[:status]
       current_user.save validate: false
       render nothing: true, status: :no_content

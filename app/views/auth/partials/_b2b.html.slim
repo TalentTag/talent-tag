@@ -11,10 +11,10 @@
 
             .col-md-3 style="padding: 0 40px"
               = form_tag add_company_users_path, method: :put, remote: true, 'tt-remote-form'=>true
-                input type="hidden" name="email" value="{{ newuser.email }}"
-                p style="margin-bottom: 20px" : small На адрес <b>{{ newuser.email }}</b> уже зарегистрирован аккаунт специалиста. Если этот e-mail принадлежит Вам и Вы хотите зарегистрировать на него компанию как работодатель, нажмите на кнопку "Зарегистрировать" ниже. Мы вышлем Вам указания о дальнейших действиях на указанный почтовый ящик.
-                = submit_tag "Зарегистрировать", class: "button btn btn-primary btn-sm"
-                button.btn.btn-default.btn-sm.pull-right type="button" ng-click="tab='signup'" Назад
+                / input type="hidden" name="email" value="{{ newuser.email }}"
+                / p style="margin-bottom: 20px" : small На адрес <b>{{ newuser.email }}</b> уже зарегистрирован аккаунт специалиста. Если этот e-mail принадлежит Вам и Вы хотите зарегистрировать на него компанию как работодатель, нажмите на кнопку "Зарегистрировать" ниже. Мы вышлем Вам указания о дальнейших действиях на указанный почтовый ящик.
+                / = submit_tag "Зарегистрировать", class: "button btn btn-primary btn-sm"
+                / button.btn.btn-default.btn-sm.pull-right type="button" ng-click="tab='signup'" Назад
 
             .col-md-3
               form ng-submit="signup_b2b()"
@@ -51,7 +51,7 @@
                 button.btn.btn-default.pull-right.btn-sm type="button" ng-click="tab='signup'" У меня еще нет аккаунта
 
             .col-md-3
-              form@forgot-form ng-submit="forgot()" tt-form-autofill-fix=""
+              form@forgot-form ng-submit="forgot('b2b')" tt-form-autofill-fix=""
                 p : small Пожалуйста, укажите Ваш e-mail, и мы вышлем на него инструкции по восстанолению пароля
                 .form-group.error-placeholder ng-class="{ 'has-error': errors.email }"
                   input.form-control type="email" name="user[email]" placeholder="Email" ng-model="email"

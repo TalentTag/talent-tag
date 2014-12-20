@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
 
   def current_user
     @current_user ||= if session[:user]
-      User.find_by email: session[:user]
+      User.find_as account_type, email: session[:user]
     elsif cookies[:rememberme]
       cookie_parts = cookies[:rememberme].split('|')
       user = User.find cookie_parts.first
@@ -51,16 +51,15 @@ class ApplicationController < ActionController::Base
 
 
   def sign_user_in user, options={}
-    if user.kind_of? User
-      session[:user] = user.email
-      session[:role] = options[:as] if options[:as].present?
-      user.tap do |u|
-        u.last_login_at = Time.now
-        u.generate_auth_token
-      end.save validate: false
-      user.generate_cookie { |cookie| cookies[:rememberme] = cookie } if params[:rememberme]
-      @current_user = user
-    end
+    session[:user] = user.email
+    session[:role] = options[:as] if options[:as].present?
+    user.tap do |u|
+      u.last_login_at = Time.now
+      u.generate_auth_token
+    end.save validate: false
+    user.generate_cookie { |cookie| cookies[:rememberme] = cookie } if params[:rememberme]
+    @current_user = user
+
     signed_in?
   end
 
@@ -80,8 +79,8 @@ class ApplicationController < ActionController::Base
         areas:          Area.all,
         searches:       current_user.searches,
         folders:        current_user.folders
-    else
-      gon.statuses = Hash[User::STATUSES.map { |s| [s, I18n.t("user.status.#{s}")] }]
+    elsif is_specialist?
+      gon.statuses = Hash[Specialist::STATUSES.map { |s| [s, I18n.t("user.status.#{s}")] }]
     end
   end
 

@@ -27,25 +27,25 @@ class UsersController < ApplicationController
     redirect_to account_path
   end
 
-  def add_company
-    if User.find_by!(email: params[:email]).send_company_adding_notification
-      flash[:notice] = "Инструкции высланы на указанный адрес"
-      render nothing: true, status: :no_content
-    end
-  end
+  # def add_company
+  #   if User.find_by!(email: params[:email]).send_company_adding_notification
+  #     flash[:notice] = "Инструкции высланы на указанный адрес"
+  #     render nothing: true, status: :no_content
+  #   end
+  # end
 
-  def create_company
-    @user = User.find_by!(id: params[:user_id])
-    @company = Company.new(name: params[:company][:name])
-    @company.owner_id = @user.id
-    if @company.save
-      @user.update role: :owner, company_id: @company.id
-      sign_user_in @user, as: :employer
-      redirect_to account_path
-    else
-      render 'public/add_company'
-    end
-  end
+  # def create_company
+  #   @user = User.find_by!(id: params[:user_id])
+  #   @company = Company.new(name: params[:company][:name])
+  #   @company.owner_id = @user.id
+  #   if @company.save
+  #     @user.update role: :owner, company_id: @company.id
+  #     sign_user_in @user, as: :employer
+  #     redirect_to account_path
+  #   else
+  #     render 'public/add_company'
+  #   end
+  # end
 
   def follow
     if params[:follow] then current_user.follow! params[:id] else current_user.unfollow! params[:id] end

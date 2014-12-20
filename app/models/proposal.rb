@@ -2,7 +2,7 @@ class Proposal < ActiveRecord::Base
 
   belongs_to :company
 
-  after_save :confirm_account, :send_notification
+  after_save :confirm_account#, :send_notification
 
   scope :awaiting, ->{ where(status: 'awaiting') }
   default_scope { order(created_at: :desc) }
@@ -16,11 +16,11 @@ class Proposal < ActiveRecord::Base
   protected
 
   def confirm_account
-    company.confirm! if status_changed? && status.to_s == 'accepted'
+    company.confirm!# if status_changed? && status.to_s == 'accepted'
   end
 
-  def send_notification
-    ProposalMailer.send(status, self).deliver if status_changed?
-  end
+  # def send_notification
+  #   ProposalMailer.send(status, self).deliver if status_changed?
+  # end
 
 end

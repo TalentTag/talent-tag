@@ -1,6 +1,6 @@
 class Identity < ActiveRecord::Base
 
-  belongs_to :user
+  belongs_to :user, class_name: "Specialist"
   accepts_nested_attributes_for :user
 
   after_create :generate_anchor, :link_entries

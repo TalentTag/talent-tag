@@ -44,7 +44,7 @@
                 button.btn.btn-primary.btn-sm Войти
     
             .col-md-4
-              form@forgot-form ng-submit="forgot()" tt-form-autofill-fix=""
+              form@forgot-form ng-submit="forgot('b2c')" tt-form-autofill-fix=""
                 p : small Пожалуйста, укажите Ваш e-mail, и мы вышлем на него инструкции по восстанолению пароля
                 .form-group#error-placeholder ng-class="{ 'has-error': errors.email }"
                   input.form-control type="email" name="user[email]" placeholder="Email" ng-model="email"
