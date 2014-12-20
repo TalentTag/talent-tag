@@ -116,23 +116,4 @@ module UserConcern
     AuthMailer.credentials(self).deliver if email_changed? || password_digest_changed?
   end
 
-
-  module ClassMethods
-    def find_with_kind params
-      p "FIND WITH KIND -- PARAMS", params
-      kind_class = params.delete(:kind).capitalize.to_s.constantize
-      user = kind_class.find_by(params)
-      return user if user.present?
-
-      if kind_class == Employer
-        user = Specialist.find_by params
-        user = Employer.create user.attributes.keep_if { |k,v| !k.in? %w(id kind) }
-      else
-        user = Employer.find_by params
-        user = Specialist.create user.attributes.keep_if { |k,v| !k.in? %w(id kind) }
-      end
-      user
-    end
-  end
-
 end

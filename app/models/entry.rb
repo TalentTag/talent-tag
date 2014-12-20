@@ -51,8 +51,8 @@ class Entry < ActiveRecord::Base
   end
 
 
-  def user
-    Identity.find_by(anchor: author['guid']).user rescue nil
+  def link_to_author!
+    link_to_author && save
   end
 
   def hashtags
@@ -83,7 +83,10 @@ class Entry < ActiveRecord::Base
   protected
 
   def link_to_author
-    self.user_id = user.try :id unless user_id
+    unless user_id
+      user = Identity.find_by(anchor: author['guid']).user rescue nil
+      self.user_id = user.try(:id) 
+    end
   end
 
   def notify

@@ -19,11 +19,7 @@ class Bsp < Thor
 
   desc "link", "associate entries with user profiles"
   def link
-    Entry.find_each do |entry|
-      if user = entry.user
-        entry.update(user_id: user.id)
-      end
-    end
+    Entry.find_each { |entry| entry.link_to_author! }
   end
 
   default_task :fetch

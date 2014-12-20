@@ -5,7 +5,7 @@ class NotificationsService
   end
 
   def all options={}
-    ids = @user.follows.map { |f| f.following.id }
+    ids = @user.follows.map { |f| f.following_id }
     if options[:unseen_only]
       Notification.where ids, last_check
     else

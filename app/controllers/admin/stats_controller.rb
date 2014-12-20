@@ -20,7 +20,7 @@ class Admin::StatsController < Admin::BaseController
 
 
   def companies
-    @companies = Company.includes(:users).order(id: :desc)
+    @companies = Company.includes(:users).order(created_at: :desc)
   end
 
   def specialists

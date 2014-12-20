@@ -18,11 +18,12 @@
             td
               = f.text_field :firstname, class: 'form-control'
               .err = current_user.errors.messages[:firstname].first
-          tr
-            td Контактный телефон
-            td
-              = f.text_field :phone, class: 'form-control phone', 'tt-mask'=>'+7(999)999-9999'
-              .err = current_user.errors.messages[:phone].first
+          - if is_employer?
+            tr 
+              td Контактный телефон
+              td
+                = f.text_field :phone, class: 'form-control phone', 'tt-mask'=>'+7(999)999-9999'
+                .err = current_user.errors.messages[:phone].first
       .panel-footer = f.submit "Сохранить", class: 'btn btn-primary'
 
   = form_for current_user, as: :user, url: profile_avatar_path, method: :put do |f|
