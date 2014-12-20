@@ -1,0 +1,20 @@
+table.table
+  tr
+    th #
+    th Название
+    th Сотрудники
+    th Регистрация
+  - @companies.each_with_index do |company, index|
+    tr
+      td = index+1
+      td = company.name
+      td
+        p
+          =' company.owner.email
+          = "(#{ company.owner.name })" unless company.owner.email == company.owner.name
+        - company.employee.each do |user|
+          p style="color: #808080"
+            =' user.email
+            = "(#{ user.name })" unless user.email == user.name
+      td
+        = company.created_at.strftime("%d.%m.%Y, %H:%M")
