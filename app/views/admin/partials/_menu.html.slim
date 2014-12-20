@@ -36,6 +36,7 @@ nav.navbar.navbar-static-top.navbar-inverse
         ul@menu.dropdown-menu
           li = link_to 'По записям', admin_stats_entries_path(year: Time.now.year)
           li = link_to 'По работодателям', admin_stats_companies_path
+          li = link_to 'По специалистам', admin_stats_specialists_path
 
   ul.nav.navbar-nav.navbar-right
     li = link_to 'Личный кабинет', account_path

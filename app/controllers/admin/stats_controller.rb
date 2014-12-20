@@ -23,4 +23,8 @@ class Admin::StatsController < Admin::BaseController
     @companies = Company.includes(:users).order(id: :desc)
   end
 
+  def specialists
+    @specialists = User.includes(:identities).order(id: :desc)
+  end
+
 end
