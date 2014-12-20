@@ -12,9 +12,10 @@
     - @user.entries.each do |entry|
       .entry
         / a.close href="javascript:;" &times;
-        p : small = "#{ entry.source.name rescue "TalentTag" } | #{ entry.created_at.strftime '%d.%m.%Y' }"
-        p : a href=entry.url target="_blank" = truncate entry.url, length: 60
-        == bold_tags entry.body
+        p.headline : small = "#{ entry.source.name rescue "TalentTag" } | #{ entry.created_at.strftime '%d.%m.%Y' }"
+        - if entry.url.present?
+          p : a href=entry.url target="_blank" = truncate entry.url, length: 60
+        .body == simple_format bold_tags(entry.body)
 
   - else
 
