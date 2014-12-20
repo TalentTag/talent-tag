@@ -18,4 +18,9 @@ class Admin::StatsController < Admin::BaseController
     @last_fetch_time  = Time.parse KeyValue.get 'stats:last_fetch_time'
   end
 
+
+  def companies
+    @companies = Company.includes(:users).order(id: :desc)
+  end
+
 end
