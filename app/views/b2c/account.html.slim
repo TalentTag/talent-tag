@@ -46,8 +46,9 @@
 
     section.contacts
       h5 Аккаунты в социальных сетях
-      - unless @user.identities.present?
-        p Подключите социальные сети, которыми вы пользуетесь - ваши личные данные подтянутся в ваш профиль автоматически, и он будет уже частично заполнен
+      - if owns_account? @user
+        - unless @user.identities.present?
+          p Подключите социальные сети, которыми вы пользуетесь - ваши личные данные подтянутся в ваш профиль автоматически, и он будет уже частично заполнен
       ul@social.horizontal
         - SocialNetworks::oauth.each do |provider|
           li.identity == embedded_identity @user, provider, params['name'] do
