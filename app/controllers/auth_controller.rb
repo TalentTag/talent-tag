@@ -9,8 +9,12 @@ class AuthController < ApplicationController
   def signin
     @user = User.find_as(params[:type].to_sym, email: params[:user][:email]).try(:authenticate, params[:user][:password])
     if @user
-      sign_user_in @user, as: params[:type]
-      render nothing: true, status: :no_content
+      if @user.type == :specialist && !@user.can_login
+        render json: { credentials: ["Email заблокирован"] }, status: :unauthorized
+      else
+        sign_user_in @user, as: params[:type]
+        render nothing: true, status: :no_content
+      end
     else
       render json: { credentials: ["Неверный email или пароль"] }, status: :unauthorized
     end

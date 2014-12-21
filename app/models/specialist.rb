@@ -23,4 +23,8 @@ class Specialist < ActiveRecord::Base
     Notification.create author_id: id, event: "status_change", data: status if status_changed?
   end
 
+  def ban! state=true
+    update can_login: !state
+  end
+
 end

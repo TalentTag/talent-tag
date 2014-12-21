@@ -51,6 +51,8 @@ class ApplicationController < ActionController::Base
 
 
   def sign_user_in user, options={}
+    return false if user.type == :specialist && !user.can_login
+
     session[:user] = user.email
     session[:role] = options[:as] if options[:as].present?
     user.tap do |u|
