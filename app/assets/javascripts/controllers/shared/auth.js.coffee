@@ -15,10 +15,10 @@
 
   $scope.signup_b2b = ->
     reset_errors()
-    signup = $http.post "/companies.json", company: { name: $scope.company.name, owner_attributes: $scope.newuser }
+    signup = $http.post "/companies.json", company: { name: $scope.company?.name, owner_attributes: $scope.newuser }
     signup.success -> window.location = '/'
     signup.error (response, status) ->
-      return $scope.tab = 'add-company' if status is 403
+      # return $scope.tab = 'add-company' if status is 403
       $scope.errors[key] = values[0] for key, values of response.errors
 
   $scope.signup_b2c = ->
