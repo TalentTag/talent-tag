@@ -30,7 +30,7 @@
 
   $scope.$watch 'user.tags.length', (count, prev) ->
     if count && count isnt prev
-      $http.put "/users/#{ $scope.user.id }", tags: $scope.user.tags
+      $http.put "/users/#{ $scope.user.id }", user: { tags: $scope.user.tags }
       $scope.newTag = undefined
 
 

@@ -1,10 +1,11 @@
-@talent.controller "talent.MainCtrl", ["$scope", "$rootScope", "Notifications", ($scope, $rootScope, Notifications) ->
+@talent.controller "talent.MainCtrl", ["$scope", "talentData", "$rootScope", "Notifications", ($scope, talentData, $rootScope, Notifications) ->
 
   $scope.Notifications = Notifications
 
 
-  Danthes.subscribe "/users/#{talentData.currentUser.id}/messages", (data) ->
-    $rootScope.$broadcast 'signal:new_message', data
+  if talentData?.currentUser?
+    Danthes.subscribe "/users/#{talentData.currentUser.id}/messages", (data) ->
+      $rootScope.$broadcast 'signal:new_message', data
 
 
   $rootScope.$on 'signal:new_message', (event, data) ->

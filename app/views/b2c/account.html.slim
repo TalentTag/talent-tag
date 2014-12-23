@@ -38,7 +38,7 @@
       - if owns_account? @user
         p
           =' icon :star
-          = t "user.followers.number", count: current_user.followers.count
+          = t "user.followers.number", count: current_user.followed_by.count
 
     section.status
       - if owns_account? @user

@@ -36,7 +36,7 @@ class AccountController < ApplicationController
   end
 
   def following
-    @users = current_user.follows.includes('following').map &:following
+    @users = current_user.follows
     gon.rabl template: 'app/views/users/index.json', as: :users
     render 'b2b/following/index'
   end

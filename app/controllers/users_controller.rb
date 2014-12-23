@@ -3,6 +3,12 @@ class UsersController < ApplicationController
   respond_to :json
 
 
+  def index
+    @users = Specialist.filter query: params[:query]
+    response.headers["TT-specstotal"] = @users.total_count.to_s rescue nil
+  end
+
+
   def create
     @user = Specialist.new create_params
     if @user.save

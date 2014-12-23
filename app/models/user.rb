@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
 
 
   belongs_to :company
+  has_and_belongs_to_many :follows, class_name: 'Specialist'
   has_many :searches, foreign_key: :user_id, dependent: :destroy
   has_many :folders, foreign_key: :user_id, dependent: :destroy
   has_many :comments, foreign_key: :user_id
@@ -26,6 +27,22 @@ class User < ActiveRecord::Base
 
   def post_comment entry, text
     comments.create entry_id: entry.id, text: text
+  end
+
+
+  def follows? user
+    id = user.kind_of?(Specialist) ? user.id : user
+    !!follows.where(id: id).exists?
+  end
+
+  def follow! user
+    specialist = user.kind_of?(Specialist) ? user : Specialist.find(user)
+    follows.push specialist
+  end
+
+  def unfollow! user
+    specialist = user.kind_of?(Specialist) ? user : Specialist.find(user)
+    follows.delete specialist
   end
 
 

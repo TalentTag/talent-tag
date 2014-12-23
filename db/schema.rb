@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141221103457) do
+ActiveRecord::Schema.define(version: 20141221150511) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,13 +84,6 @@ ActiveRecord::Schema.define(version: 20141221103457) do
     t.integer "user_id"
     t.string  "entries", default: [], array: true
   end
-
-  create_table "followings", force: true do |t|
-    t.integer "user_id"
-    t.integer "following_id", null: false
-  end
-
-  add_index "followings", ["user_id"], name: "index_followings_on_user_id", using: :btree
 
   create_table "identities", force: true do |t|
     t.integer  "user_id"
@@ -196,6 +189,13 @@ ActiveRecord::Schema.define(version: 20141221103457) do
   end
 
   add_index "specialists", ["email"], name: "index_specialists_on_email", unique: true, using: :btree
+
+  create_table "specialists_users", force: true do |t|
+    t.integer "user_id"
+    t.integer "specialist_id"
+  end
+
+  add_index "specialists_users", ["user_id"], name: "index_specialists_users_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",           limit: 60,              null: false

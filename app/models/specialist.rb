@@ -3,6 +3,7 @@ class Specialist < ActiveRecord::Base
   include UserConcern
 
 
+  has_and_belongs_to_many :followed_by, class_name: 'User'
   has_many :identities, foreign_key: :user_id, dependent: :destroy
   has_many :entries, foreign_key: :user_id
   has_many :portfolio, foreign_key: :user_id

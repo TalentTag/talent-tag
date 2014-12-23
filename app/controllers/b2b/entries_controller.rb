@@ -20,7 +20,6 @@ class B2b::EntriesController < B2b::BaseController
     else
       Entry.filter params
     end
-    @comments = Comment.where(entry_id: @entries.map(&:id), user_id: current_user.id)
     response.headers["TT-entriestotal"] = @entries.total_count.to_s rescue nil
   end
 
