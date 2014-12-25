@@ -17,7 +17,24 @@ namespace :export do
             p "Error in #{entry.id}" 
           end
         end
-      end.to_a.map { |item| csv << item }
+      end.to_a.each { |item| csv << item }
+    end
+  end
+
+
+  task geo: :environment do
+    CSV.open "#{ Rails.root }/tmp/geo.csv", "w" do |csv|
+      locations = []
+      Specialist.find_each do |user|
+        locations << user.profile['location'] rescue nil
+      end
+      Entry.find_each do |entry|
+        locations << entry.author['profile']['city'] rescue nil
+      end
+      locations.compact!
+      {}.tap do |hash|
+        locations.each { |location| hash[location] = (hash[location] || 0) + 1 }
+      end.to_a.sort.each { |item| csv << item }
     end
   end
 
