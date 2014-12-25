@@ -17,7 +17,7 @@ class Specialist < ActiveRecord::Base
 
 
   def send_signup_notification
-    AuthMailer.signup_default(self).deliver unless role.nil?
+    AuthMailer.signup_specialist(self).deliver
   end
 
   def notify
