@@ -79,7 +79,7 @@
 
     section@menu
       ul.horizontal ng-init="current_tab='journal'"
-        li: a href="javascript:;" ng-class="{ current: current_tab=='journal' }" ng-click="current_tab='journal'" Блог
+        li: a href="javascript:;" ng-class="{ current: current_tab=='journal' }" ng-click="current_tab='journal'" Профблог
         li: a href="javascript:;" ng-class="{ current: current_tab=='portfolio' }" ng-click="current_tab='portfolio'" Портфолио
         - if @user.profile && @user.profile['work']        
           li: a href="javascript:;" ng-class="{ current: current_tab=='about' }" ng-click="current_tab='about'" Обо мне
