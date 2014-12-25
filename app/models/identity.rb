@@ -28,7 +28,6 @@ class Identity < ActiveRecord::Base
         identity.user = user
         identity
       else
-        p data
         password = Digest::MD5.hexdigest(Time.now.to_s + params[:uid] + params[:provider])
         data[:user_attributes][:password] = data[:user_attributes][:password_confirmation] = password
         data[:user_attributes].merge! Identity.generate_profile(params)
