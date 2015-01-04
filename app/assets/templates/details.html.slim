@@ -1,67 +1,68 @@
-p
-  a.close href="javascript:;" title="Больше не показывать" ng-show="search" ng-click="blacklist(entry)" &times;
-  a href="javascript:history.back();" &larr; Назад
+div ng-controller="talent.EntryCtrl"
+  p
+    a.close href="javascript:;" title="Больше не показывать" ng-show="search" ng-click="blacklist(entry)" &times;
+    a href="javascript:history.back();" &larr; Назад
 
-p.well ng-show="entry.duplicate_of"
-  ' Это дубликат записи
-  a href="/entries/{{ entry.duplicate_of }}" {{ entry.duplicate_of }}
+  p.well ng-show="entry.duplicate_of"
+    ' Это дубликат записи
+    a href="/entries/{{ entry.duplicate_of }}" {{ entry.duplicate_of }}
 
-p : a ng-show="entry.url" href="{{ entry.url }}" target="_blank" {{ entry.url | truncate:70 }}
-p : small
-  b> Добавлено
-  | {{ entry.created_at | date:'D MMMM YYYY' }}
-p {{ entry.body }}
+  p : a ng-show="entry.url" href="{{ entry.url }}" target="_blank" {{ entry.url | truncate:70 }}
+  p : small
+    b> Добавлено
+    | {{ entry.created_at | date:'D MMMM YYYY' }}
+  p {{ entry.body }}
 
-section.clearfix
-  .kw ng-repeat="folder in Folder.items" ng-show="folder.contains(entry)"
-    a.close href="javascript:;" ng-click="removeEntryFromFolder(folder, entry)" &times;
-    a href="/account/folders/{{ folder.id }}" {{ folder.name }}
+  section.clearfix
+    .kw ng-repeat="folder in Folder.items" ng-show="folder.contains(entry)"
+      a.close href="javascript:;" ng-click="removeEntryFromFolder(folder, entry)" &times;
+      a href="/account/folders/{{ folder.id }}" {{ folder.name }}
 
-section.btn-group
-  button.btn.btn-default.dropdown-toggle data-toggle="dropdown" type="button"
-    span.glyphicon.glyphicon-tags
-    | метки
-  ul@menu.dropdown-menu
-    li ng-repeat="folder in Folder.items" : a href="javascript:;" ng-click="folder.addEntry(entry)" {{ folder.name }}
-    li.divider ng-if="folders.length"
-    li ng-hide="showNewFolderInput" : a href="javascript:;" ng-click="addFolder($event)" добавить
-    li ng-show="showNewFolderInput"
-      .input-group style="margin: 0 7px"
-        input.form-control name="newfolder" placeholder="имя метки" ng-click="$event.stopPropagation()" ng-model="newFolderName" style="height: 26px; padding: 0 10px"
-        span.input-group-btn
-          button.btn.btn-primary ng-click="createFolder($event, entry)" style="height: 26px; padding: 0 10px" ok
-.clearfix
-br
+  section.btn-group
+    button.btn.btn-default.dropdown-toggle data-toggle="dropdown" type="button"
+      span.glyphicon.glyphicon-tags
+      | метки
+    ul@menu.dropdown-menu
+      li ng-repeat="folder in Folder.items" : a href="javascript:;" ng-click="folder.addEntry(entry)" {{ folder.name }}
+      li.divider ng-if="folders.length"
+      li ng-hide="showNewFolderInput" : a href="javascript:;" ng-click="addFolder($event)" добавить
+      li ng-show="showNewFolderInput"
+        .input-group style="margin: 0 7px"
+          input.form-control name="newfolder" placeholder="имя метки" ng-click="$event.stopPropagation()" ng-model="newFolderName" style="height: 26px; padding: 0 10px"
+          span.input-group-btn
+            button.btn.btn-primary ng-click="createFolder($event, entry)" style="height: 26px; padding: 0 10px" ok
+  .clearfix
+  br
 
-#profile.well ng-show="entry.author"
-  a.pull-right.btn.btn-default ng-if="entry.user_id" href="/specialists/{{ entry.user_id }}" target="_self" Полный профиль
-  section ng-if="entry.hasProfile()" tt-short-profile="entry.author"
+  #profile.well ng-show="entry.author"
+    a.pull-right.btn.btn-default ng-if="entry.user_id" href="/specialists/{{ entry.user_id }}" target="_self" Полный профиль
+    section ng-if="entry.hasProfile()" tt-short-profile="entry.author"
 
-section ng-if="entry.duplicates.length" style="margin-bottom:20px"
-  h4 ng-click="duplicatesDisplayed=!duplicatesDisplayed" style="cursor:pointer"
-    ' Похожие записи
-    a href="javascript:;"
-      .fa ng-class="{'fa-angle-down': !duplicatesDisplayed, 'fa-angle-up': duplicatesDisplayed}"
-  ul ng-show="duplicatesDisplayed"
-    li ng-repeat="duplicate in entry.duplicates"
-      p
-        | {{ duplicate.body }}
-        a.pull-right href="/entries/{{ duplicate.id }}" подробнее &rarr;
+  section ng-if="entry.duplicates.length" style="margin-bottom:20px"
+    h4 ng-click="duplicatesDisplayed=!duplicatesDisplayed" style="cursor:pointer"
+      ' Похожие записи
+      a href="javascript:;"
+        .fa ng-class="{'fa-angle-down': !duplicatesDisplayed, 'fa-angle-up': duplicatesDisplayed}"
+    ul ng-show="duplicatesDisplayed"
+      li ng-repeat="duplicate in entry.duplicates"
+        p
+          | {{ duplicate.body }}
+          a.pull-right href="/entries/{{ duplicate.id }}" подробнее &rarr;
 
 
-section.clearfix role="comments-section"
-  h4 Комментарии
-  .comment ng-repeat="comment in entry.comments"
-    .avatar style="background-image: url({{ comment.author.avatar }})"
-    .content
-      p
-        b' {{ comment.author.name }}
-        small.time {{ comment.created_at | timeago }}
-      div id="comment{{ comment.id }}_content" contenteditable=true {{ comment.text }}
-    ul.horizontal.pull-right
-      li: a href="javascript:;" tt-contenteditable="comment" data-target="#comment{{ comment.id }}_content" : i.fa.fa-edit
-      li: a href="javascript:;" ng-click="deleteComment(comment)" : i.fa.fa-trash-o
-  p : textarea.form-control rows="3" placeholder="Комментарий" ng-model="newComment" {{ newComment }}
-  p : button.btn.btn-primary.pull-right ng-click="postComment()" ng-disabled="!newComment" Сохранить
+  section.clearfix role="comments-section"
+    h4 Комментарии
+    .comment ng-repeat="comment in entry.comments"
+      .avatar style="background-image: url({{ comment.author.avatar }})"
+      .content
+        p
+          b' {{ comment.author.name }}
+          small.time {{ comment.created_at | timeago }}
+        div id="comment{{ comment.id }}_content" contenteditable=true {{ comment.text }}
+      ul.horizontal.pull-right
+        li: a href="javascript:;" tt-contenteditable="comment" data-target="#comment{{ comment.id }}_content" : i.fa.fa-edit
+        li: a href="javascript:;" ng-click="deleteComment(comment)" : i.fa.fa-trash-o
+    p : textarea.form-control rows="3" placeholder="Комментарий" ng-model="newComment" {{ newComment }}
+    p : button.btn.btn-primary.pull-right ng-click="postComment()" ng-disabled="!newComment" Сохранить
 
-p : a href="javascript:history.back();" &larr; Назад
+  p : a href="javascript:history.back();" &larr; Назад
