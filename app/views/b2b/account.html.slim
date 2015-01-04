@@ -52,4 +52,4 @@
 
 a#go-top href="javascript:scroll(0,0)" tt-scroll="250" Наверх &uarr;
 
-= render partial: "partials/services"
+= render partial: "partials/services" if Rails.env.production?
