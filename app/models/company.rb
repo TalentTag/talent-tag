@@ -1,5 +1,8 @@
 class Company < ActiveRecord::Base
 
+  EMPLOYEE_LIMIT = 5
+
+
   has_one :owner, class_name: "User"
   has_many :users
   has_many :invites
@@ -26,6 +29,10 @@ class Company < ActiveRecord::Base
 
   def detailed?
     %w(website phone address details).map { |f| send(f).present? }.all?
+  end
+
+  def can_have_more_employee?
+    employee.count + invites.count < EMPLOYEE_LIMIT
   end
 
   def premium?

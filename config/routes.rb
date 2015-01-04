@@ -51,6 +51,7 @@ TalentTag::Application.routes.draw do
     get :employee
     post '/employee' => :add_employee
     delete '/employee/:id' => :remove_employee, as: :remove_employee
+    delete '/invites/:id' => :remove_invite, as: :remove_invite
   end
 
 

@@ -35,7 +35,7 @@ class ProfileController < ApplicationController
 
   def add_employee
     authorize! :invite, User
-    if current_account.invites.create(email: params[:email])
+    if current_account.can_have_more_employee? && current_account.invites.create(email: params[:email])
       flash.now[:notice] = "Уведомление отправлено на #{ params[:email] }"
     end
     redirect_to profile_employee_path
@@ -46,6 +46,13 @@ class ProfileController < ApplicationController
     authorize! :destroy, user
     # flash.now[:notice] = "Пользователь удален из системы" if user.update role: nil, company_id: nil
     flash.now[:notice] = "Пользователь удален из системы" if user.destroy
+    redirect_to profile_employee_path
+  end
+
+  def remove_invite
+    if Invite.find_by!(id: params[:id]).destroy
+      flash.now[:notice] = "Приглашение отменено"
+    end
     redirect_to profile_employee_path
   end
 

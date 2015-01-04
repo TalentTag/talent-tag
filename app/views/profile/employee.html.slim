@@ -3,19 +3,35 @@
 
 .col-md-9
   h4 Аккаунты сотрудников
-  = form_tag profile_employee_path, role: 'form'
-    .panel.panel-info
-      .panel-heading Чтобы добавить аккаунт сотрудника, укажите его e-mail
-      .panel-body
-        = email_field_tag :email, nil, class: 'form-control', placeholder: 'E-mail'
-        .error : small
-      .panel-footer = submit_tag "Отправить приглашение", class: 'btn btn-primary'
+
+  - if current_account.can_have_more_employee?
+    = form_tag profile_employee_path, role: 'form'
+      .panel.panel-info
+        .panel-heading Чтобы добавить аккаунт сотрудника, укажите его e-mail
+        .panel-body
+          = email_field_tag :email, nil, class: 'form-control', placeholder: 'E-mail'
+          .error : small
+        .panel-footer = submit_tag "Отправить приглашение", class: 'btn btn-primary'
+  - else
+    .alert.alert-danger
+      p: b Ограничение на количество сотрудников - #{ Company::EMPLOYEE_LIMIT } человек
+      - if current_account.invites.any?
+        | Вы можете удалить неиспользованные приглашения внизу страницы
 
   table.table
-    - current_account.employee.each do |e|
+    - current_account.employee.each_with_index do |e, index|
       tr
+        td = index+1
         td = e.name
         td = e.email
         td = e.phone
         td align="right" = link_to "", signin_user_path(id: e.id), method: :post, class: "glyphicon glyphicon-forward", title: "Войти в профиль сотрудника"
         td align="right" = link_to "", profile_remove_employee_path(id: e.id), method: :delete, class: "glyphicon glyphicon-trash", data: { confirm: "Удалить сотрудника из системы?" }
+
+  - if current_account.invites.any?
+    hr
+    h4 Неиспользованные приглашения
+    - current_account.invites.each do |invite|
+      .kw
+        =' invite.email
+        = link_to raw('&times;'), profile_remove_invite_path(invite.id), method: :delete, confirm: "Отменить приглашение?"
