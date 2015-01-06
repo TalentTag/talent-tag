@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   has_many :folders, foreign_key: :user_id, dependent: :destroy
   has_many :comments, foreign_key: :user_id
   has_one :blacklist, foreign_key: :user_id, class_name: 'EntriesBlacklist'
+  has_many :notifications, class_name: 'Notification::Users', foreign_key: :author_id
 
   after_create :send_signup_notification
 
@@ -38,6 +39,7 @@ class User < ActiveRecord::Base
   def follow! user
     specialist = user.kind_of?(Specialist) ? user : Specialist.find(user)
     follows.push specialist
+    notifications.create event: 'following', data: { id: company.id, name: company.name }
   end
 
   def unfollow! user
@@ -53,10 +55,6 @@ class User < ActiveRecord::Base
   def send_company_adding_notification
     generate_auth_token!
     AuthMailer.add_company(self).deliver
-  end
-
-  def notify
-    # Notification.create author_id: id, event: "status_change", data: status if status_changed?
   end
 
 end

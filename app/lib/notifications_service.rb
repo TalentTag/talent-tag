@@ -5,14 +5,22 @@ class NotificationsService
   end
 
   def all options={}
-    if @user.type == :employer
-      ids = @user.follows.pluck :id
-      if options[:unseen_only]
-        Notification.where ids, last_check
-      else
-        Notification.where ids
-      end
-    end
+    case @user.class.name
+      when 'User'
+        ids = @user.follows.pluck :id
+        notifications = Notification::Specialists.where(author_id: ids)
+        notifications = notifications.where('created_at > ?', last_check) if options[:unseen_only]
+        notifications
+      when 'Specialist'
+        ids = @user.followed_by.pluck :id
+        notifications = Notification::Users.where(author_id: ids)
+        notifications = notifications.where('created_at > ?', last_check) if options[:unseen_only]
+        notifications
+    end.limit(options[:limit] || 20)
+  end
+
+  def unseen options={}
+    all options.merge(unseen_only: true)
   end
 
   def mark_checked!

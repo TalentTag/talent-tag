@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141221150511) do
+ActiveRecord::Schema.define(version: 20150104172705) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,6 +127,16 @@ ActiveRecord::Schema.define(version: 20141221150511) do
     t.text     "text",            null: false
     t.datetime "created_at"
   end
+
+  create_table "notifications", force: true do |t|
+    t.string   "source",     null: false
+    t.integer  "author_id",  null: false
+    t.string   "event",      null: false
+    t.json     "data"
+    t.datetime "created_at", null: false
+  end
+
+  add_index "notifications", ["source", "author_id"], name: "index_notifications_on_source_and_author_id", using: :btree
 
   create_table "payments", force: true do |t|
     t.integer  "plan_id"

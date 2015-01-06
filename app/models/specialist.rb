@@ -7,6 +7,7 @@ class Specialist < ActiveRecord::Base
   has_many :identities, foreign_key: :user_id, dependent: :destroy
   has_many :entries, foreign_key: :user_id
   has_many :portfolio, foreign_key: :user_id
+  has_many :notifications, class_name: 'Notification::Specialists', foreign_key: :author_id
 
   after_create :send_signup_notification
 
@@ -21,7 +22,7 @@ class Specialist < ActiveRecord::Base
   end
 
   def notify
-    Notification.create author_id: id, event: "status_change", data: status if status_changed?
+    notifications.create(event: "status_change", data: { from: status_was, to: status }) if status_changed?
   end
 
   def ban! state=true
