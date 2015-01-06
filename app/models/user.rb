@@ -4,7 +4,8 @@ class User < ActiveRecord::Base
 
 
   belongs_to :company
-  has_and_belongs_to_many :follows, class_name: 'Specialist'
+  has_many :followings
+  has_many :follows, through: :followings, source: :specialist
   has_many :searches, foreign_key: :user_id, dependent: :destroy
   has_many :folders, foreign_key: :user_id, dependent: :destroy
   has_many :comments, foreign_key: :user_id
@@ -39,7 +40,6 @@ class User < ActiveRecord::Base
   def follow! user
     specialist = user.kind_of?(Specialist) ? user : Specialist.find(user)
     follows.push specialist
-    notifications.create event: 'following', data: { id: company.id, name: company.name }
   end
 
   def unfollow! user

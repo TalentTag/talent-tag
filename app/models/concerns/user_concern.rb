@@ -16,7 +16,7 @@ module UserConcern
     # validates :phone, format: { with: /\A[+\-\(\)\d]+\z/ }, length: { in: 5..20 }, if: ->{ phone.present? }
     # validates_presence_of :firstname, :lastname, :phone, on: :update, if: ->{ role.present? }
 
-    after_update :send_update_confirmation, :notify
+    after_update :send_update_confirmation
   end
 
 
