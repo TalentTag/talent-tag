@@ -7,6 +7,10 @@ class ApplicationController < ActionController::Base
   before_action do
     ActionMailer::Base.default_url_options[:host] = request.host_with_port
   end
+  before_action do
+    ConversationsService.init(current_user) if signed_in?
+  end
+
 
 
   def current_user

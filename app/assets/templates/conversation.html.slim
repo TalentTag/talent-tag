@@ -1,10 +1,10 @@
 #chat-messages
   .message ng-repeat="message in messages"
-    .avatar style="background-image: url({{ message.sender().avatar }})"
+    .avatar style="background-image: url({{ message.user.avatar }})"
     .message-contents
       p
-        b> {{ message.sender().name }}
-        a ng-if="message.sender().company" href="/companies/{{ message.sender().company.id }}" target="_self" {{ message.sender().company.name }}
+        b> {{ message.user.name }}
+        a ng-if="message.user.company" href="/companies/{{ message.user.company.id }}" target="_blank" {{ message.user.company.name }}
       p ng-bind-html="message.text | prettyPrint"
       small.info {{ message.created_at | timeago }}
 

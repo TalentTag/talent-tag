@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150104172705) do
+ActiveRecord::Schema.define(version: 20150107081519) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,18 +48,12 @@ ActiveRecord::Schema.define(version: 20150104172705) do
   add_index "companies", ["name"], name: "index_companies_on_name", using: :btree
 
   create_table "conversations", force: true do |t|
-    t.integer  "participants",    array: true
+    t.integer  "participants",                              array: true
     t.datetime "last_message_at"
+    t.integer  "user_id",                      null: false
+    t.integer  "specialist_id",                null: false
+    t.json     "last_activity",   default: {}
   end
-
-  create_table "conversations_users", force: true do |t|
-    t.integer  "conversation_id"
-    t.integer  "user_id"
-    t.datetime "last_activity_at"
-  end
-
-  add_index "conversations_users", ["conversation_id"], name: "index_conversations_users_on_conversation_id", using: :btree
-  add_index "conversations_users", ["user_id"], name: "index_conversations_users_on_user_id", using: :btree
 
   create_table "entries", id: false, force: true do |t|
     t.integer  "id",                                          null: false
@@ -126,6 +120,7 @@ ActiveRecord::Schema.define(version: 20150104172705) do
     t.integer  "user_id",         null: false
     t.text     "text",            null: false
     t.datetime "created_at"
+    t.string   "source",          null: false
   end
 
   create_table "notifications", force: true do |t|

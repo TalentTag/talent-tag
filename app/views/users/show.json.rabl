@@ -1,11 +1,11 @@
 object @user
 
-attributes :id, :firstname, :lastname, :name, :avatar, :status, :profile, :tags
+attributes :id, :firstname, :lastname, :name, :avatar, :status, :profile, :tags, :type
 
 node(:company) do |user|
-  { name: user.company.try(:name), id: user.company.try(:id) }
-end if @user && @user.type == :employer
+  { name: user.company.name, id: user.company.id } rescue nil
+end
 
 node(:follows) do |user|
-  user.follows.pluck :id
-end if @user && @user.type == :employer #|| @owns_account
+  user.follows.pluck(:id) rescue nil
+end

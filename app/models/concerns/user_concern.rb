@@ -8,8 +8,7 @@ module UserConcern
   included do
     has_secure_password
 
-    has_many :conversations_users
-    has_and_belongs_to_many :conversations, foreign_key: :user_id, join_table: :conversations_users
+    has_many :conversations
 
     validates :email, presence: true, uniqueness: true, format: { with: /\A[^@]+@[^@]+\.[a-zа-я]{2,6}\z/ }
     validates :password, length: { minimum: 6, if: :validate_password?, too_short: "не менее 6 символов" }
@@ -73,16 +72,6 @@ module UserConcern
 
   def avatar_type
     profile['image_source'] || 'none'
-  end
-
-
-  def unread_messages
-    []
-    # conversations.flat_map { |c| c.unread_messages self }.sort_by { |m| m.created_at }.reverse
-  end
-
-  def unread_messages_count
-    conversations.map { |c| c.unread_messages_count self }.sum
   end
 
 

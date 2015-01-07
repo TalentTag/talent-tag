@@ -14,7 +14,7 @@ div ng-controller="talent.ConversationsCtrl"
               span.unread.badge ng-if="conversation.unread_messages" {{ conversation.unread_messages }}
             div ng-if="conversation.messages_count"
               .text &laquo;{{ conversation.last_message.text | truncate:80:{byWords:true} }}&raquo;
-              .note {{ conversation.last_message_at | timeago }}
+              .note {{ conversation.last_message.created_at | timeago }}
 
   .col-md-8
     ng-view

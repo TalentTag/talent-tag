@@ -4,11 +4,12 @@ class Message < ActiveRecord::Base
 
   after_create :touch_conversation
 
-  default_scope -> { order :created_at }
+  default_scope -> { order(:created_at).limit(20) }
 
 
   def user
-    User.find user_id
+    user_class = source == 'employer' ? User : Specialist
+    user_class.find user_id
   end
 
 

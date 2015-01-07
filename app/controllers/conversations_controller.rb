@@ -6,29 +6,26 @@ class ConversationsController < ApplicationController
 
 
   def index
-    gon.rabl template: 'app/views/conversations/index.json', locals: { conversations: current_user.conversations }, as: :conversations
+    gon.rabl template: 'app/views/conversations/index.json', locals: { conversations: ConversationsService.conversations }, as: :conversations
   end
 
 
   def show
-    raise ActiveRecord::RecordNotFound unless User.exists?(params[:id])
-    conversation = Conversation.between([params[:id], current_user])
+    raise ActiveRecord::RecordNotFound unless ConversationsService.recipient_exists?(params[:id])
 
     respond_to do |format|
       format.html do
-        conversations = current_user.conversations
-        conversations = [Conversation.new(user_ids: [params[:id], current_user.id])] + conversations unless conversation
-
-        gon.rabl template: 'app/views/conversations/index.json', locals: { conversations: conversations }, as: :conversations
+        ConversationsService.add params[:id]
+        gon.rabl template: 'app/views/conversations/index.json', locals: { conversations: ConversationsService.conversations }, as: :conversations
         render :index
       end
 
       format.json do
-        if conversation
-          conversation.touch_activity! current_user
-          respond_with conversation.messages.order(created_at: :desc).limit(20).reverse
+        if @conversation = ConversationsService.with(params[:id])
+          ConversationsService.touch! @conversation.id
+          gon.rabl template: 'app/views/conversations/show.json'
         else
-          respond_with []
+          return render nothing: true
         end
       end
     end
@@ -36,7 +33,7 @@ class ConversationsController < ApplicationController
 
 
   def touch
-    Conversation.find_by!(id: params[:id]).touch_activity! current_user
+    ConversationsService.touch! params[:id]
     render nothing: true, status: :no_content
   end
 

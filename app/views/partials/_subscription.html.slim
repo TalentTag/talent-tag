@@ -1,5 +1,5 @@
 - if signed_in?
-  = subscribe_to "/users/#{current_user.id}/messages"
+  = subscribe_to "/#{current_user.type}/#{current_user.id}/messages"
 
   a#new-message.alert.alert-success ng-href="/account/conversations/{{ incoming.user_id }}" ng-show="incoming" ng-cloak=true target="_self"
     p : b Новое сообщение

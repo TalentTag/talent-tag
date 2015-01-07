@@ -1,14 +1,14 @@
-- if current_user.unread_messages_count.zero?
+- if ConversationsService.unread_messages.empty?
   a href=conversations_path target="_self"
     = icon :message
 
 - else
   a.dropdown-toggle data-toggle="dropdown" href="javascript:;"
     = icon :message
-    .look-at-me = current_user.unread_messages_count
-  .dropdown-menu@menu 
+    .look-at-me = ConversationsService.unread_messages.count
+  .dropdown-menu@menu
     ul.messages
-      - current_user.unread_messages[0..2].each do |message|
+      - ConversationsService.unread_messages[0..2].each do |message|
         li: a href=conversation_path(message.user_id) target="_self"
           .avatar.pull-left style="background-image: url(#{ message.user.avatar })"
           .content

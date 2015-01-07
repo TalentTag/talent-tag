@@ -4,7 +4,7 @@
 
 
   if talentData?.currentUser?
-    Danthes.subscribe "/users/#{talentData.currentUser.id}/messages", (data) ->
+    Danthes.subscribe "/#{talentData.currentUser.type}/#{talentData.currentUser.id}/messages", (data) ->
       $rootScope.$broadcast 'signal:new_message', data
 
 
