@@ -1,4 +1,4 @@
-server "188.226.157.222", :web, :app, :db, primary: true
+server "178.62.229.126", :web, :app, :db, primary: true
 
-set :branch,  :development
-set :user,    "deploy"
+set :branch,  :master
+set :user,    "rbdev"
