@@ -23,10 +23,10 @@ class ConversationsController < ApplicationController
       format.json do
         if @conversation = ConversationsService.with(params[:id])
           ConversationsService.touch! @conversation.id
-          gon.rabl template: 'app/views/conversations/show.json'
         else
-          return render nothing: true
+          @conversation = ConversationsService.add(params[:id])
         end
+        gon.rabl template: 'app/views/conversations/show.json'
       end
     end
   end

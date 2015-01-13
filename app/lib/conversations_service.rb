@@ -29,7 +29,9 @@ class ConversationsService
 
   def self.add participant_id
     unless with(participant_id).present?
-      @conversations = conversations + [@current_user.conversations.new(participant_id_field => participant_id)]
+      new_conversation = @current_user.conversations.new(participant_id_field => participant_id)
+      @conversations = conversations + [new_conversation]
+      new_conversation
     end
   end
 

@@ -27,10 +27,9 @@
 
   $scope.messages = []
   $http.get("/account/conversations/#{ $scope.currentConversation.recipient.id }").success (conversation) ->
-    if conversation.messages?
-      $scope.messages = (new Message(attrs) for attrs in conversation.messages)
-      $scope.recipient = conversation.recipient
-      $scope.currentConversation.unread_messages = 0
+    $scope.messages = (new Message(attrs) for attrs in conversation.messages)
+    $scope.recipient = conversation.recipient
+    $scope.currentConversation.unread_messages = 0
 
   recieveMessage = (data) ->
     newMessage = new Message
