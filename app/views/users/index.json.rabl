@@ -1,2 +1,2 @@
 collection @users
-extends "/users/show"
+attributes :id, :firstname, :lastname, :name, :avatar, :status, :profile, :tags

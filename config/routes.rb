@@ -55,7 +55,7 @@ TalentTag::Application.routes.draw do
   end
 
 
-  resources :users, only: %i(create update) do
+  resources :users, only: %i(index create update) do
     collection do
       get :search
       put :add_company, :create_company

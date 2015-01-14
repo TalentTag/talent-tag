@@ -1,3 +1,6 @@
+@import mixins
+
+
 .presets
   overflow: hidden
   text-align: center
@@ -19,3 +22,21 @@
   a.edit
     margin-top: 3px
     text-decoration: none
+
+
+#results
+  .nav-tabs
+    padding: 6px 10px 0
+    li
+      width: 50%
+
+[role=results-specialists]
+  .specialist-card
+    padding: 14px 0 7px
+    border-bottom: 1px solid #eeeeee
+    overflow: hidden
+    .avatar
+      +avatar(60px)
+      float: left
+    .details
+      margin-left: 75px

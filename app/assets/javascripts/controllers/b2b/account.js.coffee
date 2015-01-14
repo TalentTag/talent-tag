@@ -1,4 +1,4 @@
-@talent.controller "talent.AccountCtrl", ["$scope", "$location", "Entry", "Search", "Folder", "talentData", ($scope, $location, Entry, Search, Folder, talentData) ->
+@talent.controller "talent.AccountCtrl", ["$scope", "$location", "Entry", "User", "Search", "Folder", "talentData", ($scope, $location, Entry, User, Search, Folder, talentData) ->
 
   $scope.Search   = Search
   $scope.Folder   = Folder
@@ -40,6 +40,10 @@
         $scope.searchInResults = false
 
       $scope.fetchinInProgress = false
+
+    User.query { query: querystring, page: $scope.page }, (data, parseHeaders) ->
+      $scope.specialists = data
+      $scope.specialistsTotal = parseInt parseHeaders()['tt-specstotal']
 
 
   $scope.fetch = (searchquery=null) ->

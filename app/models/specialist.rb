@@ -2,6 +2,9 @@ class Specialist < ActiveRecord::Base
 
   include UserConcern
 
+  ENTRIES_PER_PAGE = 10
+  paginates_per ENTRIES_PER_PAGE
+
 
   has_many :followings
   has_and_belongs_to_many :followed_by, class_name: 'User'
@@ -17,6 +20,14 @@ class Specialist < ActiveRecord::Base
 
 
   def type() :specialist end
+
+
+  def self.filter params={}
+    page = params[:page] || 1
+    users = Specialist.search params[:query]
+    users.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane
+    users.page(page).per(ENTRIES_PER_PAGE)
+  end
 
 
   def send_signup_notification
