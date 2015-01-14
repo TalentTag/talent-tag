@@ -14,7 +14,7 @@ p.alert.alert-warning ng-show="entriesTotalInFolder == 0" Нет записей 
 
 
 #results
-  ul.nav.nav-tabs.alert-info ng-init="group = entriesTotal ? 'entries' : 'specialists'" ng-show="entriesTotal || specialistsTotal"
+  ul.nav.nav-tabs.alert-info ng-init="group='entries'" ng-show="entriesTotal || specialistsTotal"
     li ng-class="{ active: group=='entries' }" : a href="javascript:;" ng-click="group = 'entries'" Записи: {{ entriesTotal }}
     li ng-class="{ active: group=='specialists' }" : a href="javascript:;" ng-click="group = 'specialists'" Специалисты: {{ specialistsTotal }}
 
