@@ -1,28 +1,38 @@
-.row ng-controller="talent.AdminEntryCtrl"
-  p: a.btn.btn-default href=deleted_admin_entries_path
-    ' Удаленные
-    span.badge = Entry.marked.count
+.row
+  .col-md-9
+    p: a.btn.btn-default href=deleted_admin_entries_path
+      ' Удаленные
+      span.badge = Entry.marked.count
 
-  .well
-    .checkbox style="margin-top: 0" : label
-      input type="checkbox" ng-model="publishedOnly" ng-change="fetch()"
-      | Только из опубликованных источников
+    @entries-list
+      = paginate @entries, window: 3
+      - @entries.each do |entry|
+        .entry
+          p
+            = link_to "&times;".html_safe, "javascript:;", class: "close", "ng-click" => "delete(entry)"
+            small
+              - if entry.url.present?
+                a href=entry.url target="_blank" = entry.url
+              - else
+                | TalentTag
+            / span.badge.new ng-show="isNewEntry(entry)" новая
+          p : small = entry.created_at.strftime("%d.%m.%Y")
+          p = entry.body
+          p : small : a.pull-right href="/entries/#{ entry.id }" target="_blank" перейти к записи &rarr;
+      = paginate @entries, window: 3
 
-    .row
-      .col-xs-4
-        select.form-control ng-model="source" ng-options="s.name for s in sources | orderBy:'name'" ng-change="fetch()"
-          option value="" Источник
+  .col-md-3.well
+    h4 style="margin-top: 7px"
+      - years.each do |year|
+        a href="#{ admin_entries_path(year: year) }"
+          span.label.label-default style="margin: 0 10px 7px 0" = year
+    br
+    ul
+      - months.each do |month|
+        li
+          - if Date.new(@year, month[1]).past?
+            = link_to month[0], admin_entries_path(year: @year, month: month[1])
+          - else
+            span style="color: #aaa" = month[0]
 
-  @entries-list
-    .entry ng-repeat="entry in entries"
-      p
-        = link_to "&times;".html_safe, "javascript:;", class: "close", "ng-click" => "delete(entry)"
-        a ng-href="{{ entry.url }}" target="_blank" = "{{ entry.url | truncate:80 }}"
-        span.badge.new ng-show="isNewEntry(entry)" новая
-      p {{ entry.body }}
-      p : small : a.pull-right href="/entries/{{ entry.id }}" target="_blank" перейти к записи &rarr;
-
-  .well#bottom-gutter ng-show="canFetchMore()"
-    a href="javascript:;" ng-click="fetchMore()" Загрузить еще
-
-a#go-top href="javascript:scroll(0,0)" tt-scroll="250" Наверх &uarr;
+  a#go-top href="javascript:scroll(0,0)" tt-scroll="250" Наверх &uarr;

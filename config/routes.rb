@@ -105,8 +105,11 @@ TalentTag::Application.routes.draw do
     resources :proposals, only: %i(index show update)
     resources :industries, :areas, :keyword_groups, only: %i(create update destroy), defaults: { format: :json }
     resources :sources, only: %i(index update)
-    resources :entries, only: :index do
-      collection { get :deleted }
+    resources :entries, only: [] do
+      collection do
+        get '(/:year(/:month(/page:page)))' => :index, as: '', constraints: { year: /\d+/, month: /\d+/, page: /\d+/ }
+        get :deleted
+      end
       member { put :delete, :restore }
     end
     resources :media, except: :show

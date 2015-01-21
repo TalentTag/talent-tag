@@ -22,6 +22,7 @@ class Entry < ActiveRecord::Base
   scope :except_blacklisted_by, -> (user) { where.not id: user.blacklist }
   scope :visible, -> { where state: :normal }
   scope :marked, -> { where state: :marked }
+  scope :within, -> (year, month) { where('extract(month from created_at) = ? AND extract(year from created_at) = ?', month, year) }
 
 
   def self.filter params={}

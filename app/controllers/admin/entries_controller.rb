@@ -3,7 +3,10 @@ class Admin::EntriesController < Admin::BaseController
   before_action { authorize! :update, Entry }
 
   def index
-    gon.sources = Source.all
+    @year    = params[:year].try(:to_i)  || Date.today.year
+    @month   = params[:month].try(:to_i) || Date.today.month
+    @page    = params[:page].try(:to_i)  || 1
+    @entries = Entry.within(@year, @month).page(@page)
   end
 
   def deleted

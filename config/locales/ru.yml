@@ -32,3 +32,12 @@ ru:
       processing: "Обрабатывается"
       completed: "Завершен"
       failed: "Отменен"
+
+
+  views:
+    pagination:
+      first: "&laquo; Первая"
+      last: "Последняя &raquo;"
+      previous: "&lsaquo; Назад"
+      next: "Дальше &rsaquo;"
+      truncate: "&hellip;"
