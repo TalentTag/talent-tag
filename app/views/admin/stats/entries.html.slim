@@ -7,7 +7,7 @@ div style="overflow: hidden"
 
   .col-md-8
     h4 style="margin-top: 7px"
-      - %w(2014 2013).each do |year|
+      - years.each do |year|
         a href="#{ admin_stats_entries_path(year: year, source_id: params[:source_id]) }"
           span.label.label-default style="margin: 0 10px 7px 0" = year
 

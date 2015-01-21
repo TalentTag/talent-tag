@@ -5,7 +5,7 @@ module AdminHelper
   end
 
   def years
-    (2013..Date.today.year).to_a
+    (2013..Date.today.year).to_a.reverse
   end
 
   def months

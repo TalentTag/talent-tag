@@ -15,7 +15,7 @@ class Admin::StatsController < Admin::BaseController
 
     @entries_counters = ActiveRecord::Base.connection.execute sql
     @months           = @entries_counters.map { |e| e['month'] }.uniq
-    @last_fetch_time  = Time.parse KeyValue.get 'stats:last_fetch_time'
+    @last_fetch_time  = Time.parse(KeyValue.get 'stats:last_fetch_time') rescue nil
   end
 
 
