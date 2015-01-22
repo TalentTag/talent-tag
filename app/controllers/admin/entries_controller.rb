@@ -8,6 +8,7 @@ class Admin::EntriesController < Admin::BaseController
     @day     = params[:day].try(:to_i)   || Date.today.day
     @date    = Date.new @year, @month, @day
     @entries = Entry.visible.within(@date)
+    @entries = @entries.from_published_sources if params[:published].present?
   end
 
   def deleted

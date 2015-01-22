@@ -1,6 +1,15 @@
 .row
   .col-md-9
     h3 = "Записи за #{ Russian::strftime(@date, '%d %B %Y') } (всего #{ @entries.count })"
+    p.well
+      - if params[:published].present?
+        => link_to 'Все записи', admin_entries_path(year: @year, month: @month, day: @day)
+        ' /
+        span style="color: #aaa" Только из опубликованных источников
+      - else
+        span> style="color: #aaa" Все записи
+        ' /
+        = link_to 'Только из опубликованных источников', admin_entries_path(year: @year, month: @month, day: @day, published: :published)
 
     @entries-list
       - @entries.each do |entry|
@@ -20,14 +29,14 @@
     .well
       h4 style="margin-top: 7px"
         - years.each do |year|
-          a href="#{ admin_entries_path(year: year) }"
+          a href="#{ admin_entries_path(year: year, month: @month, day: @day, published: params[:published]) }"
             span.label.label-default style="margin: 0 10px 7px 0" = year
       br
       ul
         - months.each do |month|
           li
             - if Date.new(@year, month[1]).past?
-              = link_to month[0], admin_entries_path(year: @year, month: month[1])
+              = link_to month[0], admin_entries_path(year: @year, month: month[1], day: @day, published: params[:published])
             - else
               span style="color: #aaa" = month[0]
       br
@@ -37,8 +46,9 @@
             - if Date.new(@year, @month, day).future?
               span style="color: #aaa" = day
             - else
-              = link_to day, admin_entries_path(year: @year, month: @month, day: day)
-    a.btn.btn-default.pull-right href=deleted_admin_entries_path
+              = link_to day, admin_entries_path(year: @year, month: @month, day: day, published: params[:published])
+
+    a.btn.btn-default href=deleted_admin_entries_path
       ' Удаленные
       span.badge = Entry.marked.count
 
