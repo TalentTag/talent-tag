@@ -1,30 +1,7 @@
-.row
-  .col-md-9
-    h3 = "Записи за #{ Russian::strftime(@date, '%d %B %Y') } (всего #{ @entries.count })"
-    p.well
-      - if params[:published].present?
-        => link_to 'Все записи', admin_entries_path(year: @year, month: @month, day: @day)
-        ' /
-        span style="color: #aaa" Только из опубликованных источников
-      - else
-        span> style="color: #aaa" Все записи
-        ' /
-        = link_to 'Только из опубликованных источников', admin_entries_path(year: @year, month: @month, day: @day, published: :published)
+h3 = "Записи за #{ Russian::strftime(@date, '%d %B %Y') } (всего #{ @entries.count })"
+br
 
-    @entries-list
-      - @entries.each do |entry|
-        .entry
-          p
-            = link_to "&times;".html_safe, delete_admin_entry_path(entry.id), class: "close", method: "PUT"
-            small
-              - if entry.url.present?
-                a href=entry.url target="_blank" = entry.url
-              - else
-                | TalentTag
-            / span.badge.new ng-show="isNewEntry(entry)" новая
-          p = entry.body
-          p : small : a.pull-right href="/entries/#{ entry.id }" target="_blank" перейти к записи &rarr;
-  
+.row
   .col-md-3
     .well
       h4 style="margin-top: 7px"
@@ -52,6 +29,31 @@
       ' Удаленные
       span.badge = Entry.marked.count
 
+  .col-md-9
+    p.well
+      - if params[:published].present?
+        => link_to 'Все записи', admin_entries_path(year: @year, month: @month, day: @day)
+        ' /
+        span style="color: #aaa" Только из опубликованных источников
+      - else
+        span> style="color: #aaa" Все записи
+        ' /
+        = link_to 'Только из опубликованных источников', admin_entries_path(year: @year, month: @month, day: @day, published: :published)
+
+    @entries-list
+      - @entries.each do |entry|
+        .entry
+          p
+            = link_to "&times;".html_safe, delete_admin_entry_path(entry.id), class: "close", method: "PUT"
+            small
+              - if entry.url.present?
+                a href=entry.url target="_blank" = entry.url
+              - else
+                | TalentTag
+            / span.badge.new ng-show="isNewEntry(entry)" новая
+          p = entry.body
+          p : small : a.pull-right href="/entries/#{ entry.id }" target="_blank" перейти к записи &rarr;
+  
 
   a#go-top href="javascript:scroll(0,0)" tt-scroll="250" Наверх &uarr;
 
