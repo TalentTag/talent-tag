@@ -5,8 +5,9 @@ class Admin::EntriesController < Admin::BaseController
   def index
     @year    = params[:year].try(:to_i)  || Date.today.year
     @month   = params[:month].try(:to_i) || Date.today.month
-    @page    = params[:page].try(:to_i)  || 1
-    @entries = Entry.within(@year, @month).page(@page)
+    @day     = params[:day].try(:to_i)   || Date.today.day
+    @date    = Date.new @year, @month, @day
+    @entries = Entry.visible.within(@date)
   end
 
   def deleted
@@ -15,7 +16,7 @@ class Admin::EntriesController < Admin::BaseController
 
   def delete
     Entry.find_by!(id: params[:id]).delete!
-    redirect_to :deleted_admin_entries
+    render nothing: true, status: :no_content
   end
 
   def restore
