@@ -16,7 +16,7 @@ class Admin::EntriesController < Admin::BaseController
   end
 
   def delete
-    Entry.find_by!(id: params[:id]).delete!
+    Entry.find_by!(id: params[:id]).mark_as_deleted!
     render nothing: true, status: :no_content
   end
 

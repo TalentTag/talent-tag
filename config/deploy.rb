@@ -78,4 +78,9 @@ namespace :admin do
       warn "[err :: #{channel[:server]}] #{data}" if stream == :err
     end
   end
+
+  desc "Updated marked as deleted entries to 'deleted'"
+  task :trash_entries, roles: :app do
+    run "cd #{current_path}; RAILS_ENV=#{rails_env} bundle exec rake entries:trash"
+  end
 end
