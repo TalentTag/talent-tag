@@ -1,4 +1,4 @@
-@talent.controller "talent.AccountCtrl", ["$scope", "$location", "Entry", "User", "Search", "Folder", "talentData", ($scope, $location, Entry, User, Search, Folder, talentData) ->
+@talent.controller "talent.AccountCtrl", ["$scope", "$location", "Entry", "User", "Search", "Folder", "talentData", "State", ($scope, $location, Entry, User, Search, Folder, talentData, State) ->
 
   $scope.Search   = Search
   $scope.Folder   = Folder
@@ -27,7 +27,7 @@
     params = if $scope.search
       { query: querystring, search_id: $scope.search.id, page: $scope.page }
     else if querystring
-      { query: querystring, page: $scope.page }
+      { query: querystring, page: $scope.page, location: State.location() }
     params['club_members_only'] = true if $scope.clubMembersOnly
 
     Entry.query params, (data, parseHeaders) ->

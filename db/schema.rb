@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150107081519) do
+ActiveRecord::Schema.define(version: 20150205195756) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 20150107081519) do
     t.integer  "duplicate_of"
     t.string   "state",                    default: "normal"
     t.string   "location",     limit: 100
+    t.integer  "location_id"
   end
 
   add_index "entries", ["id"], name: "index_entries_on_id", unique: true, using: :btree
@@ -105,6 +106,11 @@ ActiveRecord::Schema.define(version: 20150107081519) do
     t.string  "keywords",    array: true
     t.integer "industry_id"
     t.integer "area_id"
+  end
+
+  create_table "locations", force: true do |t|
+    t.string "name",     null: false
+    t.string "synonyms", null: false, array: true
   end
 
   create_table "media", force: true do |t|

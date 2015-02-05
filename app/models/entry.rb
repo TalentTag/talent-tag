@@ -34,6 +34,10 @@ class Entry < ActiveRecord::Base
       conditions = {}
       conditions[:source_id] = params[:source] if params[:source].present?
       conditions[:duplicate_of] = 0
+      if params[:location].present?
+        location = Location.find(:first, conditions: ["lower(name) = ?", params[:location].mb_chars.downcase.to_s])
+        conditions[:location_id] = location.id if location.present?
+      end
 
       excepts = {}
       # excepts[:id] = params[:blacklist].map(&:to_i) if params[:blacklist].present?

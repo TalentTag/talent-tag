@@ -13,13 +13,23 @@ class Bsp < Thor
     total_entries_fetched = if options[:date] then fetch_by_date(options[:date]) else fetch_recent end
     puts "\n#{ Time.now.strftime("%d.%m.%Y %H:%M %Z") }: #{ total_entries_fetched } entries stored in #{ (Time.now - started_at).to_i } seconds\n"
 
-    system "rake ts:index > /dev/null" unless total_entries_fetched.zero?
+    unless total_entries_fetched.zero?
+      detect_locations
+      reindex!
+    end
     KeyValue.set "stats:last_fetch_time", Time.now
   end
 
   desc "link", "associate entries with user profiles"
   def link
     Entry.find_each { |entry| entry.link_to_author! }
+    reindex!
+  end
+
+  desc "location", "detect known locations in entries & profiles"
+  def locations
+    detect_locations
+    reindex!
   end
 
   default_task :fetch
@@ -103,6 +113,21 @@ class Bsp < Thor
     end
 
     saved_entries
+  end
+
+
+  def detect_locations
+    Location.all.each do |location|
+      querystring = location.synonyms.map {|e| "\"#{ e }\""}.join(' | ')
+      ids = Entry.search(querystring).map &:id 
+      Entry.where(id: ids, location_id: nil).update_all location_id: location.id
+      Entry.where(location: location.synonyms).update_all location_id: location.id
+    end
+  end
+
+
+  def reindex!
+    system "rake ts:index > /dev/null"
   end
 
 end

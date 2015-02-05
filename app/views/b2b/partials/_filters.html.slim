@@ -9,3 +9,9 @@
     option value="" Проф. область
   .kw-placeholder ng-show="area"
     a.badge ng-repeat="group in groupsByArea" href="javascript:;" ng-click="pick(group)" = "{{ group.keywords[0] }}"
+
+  hr
+
+  div style="position: relative"
+    a#clear-location.close.glyphicon.glyphicon-remove-circle href="javascript:;" ng-show="location" ng-click="clearLocation()"
+    input#location-search.form-control type="search" name="location" placeholder="Город" autofocus=true autocomplete="off" ng-model="location" typeahead="location for location in locations | filter:$viewValue | limitTo:10"
