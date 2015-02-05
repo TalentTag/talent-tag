@@ -8,4 +8,9 @@ module ApplicationHelper
     content_tag :i, nil, class: "icon-#{ icon }"
   end
 
+  def russian_date date, format
+    date = Date.parse(date) unless date.kind_of?(Date)
+    Russian::strftime date, format
+  end
+
 end

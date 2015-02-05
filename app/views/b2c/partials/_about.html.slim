@@ -1,14 +1,29 @@
-section.about ng-show="current_tab=='about'"
+sass:
+  section.about
+    tr
+      vertical-align: top
+    td
+      padding: 0 2px 10px 0
 
-  - if @user.profile && @user.profile['work']
-
-    / - @user.profile['work'].each do |data|
-    /   .position
-    /     p: small = "#{ Date.parse(data['start_date']).strftime("%d.%m.%Y") } - #{ Date.parse(data['end_date']).strftime("%d.%m.%Y") }" rescue ""
-    /     p: b = data['position']['name']
-    /     p = "#{ data['employer']['name'] } (#{ data['location']['name'] })"
-    /     hr
-
-  - else
-    .account-tip
-      p Расскажите немного о себе: чем занимаетесь, чем интересуетесь, какую работу хотели бы найти
+section.about
+  table
+    tr
+      td = icon :location
+      td = @user.profile['location']
+    tr
+      td = icon :birthday
+      td = russian_date @user.profile['birthdate'], "%e %B %Y"
+    / - @user.profile['education'].present?
+    /   tr
+    /     td: span.glyphicon.glyphicon-education
+    /     td
+    - if @user.profile['work'].present?
+      tr
+        td: span.glyphicon.glyphicon-briefcase
+        td
+          - @user.profile['work'].each do |position|
+            = position['position']['name']
+            br
+            = position['employer']['name']
+            br
+            small = "#{ russian_date(position['start_date'], '%Y') }-#{ russian_date(position['end_date'], '%Y') }, #{ position['location']['name'] }"

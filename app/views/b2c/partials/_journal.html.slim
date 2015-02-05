@@ -1,11 +1,10 @@
-.journal ng-show="current_tab=='journal'"
+.journal
 
   - if owns_account? @user
     @new-entry ng-class="{ expanded: typing==true }"
       textarea.form-control ng-model="entryBody" ng-focus="typing=true" placeholder="Добавить запись в блог"
       button.btn.btn-primary.pull-right ng-click="postEntry()" ng-show="typing" Опубликовать
       button.btn.btn-default.pull-right ng-click="typing=false" ng-show="typing" Отмена
-
 
   - if @user.entries.present?
 

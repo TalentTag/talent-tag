@@ -46,6 +46,11 @@
       - else
         = t "user.status.#{ @user.status }"
 
+    = render partial: "b2c/partials/about"
+
+
+
+  .col-md-8@details
     section.contacts
       h5 Аккаунты в социальных сетях
       - if owns_account? @user
@@ -72,21 +77,8 @@
       h5 Контакты
       @contacts = @user.email
 
-
-
-
-  .col-md-8@details
-
-    section@menu
-      ul.horizontal ng-init="current_tab='journal'"
-        li: a href="javascript:;" ng-class="{ current: current_tab=='journal' }" ng-click="current_tab='journal'" Профблог
-        li: a href="javascript:;" ng-class="{ current: current_tab=='portfolio' }" ng-click="current_tab='portfolio'" Портфолио
-        - if @user.profile && @user.profile['work']        
-          li: a href="javascript:;" ng-class="{ current: current_tab=='about' }" ng-click="current_tab='about'" Обо мне
-        - else
-          li: span.inactive Обо мне
-
-    - %w(journal portfolio about).each do |section|
-      = render partial: "b2c/partials/#{ section }"
+    section@journal
+      h5 Профблог
+      = render partial: "b2c/partials/journal"
 
 = render partial: "partials/services"
