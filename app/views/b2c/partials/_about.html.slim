@@ -5,25 +5,29 @@ sass:
     td
       padding: 0 2px 10px 0
 
-section.about
-  table
-    tr
-      td = icon :location
-      td = @user.profile['location']
-    tr
-      td = icon :birthday
-      td = russian_date @user.profile['birthdate'], "%e %B %Y"
-    / - @user.profile['education'].present?
-    /   tr
-    /     td: span.glyphicon.glyphicon-education
-    /     td
-    - if @user.profile['work'].present?
-      tr
-        td: span.glyphicon.glyphicon-briefcase
-        td
-          - @user.profile['work'].each do |position|
-            = position['position']['name']
-            br
-            = position['employer']['name']
-            br
-            small = "#{ russian_date(position['start_date'], '%Y') }-#{ russian_date(position['end_date'], '%Y') }, #{ position['location']['name'] }"
+- if @user.profile.present?
+  section.about
+    table
+      - if @user.profile['location'].present?
+        tr
+          td = icon :location
+          td = @user.profile['location']
+      - if @user.profile['birthdate'].present?
+        tr
+          td = icon :birthday
+          td = russian_date @user.profile['birthdate'], "%e %B %Y"
+      / - @user.profile['education'].present?
+      /   tr
+      /     td: span.glyphicon.glyphicon-education
+      /     td
+      - if @user.profile['work'].present?
+        tr
+          td: span.glyphicon.glyphicon-briefcase
+          td
+            - @user.profile['work'].each do |position|
+              p
+                = position['position']['name'] rescue nil
+                br
+                = position['employer']['name'] rescue nil
+                br
+                small = "#{ russian_date(position['start_date'], '%Y') }-#{ russian_date(position['end_date'], '%Y') }, #{ position['location']['name'] }" rescue nil
