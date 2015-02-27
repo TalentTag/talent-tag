@@ -63,6 +63,7 @@ group :development do
   gem 'rack-mini-profiler'
   gem 'letter_opener'
   gem 'binding_of_caller'
+  gem 'jazz_hands', github: 'nixme/jazz_hands', branch: 'bring-your-own-debugger'
 end
 
 gem "faye-redis"

@@ -1,3 +1,20 @@
+GIT
+  remote: git://github.com/nixme/jazz_hands.git
+  revision: 5e4b48f145883ecb14b55bf04eacc28ac9662676
+  branch: bring-your-own-debugger
+  specs:
+    jazz_hands (0.5.2)
+      awesome_print (~> 1.2)
+      coolline (>= 0.4.2)
+      hirb (~> 0.7.1)
+      pry (~> 0.9.12)
+      pry-doc (~> 0.4.6)
+      pry-git (~> 0.2.3)
+      pry-rails (~> 0.3.2)
+      pry-remote (>= 0.1.7)
+      pry-stack_explorer (~> 0.4.9)
+      railties (>= 3.0, < 5.0)
+
 GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
@@ -35,6 +52,7 @@ GEM
       sass (>= 3.2)
     arel (4.0.2)
     atomic (1.1.14)
+    awesome_print (1.6.1)
     bcrypt-ruby (3.0.1)
     better_errors (1.1.0)
       coderay (>= 1.0.0)
@@ -64,11 +82,15 @@ GEM
       execjs
     coffee-script-source (1.7.0)
     cookiejar (0.3.2)
+    coolline (0.5.0)
+      unicode_utils (~> 1.4)
     daemons (1.1.9)
     danthes (1.0.5)
       faye (>= 1.0.1)
       yajl-ruby (~> 1.2.0)
     debug_inspector (0.0.2)
+    diff-lcs (1.2.5)
+    diffy (3.0.7)
     em-hiredis (0.3.0)
       eventmachine (~> 1.0)
       hiredis (~> 0.5.0)
@@ -106,9 +128,14 @@ GEM
       actionpack (>= 2.3.0)
       json
     gravatar_image_tag (1.2.0)
+    grit (2.5.0)
+      diff-lcs (~> 1.1)
+      mime-types (~> 1.15)
+      posix-spawn (~> 0.3.6)
     hashie (3.3.1)
     highline (1.6.20)
     hike (1.2.3)
+    hirb (0.7.3)
     hiredis (0.5.2)
     http_parser.rb (0.6.0)
     i18n (0.6.9)
@@ -188,6 +215,7 @@ GEM
     pg (0.17.1)
     pg_array_parser (0.0.9)
     polyglot (0.3.4)
+    posix-spawn (0.3.10)
     postgres_ext (2.2.0)
       activerecord (~> 4.0.0)
       arel (~> 4.0.1)
@@ -196,8 +224,21 @@ GEM
       coderay (~> 1.0)
       method_source (~> 0.8)
       slop (~> 3.4)
+    pry-doc (0.4.6)
+      pry (>= 0.9)
+      yard (>= 0.8)
+    pry-git (0.2.3)
+      diffy
+      grit
+      pry (>= 0.9.8)
     pry-rails (0.3.2)
       pry (>= 0.9.10)
+    pry-remote (0.1.8)
+      pry (~> 0.9)
+      slop (~> 3.0)
+    pry-stack_explorer (0.4.9.2)
+      binding_of_caller (>= 0.7)
+      pry (>= 0.9.11)
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
     rabl (0.9.3)
@@ -290,6 +331,7 @@ GEM
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     underscore-rails (1.5.2)
+    unicode_utils (1.4.0)
     unicorn (4.8.2)
       kgio (~> 2.6)
       rack
@@ -299,6 +341,7 @@ GEM
       activesupport (>= 2.3.4)
       chronic (>= 0.6.3)
     yajl-ruby (1.2.0)
+    yard (0.8.7.6)
 
 PLATFORMS
   ruby
@@ -323,6 +366,7 @@ DEPENDENCIES
   gon
   gravatar_image_tag
   i18n-js
+  jazz_hands!
   jquery-rails
   kaminari
   letter_opener
