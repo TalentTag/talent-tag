@@ -1,6 +1,23 @@
-development:
+defaults: &defaults
   adapter: postgresql
-  encoding: unicode
-  database: talent_tag_dev
   host: localhost
+  encoding: unicode
   pool: 5
+  timeout: 5000
+  username: postgres
+
+development:
+  <<: *defaults
+  database: ttag_dev
+
+test:
+  <<: *defaults
+  database: ttag_test
+
+staging:
+  <<: *defaults
+  database: ttag
+
+production:
+  <<: *defaults
+  database: ttag
