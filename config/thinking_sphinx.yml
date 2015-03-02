@@ -14,3 +14,12 @@ development:
   indexed_models:
     - Entry
     - User
+
+test:
+  mysql41: 9307
+  utf8: true
+  morphology: stem_enru
+  index_exact_words: 1
+  indexed_models:
+    - Entry
+    - User

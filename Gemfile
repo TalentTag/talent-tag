@@ -66,4 +66,12 @@ group :development do
   gem 'jazz_hands', github: 'nixme/jazz_hands', branch: 'bring-your-own-debugger'
 end
 
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'shoulda-matchers'
+  gem 'simplecov'
+  gem 'factory_girl_rails'
+  gem 'faker'
+end
+
 gem "faye-redis"
