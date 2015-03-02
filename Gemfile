@@ -19,7 +19,7 @@ gem 'redcarpet'
 gem 'whenever', require: false
 gem 'aasm'
 # gem 'paper_trail', '~> 3.0'
-gem 'thinking-sphinx', '~> 3.1.1'
+gem 'thinking-sphinx', '~> 3.1.3'
 gem 'mysql2' # thinking-sphinx dependency
 
 gem 'omniauth-facebook'

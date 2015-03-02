@@ -24,7 +24,8 @@ class Specialist < ActiveRecord::Base
 
   def self.filter params={}
     page = params[:page] || 1
-    users = Specialist.search params[:query]
+    search_query = "=#{params[:query]}" #TODO use params[:exact]
+    users = Specialist.search search_query
     users.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane
     users.page(page).per(ENTRIES_PER_PAGE)
   end
