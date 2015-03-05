@@ -21,6 +21,8 @@ production: &production
     app_secret: "sPAYyGXwtV14xdn6"
     scope:      "r_fullprofile r_emailaddress"
 
+staging:
+  <<: *production
 
 development:
   <<: *production
