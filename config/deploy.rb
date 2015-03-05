@@ -7,13 +7,11 @@ set :stages,          %w(production staging)
 set :default_stage,   "staging"
 require 'capistrano/ext/multistage'
 
-set :rails_env,       :production
 set :bundle_without,  [:development, :test]
 set :use_sudo,        false
 set :keep_releases, 3
 
 set :scm,             :git
-set :repository,      "git@github.com:TalentTag/talent-tag.git"
 
 set :default_environment, {
   'PATH' => "$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH"
@@ -31,7 +29,7 @@ require "whenever/capistrano"
 require 'thinking_sphinx/capistrano'
 require 'capistrano-unicorn'
 
-after "deploy:finalize_update", "deploy:make_symlinks:"
+after "deploy:finalize_update", "deploy:make_symlinks"
 after "deploy:update", "deploy:migrate"
 
 after 'deploy:assets:precompile', 'deploy:assets:export_i18n'
