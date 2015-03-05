@@ -1,14 +1,16 @@
 # === update config
 app_path = "/var/www/talenttag/current"
 pid_file   = "#{app_path}/tmp/pids/unicorn.pid"
+sock_file = "#{app_path}/tmp/sockets/unicorn.sock"
 log_file   = "#{app_path}/log/unicorn.log"
 err_log    = "#{app_path}/log/unicorn_error.log"
 
 worker_processes   1
 preload_app        true
 timeout            30
-listen             '127.0.0.1:9021'
-user               'rbdev', 'rbdev'
+# listen             '127.0.0.1:9021'
+listen             sock_file, :backlog => 1024
+# user               'rbdev', 'rbdev'
 working_directory  app_path
 pid                pid_file
 stderr_path        err_log
