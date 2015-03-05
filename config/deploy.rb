@@ -26,7 +26,7 @@ set :dir_symlinks, %w(log db/sphinx)
 set :whenever_command, "bundle exec whenever"
 
 require "whenever/capistrano"
-require 'thinking_sphinx/capistrano'
+# require 'thinking_sphinx/capistrano'
 require 'capistrano-unicorn'
 
 after "deploy:finalize_update", "deploy:make_symlinks"
@@ -38,7 +38,11 @@ after 'deploy:restart', 'unicorn:reload'    # app IS NOT preloaded
 after 'deploy:restart', 'unicorn:restart'   # app preloaded
 after 'deploy:restart', 'unicorn:duplicate' # before_fork hook implemented (zero downtime deployments)
 
-after "deploy:restart", "deploy:cleanup"
+# after "deploy:restart", "deploy:cleanup"
+after 'deploy:restart',  'ts:stop'
+after 'ts:stop', 'ts:reindex'
+after 'ts:reindex', 'ts:start'
+after 'ts:start', 'deploy:cleanup'
 
 namespace :deploy do
   desc "Creates additional symlinks for the shared configs."
@@ -80,5 +84,19 @@ namespace :admin do
   desc "Updated marked as deleted entries to 'deleted'"
   task :trash_entries, roles: :app do
     run "cd #{current_path}; RAILS_ENV=#{rails_env} bundle exec rake entries:trash"
+  end
+end
+
+namespace :ts do
+  task :reindex, roles: :app do
+    run "cd #{current_path}; RAILS_ENV=#{rails_env} bundle exec rake ts:index"
+  end
+
+  task :start, roles: :app do
+    run "cd #{current_path}; RAILS_ENV=#{rails_env} bundle exec rake ts:start"
+  end
+
+  task :stop, roles: :app do
+    run "cd #{current_path}; RAILS_ENV=#{rails_env} bundle exec rake ts:start"
   end
 end
