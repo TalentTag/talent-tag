@@ -44,7 +44,15 @@ class Entry < ActiveRecord::Base
       excepts[:source_id] = Source.unpublished unless params[:published].nil? or Source.unpublished.empty?
       excepts[:user_id] = 0 if params[:club_members_only]
 
-      entries = search(params[:query], with: conditions, without: excepts, retry_stale: true, excerpts: {around: 250}, order: 'created_at DESC')
+      entries = search(
+        params[:query],
+        with: conditions,
+        without: excepts,
+        retry_stale: true,
+        excerpts: { around: 250 },
+        order: 'created_at DESC'
+      )
+
       entries.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane
       entries.page(page).per(ENTRIES_PER_PAGE)
     else

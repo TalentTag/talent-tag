@@ -10,3 +10,7 @@ production:
   host: localhost
   port: 6379
   namespace: '/danthes'
+staging:
+  host: localhost
+  port: 6379
+  namespace: '/danthes'

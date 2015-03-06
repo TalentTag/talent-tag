@@ -19,7 +19,7 @@ gem 'redcarpet'
 gem 'whenever', require: false
 gem 'aasm'
 # gem 'paper_trail', '~> 3.0'
-gem 'thinking-sphinx', '~> 3.1.1'
+gem 'thinking-sphinx', '~> 3.1.3'
 gem 'mysql2' # thinking-sphinx dependency
 
 gem 'omniauth-facebook'
@@ -64,6 +64,14 @@ group :development do
   gem 'letter_opener'
   gem 'binding_of_caller'
   gem 'jazz_hands', github: 'nixme/jazz_hands', branch: 'bring-your-own-debugger'
+end
+
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'shoulda-matchers'
+  gem 'simplecov'
+  gem 'factory_girl_rails'
+  gem 'faker'
 end
 
 gem "faye-redis"
