@@ -51,6 +51,8 @@ gem 'rails-assets-ngInfiniteScroll'
 gem 'font-awesome-rails'
 gem 'i18n-js'
 
+gem 'newrelic_rpm'
+
 gem 'unicorn', group: :production
 gem 'thin'
 
