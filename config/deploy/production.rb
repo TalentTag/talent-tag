@@ -5,5 +5,3 @@ set :user,    "deploy"
 
 set :rails_env,       :production
 set :unicorn_rack_env, :production
-
-set :repository,      "git@github.com:TalentTag/talent-tag.git"
