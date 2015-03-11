@@ -1,0 +1,9 @@
+at & t => at&t
+AT&T => AT&T
+C & B => C&B
+C&B => C&B
+MS Windows => ms windows
+Microsoft Windows => ms windows
+C++ => cplusplus
+c++ => cplusplus
+C plus plus => cplusplus

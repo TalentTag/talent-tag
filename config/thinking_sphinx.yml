@@ -2,7 +2,6 @@ production:
   utf8: true
   morphology: stem_enru
   index_exact_words: 1
-  charset_table: "0..9, A..Z->a..z, _, +, &, #, a..z, U+410..U+42F->U+430..U+44F, U+430..U+44F"
   indexed_models:
     - Entry
     - User
@@ -12,17 +11,18 @@ staging:
   utf8: true
   morphology: stem_enru
   index_exact_words: 1
-  charset_table: "0..9, A..Z->a..z, _, +, &, #, a..z, U+410..U+42F->U+430..U+44F, U+430..U+44F"
   indexed_models:
     - Entry
     - User
   indices_location: "/var/www/talenttag/shared/db/sphinx"
+  exceptions: "/var/www/talenttag/current/config/sphinx_exceptions.txt"
 
 development:
   utf8: true
   morphology: stem_enru
-  charset_table: "0..9, A..Z->a..z, _, +, &, #, a..z, U+410..U+42F->U+430..U+44F, U+430..U+44F"
+  # charset_table: "0..9, A..Z->a..z, _, +, &, #, a..z, U+410..U+42F->U+430..U+44F, U+430..U+44F, U+401->U+451, U+451"
   index_exact_words: 1
+  exceptions: "/Users/flowerett/dev/dwwd/talent-tag/config/sphinx_exceptions.txt"
   indexed_models:
     - Entry
     - User
@@ -32,7 +32,6 @@ test:
   utf8: true
   morphology: stem_enru
   index_exact_words: 1
-  charset_table: "0..9, A..Z->a..z, _, +, &, #, a..z, U+410..U+42F->U+430..U+44F, U+430..U+44F"
   indexed_models:
     - Entry
     - User
