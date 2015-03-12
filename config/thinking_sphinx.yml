@@ -1,37 +1,26 @@
-production:
+defaults: &defaults
   utf8: true
   morphology: stem_enru
   index_exact_words: 1
   indexed_models:
     - Entry
     - User
+
+production:
+  <<: *defaults
+  exceptions: "/var/www/talenttag/current/config/sphinx_exceptions.txt"
   indices_location: "/var/www/talenttag/shared/db/sphinx"
 
 staging:
-  utf8: true
-  morphology: stem_enru
-  index_exact_words: 1
-  indexed_models:
-    - Entry
-    - User
-  indices_location: "/var/www/talenttag/shared/db/sphinx"
+  <<: *defaults
   exceptions: "/var/www/talenttag/current/config/sphinx_exceptions.txt"
+  indices_location: "/var/www/talenttag/shared/db/sphinx"
 
 development:
-  utf8: true
-  morphology: stem_enru
-  # charset_table: "0..9, A..Z->a..z, _, +, &, #, a..z, U+410..U+42F->U+430..U+44F, U+430..U+44F, U+401->U+451, U+451"
-  index_exact_words: 1
-  exceptions: "/Users/flowerett/dev/dwwd/talent-tag/config/sphinx_exceptions.txt"
-  indexed_models:
-    - Entry
-    - User
+  <<: *defaults
+  exceptions: "config/sphinx_exceptions.txt"
 
 test:
+  <<: *defaults
   mysql41: 9307
-  utf8: true
-  morphology: stem_enru
-  index_exact_words: 1
-  indexed_models:
-    - Entry
-    - User
+  exceptions: "config/sphinx_exceptions.txt"
