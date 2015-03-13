@@ -26,7 +26,9 @@ set :dir_symlinks, %w(log db/sphinx)
 
 set :whenever_command, "bundle exec whenever"
 
+set :whenever_environment, defer { stage }
 require "whenever/capistrano"
+
 require 'thinking_sphinx/capistrano'
 require 'capistrano-unicorn'
 
