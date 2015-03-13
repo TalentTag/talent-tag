@@ -47,7 +47,7 @@
       h5 Аккаунты в социальных сетях
       - if owns_account? @user
         - unless @user.identities.present?
-          p Подключите социальные сети, которыми вы пользуетесь - ваши личные данные подтянутся в ваш профиль автоматически, и он будет уже частично заполнен
+          p Подключите социальные сети, которыми вы пользуетесь. TalentTag синхронизует данные с вашим личным кабинетом и ваш профиль на TalentTag будет уже частично заполнен. Вы можете изменить или дополнить данные в настройках аккаунта.
       ul@social.horizontal
         - SocialNetworks::oauth.each do |provider|
           li.identity == embedded_identity @user, provider, params['name'] do
@@ -57,7 +57,7 @@
       @tags
         - if owns_account? @user
           - unless @user.tags.present?
-            p Добавьте теги, характеризующие ваши основные навыки, чтобы работодатели могли найти вас по тегам
+            p Добавьте теги, характеризующие ваши основные навыки, чтобы работодатели могли найти вас по тегам.
           span.kw ng-repeat="tag in user.tags"
             | {{ tag }}
             a.close href="javascript:;" ng-click="tags.drop(tag)" &times;
