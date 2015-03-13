@@ -38,6 +38,12 @@
       - else
         = t "user.status.#{ @user.status }"
 
+    section
+      h5 Контакты
+      @contacts
+        ' email:
+        = link_to @user.email, "mailto:#{ @user.email }"
+
     = render partial: "b2c/partials/about"
 
 
@@ -65,9 +71,6 @@
         - else
           - @user.tags.each do |tag|
             span.kw = tag
-
-      h5 Контакты
-      @contacts = @user.email
 
     section@journal
       h5 Профблог
