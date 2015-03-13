@@ -11,8 +11,6 @@ class ApplicationController < ActionController::Base
     ConversationsService.init(current_user) if signed_in?
   end
 
-
-
   def current_user
     @current_user ||= if session[:user]
       User.find_as account_type, email: session[:user]
@@ -44,7 +42,6 @@ class ApplicationController < ActionController::Base
     render text: "Forbidden on an ACL", status: :forbidden
   end
 
-
   protected
 
   def include_current_user
@@ -52,7 +49,6 @@ class ApplicationController < ActionController::Base
       gon.rabl template: 'app/views/users/show.json', locals: { user: current_user }, as: :current_user
     end
   end
-
 
   def sign_user_in user, options={}
     return false if user.type == :specialist && !user.can_login
@@ -69,11 +65,9 @@ class ApplicationController < ActionController::Base
     signed_in?
   end
 
-
   def account_type;   @account_type ||= session[:role].try :to_sym end
   def is_employer?;   account_type == :employer end
   def is_specialist?; account_type == :specialist end
-
 
   def setup_account_data
     if is_employer?
