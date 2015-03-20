@@ -3,14 +3,14 @@
   select.form-control ng-model="industry" ng-options="i.name for i in industries | orderBy:'name'"
     option value="" Индустрия
   .kw-placeholder ng-show="industry"
-    a.badge ng-repeat="group in groupsByIndustry" href="javascript:;" ng-click="pick(group)" = "{{ group.keywords[0] }}"
+    a.badge ng-repeat="group in groupsByIndustry | orderBy:'keywords[0]'" href="javascript:;" ng-click="pick(group)" = "{{ group.keywords[0] }}"
 
   select.form-control ng-model="area" ng-options="a.name for a in areas | orderBy:'name'"
     option value="" Проф. область
   .kw-placeholder ng-show="area"
-    a.badge ng-repeat="group in groupsByArea" href="javascript:;" ng-click="pick(group)" = "{{ group.keywords[0] }}"
+    a.badge ng-repeat="group in groupsByArea | orderBy:'keywords[0]'" href="javascript:;" ng-click="pick(group)" = "{{ group.keywords[0] }}"
 
-  hr
+  br
 
   div style="position: relative"
     a#clear-location.close.glyphicon.glyphicon-remove-circle href="javascript:;" ng-show="location" ng-click="clearLocation()"
