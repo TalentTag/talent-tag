@@ -41,6 +41,7 @@ p.alert.alert-warning ng-show="entriesTotalInFolder == 0" Нет записей 
           a href="javascript:;" title="Подписаться на обновления" ng-click="followAuthor(entry.user_id)" : .club-badge.fa.fa-star-o ng-if="entry.user_id"
           a.close href="javascript:;" title="Больше не показывать" ng-show="search" ng-click="blacklist(entry)" &times;
           a ng-show="entry.url" ng-href="{{ entry.url }}" target="_blank" {{ entry.url | truncate:60 }}
+          a ng-hide="entry.url" ng-href="/specialists/{{ entry.user_id }}" target="_blank" {{ entry.author.name }}
           span.new-entry ng-show="isNewEntry(entry)" новая
 
         ul.info
