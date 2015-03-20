@@ -1,4 +1,4 @@
-div ng-controller="talent.EntryCtrl"
+div ng-controller="talent.EntryCtrl": div ng-controller="talent.DetailsCtrl"
   p
     a.close href="javascript:;" title="Больше не показывать" ng-show="search" ng-click="blacklist(entry)" &times;
     a href="javascript:history.back();" &larr; Назад
@@ -38,7 +38,7 @@ div ng-controller="talent.EntryCtrl"
     a.pull-right.btn.btn-default ng-if="entry.user_id" href="/specialists/{{ entry.user_id }}" target="_self" Полный профиль
     section ng-if="entry.hasProfile()" tt-short-profile="entry.author"
 
-  section ng-if="entry.duplicates.length" style="margin-bottom:20px"
+  section ng-if="entry.duplicates.length"
     h4 ng-click="duplicatesDisplayed=!duplicatesDisplayed" style="cursor:pointer"
       ' Похожие записи
       a href="javascript:;"
