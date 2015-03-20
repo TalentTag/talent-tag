@@ -28,8 +28,13 @@ class Entry < ActiveRecord::Base
   def self.filter params={}
     page = params[:page] || 1
     if params[:query]
-      kw = KeywordGroup.where.contains(keywords: [params[:query]]).flat_map &:keywords
-      params[:query] = kw.map { |w| "(#{w})" }.join(' | ') unless kw.empty?
+      #TODO: refactor it
+      kw = KeywordGroup.where.contains(keywords: [params[:query]]).pluck(:keywords).flatten
+      unless kw.empty?
+        params[:query] = kw.map do |w|
+          w.strip.include?(" ") ? "\"#{w.strip}\"" : "=#{w.strip}"
+        end.join(' | ')
+      end
 
       conditions = {}
       conditions[:source_id] = params[:source] if params[:source].present?
