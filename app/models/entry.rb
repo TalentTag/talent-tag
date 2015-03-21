@@ -1,6 +1,7 @@
 class Entry < ActiveRecord::Base
 
   include AASM
+  include PrepareQuery
 
   self.primary_key = :id
 
@@ -27,15 +28,8 @@ class Entry < ActiveRecord::Base
 
   def self.filter params={}
     page = params[:page] || 1
-    if params[:query]
-      #TODO: refactor it
-      kw = KeywordGroup.where.contains(keywords: [params[:query]]).pluck(:keywords).flatten
-      unless kw.empty?
-        params[:query] = kw.map do |w|
-          w.strip.include?(" ") ? "\"#{w.strip}\"" : "=#{w.strip}"
-        end.join(' | ')
-      end
 
+    if params[:query]
       conditions = {}
       conditions[:source_id] = params[:source] if params[:source].present?
       conditions[:duplicate_of] = 0
@@ -50,7 +44,7 @@ class Entry < ActiveRecord::Base
       excepts[:user_id] = 0 if params[:club_members_only]
 
       entries = search(
-        params[:query],
+        search_query(params[:query]),
         with: conditions,
         without: excepts,
         retry_stale: true,
