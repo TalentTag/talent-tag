@@ -8,7 +8,8 @@ class KeywordGroup < ActiveRecord::Base
   class << self
     def join_keywords(keywords)
       keywords.any? && keywords.map do |kw|
-        kw.strip.include?(" ") ? "\"#{kw.strip}\"" : "=#{kw.strip}"
+        kw.strip!
+        "\"#{kw}\""
       end.join(' | ') || nil
     end
 
