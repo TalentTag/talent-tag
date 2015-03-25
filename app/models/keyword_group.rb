@@ -3,18 +3,31 @@ class KeywordGroup < ActiveRecord::Base
   belongs_to :industry
   belongs_to :area
 
-  scope :overlapped_keywords, ->(kw_array) { where.overlap(keywords: kw_array).pluck(:keywords).flatten }
+  scope :overlapped, ->(kw_array) { where.overlap(keywords: kw_array) }
+  scope :keywords, -> { pluck(:keywords).flatten }
+  scope :exceptions, -> { pluck(:exceptions).flatten }
+
 
   class << self
-    def join_keywords(keywords)
-      keywords.any? && keywords.map do |kw|
+    def join_keywords(keyword_groups)
+      keyword_groups.keywords.map do |kw|
         kw.strip!
         "\"#{kw}\""
-      end.join(' | ') || nil
+      end.join(' | ')
+    end
+
+    def join_exceptions(keyword_groups)
+      keyword_groups.exceptions.map { |ex| "!\"#{ex}\"" }.join(' ')
+    end
+
+    def keyword_query(keyword_groups)
+      if keyword_groups.any?
+        "#{join_keywords(keyword_groups)} #{join_exceptions(keyword_groups)}"
+      end
     end
 
     def query_str(term)
-      join_keywords(overlapped_keywords term) || term
+      keyword_query(overlapped [term]) || "\"#{term}\""
     end
   end
 

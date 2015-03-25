@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150321124729) do
+ActiveRecord::Schema.define(version: 20150325045856) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -106,8 +106,10 @@ ActiveRecord::Schema.define(version: 20150321124729) do
     t.string  "keywords",    array: true
     t.integer "industry_id"
     t.integer "area_id"
+    t.string  "exceptions",  array: true
   end
 
+  add_index "keyword_groups", ["exceptions"], name: "index_keyword_groups_on_exceptions", using: :gin
   add_index "keyword_groups", ["keywords"], name: "index_keyword_groups_on_keywords", using: :gin
 
   create_table "locations", force: true do |t|
@@ -159,6 +161,13 @@ ActiveRecord::Schema.define(version: 20150321124729) do
     t.integer  "user_id"
     t.string   "title",      null: false
     t.string   "href",       null: false
+    t.datetime "created_at", null: false
+  end
+
+  create_table "posts", force: true do |t|
+    t.string   "title",      null: false
+    t.text     "body",       null: false
+    t.string   "tags",                    array: true
     t.datetime "created_at", null: false
   end
 

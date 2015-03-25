@@ -3,7 +3,7 @@ module PrepareQuery
 
   module ClassMethods
     def search_query(term)
-      KeywordGroup.query_str [term]
+      KeywordGroup.query_str term
     end
   end
 
