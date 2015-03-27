@@ -17,6 +17,7 @@ class Entry < ActiveRecord::Base
   after_create :notify
 
   validates :id, presence: true, uniqueness: true
+  validates_presence_of :body
 
   default_scope -> { order created_at: :desc }
   scope :from_published_sources, -> { joins(:source).where('sources.hidden' => false).references(:sources) }

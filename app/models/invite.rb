@@ -2,6 +2,7 @@ class Invite < ActiveRecord::Base
 
   belongs_to :company
 
+  validates_presence_of :company
   validates :email, presence: true, uniqueness: true, format: { with: /\A[^@]+@[^@]+\.[a-zа-я]{2,6}\z/ }
 
   before_create :generate_code
