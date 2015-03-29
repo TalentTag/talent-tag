@@ -24,8 +24,16 @@ class KeywordGroup < ActiveRecord::Base
       end
     end
 
+    def split_search_term(term)
+      term.split(' ').append(term).uniq
+    end
+
     def query_str(term)
-      keyword_query(overlapped [term]) || "\"#{term}\""
+      if /\".*\"|\(.*\)|\=.*/ =~ term
+        term
+      else
+        keyword_query(overlapped(split_search_term term)) || "\"#{term}\""
+      end
     end
   end
 
