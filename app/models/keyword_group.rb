@@ -7,7 +7,7 @@ class KeywordGroup < ActiveRecord::Base
 
   class << self
     def get_array(field)
-      pluck(field.to_sym).flatten.map{|el| el unless el.blank? }.compact
+      pluck(field.to_sym).flatten.uniq.map{ |el| el unless el.blank? }.compact
     end
 
     def join_keywords(keyword_groups)
@@ -20,7 +20,7 @@ class KeywordGroup < ActiveRecord::Base
 
     def keyword_query(keyword_groups)
       if keyword_groups.any?
-        "#{join_keywords(keyword_groups)} #{join_exceptions(keyword_groups)}"
+        "#{join_keywords(keyword_groups)} #{join_exceptions(keyword_groups)}".strip
       end
     end
 

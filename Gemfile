@@ -74,6 +74,7 @@ group :development, :test do
   gem 'simplecov'
   gem 'factory_girl_rails'
   gem 'faker'
+  gem 'database_cleaner'
 end
 
 gem "faye-redis"
