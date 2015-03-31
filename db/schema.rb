@@ -164,13 +164,6 @@ ActiveRecord::Schema.define(version: 20150325045856) do
     t.datetime "created_at", null: false
   end
 
-  create_table "posts", force: true do |t|
-    t.string   "title",      null: false
-    t.text     "body",       null: false
-    t.string   "tags",                    array: true
-    t.datetime "created_at", null: false
-  end
-
   create_table "proposals", force: true do |t|
     t.integer  "company_id"
     t.string   "status",     limit: 10, default: "awaiting"
