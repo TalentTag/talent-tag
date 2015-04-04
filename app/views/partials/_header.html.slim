@@ -7,8 +7,6 @@ header
           - if can? :manage, :admin
             li = link_to "Администрирование", admin_path, target: "_self"
 
-          li = link_to "Личный кабинет", account_path, target: "_self"
-
           - if is_employer?
             li = link_to following_path, target: "_self" do
               i.fa.fa-star-o style="font-size: 16px"
