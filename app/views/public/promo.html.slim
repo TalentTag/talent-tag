@@ -1,9 +1,6 @@
 doctype 5
 html
-  head
-    title = Rails.application.class.parent_name
-    = stylesheet_link_tag :application, media: :all
-    = javascript_include_tag :application
+  head = render partial: 'partials/head'
 
   body lang="ru" ng-app="talent"
     #landing ng-controller="talent.AuthCtrl"
