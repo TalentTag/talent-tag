@@ -10,7 +10,6 @@ class B2b::CompaniesController < B2b::BaseController
 
 
   def create
-    return render text: "Error: currently you are a B2C user", status: :forbidden if User.exists?(email: params[:company][:owner_attributes][:email], role: nil)
     company = Company.new create_params
     if company.save
       sign_user_in company.owner, as: :employer
@@ -32,7 +31,7 @@ class B2b::CompaniesController < B2b::BaseController
   private
 
   def create_params
-    params[:company][:owner_attributes].update role: :owner
+    (params[:company][:owner_attributes] ||= {}).update role: :owner
     params.require(:company).permit(:name, owner_attributes: [:email, :password, :password_confirmation, :role])
   end
   

@@ -6,6 +6,7 @@
 @import "twitter/bootstrap"
 @import font-awesome
 
+@import _config
 @import mixins
 
 
@@ -78,8 +79,6 @@ label
   cursor: pointer
 
 .modal-body
-  background-color: #eee
-  box-shadow: 0 4px 20px #bbb inset
   overflow: hidden
   &.carousel-wrapper
     padding: 20px 0 30px
@@ -233,7 +232,6 @@ a.well-blue
 
 .carousel
   margin: 0
-  padding: 15px 0
   position: absolute
   transition: all 0.3s
 
@@ -242,14 +240,12 @@ a.well-blue
 
 #signup-b2b
   .carousel
-    &.add-company
-      left: 0
     &.signin
-      left: -200%
-    &.signup
       left: -100%
+    &.signup
+      left: 0
     &.forgot
-      left: -300%
+      left: -200%
 
 
 

@@ -1,3 +1,7 @@
+sass:
+  #signup-b2c form
+    padding-top: 16px
+
 .modal.fade#signup-b2c
   .modal-dialog.medium
     .modal-content
@@ -28,6 +32,7 @@
                   input.form-control type="password" placeholder="Повторите пароль" ng-model="newuser.password_confirmation"
                   p.form-error = "{{ errors.password_confirmation }}"
                 button.btn.btn-primary.btn-sm Зарегистрироваться
+                button.btn.btn-default.btn-sm.pull-right type="button" ng-click="tab='signin'" Войти
 
             .col-md-4
               form@signin-form ng-submit="signin('b2c')" tt-form-autofill-fix=""
@@ -37,11 +42,13 @@
                 .form-group.error-placeholder ng-class="{ 'has-error': errors.credentials }"
                   input.form-control type="password" name="user[password]" placeholder="Пароль" ng-model="user.password"
                   p.form-error = "{{ errors.credentials }}"
+                p.pull-right : a href="javascript:;" ng-click="tab='forgot'" Забыли пароль?
                 .checkbox
                   label
                     input type="checkbox" ng-model="rememberme" value="1"
                     | запомнить меня
                 button.btn.btn-primary.btn-sm Войти
+                button.btn.btn-default.pull-right.btn-sm type="button" ng-click="tab='signup'" Зарегистрироваться
     
             .col-md-4
               form@forgot-form ng-submit="forgot('b2c')" tt-form-autofill-fix=""
@@ -50,9 +57,8 @@
                   input.form-control type="email" name="user[email]" placeholder="Email" ng-model="email"
                   p.form-error = "{{ errors.email }}"
                 button.btn.btn-primary.btn-sm Восстановить
+                button.btn.btn-default.btn-sm.pull-right type="button" ng-click="tab='signin'" Войти
 
       .modal-footer
-        ul.divided style="text-align: center"
-          li : a href="javascript:;" ng-click="tab='signup'" Регистрация
-          li : a href="javascript:;" ng-click="tab='signin'" Вход
-          li : a href="javascript:;" ng-click="tab='forgot'" Вспомнить пароль
+        .central
+          a.modal-toggle href="javascript:;" ng-click="tab='signin'" Для работодателей

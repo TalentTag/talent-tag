@@ -6,7 +6,7 @@ class AccountController < ApplicationController
 
 
   def index
-    return render 'public/promo' unless signed_in?
+    return render 'public/promo', layout: false unless signed_in?
     if is_employer?
       # return render 'b2b/blocked' if current_account.blocked?
       render 'b2b/account'

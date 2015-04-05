@@ -41,3 +41,12 @@ $ ->
     if errors = JSON.parse(xhr.responseText)?.errors || JSON.parse(xhr.responseText)
       $.each errors, (field, messages) ->
         $("@#{ field }", event.target).text messages[0]
+
+
+  $('#signup-b2c .modal-toggle').click ->
+    $('.modal').modal('hide')
+    $('.modal#signup-b2b').modal('show')
+
+  $('#signup-b2b .modal-toggle').click ->
+    $('.modal').modal('hide')
+    $('.modal#signup-b2c').modal('show')

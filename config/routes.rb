@@ -3,6 +3,10 @@ TalentTag::Application.routes.draw do
   root to: "account#index", as: :account
   scope controller: :public do
     get :promo, :about, :contacts, :faq, :features, :media, :blog
+    scope :features do
+      get '/b2b' => :features_b2b, as: :features_b2b
+      get '/b2c' => :features_b2c, as: :features_b2c
+    end
     get '/blog/post:id' => 'public#blog', as: :blog_post
   end
 

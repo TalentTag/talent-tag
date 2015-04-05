@@ -1,59 +1,91 @@
-.col-md-12@content
-  @promo
-    section.headline.central
-      h1 Новый подход к поиску работы
-      p
-        | TalentTag – простой и удобный сервис по поиску работы и
-        br
-        | сотрудников через социальные сети.
+doctype 5
+html
+  head
+    title = Rails.application.class.parent_name
+    = stylesheet_link_tag :application, media: :all
+    = javascript_include_tag :application
 
-    section.employers
-      img.screenshot src="/images/promo-employers.png"
-      h2 Работодателям
-      ul
-        li
-          i.icon.fa.fa-check
-          span.colored Бесплатный доступ ко всем возможностям сайта
-        li
-          i.icon.fa.fa-check
-          | Ежедневно обновляемая база данных
-        li
-          i.icon.fa.fa-check
-          | Удобная организация работы в личном кабинете
-        li
-          i.icon.fa.fa-check
-          | Мультипользовательский аккаунт
-      button.btn data-toggle="modal" href="#signup-b2b" Попробовать бесплатно
-      p.small Сервис доступен бесплатно как бета-версия
-      p: a.colored href=features_path
-        ' Все возможности для работодателя
-        i.fa.fa-arrow-right
+  body lang="ru" ng-app="talent"
+    #landing ng-controller="talent.AuthCtrl"
+    
+      #auth
+        = render partial: "auth/partials/b2b"
+        = render partial: "auth/partials/b2c"
 
-    section.specialists
-      img.screenshot src="/images/promo-specialists.png"
-      h2 Специалистам
-      ul
-        li
-          i.icon.fa.fa-check
-          span.colored Поиск работы без резюме!
-        li
-          i.icon.fa.fa-check
-          | Интеграция профиля с социальными сетями
-        li
-          i.icon.fa.fa-check
-          | Личный профессиональный блог
-        li
-          i.icon.fa.fa-check
-          | Актуальный статус поиска работы
-      button.btn data-toggle="modal" href="#signup-b2c" Присоединиться
-      p.small Бесплатный аккаунт навсегда!
-      p: a.colored href=features_path
-        ' Все возможности для специалиста
-        i.fa.fa-arrow-right
+      header.dark-background
+        .wrap-section
+          #topbar
+            ul#navmenu.horizontal.pull-right
+              li: a.upcase href=features_b2b_path Работодателям
+              li: a.upcase href=features_b2c_path Специалистам
+              li: a.upcase data-toggle="modal" href="#signup-b2b" ng-click="tab='signin'" Войти
+              li: a.upcase.button.transparent data-toggle="modal" href="#signup-b2b" ng-click="tab='signup'" Зарегистрироваться
+            h2#logo
+              a href=account_path title="TalentTag" target="_self"
+                ' #
+                span TalentTag
+
+        .central
+          h1 Не знаете, где искать сотрудников в новую команду?
+          h1 Нуждаетесь в хорошем источнике привлечения персонала?
+          h1 Хотите узнать о потенциальных кандидатах больше?
+          h1.down Мы поможем вам!
+
+          a.button.upcase data-toggle="modal" href="#signup-b2b" ng-click="tab='signup'" Начать поиск с TalentTag
 
 
-    / .alert.alert-danger
-    /   ' Сайт находится в стадии разработки, но в тестовом режиме часть функционала уже доступна. Регистрируйтесь/ авторизуйтесь, чтобы начать работу с сайтом. Свои замечания, комментарии, вопросы и предложения по работе сайта высылайте на
-    /   a.alert-link href="mailto:feedback@talent-tag.ru" feedback@talent-tag.ru.
+      section.wrap-section.central#motivation
+        h1 Ежедневно сотни людей ищут работу в социальных сетях
+        h4.subheader TalentTag заботливо собирает их публикации о поиске работы в единую базу данных
+        .row
+          .column.col-md-4
+            .icon-sprite.icon1
+            h4 Они ищут работу и открыты новым предложениям
+            | Вы получаете доступ к базе активно ищущих работу специалистов и можете связаться с ними для обсуждения актуальных вакансий.
+          .column.col-md-4
+            .icon-sprite.icon2
+            h4 Они общаются в социальных сетях, пишут о своих интересах и увлечениях
+            | Вы лучше узнаете ваших будущих сотрудников и можете предварительно оценить, насколько хорошо они впишутся в вашу команду.
+          .column.col-md-4
+            .icon-sprite.icon3
+            h4 Их рекомендуют друзья, клиенты и партнеры
+            | Вы можете посмотреть, как отзываются о ваших кандидатах их друзья и знакомые, и запросить рекомендации у коллег и партнеров.
 
-  = render partial: "partials/footer"
+      section#features
+        h1.central Возможности TalentTag
+        .wrap-section
+          table
+            tr
+              td: img src="/images/features01.png"
+              td.text.right
+                h2 Поиск по базе данных
+                | Теперь можно не тратить время на поиск нужного специалиста в разных соцсетях - все данные собираются в единую базу TalentTag, с которой вы работаете в своем личном кабинете.
+        .wrap-section
+          table
+            tr
+              td.text.left
+                h2 Сохраненные поисковые запросы
+                | Теперь не нужно каждый раз создавать новый поисковый запрос - достаточно сохранить его в виртуальную папку и получать уведомления о появлении новых данных.
+              td: img src="/images/features02.png"
+        .wrap-section
+          table
+            tr
+              td: img src="/images/features03.png"
+              td.text.right
+                h2 Подписка на обновления
+                | Теперь вы не потеряете из виду интересных специалистов - профили спецалистов, на обновления которых вы подписались, будут храниться в папке "избранные", и вы будете получать оповещения об изменениях в их профиле и статусе.
+          .more.central: a.button.upcase href=features_path Больше возможностей
+
+      section.wrap-section.central#signup
+        h1 TalentTag - простой и удобный сервис для поиска персонала в&nbsp;социальных сетях
+        h3 Начните работать с базой данных TalentTag уже сейчас!
+        a.upcase.button data-toggle="modal" href="#signup-b2b" ng-click="tab='signup'" Зарегистрироваться
+
+      footer
+        .wrap-section.central
+          ul.links.upcase
+            li: a href=features_b2b_path Работодателям
+            li: a href=features_b2c_path Специалистам
+            li: a href=about_path О проекте
+            li: a href=contacts_path Контакты
+          | Copyright &copy;2014-#{ Date.today.year }, TalentTag, Inc. All rights reserved
