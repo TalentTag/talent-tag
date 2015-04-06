@@ -1,6 +1,12 @@
 doctype 5
 html
-  head = render partial: 'partials/head'
+  head
+    script src="//use.typekit.net/cuv5jcw.js"
+    javascript:
+      try {Typekit.load()} catch(e) {}
+
+    = render partial: 'partials/head'
+
 
   body lang="ru" ng-app="talent"
     #landing ng-controller="talent.AuthCtrl"
@@ -86,3 +92,7 @@ html
             li: a href=about_path О проекте
             li: a href=contacts_path Контакты
           | Copyright &copy;2014-#{ Date.today.year }, TalentTag, Inc. All rights reserved
+
+sass:
+  *
+    font-family: "proxima-nova", sans-serif !important
