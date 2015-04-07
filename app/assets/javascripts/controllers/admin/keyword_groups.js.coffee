@@ -15,13 +15,12 @@
     $scope.currentIndustry  = _.find $scope.industries, (i) -> group?.industry_id is i.id
     $scope.currentArea      = _.find $scope.areas, (a) -> group?.area_id is a.id
     $scope.keywords         = group?.keywords?.join("\n")
-    $scope.exceptions       = group?.exceptions?.join("\n")
     $location.hash 'editarea'
     $anchorScroll()
 
   $scope.save = ->
     keywords = $scope.keywords.split("\n")
-    exceptions = $scope.exceptions.split("\n")
+    exceptions = if $scope.exceptions then $scope.exceptions.split("\n") else null
     if keywords.length
       $scope.currentGroup.keywords     = keywords
       $scope.currentGroup.exceptions   = exceptions
