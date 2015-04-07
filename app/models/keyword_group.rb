@@ -41,14 +41,11 @@ class KeywordGroup < ActiveRecord::Base
       map{ |el| el.join(' ') }
     end
 
-    # def substrings(arr)
-    #   ind = (0..arr.length).to_a
-    #   ind.product(ind).
-    #       reject { |i,j| i > j }.
-    #       map    { |i,j| arr[i..j] }.uniq.
-    #       reject { |el|  el.blank? }.
-    #       map    { |el| el.join(' ') }
-    # end
+    def splitted_keyword_term(term)
+      split_search_term(term).map do |kw|
+        keyword_subquery(overlapped [kw])
+      end.compact.join(' ')
+    end
 
     def query_str(term)
       if /\".*\"|\(.*\)|\=.*/ =~ term
@@ -56,9 +53,7 @@ class KeywordGroup < ActiveRecord::Base
       elsif /\// =~ term
         "\"#{term}\""
       else
-        split_search_term(term).map do |kw|
-          keyword_subquery(overlapped [kw])
-        end.compact.join(' ')
+        splitted_keyword_term(term).blank? ? term : splitted_keyword_term(term) + " | (#{term})"
       end
     end
   end
