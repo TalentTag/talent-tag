@@ -31,21 +31,21 @@ RSpec.describe KeywordGroup, type: :model do
       let!(:admin) { create :keyword_group, keywords: ['administrator', 'manager'], exceptions: ['system', 'linux'] }
 
       it 'find uniq keywords for single word' do
-        expect(KeywordGroup.query_str "PR").to eq "\"PR\" | \"public relations\" | \"page rank\""
+        expect(KeywordGroup.query_str "PR").to eq "((PR) | (public relations) | (page rank))"
       end
 
       it 'find uniq keywords for keyword phrase' do
-        expect(KeywordGroup.query_str "public relations").to eq "\"PR\" | \"public relations\""
+        expect(KeywordGroup.query_str "public relations").to eq "((PR) | (public relations))"
       end
 
       it 'should add all keywords to query' do
         expect(KeywordGroup.query_str "PR HoReCa").to eq(
-          "\"PR\" | \"public relations\" | \"page rank\" | \"HoReCa\" | \"Hotel Restaurant Cafe\""
+          "((PR) | (public relations) | (page rank)) ((HoReCa) | (Hotel Restaurant Cafe))"
         )
       end
 
       it 'should add exceptions if present' do
-        expect(KeywordGroup.query_str "administrator").to eq "\"administrator\" | \"manager\" !\"system\" !\"linux\""
+        expect(KeywordGroup.query_str "administrator").to eq "((administrator) | (manager) !(system) !(linux))"
       end
     end
   end
