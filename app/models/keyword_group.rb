@@ -68,7 +68,7 @@ class KeywordGroup < ActiveRecord::Base
       elsif /\// =~ term
         "\"#{term}\""
       else
-        substitute_keywords term
+        substitute_keywords term if term
       end
     end
   end

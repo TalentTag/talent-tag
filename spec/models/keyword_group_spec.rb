@@ -42,6 +42,10 @@ RSpec.describe KeywordGroup, type: :model do
         expect(KeywordGroup.query_str "London is a capital").to eq "London is a capital"
       end
 
+      it 'leaves query blank' do
+        expect(KeywordGroup.query_str nil).to eq nil
+      end
+
       it 'find uniq keywords for keyword phrase' do
         expect(KeywordGroup.query_str "public relations").to eq "((PR) | (public relations))"
       end
