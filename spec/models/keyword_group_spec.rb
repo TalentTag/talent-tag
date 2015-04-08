@@ -34,6 +34,14 @@ RSpec.describe KeywordGroup, type: :model do
         expect(KeywordGroup.query_str "PR").to eq "((PR) | (public relations) | (page rank))"
       end
 
+      it 'replaces only found keywords' do
+        expect(KeywordGroup.query_str "PR Moscow").to eq "((PR) | (public relations) | (page rank)) Moscow"
+      end
+
+      it 'leaves string unchanged if no keywords found' do
+        expect(KeywordGroup.query_str "London is a capital").to eq "London is a capital"
+      end
+
       it 'find uniq keywords for keyword phrase' do
         expect(KeywordGroup.query_str "public relations").to eq "((PR) | (public relations))"
       end

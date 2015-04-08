@@ -7,7 +7,7 @@ class KeywordGroup < ActiveRecord::Base
 
   class << self
     def get_array(field)
-      pluck(field.to_sym).flatten.uniq.map{ |el| el unless el.blank? }.compact
+      pluck(field.to_sym).flatten.uniq.reject{ |el| el.blank? }.compact
     end
 
     def join_keywords(keyword_groups)
@@ -18,18 +18,12 @@ class KeywordGroup < ActiveRecord::Base
       keyword_groups.get_array(:exceptions).map { |ex| "!(#{ex})" }.join(' ')
     end
 
-    def keyword_subquery(keyword_groups)
-      if keyword_groups.any?
-        "(#{format_substring keyword_groups})"
-      end
-    end
-
-    def format_substring(keyword_groups)
+    def keywords_with_exceptions(keyword_groups)
       "#{join_keywords keyword_groups} #{join_exceptions keyword_groups}".strip
     end
 
-    def split_search_term(term)
-      substrings term.split(' ')
+    def keyword_subquery(keyword_groups)
+      "(#{keywords_with_exceptions keyword_groups})"
     end
 
     def substrings(arr)
@@ -41,10 +35,31 @@ class KeywordGroup < ActiveRecord::Base
       map{ |el| el.join(' ') }
     end
 
+    def split_search_term(term)
+      substrings term.split(' ')
+    end
+
+    def terms_to_replace(kw)
+      kw_group = overlapped([kw])
+
+      [
+        kw,
+        keyword_subquery(kw_group)
+      ] unless kw_group.blank?
+    end
+
     def splitted_keyword_term(term)
       split_search_term(term).map do |kw|
-        keyword_subquery(overlapped [kw])
-      end.compact.join(' ')
+        terms_to_replace kw
+      end.compact
+    end
+
+    def substitute_keywords(term)
+      splitted_keyword_term(term).each do |substr_arr|
+        term.gsub!(substr_arr[0], substr_arr[1])
+      end
+
+      term
     end
 
     def query_str(term)
@@ -53,7 +68,7 @@ class KeywordGroup < ActiveRecord::Base
       elsif /\// =~ term
         "\"#{term}\""
       else
-        splitted_keyword_term(term).blank? ? term : splitted_keyword_term(term) + " | (#{term})"
+        substitute_keywords term
       end
     end
   end
