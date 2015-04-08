@@ -15,6 +15,7 @@
     $scope.currentIndustry  = _.find $scope.industries, (i) -> group?.industry_id is i.id
     $scope.currentArea      = _.find $scope.areas, (a) -> group?.area_id is a.id
     $scope.keywords         = group?.keywords?.join("\n")
+    $scope.exceptions       = group?.exceptions?.join("\n")
     $location.hash 'editarea'
     $anchorScroll()
 
