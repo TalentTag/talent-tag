@@ -12,11 +12,11 @@ table.table
         p
           =' company.owner.email
           =' "(#{ company.owner.name })" unless company.owner.email == company.owner.name
-          = link_to fa_icon(:search), admin_stats_queries_path(company.owner.id)
+          = link_to fa_icon(:search), admin_stats_scoped_queries_path(company.owner.id)
         - company.employee.each do |user|
           p style="color: #808080"
             =' user.email
             =' "(#{ user.name })" unless user.email == user.name
-            = link_to fa_icon(:search), admin_stats_queries_path(company.owner.id)
+            = link_to fa_icon(:search), admin_stats_scoped_queries_path(company.owner.id)
       td
         = company.created_at.strftime("%d.%m.%Y")

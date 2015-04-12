@@ -18,17 +18,21 @@ class Admin::StatsController < Admin::BaseController
     @last_fetch_time  = Time.parse(KeyValue.get 'stats:last_fetch_time') rescue nil
   end
 
-  def queries
-    @user     = User.find_by!(id: params[:id])
-    @queries  = Query.where(user_id: params[:id]).limit(50)
-  end
-
   def companies
     @companies = Company.includes(:users).order(created_at: :desc)
   end
 
   def specialists
     @specialists = Specialist.includes(:identities).order(created_at: :desc)
+  end
+
+  def queries
+    @queries = Query.includes(:user).limit(50)
+  end
+
+  def scoped_queries
+    @user     = User.find_by!(id: params[:id])
+    @queries  = Query.where(user_id: params[:id]).limit(50)
   end
 
 end

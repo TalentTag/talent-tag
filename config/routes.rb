@@ -119,8 +119,8 @@ TalentTag::Application.routes.draw do
     resources :media, except: :show
     namespace :stats do
       get '/entries/:year(/sources/:source_id)' => :entries, as: :entries
-      get :companies, :specialists
-      get '/users/:id/queries' => :queries, as: :queries
+      get :companies, :specialists, :queries
+      get '/users/:id/queries' => :scoped_queries, as: :scoped_queries
     end
   end
 
