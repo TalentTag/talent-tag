@@ -120,6 +120,7 @@ TalentTag::Application.routes.draw do
     namespace :stats do
       get '/entries/:year(/sources/:source_id)' => :entries, as: :entries
       get :companies, :specialists
+      get '/users/:id/queries' => :queries, as: :queries
     end
   end
 

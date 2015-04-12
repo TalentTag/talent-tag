@@ -1,0 +1,10 @@
+= link_to "&larr; назад".html_safe, admin_stats_companies_path
+h4
+  b> = @user.name
+  | (#{ @user.company.name })
+p style="color: #bbb" Последние 50 запросов
+table.table
+  - @queries.each do |query|
+    tr
+      td width="100%" = query.text
+      td align="right" == query.created_at.strftime("%d.%m.%Y&nbsp;%H:%M")

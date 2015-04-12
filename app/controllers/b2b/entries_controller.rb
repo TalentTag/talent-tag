@@ -16,6 +16,7 @@ class B2b::EntriesController < B2b::BaseController
       blacklist = search.blacklisted.map &:to_i
       entries.reject { |e| e.id.in? blacklist }
     elsif params[:query]
+      Query.create(user_id: current_user.id, text: params[:query])
       Entry.filter(params.merge published: true)
     else
       Entry.filter params
