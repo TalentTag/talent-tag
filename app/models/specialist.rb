@@ -1,6 +1,7 @@
 class Specialist < ActiveRecord::Base
 
   include UserConcern
+  include PrepareQuery
 
   ENTRIES_PER_PAGE = 10
   paginates_per ENTRIES_PER_PAGE
@@ -24,7 +25,7 @@ class Specialist < ActiveRecord::Base
 
   def self.filter params={}
     page = params[:page] || 1
-    users = Specialist.search params[:query]
+    users = Specialist.search search_query(params[:query])
     users.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane
     users.page(page).per(ENTRIES_PER_PAGE)
   end

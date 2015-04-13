@@ -106,7 +106,11 @@ ActiveRecord::Schema.define(version: 20150412130525) do
     t.string  "keywords",    array: true
     t.integer "industry_id"
     t.integer "area_id"
+    t.string  "exceptions",  array: true
   end
+
+  add_index "keyword_groups", ["exceptions"], name: "index_keyword_groups_on_exceptions", using: :gin
+  add_index "keyword_groups", ["keywords"], name: "index_keyword_groups_on_keywords", using: :gin
 
   create_table "locations", force: true do |t|
     t.string "name",     null: false

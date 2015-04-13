@@ -4,6 +4,7 @@ class Source < ActiveRecord::Base
 
   has_many :entries
 
+  validates_presence_of :name
   validates :id, presence: true, uniqueness: true
 
   scope :visible, -> { where hidden: false }

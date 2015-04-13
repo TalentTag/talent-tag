@@ -22,8 +22,9 @@ class Admin::KeywordGroupsController < Admin::BaseController
   private
 
   def permitted_params
-    params.require(:keyword_group).permit(:keywords, :industry_id, :area_id).tap do |whitelisted|
+    params.require(:keyword_group).permit(:keywords, :exceptions, :industry_id, :area_id).tap do |whitelisted|
       whitelisted[:keywords] = params[:keyword_group][:keywords]
+      whitelisted[:exceptions] = params[:keyword_group][:exceptions]
     end
   end
 

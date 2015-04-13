@@ -1,6 +1,7 @@
 class Entry < ActiveRecord::Base
 
   include AASM
+  include PrepareQuery
 
   self.primary_key = :id
 
@@ -16,6 +17,7 @@ class Entry < ActiveRecord::Base
   after_create :notify
 
   validates :id, presence: true, uniqueness: true
+  validates_presence_of :body
 
   default_scope -> { order created_at: :desc }
   scope :from_published_sources, -> { joins(:source).where('sources.hidden' => false).references(:sources) }
@@ -27,10 +29,8 @@ class Entry < ActiveRecord::Base
 
   def self.filter params={}
     page = params[:page] || 1
-    if params[:query]
-      kw = KeywordGroup.where.contains(keywords: [params[:query]]).flat_map &:keywords
-      params[:query] = kw.map { |w| "(#{w})" }.join(' | ') unless kw.empty?
 
+    if params[:query]
       conditions = {}
       conditions[:source_id] = params[:source] if params[:source].present?
       conditions[:duplicate_of] = 0
@@ -45,7 +45,7 @@ class Entry < ActiveRecord::Base
       excepts[:user_id] = 0 if params[:club_members_only]
 
       entries = search(
-        params[:query],
+        search_query(params[:query]),
         with: conditions,
         without: excepts,
         retry_stale: true,

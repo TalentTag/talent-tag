@@ -9,6 +9,7 @@ assets_manifest.json
 db/sphinx/*
 config/danthes.yml
 config/database.yml
+config/application.yml
 config/*.sphinx.conf
 *.swp
 dump.rdb

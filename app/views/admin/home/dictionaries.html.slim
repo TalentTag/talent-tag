@@ -40,7 +40,7 @@ div ng-controller="talent.DictionaryCtrl"
             option value="" Выборка по профессиональной области
       br
       .row style="margin:0"
-        .col-xs-4#editarea.well style="height:410px"
+        .col-xs-4#editarea.well style="height:630px"
           div ng-hide="currentGroup"
             p Выберите группу из списка справа
             a href="javascript:;" ng-click="add()" + Добавить новую
@@ -52,6 +52,7 @@ div ng-controller="talent.DictionaryCtrl"
               option value="" Проф. область
 
             textarea.form-control rows="10" ng-model="keywords" style="width:100%; display:block; margin-bottom:7px"
+            textarea.form-control rows="10" ng-model="exceptions" style="width:100%; display:block; margin-bottom:7px"
             button.btn.btn-primary style="width:100%" ng-click="save(keywords)" Сохранить
         .col-xs-8
           .kw ng-repeat="group in keywordGroups | orderBy:'keywords[0]'"

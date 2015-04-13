@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   has_many :searches, foreign_key: :user_id, dependent: :destroy
   has_many :folders, foreign_key: :user_id, dependent: :destroy
   has_many :comments, foreign_key: :user_id
-  has_one :blacklist, foreign_key: :user_id, class_name: 'EntriesBlacklist'
+  # has_one :blacklist, foreign_key: :user_id, class_name: 'EntriesBlacklist'
   has_many :notifications, class_name: 'Notification::Users', foreign_key: :author_id
 
   after_create :send_signup_notification

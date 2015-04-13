@@ -51,6 +51,8 @@ gem 'rails-assets-ngInfiniteScroll'
 gem 'font-awesome-rails'
 gem 'i18n-js'
 
+gem 'figaro'
+
 gem 'newrelic_rpm'
 
 gem 'unicorn', group: :production
@@ -74,6 +76,7 @@ group :development, :test do
   gem 'simplecov'
   gem 'factory_girl_rails'
   gem 'faker'
+  gem 'database_cleaner'
 end
 
 gem "faye-redis"
