@@ -26,6 +26,7 @@ class Entry < ActiveRecord::Base
   scope :marked, -> { where state: :marked }
   scope :within, -> (date) { where("created_at > ?", date.beginning_of_day).where("created_at < ?", date.end_of_day) }
 
+  scope :location_like, ->(location) { where('entries.location ILIKE ?', "%#{ location.strip.gsub(/\s+/, ' ').downcase }%") }
 
   def self.filter params={}
     page = params[:page] || 1

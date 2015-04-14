@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(version: 20150428103854) do
   end
 
   add_index "entries", ["id"], name: "index_entries_on_id", unique: true, using: :btree
+  add_index "entries", ["location"], name: "index_entries_on_location", using: :gist
   add_index "entries", ["source_id"], name: "index_entries_on_source_id", using: :btree
   add_index "entries", ["user_id"], name: "index_entries_on_user_id", using: :btree
 
