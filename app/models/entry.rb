@@ -31,22 +31,29 @@ class Entry < ActiveRecord::Base
   def self.filter params={}
     page = params[:page] || 1
 
-    if params[:query]
+    if params[:query] || params[:location]
       conditions = {}
       conditions[:source_id] = params[:source] if params[:source].present?
       conditions[:duplicate_of] = 0
-      if params[:location].present?
-        location = Location.find(:first, conditions: ["lower(name) = ?", params[:location].mb_chars.downcase.to_s])
-        conditions[:location_id] = location.id if location.present?
-      end
+
+      # leave it for now
+      # if params[:location].present?
+      #   location = Location.find(
+      #     :first, conditions: ["lower(name) = ?", params[:location].mb_chars.downcase.to_s]
+      #   )
+      #   conditions[:location_id] = location.id if location.present?
+      # end
 
       excepts = {}
-      # excepts[:id] = params[:blacklist].map(&:to_i) if params[:blacklist].present?
+      excepts[:id] = params[:blacklist].map(&:to_i) if params[:blacklist].present?
       excepts[:source_id] = Source.unpublished unless params[:published].nil? or Source.unpublished.empty?
       excepts[:user_id] = 0 if params[:club_members_only]
 
       entries = search(
-        search_query(params[:query]),
+        conditions: {
+          body: search_query(params[:query]),
+          location: params[:location]
+        },
         with: conditions,
         without: excepts,
         retry_stale: true,
@@ -104,7 +111,7 @@ class Entry < ActiveRecord::Base
   def link_to_author
     unless user_id
       user = Identity.find_by(anchor: author['guid']).user rescue nil
-      self.user_id = user.try(:id) 
+      self.user_id = user.try(:id)
     end
   end
 
