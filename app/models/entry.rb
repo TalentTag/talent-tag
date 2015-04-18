@@ -32,13 +32,6 @@ class Entry < ActiveRecord::Base
     page = params[:page] || 1
 
     if params[:query] || params[:location]
-      conditions = {}
-      conditions[:source_id] = params[:source] if params[:source].present?
-      conditions[:duplicate_of] = 0
-
-      if params[:location].present?
-        conditions[:location_id] = Location.name_like(params[:location]).pluck(:id).first
-      end
 
       excepts = {}
       excepts[:id] = params[:blacklist].map(&:to_i) if params[:blacklist].present?
@@ -50,7 +43,7 @@ class Entry < ActiveRecord::Base
           body: search_query(params[:query]),
           location: params[:location]
         },
-        with: conditions,
+        with: prepare_conditions(params),
         without: excepts,
         retry_stale: true,
         excerpts: { around: 250 },
@@ -113,6 +106,14 @@ class Entry < ActiveRecord::Base
 
   def notify
     user.notifications.create(event: "new_post", data: { id: id }) rescue nil
+  end
+
+  def self.prepare_conditions(params)
+    {
+      source_id: params[:source],
+      duplicate_of: 0,
+      location_id: params[:locaton] && Location.name_like(params[:location]).pluck(:id).first
+    }.delete_if { |k, v| v.nil? }
   end
 
 end
