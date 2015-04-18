@@ -26,7 +26,7 @@ class Entry < ActiveRecord::Base
   scope :marked, -> { where state: :marked }
   scope :within, -> (date) { where("created_at > ?", date.beginning_of_day).where("created_at < ?", date.end_of_day) }
 
-  scope :location_like, ->(location) { where('entries.location ILIKE ?', "%#{ location.strip.gsub(/\s+/, ' ').downcase }%") }
+  scope :location_like, ->(location) { where('entries.location ILIKE ?', "%#{ location.neat.downcase }%") }
 
   def self.filter params={}
     page = params[:page] || 1
@@ -36,13 +36,9 @@ class Entry < ActiveRecord::Base
       conditions[:source_id] = params[:source] if params[:source].present?
       conditions[:duplicate_of] = 0
 
-      # leave it for now
-      # if params[:location].present?
-      #   location = Location.find(
-      #     :first, conditions: ["lower(name) = ?", params[:location].mb_chars.downcase.to_s]
-      #   )
-      #   conditions[:location_id] = location.id if location.present?
-      # end
+      if params[:location].present?
+        conditions[:location_id] = Location.name_like(params[:location]).pluck(:id).first
+      end
 
       excepts = {}
       excepts[:id] = params[:blacklist].map(&:to_i) if params[:blacklist].present?
