@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
 
   after_create :send_signup_notification
 
+  scope :with_location, -> { where("(profile->>'location') IS NOT NULL") }
 
   def type() :employer end
 

@@ -94,6 +94,11 @@ class Bsp < Thor
           entry_hash['author']['profile']['city'] || entry_hash['author']['profile']['location']
         end
 
+        # add google data to hash
+        if entry['location']
+          entry.attributes.merge ::GooglePlacesService.new.predict_location(entry['location'])
+        end
+
         if duplicate = Entry.order(:created_at).find_by(body: entry_hash['body'])
           entry['duplicate_of'] = duplicate.id
         end
