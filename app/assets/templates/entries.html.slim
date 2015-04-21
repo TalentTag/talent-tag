@@ -48,8 +48,8 @@ p.alert.alert-warning ng-show="entriesTotalInFolder == 0" Нет записей 
           li : span {{ entry.created_at | date:'D MMMM YYYY' }}
           li : span {{ entry.location }}
 
-        p = "{{ entry.body | truncate:250:{ byWords: true } }}"
-        / p ng-bind-html="entry.excerpt || entry.body"
+        / p = "{{ entry.body | truncate:250:{ byWords: true } }}"
+        p ng-bind-html="entry.excerpt || entry.body"
 
         p
           .kw ng-repeat="folder in Folder.items" ng-show="folder.contains(entry)"
