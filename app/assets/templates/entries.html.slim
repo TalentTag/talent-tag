@@ -36,20 +36,28 @@ p.alert.alert-warning ng-show="entriesTotalInFolder == 0" Нет записей 
   @results-entries ng-show="group=='entries'"
     div infinite-scroll="fetchMore()" infinite-scroll-distance="3" infinite-scroll-disabled="!query || fetchinInProgress || !canFetchMore()" infinite-scroll-immediate-check="false"
       .entry ng-repeat="entry in entries" id="entry{{ entry.id }}" ng-controller="talent.EntryCtrl"
-        p
-          a href="javascript:;" ng-click="followAuthor(entry.user_id)" : .club-badge.fa.fa-star ng-if="authorIsFollowed(entry.user_id)"
-          a href="javascript:;" title="Подписаться на обновления" ng-click="followAuthor(entry.user_id)" : .club-badge.fa.fa-star-o ng-if="entry.user_id"
-          a.close href="javascript:;" title="Больше не показывать" ng-show="search" ng-click="blacklist(entry)" &times;
-          a ng-show="entry.url" ng-href="{{ entry.url }}" target="_blank" {{ entry.url | truncate:60 }}
-          a ng-hide="entry.url" ng-href="/specialists/{{ entry.user_id }}" target="_blank" {{ entry.author.name }}
-          span.new-entry ng-show="isNewEntry(entry)" новая
 
-        ul.info
-          li : span {{ entry.created_at | date:'D MMMM YYYY' }}
-          li : span {{ entry.location }}
+        a href="javascript:;" ng-click="followAuthor(entry.user_id)" : .club-badge.fa.fa-star ng-if="authorIsFollowed(entry.user_id)"
+        a href="javascript:;" title="Подписаться на обновления" ng-click="followAuthor(entry.user_id)" : .club-badge.fa.fa-star-o ng-if="entry.user_id"
 
-        / p = "{{ entry.body | truncate:250:{ byWords: true } }}"
+        .row.entry-head
+          .col-md-1
+            .avatar style="background-image: url({{ entry.author.profile.photo || '/no_avatar.jpg' }})"
+          .col-md-11
+            a.close href="javascript:;" title="Больше не показывать" ng-show="search" ng-click="blacklist(entry)" &times;
+
+            b: a ng-show="entry.user_id" ng-href="/specialists/{{ entry.user_id }}" target="_blank" {{ entry.author.name }}
+            b ng-hide="entry.user_id" {{ entry.author.name }}
+
+            ul.info
+              li : span {{ entry.created_at | date:'D MMMM YYYY' }}
+              li : span {{ entry.location }}
+
         p ng-bind-html="entry.excerpt || entry.body"
+
+        p
+          a.small ng-show="entry.url" ng-href="{{ entry.url }}" target="_blank" {{ entry.url | truncate:60 }}
+          span.new-entry ng-show="isNewEntry(entry)" новая
 
         p
           .kw ng-repeat="folder in Folder.items" ng-show="folder.contains(entry)"
