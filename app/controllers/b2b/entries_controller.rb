@@ -13,15 +13,17 @@ class B2b::EntriesController < B2b::BaseController
       search = Search.find_by!(id: params[:search_id])
       query = if search.query==params[:query] then search.query else "(#{ search.query }) && (#{ params[:query] })" end
       entries = Entry.filter(params.merge query: query, published: true, blacklist: search.blacklisted)
+      response.headers["TT-entriestotal"] = entries.total_count.to_s rescue nil
       blacklist = search.blacklisted.map &:to_i
       entries.reject { |e| e.id.in? blacklist }
     elsif params[:query]
       Query.create(user_id: current_user.id, text: params[:query])
-      Entry.filter(params.merge published: true)
+      entries = Entry.filter(params.merge published: true)
+      response.headers["TT-entriestotal"] = entries.total_count.to_s rescue nil
+      entries
     else
       Entry.filter params
     end
-    response.headers["TT-entriestotal"] = @entries.total_count.to_s rescue nil
   end
 
 
