@@ -11,7 +11,7 @@ class KeywordGroup < ActiveRecord::Base
     end
 
     def join_keywords(keyword_groups)
-      keyword_groups.get_array(:keywords).map { |kw| "(#{kw})" }.join(' | ')
+      keyword_groups.get_array(:keywords).map { |kw|  kw.single? ? "=#{kw}" : "(#{kw})" }.join(' | ')
     end
 
     def join_exceptions(keyword_groups)
