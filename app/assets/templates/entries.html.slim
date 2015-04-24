@@ -42,7 +42,7 @@ p.alert.alert-warning ng-show="entriesTotalInFolder == 0" Нет записей 
 
         .row.entry-head
           .col-md-1
-            .avatar style="background-image: url({{ entry.author.profile.photo || '/no_avatar.jpg' }})"
+            .avatar style="background-image: url({{ entry.author.avatar || '/no_avatar.jpg' }})"
           .col-md-11
             a.close href="javascript:;" title="Больше не показывать" ng-show="search" ng-click="blacklist(entry)" &times;
 

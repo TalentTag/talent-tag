@@ -64,6 +64,11 @@ class Entry < ActiveRecord::Base
   end
 
 
+  def author
+    user.presence || super
+  end
+
+
   def link_to_author!
     link_to_author && save
   end
