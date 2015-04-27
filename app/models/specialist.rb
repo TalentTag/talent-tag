@@ -25,8 +25,7 @@ class Specialist < ActiveRecord::Base
 
   def self.filter params={}
     page = params[:page] || 1
-    users = Specialist.search search_query(params[:query])
-    users.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane
+    users = Specialist.search search_query(params[:query]), order: 'created_at DESC'
     users.page(page).per(ENTRIES_PER_PAGE)
   end
 
