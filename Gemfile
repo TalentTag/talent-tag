@@ -32,8 +32,8 @@ gem 'gravatar_image_tag'
 
 gem 'faye'
 gem 'danthes'
-
 gem 'redis-rails'
+gem 'sidekiq'
 
 gem 'sass-rails', '~> 4.0.2'
 gem 'uglifier', '>= 1.3.0'

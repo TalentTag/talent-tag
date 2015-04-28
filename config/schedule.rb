@@ -9,3 +9,7 @@ end
 every 1.day, at: "7:12 pm" do
   thor "bsp:fetch -d #{ Date.today.strftime("%Y-%m-%d") }"
 end
+
+every 1.day. at: "9:30 pm" do
+  rake "mail:searches"
+end

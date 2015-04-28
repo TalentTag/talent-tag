@@ -1,0 +1,6 @@
+p В ваших виртуальных папках на TalentTag появились новые записи
+ul
+  - @updates.each do |name, count|
+    li
+      b> #{ name }:
+      | #{ count } записей

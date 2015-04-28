@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150412130525) do
+ActiveRecord::Schema.define(version: 20150428103854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -178,10 +178,11 @@ ActiveRecord::Schema.define(version: 20150412130525) do
   end
 
   create_table "searches", force: true do |t|
-    t.string  "name"
-    t.string  "query"
-    t.integer "user_id"
-    t.string  "blacklisted", default: [], array: true
+    t.string   "name"
+    t.string   "query"
+    t.integer  "user_id"
+    t.string   "blacklisted",     default: [], array: true
+    t.datetime "last_checked_at"
   end
 
   create_table "sources", id: false, force: true do |t|
@@ -232,6 +233,7 @@ ActiveRecord::Schema.define(version: 20150412130525) do
     t.string   "role"
     t.datetime "last_login_at"
     t.json     "profile",                    default: {}
+    t.json     "settings",                   default: {}
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

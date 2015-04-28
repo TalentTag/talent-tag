@@ -5,6 +5,8 @@ class Search < ActiveRecord::Base
   validates :name, presence: true, uniqueness: { scope: :user_id }
   validates :query, presence: true, uniqueness: { scope: :user_id }
 
+  before_create :touch
+
 
   def blacklisted
     super.map { |id| id.to_i }
@@ -15,6 +17,14 @@ class Search < ActiveRecord::Base
     blacklisted_will_change!
     self.blacklisted = blacklisted << entry.id
     save
+  end
+
+  def touch
+    self.last_checked_at = Time.now
+  end
+
+  def touch!
+    touch && save
   end
 
 end
