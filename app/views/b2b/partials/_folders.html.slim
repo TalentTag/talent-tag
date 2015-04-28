@@ -6,7 +6,8 @@
   ul ng-hide="searchesEditMode"
     li ng-repeat="search in Search.items"
       span.glyphicon.glyphicon-folder-open
-      a href="/" ng-click="loadSearch(search)" = "{{ search.name }}"
+      a> href="/" ng-click="loadSearch(search)" = "{{ search.name }}"
+      .badge ng-if="search.new_entries_count" {{ search.new_entries_count }}
 
   ul.edit-mode ng-show="searchesEditMode"
     li ng-repeat="search in Search.items"
@@ -23,8 +24,8 @@
 
   ul ng-hide="foldersEditMode"
     li ng-repeat="folder in Folder.items"
-      a href="/folders/{{ folder.id }}" = "{{ folder.name }}"
-      span.badge.pull-right = "{{ folder.entries.length }}"
+      a> href="/folders/{{ folder.id }}" = "{{ folder.name }}"
+      span.badge = "{{ folder.entries.length }}"
 
   ul.edit-mode ng-show="foldersEditMode"
     li ng-repeat="folder in Folder.items"
