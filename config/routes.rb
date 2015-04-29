@@ -43,6 +43,7 @@ TalentTag::Application.routes.draw do
     resources :portfolio, only: %i(create destroy)
   end
 
+
   namespace :profile do
     root to: :user, as: ''
     put '/' => :update_user
@@ -97,6 +98,11 @@ TalentTag::Application.routes.draw do
   scope module: :b2c do
     resources :identities, only: :create
     get 'specialists/:id' => 'account#show', as: :specialist
+  end
+
+
+  namespace :hidden do
+    get :account
   end
 
 

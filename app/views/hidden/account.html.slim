@@ -1,0 +1,107 @@
+.col-md-12 ng-controller="talent.HiddenAccountCtrl"
+  .row
+    .col-md-8
+
+      #completer
+        input.form-control type="search" name="query" placeholder="Какого специалиста вы ищете?" autocomplete="off" ng-model="query" ng-keypress="pickQuery($event.charCode)" ng-focus="catalogVisible=true"
+
+        .scope
+          .kw ng-show="currentLocation"
+            => fa_icon :'map-marker'
+            ' {{ currentLocation }}
+            a ng-click="currentLocation=null" href="#" &times;
+          .kw.active ng-repeat="tag in activeTags"
+            => fa_icon :tag
+            ' {{ tag }}
+            a ng-click="dropTag(tag)" href="#" &times;
+
+      #catalog ng-show="catalogVisible" ng-cloak=true
+        .row ng-init="catalogFolder='locations'"
+          .col-md-4
+            h4: a href="javascript:;" ng-click="pickCatalogFolder('locations')" Города
+            hr
+            h4: a href="javascript:;" ng-click="pickCatalogFolder('industries')" Индустрии
+            hr
+            h4: a href="javascript:;" ng-click="pickCatalogFolder('areas')" Проф.области
+
+          .col-md-8#completer-results
+            .scope ng-show="locationsVisible()"
+              .kw ng-repeat="location in locations"
+                a href="javascript:;" ng-click="pickLocation(location)" {{ location }}
+
+            .scope ng-show="industriesVisible()"
+              .kw ng-hide="currentIndustry" ng-repeat="industry in industries"
+                a ng-click="setIndustry(industry.name)" href="javascript:;" {{ industry.name }}
+              a.block-badge ng-show="currentIndustry" ng-click="setIndustry(null)" href="javascript:;"
+                span@discard.pull-right &times;
+                | {{ currentIndustry.name }}
+
+            .scope ng-show="areasVisible()"
+              .kw ng-hide="currentArea" ng-repeat="area in areas"
+                a ng-click="setArea(area.name)" href="javascript:;" {{ area.name }}
+              a.block-badge ng-show="currentArea" ng-click="setArea(null)" href="javascript:;"
+                span@discard.pull-right &times;
+                | {{ currentArea.name }}
+
+            .scope
+              .kw ng-repeat="group in keywordGroups | orderBy:'keywords[0]'" ng-class="{active: false}"
+                a ng-click="pickKeyword(group.keywords[0])" href="javascript:;" {{ group.keywords[0] }}
+
+
+      div
+        p Наберите запрос в поисковой строке или воспользуйтесь рубрикатором
+        .presets
+          p.central Популярные запросы
+          .kw ng-repeat="preset in presets" {{ preset }}
+        p.central.tip Кликните на тег, чтобы добавить его в строку поиска
+
+    .col-md-4
+      = render partial: "b2b/partials/folders"
+
+a#go-top href="javascript:scroll(0,0)" tt-scroll="250" Наверх &uarr;
+
+sass:
+  .scope
+    overflow: hidden
+    margin-bottom: 15px
+
+  #completer
+    .kw
+      font-size: 12px
+    input[type=search]
+      margin-bottom: 6px
+
+  #catalog
+    background-color: #fff
+    width: 95%
+    border: 1px solid #bbb
+    border-radius: 0 0 8px 8px
+    box-shadow: 0 6px 8px rgba(0,0,0,0.1)
+    position: absolute
+    &.ng-hide-add.ng-hide-add-active
+      transition: 1s linear all
+    > .row
+      padding: 10px 25px
+
+  #completer-results
+    font-size: 12px
+
+  .block-badge
+    display: block
+    font-size: 12px
+    padding: 2px 5px 1px
+    text-decoration: none
+    border: 1px solid
+    border-radius: 4px
+    float: left
+    line-height: 16px
+    [role=discard]
+      margin-left: 4px
+      font-size: 16px
+      line-height: 12px
+
+  .kw.active
+    color: #fff
+    a
+      color: #fff
+    background-color: #428bca
