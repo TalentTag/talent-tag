@@ -9,9 +9,8 @@ node(:author) do |entry|
     partial("/users/show", object: entry.user)
   else
     {
-      name: entry.author['profile']['name'],
-      avatar: entry.author['profile']['photo'],
-      city: entry.author['profile']['city']
+      name: (entry.author['profile']['name'] rescue nil),
+      avatar: (entry.author['profile']['photo'] rescue nil)
     }
   end
 end
