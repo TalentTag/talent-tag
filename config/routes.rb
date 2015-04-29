@@ -21,7 +21,6 @@ TalentTag::Application.routes.draw do
     end
 
     # get :add_company
-    get :excerpts
   end
 
   namespace :auth do

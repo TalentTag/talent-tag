@@ -31,12 +31,6 @@ class PublicController < ApplicationController
     end
   end
 
-  def excerpts
-    @entries = Entry.search params[:q]
-    @entries.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane
-  end
-
-
   def blog
     return render "public/blog/#{ params[:id] }" if params[:id].present?
   end
