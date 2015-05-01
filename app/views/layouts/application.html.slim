@@ -3,6 +3,7 @@ html
   head = render partial: 'partials/head'
 
   body lang="ru" ng-app="talent"
+    = render partial: "partials/services" if Rails.env.production?
     #wrapper ng-controller="talent.MainCtrl"
       = render partial: "partials/header"
       = render partial: "partials/subscription"
