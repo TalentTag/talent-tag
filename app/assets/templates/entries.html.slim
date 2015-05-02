@@ -1,15 +1,7 @@
-div ng-show="presets && !query && !entries.length"
-  p Наберите запрос в поисковой строке или воспользуйтесь рубрикатором
-  .presets
-    p.central Популярные запросы
-    .kw ng-repeat="preset in presets" ng-click="fetch(preset)" {{ preset }}
-  p.central.tip Кликните на тег, чтобы добавить его в строку поиска
-
-
 / .back ng-show="entries.length && !query" : a href="/" &larr; назад
 
 
-p.alert.alert-warning ng-show="entriesTotal == 0 && specialistsTotal == 0" Ничего не нашлось
+p.alert.alert-warning ng-show="entriesTotal == 0 && specialistsTotal == 0 && !loadInProgress" Ничего не нашлось
 p.alert.alert-warning ng-show="entriesTotalInFolder == 0" Нет записей с выбранной меткой
 
 
@@ -34,7 +26,7 @@ p.alert.alert-warning ng-show="entriesTotalInFolder == 0" Нет записей 
 
 
   @results-entries ng-show="group=='entries'"
-    div infinite-scroll="fetchMore()" infinite-scroll-distance="3" infinite-scroll-disabled="!query || fetchinInProgress || !canFetchMore()" infinite-scroll-immediate-check="false"
+    div infinite-scroll="fetchMore()" infinite-scroll-distance="3" infinite-scroll-disabled="state.isEmpty() || loadInProgress || !canFetchMore()" infinite-scroll-immediate-check="false"
       .entry ng-repeat="entry in entries" id="entry{{ entry.id }}" ng-controller="talent.EntryCtrl"
 
         a href="javascript:;" ng-click="followAuthor(entry.user_id)" : .club-badge.fa.fa-star ng-if="authorIsFollowed(entry.user_id)"

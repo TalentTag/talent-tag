@@ -1,53 +1,50 @@
 = javascript_include_tag :router
 
-.col-md-12 ng-controller="talent.AccountCtrl"
-  / - unless current_account.premium?
-  /   #promo-time-left.pull-right tt-timer=true data-company="company"
-
+.col-md-12 ng-controller="talent.HiddenAccountCtrl"
   .row
     .col-md-8
-      .row
-        .col-md-9
-          .input-group
 
-            .composite-input
-              a#clear-search.close.glyphicon.glyphicon-remove-circle href="/" ng-show="query" ng-click="reset()"
-              input#search.form-control type="search" name="query" placeholder="Поиск" autofocus=true autocomplete="off" ng-model="query" typeahead="keyword for keyword in keywords | filter:$viewValue | limitTo:10" ng-keypress="keyPressFetch($event.charCode)"
-            span.input-group-btn
-              button.btn.btn-primary ng-click="fetch()" Искать
-        .col-md-3
-          a.btn.btn-default ng-show="query" href="javascript:;" ng-click="saveSearch()"
-            span.glyphicon.glyphicon-floppy-disk style="margin-right: 7px"
-            | сохранить
-      .checkbox ng-class="{disabled: !entriesTotal}"
-        label
-          input type="checkbox" ng-model="searchInResults" ng-disabled="!entriesTotal"
-          | Искать в найденном
-      .checkbox
-        label
-          input type="checkbox" ng-model="clubMembersOnly"
-          | Только по зарегистрированным специалистам
+      #completer ng-controller="talent.CompleterCtrl"
+        #completer-querystring
+          input.form-control type="search" name="query" placeholder="Какого специалиста вы ищете?" autocomplete="off" ng-model="query" ng-keydown="onKeyPress($event)"
 
-      br
-      / - unless can? :read, :premium_data
-      /   p style="color: #aaa; font-style: italic" Прямые ссылки на записи предоставляются в премиум-версии кабинета
+        #completer-results ng-show="locations.length || keywordGroups.length" ng-cloak=true
+          .scope ng-show="locations.length"
+            p: small Найденные города
+            .kw ng-repeat="location in locations" ng-class="{focused: location.isFocused}"
+              a href="javascript:;" ng-click="pickLocation(location)" {{ location.name }}
 
-      ng-view
+          .scope ng-show="keywordGroups.length"
+            p: small Найденные ключевые слова
+            .kw ng-repeat="group in keywordGroups" ng-class="{focused: group.isFocused}"
+              a ng-click="pickKeyword(group.keywords[0])" href="javascript:;" {{ group.keywords[0] }}
+
+        #completer-cart ng-hide="state.isEmpty()"
+          .scope.well
+            a#clear-state.close.glyphicon.glyphicon-remove-circle href="javascript:;" ng-hide="state.isEmpty()" ng-click="resetState()"
+            .kw ng-show="state.location"
+              => fa_icon :'map-marker'
+              ' {{ state.location.name }}
+              a ng-click="state.unsetLocation()" href="javascript:;" &times;
+            .kw.active ng-repeat="tag in state.keywords"
+              => fa_icon :tag
+              ' {{ tag }}
+              a ng-click="state.removeKeyword(tag)" href="javascript:;" &times;
+
+      div style="position: relative"
+        #load-overlay ng-show="preloaderVisible" = fa_icon :spinner, class: 'fa-spin'
+
+        // Presets
+        div ng-hide="state.keywords.length"
+          .presets
+            p.central Популярные запросы
+            .kw ng-repeat="preset in presets" ng-click="state.addKeyword(preset)" {{ preset }}
+          p.central.tip Кликните на тег, чтобы добавить его в строку поиска
+
+        // Results
+        ng-view ng-show="state.keywords.length"
 
     .col-md-4
-      / - if current_account.premium?
-      /   - if can? :update_to_premium, current_account
-      /     .well.well-sm.well-blue style="color: white"
-      /       - if current_account.premium_until
-      /         | Премиум-аккаунт оплачен до
-      /         h4 style="margin:0" = current_account.premium_until.in_time_zone("Europe/Moscow").strftime(current_account.premium_until.today? ? "%d.%m.%Y, %H:%M %Z" : "%d.%m.%Y")
-      /       a@buy-premium.well-blue style="margin-top: 8px; font-size: 12px" data-toggle="modal" href="#premium" продлить >>
-      / - else
-      /   a@buy-premium.well.well-sm.well-blue data-toggle="modal" href="#premium" Купить Premium
-
-      = render partial: "b2b/partials/filters"
       = render partial: "b2b/partials/folders"
-
-= render partial: "b2b/partials/premium"
 
 a#go-top href="javascript:scroll(0,0)" tt-scroll="250" Наверх &uarr;

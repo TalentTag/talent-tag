@@ -101,11 +101,6 @@ TalentTag::Application.routes.draw do
   end
 
 
-  namespace :hidden do
-    get :account
-  end
-
-
   namespace :admin do
     scope controller: :home do
       root to: :index, as: ''

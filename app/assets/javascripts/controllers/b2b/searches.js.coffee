@@ -1,5 +1,7 @@
 @talent.controller "talent.SearchListCtrl", ["$scope", "Search", ($scope, Search) ->
 
+  $scope.Search = Search
+
   $scope.loadSearch = (search) ->
     $scope.$parent.search = search
     Search.current = search
@@ -18,6 +20,8 @@
 
 
 @talent.controller "talent.FolderListCtrl", ["$scope", "Folder", ($scope, Folder) ->
+
+  $scope.Folder = Folder
 
   $scope.toggleFoldersEditMode = ->
     $scope.foldersEditMode = !$scope.foldersEditMode

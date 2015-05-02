@@ -13,7 +13,7 @@
     $scope.groupsByArea = $scope.keywordGroups.filter((kw) -> kw.area_id is area.id) if area?
 
   $scope.$watch 'location', (location) ->
-    State.location location
+    State.location = location
 
   $scope.pick = (group) ->
     $scope.$parent.query = if $scope.$parent.query then "#{ $scope.$parent.query } #{ group.keywords[0] }" else group.keywords[0]

@@ -17,6 +17,5 @@
     templateUrl: '/assets/conversation.html.slim'
     controller: 'talent.MessagesCtrl'
 
-
   $locationProvider.html5Mode(true)
 ]

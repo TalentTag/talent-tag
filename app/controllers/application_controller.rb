@@ -81,7 +81,7 @@ class ApplicationController < ActionController::Base
         areas:          Area.all,
         searches:       current_user.searches,
         folders:        current_user.folders,
-        locations:      Location.order(name: :desc).pluck(:name)
+        locations:      Location.all
     elsif is_specialist?
       gon.statuses = Hash[Specialist::STATUSES.map { |s| [s, I18n.t("user.status.#{s}")] }]
     end

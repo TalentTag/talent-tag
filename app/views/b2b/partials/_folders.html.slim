@@ -16,7 +16,6 @@
         = text_field_tag :name, nil, class: "form-control", "ng-model"=>"search.name"
         small.input-group-btn = submit_tag "ok", class: "btn", "ng-click"=>"updateSearch(search)"
 
-
 .well@folders ng-controller="talent.FolderListCtrl" ng-init="foldersEditMode = false"
   a.edit.pull-right href="javascript:;" title="Редактировать" ng-click="toggleFoldersEditMode()" ng-show="Folder.items.length" = icon :edit
   h4 Метки

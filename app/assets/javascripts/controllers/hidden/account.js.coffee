@@ -1,76 +1,51 @@
-@talent.controller "talent.HiddenAccountCtrl", ["$scope", "talentData", "State", "Presets", ($scope, talentData, State, Presets) ->
+@talent.controller "talent.HiddenAccountCtrl", ["$scope", "$q", "$timeout", "State", "Entry", "User", "Presets", ($scope, $q, $timeout, State, Entry, User, Presets) ->
 
-  $scope.locations      = talentData.locations
-  $scope.industries     = talentData.industries
-  $scope.areas          = talentData.areas
-
-  $scope.presets        = Presets.all
-
-  $scope.activeTags     = []
+  $scope.state   = State
+  $scope.presets = Presets.all
+  $scope.page    = 1
 
 
-  $scope.pickCatalogFolder = (folder) ->
-    $scope.catalogFolder = folder
-    $scope.query = $scope.currentIndustry = $scope.currentArea = null
+  fetch = (options={}) ->
+    params =
+      query: State.keywords.join(' ')
+      page: $scope.page
+      location: State.location
 
-  $scope.setIndustry = (industry) ->
-    industry = _.findWhere(talentData.industries, name: industry)
-    $scope.currentIndustry = industry
+    fetchEntries = ->
+      fetching = $q.defer()
+      Entry.query params, (data, parseHeaders) ->
+        $scope.entries = if options.append then $scope.entries.concat(data) else data
+        $scope.entriesTotal = parseInt parseHeaders()['tt-entriestotal']
+        fetching.resolve()
+      fetching.promise
 
-  $scope.setArea = (area) ->
-    area = _.findWhere(talentData.areas, name: area)
-    $scope.currentArea = area
+    fetchSpecialists = ->
+      fetching = $q.defer()
+      User.query params, (data, parseHeaders) ->
+        $scope.specialists = if options.append then $scope.specialists.concat(data) else data
+        $scope.specialistsTotal = parseInt parseHeaders()['tt-specstotal']
+        fetching.resolve()
+      fetching.promise
 
-
-
-  $scope.pickKeyword = (result) ->
-    $scope.activeTags.push(result) unless result in $scope.activeTags
-    $scope.query = ""
-
-  $scope.pickLocation = (location) ->
-    $scope.currentLocation = location
-    $scope.query = ""
-
-  $scope.pickQuery = (keyCode) ->
-    if $scope.query? && keyCode is 13
-      if location = _.find(talentData.locations, (location) -> location.toLowerCase() is $scope.query.toLowerCase())
-        $scope.pickLocation(location)
-      else
-        $scope.pickKeyword($scope.query)
-
-  $scope.dropTag = (tag) ->
-    $scope.activeTags = _.without $scope.activeTags, tag
+    $scope.loadInProgress = true
+    $q.all([fetchEntries(), fetchSpecialists()]).then ->
+      $scope.loadInProgress = false
 
 
+  State.onChange -> 
+    if State.isEmpty()
+      $scope.entries = $scope.specialists = []
+      $scope.entriesTotal = $scope.specialistsTotal = 0
+    if State.keywords?.length
+      $timeout (-> $scope.preloaderVisible = true if $scope.loadInProgress), 250
+      fetch().then -> $scope.preloaderVisible = false
 
-  $scope.locationsVisible = ->
-    $scope.query || $scope.catalogFolder == 'locations'
+  $scope.fetchMore = ->
+    if $scope.canFetchMore()
+      $scope.page++
+      fetch append: true
 
-  $scope.industriesVisible = ->
-    !$scope.query && $scope.catalogFolder == 'industries'
-
-  $scope.areasVisible = ->
-    !$scope.query && $scope.catalogFolder == 'areas'
-
-
-  filterKeywords = ->
-    $scope.keywordGroups = if $scope.currentIndustry?
-      talentData.keywordGroups.filter((kw) -> kw.industry_id is $scope.currentIndustry.id)
-    else if $scope.currentArea?
-      talentData.keywordGroups.filter((kw) -> kw.area_id is $scope.currentArea.id)
-    else []
-  $scope.$watch 'currentIndustry', filterKeywords
-  $scope.$watch 'currentArea', filterKeywords
-
-  compare = (string, substring) -> string.toLowerCase().indexOf(substring.toLowerCase()) is 0
-  $scope.$watch 'query', (query) ->
-    if query?.length
-      $scope.keywordGroups    = talentData.keywordGroups.filter (kw) -> compare kw.keywords[0], query
-      $scope.locations        = talentData.locations.filter (location) -> compare location, query
-    else
-      $scope.keywordGroups    = []
-      $scope.locations        = talentData.locations
-      $scope.currentIndustry  = null
-      $scope.currentArea      = null
+  $scope.canFetchMore = ->
+    $scope.entries.length and $scope.entries.length < $scope.entriesTotal
 
 ]

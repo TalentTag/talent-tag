@@ -28,7 +28,8 @@
     params = if $scope.search
       { query: querystring, search_id: $scope.search.id, page: $scope.page }
     else if querystring
-      { query: querystring, page: $scope.page, location: State.location() }
+      # { query: querystring, page: $scope.page, location: State.location() }
+      { query: querystring, page: $scope.page }
     params['club_members_only'] = true if $scope.clubMembersOnly
 
     Entry.query params, (data, parseHeaders) ->
