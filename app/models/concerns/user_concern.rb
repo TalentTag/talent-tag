@@ -16,8 +16,10 @@ module UserConcern
     # validates_presence_of :firstname, :lastname, :phone, on: :update, if: ->{ role.present? }
 
     after_update :send_update_confirmation
-  end
 
+    scope :with_location, -> { where("(profile->>'location') IS NOT NULL") }
+    # TODO: update location after save ?
+  end
 
   %w(auth forgot).each do |name|
     define_method("generate_#{name}_token".to_sym) do

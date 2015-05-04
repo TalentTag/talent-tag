@@ -40,10 +40,7 @@ class Entry < ActiveRecord::Base
       excepts[:user_id] = 0 if params[:club_members_only]
 
       entries = search(
-        conditions: {
-          body: search_query(params[:query]),
-          location: params[:location]
-        },
+        search_query(params[:query]),
         with: prepare_conditions(params),
         without: excepts,
         retry_stale: true,
