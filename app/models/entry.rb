@@ -26,7 +26,11 @@ class Entry < ActiveRecord::Base
   scope :marked, -> { where state: :marked }
   scope :within, -> (date) { where("created_at > ?", date.beginning_of_day).where("created_at < ?", date.end_of_day) }
 
-  scope :location_like, ->(term) { where{ location.matches "%#{ term.neat.downcase }%" } }
+  sifter :location_match do |term|
+    location.matches "%#{ term.neat.downcase }%"
+  end
+  scope :location_like, ->(term) { where{ sift :location_match, term } }
+
   scope :with_location, -> { where{ (location.not_eq nil) | (location_id.not_eq nil) } }
 
   def self.filter params={}
@@ -92,6 +96,16 @@ class Entry < ActiveRecord::Base
     end
   end
 
+  def self.update_locations
+    Location.find_each do |place|
+      querystring = place.synonyms.map { |e| "\"#{ e }\"" }.join(' | ')
+
+      ids = Entry.search_for_ids querystring, with: { location_id: 0 }
+
+      Entry.where{ (sift :location_match, place.name) | (location.in place.synonyms) | ((id.in ids) & (location_id.eq nil)) }.
+            update_all(location_id: place.id)
+    end
+  end
 
   protected
 
