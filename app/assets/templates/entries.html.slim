@@ -77,3 +77,5 @@ p.alert.alert-warning ng-show="entriesTotalInFolder == 0" Нет записей 
                   button.btn.btn-primary ng-click="createFolder($event, entry)" style="height: 26px; padding: 0 10px" ok
 
         hr
+
+    #load-more ng-show="entries.length && canFetchMore()": i.fa.fa-spinner.fa-spin
