@@ -110,7 +110,7 @@ TalentTag::Application.routes.draw do
     resources :sources, only: %i(index update)
     resources :entries, only: [] do
       collection do
-        get '(/:year(/:month(/:day(/:published))))' => :index, as: '', constraints: { year: /\d+/, month: /\d+/, day: /\d+/ }
+        get '(/:year(/:month(/:day(/:source))))' => :index, as: '', constraints: { year: /\d+/, month: /\d+/, day: /\d+/ }
         get :deleted
       end
       member { put :delete, :restore }

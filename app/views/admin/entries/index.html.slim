@@ -1,6 +1,3 @@
-h3 = "Записи за #{ Russian::strftime(@date, '%d %B %Y') } (всего #{ @entries.count })"
-br
-
 .row
   .col-md-3
     .well
@@ -25,20 +22,25 @@ br
             - else
               = link_to day, admin_entries_path(year: @year, month: @month, day: day, published: params[:published])
 
+    ul.well
+      - Source.order(:name).each do |source|
+        li = link_to source.name, admin_entries_path(year: @year, month: @month, day: @day, source: source.id)
+
     a.btn.btn-default href=deleted_admin_entries_path
       ' Удаленные
       span.badge = Entry.marked.count
 
   .col-md-9
-    p.well
-      - if params[:published].present?
-        => link_to 'Все записи', admin_entries_path(year: @year, month: @month, day: @day)
-        ' /
-        span style="color: #aaa" Только из опубликованных источников
-      - else
-        span> style="color: #aaa" Все записи
-        ' /
-        = link_to 'Только из опубликованных источников', admin_entries_path(year: @year, month: @month, day: @day, published: :published)
+    h3 = "Записи за #{ Russian::strftime(@date, '%d %B %Y') } (всего #{ @entries.count })"
+    / p.well
+    /   - if params[:published].present?
+    /     => link_to 'Все записи', admin_entries_path(year: @year, month: @month, day: @day)
+    /     ' /
+    /     span style="color: #aaa" Только из опубликованных источников
+    /   - else
+    /     span> style="color: #aaa" Все записи
+    /     ' /
+    /     = link_to 'Только из опубликованных источников', admin_entries_path(year: @year, month: @month, day: @day, published: :published)
 
     @entries-list
       - @entries.each do |entry|
