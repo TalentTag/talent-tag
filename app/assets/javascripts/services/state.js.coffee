@@ -1,40 +1,19 @@
 @talent.service 'State', ->
 
-  keywords: []
+  query: ''
   location: null
 
   isEmpty: ->
-    _.isEmpty(@keywords) && _.isNull(@location)
-
-  addKeyword: (keyword) ->
-    unless keyword in @keywords
-      @keywords.push(keyword)
-      @changeCallback?.call()
-
-  removeKeyword: (keyword) ->
-    if keyword in @keywords
-      @keywords = _.without @keywords, keyword
-      @changeCallback?.call()
-
-  setLocation: (location) ->
-    unless @location is location
-      @location = location
-      @changeCallback?.call()
-
-  unsetLocation: ->
-    if @location?
-      @location = null
-      @changeCallback?.call()
+    _.isEmpty @query
+    # _.isEmpty(@keywords) && _.isNull(@location)
 
   clear: ->
-    unless @isEmpty()
-      @keywords = []
-      @location = null
-      @changeCallback?.call()
+    @query = ""
+    @location = null
 
   toObject: ->
-    keywords: @keywords
-    location: @location
+    query: @query
+    location: @location?.name
 
-  onChange: (callback) ->
-    @changeCallback = callback
+  toString: ->
+    "#{ @query }#{ if @location? then " | #{ @location.name }" else "" }"

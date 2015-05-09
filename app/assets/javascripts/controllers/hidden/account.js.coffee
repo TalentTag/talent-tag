@@ -1,15 +1,17 @@
-@talent.controller "talent.HiddenAccountCtrl", ["$scope", "$q", "$timeout", "State", "Entry", "User", "Presets", ($scope, $q, $timeout, State, Entry, User, Presets) ->
+@talent.controller "talent.HiddenAccountCtrl", ["$scope", "talentData", "$q", "$timeout", "State", "Entry", "User", "Presets", ($scope, talentData, $q, $timeout, State, Entry, User, Presets) ->
 
   $scope.state   = State
   $scope.presets = Presets.all
+  $scope.entries = []
   $scope.page    = 1
 
+  State.location = talentData.locations[0]
 
   fetch = (options={}) ->
     params =
-      query: State.keywords.join(' ')
-      page: $scope.page
-      location: State.location
+      query:    State.query
+      location: State.location?.name
+      page:     $scope.page
 
     fetchEntries = ->
       fetching = $q.defer()
@@ -32,13 +34,21 @@
       $scope.loadInProgress = false
 
 
-  State.onChange -> 
-    if State.isEmpty()
-      $scope.entries = $scope.specialists = []
-      $scope.entriesTotal = $scope.specialistsTotal = 0
-    if State.keywords?.length
+  $scope.$watch 'state.query', ->
+    # if State.isEmpty()
+    #   $scope.entries = $scope.specialists = []
+    #   $scope.entriesTotal = $scope.specialistsTotal = 0
+    if State.query
       $timeout (-> $scope.preloaderVisible = true if $scope.loadInProgress), 250
       fetch().then -> $scope.preloaderVisible = false
+
+  $scope.$watch 'state.location', ->
+    if State.query
+      $timeout (-> $scope.preloaderVisible = true if $scope.loadInProgress), 250
+      fetch().then -> $scope.preloaderVisible = false
+
+  $scope.pickKeyword = (keyword) ->
+    State.query = keyword
 
   $scope.fetchMore = ->
     if $scope.canFetchMore()

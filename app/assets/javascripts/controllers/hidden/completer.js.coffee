@@ -1,64 +1,93 @@
-@talent.controller "talent.CompleterCtrl", ["$scope", "talentData", "State", ($scope, talentData, State) ->
+@talent.controller "talent.CompleterCtrl", ["$scope", "$window", "talentData", "State", ($scope, $window, talentData, State) ->
 
-  $scope.state = State
+  $scope.results  = []
+  $scope.log      = []
+  focusIndex      = -1
 
-  results = []
-  focusIndex = -1
 
+  resetResults = ->
+    tag.isFocused = false for tag in $scope.results
+    $scope.focusedOn = undefined
+    focusIndex = -1
+
+  angular.element($window).on 'keydown', (event) ->
+    if $scope.results.length
+      return resetResults() unless event.keyCode in [13, 37, 38, 39, 40]
+      switch event.keyCode
+        when 13
+          if focusIndex>-1
+            if $scope.focusedOn is 'keywords'
+              $scope.pickKeyword $scope.results[focusIndex].keywords[0]
+            else if $scope.focusedOn is 'locations'
+              $scope.pickLocation $scope.results[focusIndex]
+          resetResults()
+        when 37, 38 then focusIndex-- unless focusIndex is 0
+        when 39, 40 then focusIndex++ unless focusIndex is $scope.results.length-1
+      if focusIndex>-1
+        tag.isFocused = false for tag in $scope.results
+        $scope.results[focusIndex].isFocused = true
+      $scope.$apply()
+
+  compare = (string, substring) ->
+    string.toLowerCase().indexOf(substring.toLowerCase()) is 0
+
+
+  # keywords
+  $scope.$watch 'query', (query) ->
+    $scope.focusedOn = if query?.length
+      $scope.results = $scope.keywordGroups = talentData.keywordGroups.filter (kw) -> compare(kw.keywords[0], query)
+      'keywords'
+    else undefined
 
   $scope.pickKeyword = (keyword) ->
-    State.addKeyword keyword
-    $scope.activeTags = State.keywords
-    $scope.query = ""
+    $scope.query = State.query = keyword
+
+  $scope.pickQuerystring = (keyCode) ->
+    if keyCode is 13 and focusIndex is -1
+      State.query = $scope.query
+
+
+  # locations
+  $scope.toggleLocations = ->
+    $scope.focusedOn = if $scope.focusedOn isnt 'locations'
+      $scope.results = $scope.locations = talentData.locations
+      'locations'
+    else undefined
+
+  $scope.$watch 'location', (location) ->
+    $scope.results = $scope.locations = if location
+      talentData.locations.filter (l) -> compare(l.name, location)
+    else talentData.locations
 
   $scope.pickLocation = (location) ->
-    State.setLocation location
-    $scope.currentLocation = State.location
-    $scope.query = ""
+    State.location = location
+    $scope.location = undefined
 
-  pickQuery = (query) ->
-    if location = _.find(talentData.locations, (location) -> location.name.toLowerCase() is query.toLowerCase())
-      $scope.pickLocation location
-    else
-      $scope.pickKeyword query
-
-  $scope.resetState = ->
-    $scope.keywordGroups = $scope.locations = []
-    $scope.query = null
-    State.clear()
+  $scope.pickLocationstring = (keyCode) ->
+    State.location = {name: $scope.location} if keyCode is 13 and focusIndex is -1
 
 
-  $scope.onKeyPress = (event) ->
-    return unless $scope.query?
-    unless event.keyCode in [13, 37, 38, 39, 40]
-      tag.isFocused = false for tag in results
-      focusIndex = -1
-      return
-    if event.keyCode is 13
-      if focusIndex is -1 then pickQuery($scope.query) else pickQuery(if results[focusIndex].name? then results[focusIndex].name else results[focusIndex].keywords[0])
-      focusIndex = -1
-      return
-    if results.length
-      switch event.keyCode
-        when 37, 38 then focusIndex-- unless focusIndex is 0
-        when 39, 40 then focusIndex++ unless focusIndex is results.length-1
-      tag.isFocused = false for tag in results
-      results[focusIndex].isFocused = true
+  # logging
+  log = ->
+    if State.query
+      # $scope.query = State.query unless State.query is $scope.query
+      search = _.clone(State)
+      $scope.log.push(search) unless search in $scope.log
+    resetResults()
+  $scope.$watch 'state.query', log
+  $scope.$watch 'state.location', log
 
-  compare = (string, substring) -> string.toLowerCase().indexOf(substring.toLowerCase()) is 0
-  $scope.$watch 'query', (query) ->
-    if query?.length
-      # TODO sort by keywords[0]
-      $scope.keywordGroups    = talentData.keywordGroups.filter (kw) -> compare kw.keywords[0], query
-      $scope.locations        = talentData.locations.filter (location) -> compare location.name, query
-      results                 = _.union $scope.locations, $scope.keywordGroups
-    else
-      $scope.keywordGroups    = []
-      $scope.locations        = null
-      results                 = []
+  $scope.storeSearch = (search) ->
+    alert "Сохраняю '#{ search }'"
 
+  $scope.forgetSearch = (search) ->
+    $scope.log = _.without $scope.log, search
 
-  $scope.saveSearch = ->
-    console.log (State.keywords.join(' ') + (if State.location? then " #{ State.location }" else "")).toLowerCase()
+  $scope.storeLog = ->
+    alert "Сохраняю лог, запросов: #{ $scope.log.length }"
+
+  $scope.clearLog = ->
+    $scope.log = []
+    State.query = $scope.query = ""
 
 ]
