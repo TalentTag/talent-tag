@@ -114,8 +114,9 @@ class SeedLocations < ActiveRecord::Migration
 
   def up
     LOCATION_DATA.each do |record|
-      Location.where(name: record[:name]).first_or_create.tap do |location|
-        location.update_attributes synonyms: (location.synonyms || []).to_set.merge(record[:synonyms]).to_a
+      Location.where(name: record[:name]).first_or_initialize.tap do |location|
+        location.synonyms = (location.synonyms || []).to_set.merge(record[:synonyms]).to_a
+        location.save
       end
     end
   end
