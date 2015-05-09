@@ -102,8 +102,11 @@ class Entry < ActiveRecord::Base
 
       ids = Entry.search_for_ids querystring, with: { location_id: 0 }
 
-      Entry.where{ (sift :location_match, place.name) | (location.in place.synonyms) | ((id.in ids) & (location_id.eq nil)) }.
-            update_all(location_id: place.id)
+      Entry.where{
+        (
+          (sift :location_match, place.name) | (location.in place.synonyms) | (id.in ids)
+        ) & (location_id.eq nil)
+      }.update_all(location_id: place.id)
     end
   end
 
@@ -124,7 +127,7 @@ class Entry < ActiveRecord::Base
     {
       source_id: params[:source],
       duplicate_of: 0,
-      location_id: params[:locaton] && Location.name_like(params[:location]).pluck(:id).first
+      location_id: params[:location] && Location.name_like(params[:location]).pluck(:id).first
     }.delete_if { |k, v| v.nil? }
   end
 
