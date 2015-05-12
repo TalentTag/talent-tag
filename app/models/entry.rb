@@ -43,9 +43,18 @@ class Entry < ActiveRecord::Base
       excepts[:source_id] = Source.unpublished unless params[:published].nil? or Source.unpublished.empty?
       excepts[:user_id] = 0 if params[:club_members_only]
 
+      location_id = Location.first_by_name(params[:location]) if params[:location].present?
+
+      location_param = params[:location] if params[:location].present? && !location_id
+
+      conditions = {
+        body: search_query(params[:query]),
+        location: location_param
+      }.delete_if{ |k, v| v.nil? }
+
       entries = search(
-        search_query(params[:query]),
-        with: prepare_conditions(params),
+        conditions: conditions,
+        with: prepare_filters(params, location_id),
         without: excepts,
         retry_stale: true,
         excerpts: { around: 250 },
@@ -123,11 +132,11 @@ class Entry < ActiveRecord::Base
     user.notifications.create(event: "new_post", data: { id: id }) rescue nil
   end
 
-  def self.prepare_conditions(params)
+  def self.prepare_filters(params, location_id)
     {
       source_id: params[:source],
       duplicate_of: 0,
-      location_id: params[:location] && Location.name_like(params[:location]).pluck(:id).first
+      location_id: location_id
     }.delete_if { |k, v| v.nil? }
   end
 
