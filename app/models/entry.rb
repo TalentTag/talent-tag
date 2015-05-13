@@ -117,7 +117,7 @@ class Entry < ActiveRecord::Base
 
       options.clear if reassign
 
-      ids = Entry.search_for_ids querystring, options
+      ids = Entry.search_for_ids querystring, options.merge(limit: MAX_RESULTS)
 
       scope = Entry.where(id: ids)
       scope = scope.where(location_id: nil) unless reassign
