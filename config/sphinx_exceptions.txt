@@ -43,3 +43,5 @@ Trainings and Development=> trandev
 trainings and development => trandev
 training and development => trandev
 trainings and personnel development => trandev
+ruby => rubylang
+руби => rubylang
