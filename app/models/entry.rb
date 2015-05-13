@@ -105,17 +105,23 @@ class Entry < ActiveRecord::Base
     end
   end
 
-  def self.update_locations
+  def self.update_locations(reassign = false)
+    Entry.update_all(location_id: nil) if reassign
+
     Location.find_each do |place|
       querystring = place.synonyms.map { |e| "\"#{ e }\"" }.join(' | ')
 
-      ids = Entry.search_for_ids querystring, with: { location_id: 0 }
+      options = {
+        with: { location_id: 0 }
+      }
 
-      Entry.where{
-        (
-          (sift :location_match, place.name) | (location.in place.synonyms) | (id.in ids)
-        ) & (location_id.eq nil)
-      }.update_all(location_id: place.id)
+      options.clear if reassign
+
+      ids = Entry.search_for_ids querystring, options
+
+      scope = Entry.where(id: ids)
+      scope = scope.where(location_id: nil) unless reassign
+      scope.update_all(location_id: place.id)
     end
   end
 
