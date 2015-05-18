@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150504152220) do
+ActiveRecord::Schema.define(version: 20150518093257) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -211,9 +211,13 @@ ActiveRecord::Schema.define(version: 20150504152220) do
     t.datetime "last_login_at"
     t.date     "created_at",                                     null: false
     t.boolean  "can_login",                  default: true
+    t.string   "profile_location"
+    t.integer  "location_id"
   end
 
   add_index "specialists", ["email"], name: "index_specialists_on_email", unique: true, using: :btree
+  add_index "specialists", ["location_id"], name: "index_specialists_on_location_id", using: :btree
+  add_index "specialists", ["profile_location"], name: "index_specialists_on_profile_location", using: :gist
 
   create_table "specialists_users", force: true do |t|
     t.integer "user_id"

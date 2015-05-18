@@ -41,7 +41,7 @@
 
       $scope.fetchinInProgress = false
 
-    User.query { query: querystring, page: $scope.page }, (data, parseHeaders) ->
+    User.query { query: querystring, page: $scope.page, location: State.location() }, (data, parseHeaders) ->
       $scope.specialists = data
       $scope.specialistsTotal = parseInt parseHeaders()['tt-specstotal']
 
@@ -58,7 +58,7 @@
         Search.current  = undefined
       $location.path('/')
 
-      querystring = if querystring? and $scope.searchInResults 
+      querystring = if querystring? and $scope.searchInResults
         "(#{ querystring }) && (#{ searchquery })"
       else
         searchquery
