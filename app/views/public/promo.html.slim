@@ -9,6 +9,7 @@ html
 
 
   body lang="ru" ng-app="talent"
+    = render partial: "partials/services" if Rails.env.production?
     #landing ng-controller="talent.AuthCtrl"
     
       #auth

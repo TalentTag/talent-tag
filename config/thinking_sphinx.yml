@@ -3,10 +3,10 @@ defaults: &defaults
   max_matches: 100000
   morphology: stem_enru
   index_exact_words: 1
-  expand_keywords: 1
-  min_infix_len: 3
-  blend_chars: U+2e
-  blend_mode: trim_both
+  min_infix_len: 4
+  enable_star: 1
+  blend_chars: U+002E
+  blend_mode: trim_tail
   indexed_models:
     - Entry
     - User
