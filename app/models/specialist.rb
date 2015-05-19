@@ -19,8 +19,6 @@ class Specialist < ActiveRecord::Base
   end
   scope :location_like, ->(term) { where{ sift :location_match, term } }
 
-  scope :with_location, -> { where{ (profile_location.not_eq nil) | (location_id.not_eq nil) } }
-
   after_create :send_signup_notification
   after_update :notify
 
@@ -31,28 +29,15 @@ class Specialist < ActiveRecord::Base
 
 
   def self.filter params={}
-    page = params[:page] || 1
-
-    location_id = Location.first_by_name(params[:location]) if params[:location].present?
-
-    location_param = params[:location] if params[:location].present? && !location_id
-
-    conditions = {
-      tags: search_query(params[:query]),
-      profile_location: location_param
-    }.delete_if{ |k, v| v.nil? }
-
-    filters = {
-      location_id: location_id
-    }.delete_if { |k, v| v.nil? }
-
-    users = Specialist.search(
-      conditions: conditions,
-      with: filters,
-      order: 'created_at DESC'
-    )
-
-    users.page(page).per(ENTRIES_PER_PAGE)
+    Specialist
+      .search(prepare_opts params, {
+          conditions: {
+            tags: search_query(params[:query]),
+          }
+        }
+      )
+      .page(params[:page] || 1)
+      .per(ENTRIES_PER_PAGE)
   end
 
 

@@ -27,38 +27,28 @@ class Entry < ActiveRecord::Base
   scope :within, -> (date) { where("created_at > ?", date.beginning_of_day).where("created_at < ?", date.end_of_day) }
 
   sifter :location_match do |term|
-    location.matches "%#{ term.neat.downcase }%"
+    profile_location.matches "%#{ term.neat.downcase }%"
   end
   scope :location_like, ->(term) { where{ sift :location_match, term } }
-
-  scope :with_location, -> { where{ (location.not_eq nil) | (location_id.not_eq nil) } }
 
   def self.filter params={}
     page = params[:page] || 1
 
     if params[:query] || params[:location]
-
-      excepts = {}
-      excepts[:id] = params[:blacklist].map(&:to_i) if params[:blacklist].present?
-      excepts[:source_id] = Source.unpublished unless params[:published].nil? or Source.unpublished.empty?
-      excepts[:user_id] = 0 if params[:club_members_only]
-
-      location_id = Location.first_by_name(params[:location]) if params[:location].present?
-
-      location_param = params[:location] if params[:location].present? && !location_id
-
-      conditions = {
-        body: search_query(params[:query]),
-        location: location_param
-      }.delete_if{ |k, v| v.nil? }
-
-      entries = search(
-        conditions: conditions,
-        with: prepare_filters(params, location_id),
-        without: excepts,
-        retry_stale: true,
-        excerpts: { around: 250 },
-        order: 'created_at DESC'
+      entries = Entry.search(prepare_opts params, {
+          conditions: {
+            body: search_query(params[:query])
+          },
+          filters: {
+            source_id: params[:source],
+            duplicate_of: 0
+          },
+          excepts: {
+            id: (params[:blacklist].map(&:to_i) if params[:blacklist].present?),
+            source_id: (Source.unpublished unless params[:published].nil? or Source.unpublished.empty?),
+            user_id: (0 if params[:club_members_only])
+          }
+        }
       )
 
       entries.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane
@@ -137,13 +127,4 @@ class Entry < ActiveRecord::Base
   def notify
     user.notifications.create(event: "new_post", data: { id: id }) rescue nil
   end
-
-  def self.prepare_filters(params, location_id)
-    {
-      source_id: params[:source],
-      duplicate_of: 0,
-      location_id: location_id
-    }.delete_if { |k, v| v.nil? }
-  end
-
 end

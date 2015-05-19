@@ -1,6 +1,6 @@
 ThinkingSphinx::Index.define :entry, with: :active_record do
   indexes body
-  indexes location
+  indexes profile_location
 
   has source_id, user_id, created_at, fetched_at, duplicate_of, location_id
 

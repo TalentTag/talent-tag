@@ -18,7 +18,6 @@ module UserConcern
     after_update :send_update_confirmation
 
     scope :with_location, -> { where("(profile->>'location') IS NOT NULL") }
-    # TODO: update location after save ?
   end
 
   %w(auth forgot).each do |name|
