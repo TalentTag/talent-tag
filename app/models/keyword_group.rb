@@ -44,14 +44,16 @@ class KeywordGroup < ActiveRecord::Base
 
       [
         kw,
-        keyword_subquery(kw_group)
+        keyword_subquery(kw_group),
+        kw.split(' ')
       ] unless kw_group.blank?
     end
 
     def splitted_keyword_term(term)
       split_search_term(term).map do |kw|
         terms_to_replace kw
-      end.compact
+      end.compact.
+          sort{ |x,y| y[2] <=> x[2] }
     end
 
     def substitute_keywords(term)
