@@ -16,6 +16,7 @@
   $scope.$watch 'search', (search) ->
     if search?
       $scope.query = querystring = Search.current.query
+      $scope.location = search.filters.location
       $scope.page = 1
       query()
 
@@ -76,7 +77,7 @@
   $scope.canFetchMore = ->
     $scope.entries.length and $scope.entries.length < $scope.entriesTotal
 
-  $scope.saveSearch = -> Search.add $scope.query
+  $scope.saveSearch = -> Search.add $scope.query, location: State.location()
 
   reset = ->
     $scope.entries = []
