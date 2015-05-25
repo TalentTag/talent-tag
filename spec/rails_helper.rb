@@ -7,6 +7,7 @@ require 'rspec/rails'
 require 'factory_girl_rails'
 require 'simplecov'
 require 'database_cleaner'
+require 'support/sphinx'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -61,9 +62,18 @@ RSpec.configure do |config|
 
   config.include JsonApiHelpers, type: :controller
 
+  config.include SphinxHelpers
+
   config.before(:suite) do
-    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean_with(:truncation)
+
+    # Ensure sphinx directories exist for the test environment
+    ThinkingSphinx::Test.init
+
+    # Configure and start Sphinx, and automatically
+    # stop Sphinx at the end of the test suite.
+    ThinkingSphinx::Test.start_with_autostop
   end
 
   config.around(:each) do |example|

@@ -21,6 +21,8 @@ class Specialist < ActiveRecord::Base
 
   after_create :send_signup_notification
   after_update :notify
+  before_save :update_location_from_profile, if: :profile_changed?
+  before_save :update_location, if: :profile_location_changed?
 
   STATUSES = %w(ignore active passive)
 
@@ -51,6 +53,16 @@ class Specialist < ActiveRecord::Base
 
   def ban! state=true
     update can_login: !state
+  end
+
+  def update_location_from_profile
+    self.update_column :profile_location, profile['location']
+
+    self.update_location
+  end
+
+  def update_location
+    update_column(:location_id, profile_location && Location.search_for_ids(profile_location).first)
   end
 
   def self.update_profile_locations
