@@ -56,13 +56,17 @@ class Specialist < ActiveRecord::Base
   end
 
   def update_location_from_profile
-    self.update_column :profile_location, profile['location']
+    unless self.new_record?
+      self.update_column :profile_location, profile['location']
 
-    self.update_location
+      self.update_location
+    end
   end
 
   def update_location
-    update_column(:location_id, profile_location && Location.search_for_ids(profile_location).first)
+    unless self.new_record?
+      update_column(:location_id, profile_location && Location.search_for_ids(profile_location).first)
+    end
   end
 
   def self.update_profile_locations

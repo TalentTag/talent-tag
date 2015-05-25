@@ -55,6 +55,79 @@ RSpec.describe Specialist, type: :model do
 
       expect(john.location_id).to be_nil
     end
+  end
 
+  describe '.filter' do
+    let!(:moscow) { create :location, name: 'Москва', synonyms: ['Москва',  'Moscow'] }
+    let!(:jane) { create :specialist, tags: %w(ruby haml css), location_id: moscow.id }
+    let!(:mark) { create :specialist, tags: %w(рубли евро) }
+    let!(:john) { create :specialist, tags: %w(ruby postgres), profile_location: 'Новосибирск' }
+
+    before do
+      index
+    end
+
+    it 'filters specialists by part of tag' do
+      expect(Specialist.filter(query: 'postgr').count).to eq 1
+      expect(Specialist.filter(query: 'postgr').first).to eq john
+    end
+
+    it 'filters specialists by tags' do
+      expect(Specialist.filter(query: 'руби').count).to eq 2
+      expect(Specialist.filter(query: 'руби')).to include(john, jane)
+      expect(Specialist.filter(query: 'руби')).not_to include(mark)
+    end
+
+    it 'filters specialists by tags and location' do
+      expect(Specialist.filter(query: 'руби', location: 'Москва').count).to eq 1
+      expect(Specialist.filter(query: 'руби')).to include(jane)
+    end
+
+    it 'filters specialists by tags and location name even if such location absent in storage' do
+      expect(Specialist.filter(query: 'руби', location: 'Новосибирск').count).to eq 1
+      expect(Specialist.filter(query: 'руби', location: 'Новосибирск')).to include(john)
+    end
+  end
+
+  context 'concerns' do
+    describe '.prepare_opts' do
+      let!(:moscow) { create :location, name: 'Москва', synonyms: ['Москва',  'Moscow'] }
+
+      it 'adds default search params' do
+        expect(Specialist.prepare_opts({}, conditions: { tags: 'test' })).to eq(
+          {
+            conditions: { tags: "test" },
+            with: {},
+            retry_stale: true,
+            excerpts: { around: 250 },
+            order: "created_at DESC"
+          }
+        )
+      end
+
+      it 'adds location_id to search filter if such location present in storage' do
+        expect(Specialist.prepare_opts({query: 'test', location: 'Москва'}, conditions: { tags: 'test' })).to eq(
+          {
+            conditions: { tags: "test" },
+            with: { location_id: 1 },
+            retry_stale: true,
+            excerpts: { around: 250 },
+            order: "created_at DESC"
+          }
+        )
+      end
+
+      it 'adds location to search conditions if such location absent in storage' do
+        expect(Specialist.prepare_opts({query: 'test', location: 'Новосибирск'}, conditions: { tags: 'test' })).to eq(
+          {
+            conditions: { tags: "test", profile_location: 'Новосибирск' },
+            with: {},
+            retry_stale: true,
+            excerpts: { around: 250 },
+            order: "created_at DESC"
+          }
+        )
+      end
+    end
   end
 end
