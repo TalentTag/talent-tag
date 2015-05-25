@@ -12,12 +12,14 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    @current_user ||= if session[:user]
+    @current_user ||= if session[:user] && account_type.present?
       User.find_as account_type, email: session[:user]
     elsif cookies[:rememberme]
       cookie_parts = cookies[:rememberme].split('|')
-      user = User.find cookie_parts.first
-      session[:user] = user.email if user && cookie_parts.last == user.auth_token
+      if user = User.find(cookie_parts.first)
+        session[:user] = user.email if cookie_parts[1] == user.auth_token
+        session[:role] = user.type
+      end
       user
     end
   end
