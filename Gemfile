@@ -39,8 +39,6 @@ gem 'faye'
 gem 'danthes'
 gem 'faye-redis'
 
-gem 'google_places_autocomplete'
-
 # == Assets
 gem 'sass-rails', '~> 4.0.2'
 gem 'uglifier', '>= 1.3.0'

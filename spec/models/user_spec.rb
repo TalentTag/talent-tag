@@ -9,7 +9,5 @@ RSpec.describe User, type: :model do
   it { should have_many(:folders) }
   it { should have_many(:comments) }
 
-  it { skip 'not implemented yet' } #should have_one(:blacklist)
-
   it { should have_many(:notifications) }
 end
