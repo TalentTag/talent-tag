@@ -6,8 +6,8 @@
   Search.current = null
 
 
-  Search.add = (query) ->
-    _.tap new Search(name: query, query: query), (search) =>
+  Search.add = (query, filters={}) ->
+    _.tap new Search(name: query, query: query, filters: filters), (search) =>
       @items.push search
       search.$save()
 

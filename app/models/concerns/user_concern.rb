@@ -33,7 +33,7 @@ module UserConcern
 
 
   def generate_cookie &block
-    instance_exec { block.call({ value: "#{id}|#{auth_token}", expires: 1.month.from_now }) }
+    instance_exec { block.call({ value: "#{id}|#{auth_token}|#{type}", expires: 1.month.from_now }) }
   end
 
 

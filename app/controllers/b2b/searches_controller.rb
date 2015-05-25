@@ -5,7 +5,7 @@ class B2b::SearchesController < B2b::BaseController
 
 
   def create
-    respond_with current_user.searches.create name: params[:query], query: params[:query]
+    respond_with current_user.searches.create search_params
   end
 
   def update
@@ -19,6 +19,13 @@ class B2b::SearchesController < B2b::BaseController
   def blacklist
     Search.find_by!(id: params[:id]).blacklist! Entry.find_by!(id: params[:entry_id])
     render nothing: true, status: :no_content
+  end
+
+
+  private
+
+  def search_params
+    params.permit(:name, :query, filters: %i(location))
   end
 
 end
