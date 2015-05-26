@@ -105,9 +105,15 @@ TalentTag::Application.routes.draw do
       root to: :index, as: ''
       get :dictionaries
     end
+
+    resources :locations, only: :index
+
     resources :proposals, only: %i(index show update)
+
     resources :industries, :areas, :keyword_groups, only: %i(create update destroy), defaults: { format: :json }
+
     resources :sources, only: %i(index update)
+
     resources :entries, only: [] do
       collection do
         get '(/:year(/:month(/:day(/:source))))' => :index, as: '', constraints: { year: /\d+/, month: /\d+/, day: /\d+/ }
@@ -115,7 +121,9 @@ TalentTag::Application.routes.draw do
       end
       member { put :delete, :restore }
     end
+
     resources :media, except: :show
+
     namespace :stats do
       get '/entries/:year(/sources/:source_id)' => :entries, as: :entries
       get :companies, :specialists, :queries

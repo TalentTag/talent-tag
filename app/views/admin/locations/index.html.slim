@@ -1,0 +1,23 @@
+div
+  .row
+    .col-xs-10 ng-controller="talent.LocationCtrl as lc"
+      h3 Города
+      .row
+        .col-xs-12
+          .input-group
+            = text_field_tag(:name, nil, class: "form-control", placeholder: "Город", "ng-model" => "new_place")
+            span.input-group-btn = submit_tag("Добавить", class: "btn btn-primary", "ng-click"=>"lc.add()")
+      p.err = "{{ error }}"
+      table#locations.table.table-striped.table-bordered
+        tr
+          th Название
+          th Синонимы
+          th
+        tr ng-repeat="place in locations | orderBy:'name'"
+          td contenteditable=true ng-blur="lc.update(place, $event)" {{ place.name }}
+          td
+            span ng-repeat="name in place.synonyms"
+              span.label.label-primary {{ name }}
+              '&nbsp;
+          td.text-right = link_to '&times;'.html_safe, "javascript:;", 'ng-click' => "lc.delete(place)"
+  hr
