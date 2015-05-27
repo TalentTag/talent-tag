@@ -15,7 +15,9 @@ ActiveRecord::Schema.define(version: 20150523142013) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "btree_gist"
   enable_extension "hstore"
+  enable_extension "pg_trgm"
 
   create_table "areas", force: true do |t|
     t.string "name"
@@ -56,21 +58,22 @@ ActiveRecord::Schema.define(version: 20150523142013) do
   end
 
   create_table "entries", id: false, force: true do |t|
-    t.integer  "id",                                          null: false
-    t.text     "body",                                        null: false
+    t.integer  "id",                                              null: false
+    t.text     "body",                                            null: false
     t.integer  "source_id"
     t.string   "url"
-    t.datetime "created_at",                                  null: false
+    t.datetime "created_at",                                      null: false
     t.json     "author"
-    t.datetime "fetched_at",                                  null: false
+    t.datetime "fetched_at",                                      null: false
     t.integer  "user_id"
     t.integer  "duplicate_of"
-    t.string   "state",                    default: "normal"
-    t.string   "location",     limit: 100
+    t.string   "state",                        default: "normal"
+    t.string   "profile_location", limit: 100
     t.integer  "location_id"
   end
 
   add_index "entries", ["id"], name: "index_entries_on_id", unique: true, using: :btree
+  add_index "entries", ["profile_location"], name: "index_entries_on_profile_location", using: :gist
   add_index "entries", ["source_id"], name: "index_entries_on_source_id", using: :btree
   add_index "entries", ["user_id"], name: "index_entries_on_user_id", using: :btree
 
@@ -196,22 +199,26 @@ ActiveRecord::Schema.define(version: 20150523142013) do
   add_index "sources", ["id"], name: "index_sources_on_id", unique: true, using: :btree
 
   create_table "specialists", force: true do |t|
-    t.string   "email",           limit: 60,                     null: false
-    t.string   "password_digest",                                null: false
-    t.string   "firstname",       limit: 30
-    t.string   "lastname",        limit: 30
-    t.json     "profile",                    default: {}
-    t.string   "status",                     default: "passive"
-    t.string   "tags",                       default: [],                     array: true
+    t.string   "email",            limit: 60,                     null: false
+    t.string   "password_digest",                                 null: false
+    t.string   "firstname",        limit: 30
+    t.string   "lastname",         limit: 30
+    t.json     "profile",                     default: {}
+    t.string   "status",                      default: "passive"
+    t.string   "tags",                        default: [],                     array: true
     t.string   "role"
     t.string   "forgot_token"
     t.string   "auth_token"
     t.datetime "last_login_at"
-    t.date     "created_at",                                     null: false
-    t.boolean  "can_login",                  default: true
+    t.date     "created_at",                                      null: false
+    t.boolean  "can_login",                   default: true
+    t.string   "profile_location"
+    t.integer  "location_id"
   end
 
   add_index "specialists", ["email"], name: "index_specialists_on_email", unique: true, using: :btree
+  add_index "specialists", ["location_id"], name: "index_specialists_on_location_id", using: :btree
+  add_index "specialists", ["profile_location"], name: "index_specialists_on_profile_location", using: :gist
 
   create_table "specialists_users", force: true do |t|
     t.integer "user_id"

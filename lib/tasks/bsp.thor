@@ -117,12 +117,7 @@ class Bsp < Thor
 
 
   def detect_locations
-    Location.all.each do |location|
-      querystring = location.synonyms.map {|e| "\"#{ e }\""}.join(' | ')
-      ids = Entry.search_for_ids(querystring, with: {location_id: 0})
-      Entry.where(id: ids, location_id: nil).update_all location_id: location.id
-      Entry.where(location: location.synonyms).update_all location_id: location.id
-    end
+    ::Entry.update_locations
   end
 
 

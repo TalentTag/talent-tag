@@ -14,8 +14,15 @@ class Specialist < ActiveRecord::Base
   has_many :portfolio, foreign_key: :user_id
   has_many :notifications, class_name: 'Notification::Specialists', foreign_key: :author_id
 
+  sifter :location_match do |term|
+    profile_location.matches "%#{ term.neat.downcase }%"
+  end
+  scope :location_like, ->(term) { where{ sift :location_match, term } }
+
   after_create :send_signup_notification
   after_update :notify
+  before_save :update_location_from_profile, if: :profile_changed?
+  before_save :update_location, if: :profile_location_changed?
 
   STATUSES = %w(ignore active passive)
 
@@ -24,9 +31,15 @@ class Specialist < ActiveRecord::Base
 
 
   def self.filter params={}
-    page = params[:page] || 1
-    users = Specialist.search search_query(params[:query]), order: 'created_at DESC'
-    users.page(page).per(ENTRIES_PER_PAGE)
+    Specialist
+      .search(prepare_opts params, {
+          conditions: {
+            tags: search_query(params[:query]),
+          }
+        }
+      )
+      .page(params[:page] || 1)
+      .per(ENTRIES_PER_PAGE)
   end
 
 
@@ -40,6 +53,51 @@ class Specialist < ActiveRecord::Base
 
   def ban! state=true
     update can_login: !state
+  end
+
+  def update_location_from_profile
+    unless self.new_record?
+      self.update_column :profile_location, profile['location']
+
+      self.update_location
+    end
+  end
+
+  def update_location
+    unless self.new_record?
+      update_column(:location_id, profile_location && Location.search_for_ids(profile_location).first)
+    end
+  end
+
+  def self.update_profile_locations
+    Specialist.find_each do |person|
+      person.update(profile_location: person.profile['location']) if person.profile['location']
+    end
+  end
+
+  def self.update_locations(reassign = false)
+    Specialist.update_all(location_id: nil) if reassign
+
+    Location.find_each do |place|
+      querystring = place.synonyms.map { |e| "\"#{ e }\"" }.join(' | ')
+
+      options = {
+        with: { location_id: 0 }
+      }
+
+      options.clear if reassign
+
+      ids = Specialist.search_for_ids(
+        options.merge(
+          conditions: { profile_location: querystring },
+          limit: MAX_RESULTS
+        )
+      )
+
+      scope = Specialist.where(id: ids)
+      scope = Specialist.where(location_id: nil) unless reassign
+      scope.update_all(location_id: place.id)
+    end
   end
 
 end

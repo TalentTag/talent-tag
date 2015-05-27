@@ -1,5 +1,6 @@
 defaults: &defaults
   utf8: true
+  max_matches: 100000
   morphology: stem_enru
   index_exact_words: 1
   min_infix_len: 4

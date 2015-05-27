@@ -51,7 +51,7 @@ p.alert.alert-warning ng-show="entriesTotalInFolder == 0" Нет записей 
 
             ul.info
               li : span {{ entry.created_at | date:'D MMMM YYYY' }}
-              li : span {{ entry.location }}
+              li : span {{ entry.profile_location }}
 
         p ng-bind-html="entry.excerpt || entry.body"
 

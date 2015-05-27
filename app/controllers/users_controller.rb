@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
 
   def index
-    @users = Specialist.filter query: params[:query]
+    @users = Specialist.filter query: params[:query], location: params[:location]
     response.headers["TT-specstotal"] = @users.total_count.to_s rescue nil
   end
 

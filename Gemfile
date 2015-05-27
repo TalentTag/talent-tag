@@ -1,16 +1,24 @@
 source 'https://rubygems.org'
-source 'https://rails-assets.org'
 
 gem 'rails', '4.0.13'
 
+# == Data Storage
 gem 'pg'
+gem 'postgres_ext'
+gem 'thinking-sphinx', '~> 3.1.3'
+gem 'mysql2' # thinking-sphinx dependency
+gem 'redis-rails'
+gem 'squeel'
+
+# == Bg Jobs
+gem 'sidekiq'
 
 gem 'pry-rails'
 gem 'slim'
 gem 'russian'
 gem 'bcrypt-ruby', '3.1.2'
 gem 'yajl-ruby'
-gem 'postgres_ext'
+
 gem 'cancan'
 gem 'gon'
 gem 'rabl'
@@ -18,9 +26,6 @@ gem 'kaminari'
 gem 'redcarpet'
 gem 'whenever', require: false
 gem 'aasm'
-# gem 'paper_trail', '~> 3.0'
-gem 'thinking-sphinx', '~> 3.1.3'
-gem 'mysql2' # thinking-sphinx dependency
 
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
@@ -32,9 +37,9 @@ gem 'gravatar_image_tag'
 
 gem 'faye'
 gem 'danthes'
-gem 'redis-rails'
-gem 'sidekiq'
+gem 'faye-redis'
 
+# == Assets
 gem 'sass-rails', '~> 4.0.2'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
@@ -47,9 +52,13 @@ gem 'underscore-rails'
 gem 'angularjs-rails', '~> 1.2.0'
 gem 'angular-ui-bootstrap-rails'
 gem 'angular_rails_csrf'
-gem 'rails-assets-ngInfiniteScroll'
 gem 'font-awesome-rails'
 gem 'i18n-js'
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-angular', '~> 1.2.0'
+  gem 'rails-assets-ngInfiniteScroll', '~> 1.1.2'
+end
 
 gem 'figaro'
 
@@ -78,5 +87,3 @@ group :development, :test do
   gem 'faker'
   gem 'database_cleaner'
 end
-
-gem "faye-redis"
