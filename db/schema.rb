@@ -15,8 +15,8 @@ ActiveRecord::Schema.define(version: 20150523142013) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "hstore"
   enable_extension "btree_gist"
+  enable_extension "hstore"
   enable_extension "pg_trgm"
 
   create_table "areas", force: true do |t|

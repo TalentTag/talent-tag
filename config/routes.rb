@@ -106,7 +106,7 @@ TalentTag::Application.routes.draw do
       get :dictionaries
     end
 
-    resources :locations, only: :index
+    resources :locations, only: %i(index create update destroy)
 
     resources :proposals, only: %i(index show update)
 

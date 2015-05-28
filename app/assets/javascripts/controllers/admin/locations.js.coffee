@@ -1,17 +1,46 @@
-@talent.controller "talent.LocationCtrl", ["$scope", "$q", "Location", "talentData", ($scope, $q, Location, talentData) ->
+@talent.controller "talent.LocationCtrl", ["$scope", "$q", "Location", "talentData", "$modal", ($scope, $q, Location, talentData, $modal) ->
   $scope.locations = _.map talentData.locations, (params) -> new Location params
 
-  this.add = ->
-    place = new Location name: $scope.new_place
-    $scope.$parent.add(place).then ->
-      $scope.locations.push place
-      $scope.new_place = null
+  $scope.add = -> $scope.update new Location
 
-  this.update = (place, $event) ->
-    place.name = $($event.target).text()
-    place.$update()
+  $scope.update = (place=null) ->
 
-  this.delete = (place) ->
-    $scope.$parent.delete(place).then ->
+    modalInstance = $modal.open(
+      animation: true,
+      templateUrl: '/assets/modals/location.html.slim',
+      controller: 'talent.EditLocationCtrl',
+      size: 'sm',
+      resolve: {
+        place: -> return place
+      }
+    )
+
+    modalInstance.result.then (newPlace) ->
+      $scope.locations.push newPlace
+
+  $scope.delete = (place) ->
+    deleting = $q.defer()
+    if confirm "Удалить?"
+      place.$delete {}, -> deleting.resolve()
+    deleting.promise.then ->
       $scope.locations = $scope.locations.filter (i) -> i isnt place
+]
+
+@talent.controller "talent.EditLocationCtrl", ["$scope", "$modalInstance", "place", ($scope, $modalInstance, place) ->
+  $scope.currentPlace = place
+  $scope.synonyms = place?.synonyms?.join("\n")
+
+  $scope.save = (synonyms=[]) ->
+    if synonyms.length
+      $scope.currentPlace.synonyms  = synonyms.split("\n")
+
+      if $scope.currentPlace.isPersisted()
+        $scope.currentPlace.$update {}, ->
+          $modalInstance.close($scope.currentPlace);
+      else
+        $scope.currentPlace.$save {}, ->
+          $modalInstance.close($scope.currentPlace);
+
+  $scope.cancel = ->
+    $modalInstance.dismiss('cancel')
 ]

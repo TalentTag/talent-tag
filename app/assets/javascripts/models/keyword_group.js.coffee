@@ -4,7 +4,7 @@
 
   KWGroup.items = _.map talentData.keywordGroups, (params) -> new KWGroup params
 
-  
+
   KWGroup::isPersisted = -> @id?
 
   KWGroup.filter = (params={}) ->
