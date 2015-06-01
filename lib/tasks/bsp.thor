@@ -90,7 +90,7 @@ class Bsp < Thor
           }
         end
 
-        entry['location'] = if (entry_hash['author']['profile'] rescue false)
+        entry['profile_location'] = if (entry_hash['author']['profile'] rescue false)
           entry_hash['author']['profile']['city'] || entry_hash['author']['profile']['location']
         end
 
