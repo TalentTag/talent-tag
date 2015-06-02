@@ -1,0 +1,22 @@
+.modal-header
+  button type="button" class="close" ng-click="cancel()" &times;
+  h4 class="modal-title" Редактирование города: {{ currentPlace.name }}
+
+.modal-body
+  form.form-horizontal
+    .form-group
+      label.col-sm-2.control-label for='locationName' Название
+      .col-sm-10
+        input#locationName.form-control type="text" placeholder="Название города" ng-model="currentPlace.name"
+    .form-group
+      label.col-sm-2.control-label for='locationSynonyms' Синонимы
+      .col-sm-10
+        textarea#locationSynonyms.form-control rows="9" placeholder="Синонимы города" ng-model="synonyms"
+
+    .form-group
+      .col-sm-offset-2.col-sm-10
+        .row
+          .col-md-6
+            button.btn.btn-primary.btn-sm.btn-block ng-click="save(synonyms)" Сохранить
+          .col-md-6
+            button.btn.btn-default.btn-sm.btn-block ng-click="cancel()" Закрыть

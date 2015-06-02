@@ -22,11 +22,13 @@ nav.navbar.navbar-static-top.navbar-inverse
     - if can? :update, Proposal
       li class="#{ 'active' if request.fullpath == admin_proposals_path }"
         a href="#{ admin_proposals_path }"
-          | Заявки 
+          | Заявки
           span.badge = badge Proposal.awaiting.count
 
     - if can? :update, :dictionaries
       li class="#{ 'active' if request.fullpath == admin_dictionaries_path }" = link_to 'Справочники', admin_dictionaries_path
+
+    li class="#{ 'active' if request.fullpath == admin_locations_path }" = link_to 'Города', admin_locations_path
 
     - if can? :read, :statistics
       li.dropdown class="#{ 'active' if request.fullpath == admin_stats_entries_path(year: Time.new.year) }"

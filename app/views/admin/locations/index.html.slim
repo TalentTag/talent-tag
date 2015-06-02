@@ -1,0 +1,28 @@
+div
+  .row
+    .col-xs-10 ng-controller="talent.LocationCtrl"
+      h3 Города
+      hr
+      .row
+        .col-xs-12
+          = link_to "Добавить", "javascript:;", "ng-click" => "add()", class: 'btn btn-primary btn-block'
+      hr
+      table#locations.table.table-striped.table-bordered
+        tr
+          th Название
+          th Синонимы
+          th
+        tr ng-repeat="place in locations | orderBy:'name' track by place.id"
+          td
+            = link_to "{{ place.name }}", "javascript:;", "ng-click" => "update(place)"
+          td
+            span ng-repeat="name in place.synonyms"
+              span.label.label-primary {{ name }}
+              '&nbsp;
+          td style="width: 10%;"
+            span.pull-right
+              = link_to "javascript:;", 'ng-click' => "update(place)" do
+                span.glyphicon.glyphicon-pencil aria-hidden="true"
+              = link_to "javascript:;", 'ng-click' => "delete(place)" do
+                span.glyphicon.glyphicon-trash aria-hidden="true"
+
