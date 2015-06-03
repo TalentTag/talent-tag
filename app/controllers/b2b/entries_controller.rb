@@ -18,7 +18,7 @@ class B2b::EntriesController < B2b::BaseController
       search.touch!
       entries.reject { |e| e.id.in? blacklist }
     elsif params[:query]
-      Query.create(user_id: current_user.id, text: params[:query])
+      Query.create(user_id: current_user.id, text: params[:query], filters: {location: params[:location].presence})
       entries = Entry.filter(params.merge published: true)
       response.headers["TT-entriestotal"] = entries.total_count.to_s rescue nil
       entries
