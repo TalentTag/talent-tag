@@ -10,15 +10,27 @@ class Admin::LocationsController < Admin::BaseController
   end
 
   def create
-    respond_with :admin, Location.create(location_params)
+    if place = Location.create(location_params)
+      UpdateLocationsWorker.perform_async
+
+      respond_with :admin, place
+    end
   end
 
   def update
-    respond_with @location.update(location_params)
+    if @location.update(location_params)
+      UpdateLocationsWorker.perform_async true
+
+      respond_with @location
+    end
   end
 
   def destroy
-    respond_with @location.destroy
+    if @location.destroy
+      UpdateLocationsWorker.perform_async true
+
+      respond_with @location
+    end
   end
 
   private
