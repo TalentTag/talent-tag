@@ -435,7 +435,7 @@ DEPENDENCIES
   omniauth-linkedin
   omniauth-twitter
   omniauth-vkontakte
-  pg
+  pg (~> 0.18.1)
   postgres_ext
   pry-rails
   quiet_assets
