@@ -1,89 +1,54 @@
-@talent.controller "talent.AccountCtrl", ["$scope", "$location", "Entry", "User", "Search", "Folder", "talentData", "State", ($scope, $location, Entry, User, Search, Folder, talentData, State) ->
+@talent.controller "talent.AccountCtrl", ["$scope", "talentData", "$q", "$timeout", "State", "Entry", "User", "Presets", ($scope, talentData, $q, $timeout, State, Entry, User, Presets) ->
 
-  $scope.Search   = Search
-  $scope.Folder   = Folder
+  $scope.state   = State
+  $scope.presets = Presets.all
+  $scope.entries = []
+  $scope.page    = 1
 
-  $scope.company  = talentData.company
+  State.location = talentData.locations[0]
 
-  $scope.entries  = []
-  $scope.page     = 1
-  $scope.query    = ''
-  $scope.keywords = _.map talentData.keywordGroups, (group) -> group.keywords[0]
+  fetch = (options={}) ->
+    params =
+      query:    State.query
+      location: State.location?.name
+      page:     $scope.page
 
+    fetchEntries = ->
+      fetching = $q.defer()
+      Entry.query params, (data, parseHeaders) ->
+        $scope.entries = if options.append then $scope.entries.concat(data) else data
+        $scope.entriesTotal = +parseHeaders()['tt-entriestotal']
+        fetching.resolve()
+      fetching.promise
 
-  querystring = undefined
+    fetchSpecialists = ->
+      fetching = $q.defer()
+      User.query params, (data, parseHeaders) ->
+        $scope.specialists = if options.append then $scope.specialists.concat(data) else data
+        $scope.specialistsTotal = +parseHeaders()['tt-specstotal']
+        fetching.resolve()
+      fetching.promise
 
-  $scope.$watch 'search', (search) ->
-    if search?
-      $scope.query = querystring = Search.current.query
-      $scope.location = search.filters.location
-      $scope.page = 1
-      query()
+    $scope.loadInProgress = true
+    $q.all([fetchEntries(), fetchSpecialists()]).then ->
+      $scope.loadInProgress = false
 
+  initFetching = ->
+    if State.query
+      $timeout (-> $scope.preloaderVisible = true if $scope.loadInProgress), 250
+      fetch().then -> $scope.preloaderVisible = false
+  $scope.$watch 'state.query', initFetching
+  $scope.$watch 'state.location', initFetching
 
-  query = (config={}) ->
-    $scope.fetchinInProgress = true
-
-    $scope.folder = null
-    params = if $scope.search
-      { query: querystring, search_id: $scope.search.id, page: $scope.page }
-    else if querystring
-      # { query: querystring, page: $scope.page, location: State.location() }
-      { query: querystring, page: $scope.page }
-    params['club_members_only'] = true if $scope.clubMembersOnly
-
-    Entry.query params, (data, parseHeaders) ->
-      $scope.entries = if data.length
-        if config.append then $scope.entries.concat(data) else data
-      else []
-      $scope.entriesTotal = parseInt parseHeaders()['tt-entriestotal']
-      unless $scope.entriesTotal
-        querystring = undefined
-        $scope.searchInResults = false
-
-      $scope.fetchinInProgress = false
-
-    User.query { query: querystring, page: $scope.page, location: State.location() }, (data, parseHeaders) ->
-      $scope.specialists = data
-      $scope.specialistsTotal = parseInt parseHeaders()['tt-specstotal']
-
-
-  $scope.fetch = (searchquery=null) ->
-    if searchquery
-      $scope.query = searchquery
-    else searchquery ?= $scope.query
-
-    if searchquery
-      $scope.page = 1
-      unless $scope.searchInResults
-        $scope.search   = undefined
-        Search.current  = undefined
-      $location.path('/')
-
-      querystring = if querystring? and $scope.searchInResults
-        "(#{ querystring }) && (#{ searchquery })"
-      else
-        searchquery
-      query()
-
-  $scope.keyPressFetch = (keyCode) ->
-    $scope.fetch() if keyCode is 13
-
+  $scope.pickKeyword = (query) ->
+    State.init {query}
 
   $scope.fetchMore = ->
     if $scope.canFetchMore()
-      $scope.page = ($scope.page || 0) + 1
-      query append: true
+      $scope.page++
+      fetch append: true
 
   $scope.canFetchMore = ->
     $scope.entries.length and $scope.entries.length < $scope.entriesTotal
-
-  $scope.saveSearch = -> Search.add $scope.query, location: State.location()
-
-  reset = ->
-    $scope.entries = []
-    $scope.search = $scope.entriesTotal = undefined
-  $scope.reset = -> $scope.query = ''; reset()
-  $scope.$watch 'search', -> reset()
 
 ]

@@ -2,18 +2,31 @@
 
   query: ''
   location: null
+  callbacks: []
 
   isEmpty: ->
     _.isEmpty @query
-    # _.isEmpty(@keywords) && _.isNull(@location)
+
+  init: (options={}) ->
+    @query = options.query if options.query?
+    @location = options.location if options.location?
+    cb.call() for cb in @callbacks unless options.silent
 
   clear: ->
     @query = ""
     @location = null
+    cb.call for cb in @callbacks
 
   toObject: ->
     query: @query
-    location: @location?.name
+    location: @location
 
   toString: ->
-    "#{ @query }#{ if @location? then " | #{ @location.name }" else "" }"
+    "#{ @query }#{ if @location?.name then " | #{ @location.name }" else "" }"
+
+  in: (set) ->
+    _.find set, (item) =>
+      item.query is @query and item.location?.name is @location.name
+
+  onChange: (callback) ->
+    @callbacks.push callback unless callback in @callbacks

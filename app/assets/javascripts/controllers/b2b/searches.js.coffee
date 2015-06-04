@@ -1,9 +1,9 @@
-@talent.controller "talent.SearchListCtrl", ["$scope", "Search", ($scope, Search) ->
+@talent.controller "talent.SearchListCtrl", ["$scope", "Search", "State", ($scope, Search, State) ->
 
   $scope.Search = Search
 
   $scope.loadSearch = (search) ->
-    $scope.$parent.search = search
+    State.init query: search.query, location: { name: search.filters?.location }, silent: true
     Search.current = search
 
   $scope.searchesEditMode = false

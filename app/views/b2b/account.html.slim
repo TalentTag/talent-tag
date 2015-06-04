@@ -1,6 +1,6 @@
 = javascript_include_tag :router
 
-.col-md-12 ng-controller="talent.HiddenAccountCtrl"
+.col-md-12 ng-controller="talent.AccountCtrl"
   .row
     .col-md-8
       #completer ng-controller="talent.CompleterCtrl" ng-cloak=true
@@ -9,26 +9,24 @@
           .kw.location
             a> href="javascript:;" ng-click="toggleLocations()" => fa_icon :'map-marker'
             a> href="javascript:;" ng-click="toggleLocations()" {{ state.location.name }}
-            a style="font-size:16px;line-height:12px" href="javascript:;" ng-click="state.location=null" ng-show="state.location" &times;
+            a style="font-size:16px;line-height:12px" href="javascript:;" ng-click="clearLocation()" ng-show="state.location.name" &times;
 
         #completer-results
-          .dropdown ng-show="focusedOn == 'keywords' && keywordGroups.length"
+          .dropdown ng-show="keywordsVisible"
             .kw ng-repeat="group in keywordGroups" ng-class="{focused: group.isFocused}"
               a ng-click="pickKeyword(group.keywords[0])" href="javascript:;" {{ group.keywords[0] }}
-          .dropdown ng-show="focusedOn == 'locations'"
+          .dropdown ng-show="locationsVisible"
             input name="location" placeholder="Другой город" ng-model="location" ng-keydown="pickLocationstring($event.keyCode)"
             .kw ng-repeat="location in locations" ng-class="{focused: location.isFocused}"
               a href="javascript:;" ng-click="pickLocation(location)" {{ location.name }}
 
-        #completer-cart ng-show="log.length"
-          .scope.well
-            #bulk-controls
-              a href="javascript:;" ng-click="storeLog()" = fa_icon :check
-              a href="javascript:;" ng-click="clearLog()" = fa_icon :times
-            small Последние запросы:
-            br
-            .kw.active href="javascript:;" ng-repeat="search in log"
-              a> ng-click="pickKeyword(search)" href="javascript:;" {{ search.toString() }}
+        #completer-log.scope.well ng-show="log.length"
+          #bulk-controls
+            a href="javascript:;" ng-click="storeLog()" = fa_icon :check
+            a href="javascript:;" ng-click="clearLog()" = fa_icon :times
+          #log-entries
+            .kw href="javascript:;" ng-repeat="search in log"
+              a> ng-click="restoreSearch(search)" href="javascript:;" {{ search.toString() }}
               a> ng-click="storeSearch(search)" href="javascript:;" = fa_icon :check
               a ng-click="forgetSearch(search)" href="javascript:;" = fa_icon :times
 
@@ -37,27 +35,21 @@
 
         // Presets
         div ng-show="state.isEmpty()"
+          p.central.tip Наберите запрос в поисковой строке или воспользуйтесь рубрикатором
           .presets
             p.central Популярные запросы
-            .kw ng-repeat="preset in presets" ng-click="state.query = preset" {{ preset }}
+            .kw ng-repeat="preset in presets" ng-click="pickKeyword(preset)" {{ preset }}
           p.central.tip Кликните на тег, чтобы добавить его в строку поиска
 
         // Results
         ng-view ng-hide="state.isEmpty()"
 
-    .col-md-4
+    .col-md-4#aside
+      = render partial: "b2b/partials/catalog"
       = render partial: "b2b/partials/folders"
 
 a#go-top href="javascript:scroll(0,0)" tt-scroll="250" Наверх &uarr;
 
 sass:
-  .kw.active
-    .fa
-      width: 16px
-      height: 16px
-      text-align: center
-      border: 2px solid
-      border-radius: 30px
-    a:hover
-      color: #B4D8F7 !important
-      text-decoration: none
+  #log-entries
+    margin-right: 45px

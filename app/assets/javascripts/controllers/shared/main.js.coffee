@@ -1,4 +1,4 @@
-@talent.controller "talent.MainCtrl", ["$scope", "talentData", "$rootScope", "Notifications", ($scope, talentData, $rootScope, Notifications) ->
+@talent.controller "talent.MainCtrl", ["$scope", "talentData", "$rootScope", "State", "Notifications", ($scope, talentData, $rootScope, State, Notifications) ->
 
   $scope.Notifications = Notifications
 
@@ -16,5 +16,9 @@
       $scope.incoming = undefined
       $scope.$apply()
     ), 6000
+
+
+  State.onChange ->
+    window.history.pushState null, null, '/'
 
 ]

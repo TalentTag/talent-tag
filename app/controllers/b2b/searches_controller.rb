@@ -25,7 +25,7 @@ class B2b::SearchesController < B2b::BaseController
   private
 
   def search_params
-    params.permit(:name, :query, filters: %i(location))
+    params.require(:search).permit(:name, :query, filters: %i(location))
   end
 
 end

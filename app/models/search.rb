@@ -3,9 +3,10 @@ class Search < ActiveRecord::Base
   belongs_to :user
 
   validates :name, presence: true, uniqueness: { scope: :user_id }
-  validates :query, presence: true, uniqueness: { scope: :user_id }
+  validates :query, presence: true
 
   before_create :touch
+  before_validation :modify_name, on: :create
 
 
   def blacklisted
@@ -25,6 +26,10 @@ class Search < ActiveRecord::Base
 
   def touch!
     touch && save
+  end
+
+  def modify_name
+    self.name = "#{ name } | #{ filters['location'] }" if filters['location'].present?
   end
 
   def new_entries_count
