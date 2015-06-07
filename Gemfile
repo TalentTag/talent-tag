@@ -3,7 +3,7 @@ source 'https://rails-assets.org'
 
 gem 'rails', '4.0.13'
 
-gem 'pg'
+gem 'pg', '~> 0.18.1'
 
 gem 'pry-rails'
 gem 'slim'

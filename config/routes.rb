@@ -43,6 +43,7 @@ TalentTag::Application.routes.draw do
     resources :portfolio, only: %i(create destroy)
   end
 
+
   namespace :profile do
     root to: :user, as: ''
     put '/' => :update_user

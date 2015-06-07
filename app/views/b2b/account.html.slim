@@ -1,53 +1,55 @@
 = javascript_include_tag :router
 
 .col-md-12 ng-controller="talent.AccountCtrl"
-  / - unless current_account.premium?
-  /   #promo-time-left.pull-right tt-timer=true data-company="company"
-
   .row
     .col-md-8
-      .row
-        .col-md-9
-          .input-group
+      #completer ng-controller="talent.CompleterCtrl" ng-cloak=true
+        #completer-querystring
+          input.form-control type="search" name="query" placeholder="Какого специалиста вы ищете?" autocomplete="off" ng-model="query" ng-focus="focusedOn='keywords'" ng-keydown="pickQuerystring($event.keyCode)"
+          .kw.location
+            a> href="javascript:;" ng-click="toggleLocations()" => fa_icon :'map-marker'
+            a> href="javascript:;" ng-click="toggleLocations()" {{ state.location.name }}
+            a style="font-size:16px;line-height:12px" href="javascript:;" ng-click="clearLocation()" ng-show="state.location.name" &times;
 
-            .composite-input
-              a#clear-search.close.glyphicon.glyphicon-remove-circle href="/" ng-show="query" ng-click="reset()"
-              input#search.form-control type="search" name="query" placeholder="Поиск" autofocus=true autocomplete="off" ng-model="query" typeahead="keyword for keyword in keywords | filter:$viewValue | limitTo:10" ng-keypress="keyPressFetch($event.charCode)"
-            span.input-group-btn
-              button.btn.btn-primary ng-click="fetch()" Искать
-        .col-md-3
-          a.btn.btn-default ng-show="query" href="javascript:;" ng-click="saveSearch()"
-            span.glyphicon.glyphicon-floppy-disk style="margin-right: 7px"
-            | сохранить
-      .checkbox ng-class="{disabled: !entriesTotal}"
-        label
-          input type="checkbox" ng-model="searchInResults" ng-disabled="!entriesTotal"
-          | Искать в найденном
-      .checkbox
-        label
-          input type="checkbox" ng-model="clubMembersOnly"
-          | Только по зарегистрированным специалистам
+        #completer-results
+          .dropdown ng-show="keywordsVisible"
+            .kw ng-repeat="group in keywordGroups" ng-class="{focused: group.isFocused}"
+              a ng-click="pickKeyword(group.keywords[0])" href="javascript:;" {{ group.keywords[0] }}
+          .dropdown ng-show="locationsVisible"
+            input name="location" placeholder="Другой город" ng-model="location" ng-keydown="pickLocationstring($event.keyCode)"
+            .kw ng-repeat="location in locations" ng-class="{focused: location.isFocused}"
+              a href="javascript:;" ng-click="pickLocation(location)" {{ location.name }}
 
-      br
-      / - unless can? :read, :premium_data
-      /   p style="color: #aaa; font-style: italic" Прямые ссылки на записи предоставляются в премиум-версии кабинета
+        #completer-log.scope.well ng-show="log.length"
+          #bulk-controls
+            a href="javascript:;" ng-click="storeLog()" = fa_icon :check
+            a href="javascript:;" ng-click="clearLog()" = fa_icon :times
+          #log-entries
+            .kw href="javascript:;" ng-repeat="search in log"
+              a> ng-click="restoreSearch(search)" href="javascript:;" {{ search.toString() }}
+              a> ng-click="storeSearch(search)" href="javascript:;" = fa_icon :check
+              a ng-click="forgetSearch(search)" href="javascript:;" = fa_icon :times
 
-      ng-view
+      #list-wrapper
+        #load-overlay ng-show="preloaderVisible" = fa_icon :spinner, class: 'fa-spin'
 
-    .col-md-4
-      / - if current_account.premium?
-      /   - if can? :update_to_premium, current_account
-      /     .well.well-sm.well-blue style="color: white"
-      /       - if current_account.premium_until
-      /         | Премиум-аккаунт оплачен до
-      /         h4 style="margin:0" = current_account.premium_until.in_time_zone("Europe/Moscow").strftime(current_account.premium_until.today? ? "%d.%m.%Y, %H:%M %Z" : "%d.%m.%Y")
-      /       a@buy-premium.well-blue style="margin-top: 8px; font-size: 12px" data-toggle="modal" href="#premium" продлить >>
-      / - else
-      /   a@buy-premium.well.well-sm.well-blue data-toggle="modal" href="#premium" Купить Premium
+        // Presets
+        div ng-show="state.isEmpty()"
+          p.central.tip Наберите запрос в поисковой строке или воспользуйтесь рубрикатором
+          .presets
+            p.central Популярные запросы
+            .kw ng-repeat="preset in presets" ng-click="pickKeyword(preset)" {{ preset }}
+          p.central.tip Кликните на тег, чтобы добавить его в строку поиска
 
-      = render partial: "b2b/partials/filters"
+        // Results
+        ng-view ng-hide="state.isEmpty()"
+
+    .col-md-4#aside
+      = render partial: "b2b/partials/catalog"
       = render partial: "b2b/partials/folders"
 
-= render partial: "b2b/partials/premium"
-
 a#go-top href="javascript:scroll(0,0)" tt-scroll="250" Наверх &uarr;
+
+sass:
+  #log-entries
+    margin-right: 45px

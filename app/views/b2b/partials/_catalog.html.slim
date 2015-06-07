@@ -1,17 +1,17 @@
-.well#keyword-tips ng-controller="talent.KeywordsCtrl"
+.well#keyword-tips ng-controller="talent.CatalogCtrl"
 
+  h4 Индустрия
   select.form-control ng-model="industry" ng-options="i.name for i in industries | orderBy:'name'"
-    option value="" Индустрия
+    option value="" Выберите из списка
   .kw-placeholder ng-show="industry"
+    p: small Кликните на тег, чтобы добавить его в строку поиска
     a.badge ng-repeat="group in groupsByIndustry | orderBy:'keywords[0]'" href="javascript:;" ng-click="pick(group)" = "{{ group.keywords[0] }}"
 
+  hr
+
+  h4 Профобласть
   select.form-control ng-model="area" ng-options="a.name for a in areas | orderBy:'name'"
-    option value="" Проф. область
+    option value="" Выберите из списка
   .kw-placeholder ng-show="area"
+    p: small Кликните на тег, чтобы добавить его в строку поиска
     a.badge ng-repeat="group in groupsByArea | orderBy:'keywords[0]'" href="javascript:;" ng-click="pick(group)" = "{{ group.keywords[0] }}"
-
-  br
-
-  div style="position: relative"
-    a#clear-location.close.glyphicon.glyphicon-remove-circle href="javascript:;" ng-show="location" ng-click="clearLocation()"
-    input#location-search.form-control type="search" name="location" placeholder="Город" autofocus=true autocomplete="off" ng-model="location" typeahead="location for location in locations | filter:$viewValue | limitTo:10"

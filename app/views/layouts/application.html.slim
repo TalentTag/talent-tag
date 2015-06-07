@@ -4,14 +4,18 @@ html
 
   body lang="ru" ng-app="talent"
     = render partial: "partials/services" if Rails.env.production?
-    #wrapper ng-controller="talent.MainCtrl"
-      = render partial: "partials/header"
-      = render partial: "partials/subscription"
+    #wrapper
+      .area ng-controller="talent.MainCtrl"
+        = render partial: "partials/header"
+        = render partial: "partials/subscription"
 
-      .row
-        - if flash[:notice]
-          .alert.alert-success = flash[:notice] 
-        - if flash[:alert]
-          .alert.alert-danger = flash[:alert]
+      hr
 
-        == yield
+      .area
+        .row
+          - if flash[:notice]
+            .alert.alert-success = flash[:notice] 
+          - if flash[:alert]
+            .alert.alert-danger = flash[:alert]
+
+          == yield
