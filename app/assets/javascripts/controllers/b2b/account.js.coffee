@@ -3,11 +3,13 @@
   $scope.state   = State
   $scope.presets = Presets.all
   $scope.entries = []
-  $scope.page    = 1
+  $scope.page    = 1 # TODO relocate to State
 
   State.location = talentData.locations[0]
 
   fetch = (options={}) ->
+    $scope.page = 1 unless options.append
+
     params =
       query:    State.query
       location: State.location?.name
