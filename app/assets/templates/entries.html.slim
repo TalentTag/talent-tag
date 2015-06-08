@@ -1,81 +1,86 @@
-/ .back ng-show="entries.length && !query" : a href="/" &larr; назад
+div ng-show="state.isEmpty()"
+  p.central.tip Наберите запрос в поисковой строке или воспользуйтесь рубрикатором
+  .presets
+    p.central Популярные запросы
+    .kw ng-repeat="preset in presets" ng-click="pickKeyword(preset)" {{ preset }}
+  p.central.tip Кликните на тег, чтобы добавить его в строку поиска
 
 
-p.alert.alert-warning ng-show="entriesTotal == 0 && specialistsTotal == 0 && !loadInProgress" Ничего не нашлось
-p.alert.alert-warning ng-show="entriesTotalInFolder == 0" Нет записей с выбранной меткой
+div ng-hide="state.isEmpty()"
+  p.alert.alert-warning ng-show="entriesTotal == 0 && specialistsTotal == 0 && !loadInProgress" Ничего не нашлось
+  p.alert.alert-warning ng-show="entriesTotalInFolder == 0" Нет записей с выбранной меткой
+
+  #results
+    ul.nav.nav-tabs.alert-info ng-init="group='entries'" ng-show="entriesTotal || specialistsTotal"
+      li ng-class="{ active: group=='entries' }" : a href="javascript:;" ng-click="group = 'entries'" Записи: {{ entriesTotal }}
+      li ng-class="{ active: group=='specialists' }" : a href="javascript:;" ng-click="group = 'specialists'" Специалисты: {{ specialistsTotal }}
 
 
-#results
-  ul.nav.nav-tabs.alert-info ng-init="group='entries'" ng-show="entriesTotal || specialistsTotal"
-    li ng-class="{ active: group=='entries' }" : a href="javascript:;" ng-click="group = 'entries'" Записи: {{ entriesTotal }}
-    li ng-class="{ active: group=='specialists' }" : a href="javascript:;" ng-click="group = 'specialists'" Специалисты: {{ specialistsTotal }}
+    @results-specialists ng-show="group=='specialists'"
+      .specialist-card ng-repeat="user in specialists"
+        .avatar style="background-image: url({{ user.avatar }})"
+
+        .details
+          p
+            a' href="/specialists/{{ user.id }}" target="_blank" : b {{ user.name }}
+            span.badge {{ "user.status."+user.status | i18n }}
+          p ng-if="user.location()"
+            i.icon-location>
+            | {{ user.location() }}
+          .kw href="javascript:;" ng-repeat="tag in user.tags" {{ tag }}
 
 
-  @results-specialists ng-show="group=='specialists'"
-    .specialist-card ng-repeat="user in specialists"
-      .avatar style="background-image: url({{ user.avatar }})"
+    @results-entries ng-show="group=='entries'"
+      div infinite-scroll="fetchMore()" infinite-scroll-distance="3" infinite-scroll-disabled="state.isEmpty() || loadInProgress || !canFetchMore()" infinite-scroll-immediate-check="false"
+        .entry ng-repeat="entry in entries" id="entry{{ entry.id }}" ng-controller="talent.EntryCtrl"
 
-      .details
-        p
-          a' href="/specialists/{{ user.id }}" target="_blank" : b {{ user.name }}
-          span.badge {{ "user.status."+user.status | i18n }}
-        p ng-if="user.location()"
-          i.icon-location>
-          | {{ user.location() }}
-        .kw href="javascript:;" ng-repeat="tag in user.tags" {{ tag }}
+          a href="javascript:;" ng-click="followAuthor(entry.user_id)" : .club-badge.fa.fa-star ng-if="authorIsFollowed(entry.user_id)"
+          a href="javascript:;" title="Подписаться на обновления" ng-click="followAuthor(entry.user_id)" : .club-badge.fa.fa-star-o ng-if="entry.user_id"
 
+          .row.entry-head
+            .col-md-1
+              .avatar style="background-image: url({{ entry.author.avatar || '/no_avatar.jpg' }})"
+            .col-md-11
+              a.close href="javascript:;" title="Больше не показывать" ng-show="search" ng-click="blacklist(entry)" &times;
 
-  @results-entries ng-show="group=='entries'"
-    div infinite-scroll="fetchMore()" infinite-scroll-distance="3" infinite-scroll-disabled="state.isEmpty() || loadInProgress || !canFetchMore()" infinite-scroll-immediate-check="false"
-      .entry ng-repeat="entry in entries" id="entry{{ entry.id }}" ng-controller="talent.EntryCtrl"
+              b: a ng-show="entry.user_id" ng-href="/specialists/{{ entry.user_id }}" target="_blank" {{ entry.author.name }}
+              b ng-hide="entry.user_id" {{ entry.author.name }}
 
-        a href="javascript:;" ng-click="followAuthor(entry.user_id)" : .club-badge.fa.fa-star ng-if="authorIsFollowed(entry.user_id)"
-        a href="javascript:;" title="Подписаться на обновления" ng-click="followAuthor(entry.user_id)" : .club-badge.fa.fa-star-o ng-if="entry.user_id"
+              ul.info
+                li : span {{ entry.created_at | date:'D MMMM YYYY' }}
+                li : span {{ entry.profile_location }}
 
-        .row.entry-head
-          .col-md-1
-            .avatar style="background-image: url({{ entry.author.avatar || '/no_avatar.jpg' }})"
-          .col-md-11
-            a.close href="javascript:;" title="Больше не показывать" ng-show="search" ng-click="blacklist(entry)" &times;
+          p ng-bind-html="entry.excerpt || entry.body"
 
-            b: a ng-show="entry.user_id" ng-href="/specialists/{{ entry.user_id }}" target="_blank" {{ entry.author.name }}
-            b ng-hide="entry.user_id" {{ entry.author.name }}
+          p
+            a.small ng-show="entry.url" ng-href="{{ entry.url }}" target="_blank" {{ entry.url | truncate:60 }}
+            span.new-entry ng-show="isNewEntry(entry)" новая
 
-            ul.info
-              li : span {{ entry.created_at | date:'D MMMM YYYY' }}
-              li : span {{ entry.profile_location }}
+          p
+            .kw ng-repeat="folder in Folder.items" ng-show="folder.contains(entry)"
+              a.close href="javascript:;" ng-click="removeEntryFromFolder(folder, entry)" &times;
+              a href="/folders/{{ folder.id }}" {{ folder.name }}
+          .clearfix
 
-        p ng-bind-html="entry.excerpt || entry.body"
+          p ng-show="entry.duplicates_count"
+            ' Похожих записей:
+            b {{ entry.duplicates_count }}
 
-        p
-          a.small ng-show="entry.url" ng-href="{{ entry.url }}" target="_blank" {{ entry.url | truncate:60 }}
-          span.new-entry ng-show="isNewEntry(entry)" новая
+          a.pull-right href="/entries/{{ entry.id }}" подробнее &rarr;
+          .btn-group
+            button.btn.btn-default.dropdown-toggle data-toggle="dropdown" type="button"
+              span.glyphicon.glyphicon-tags
+              | метки
+            ul@menu.dropdown-menu
+              li ng-repeat="folder in Folder.items" : a href="javascript:;" ng-click="folder.addEntry(entry)" {{ folder.name }}
+              li.divider
+              li ng-hide="showNewFolderInput" : a href="javascript:;" ng-click="addFolder($event)" добавить
+              li ng-show="showNewFolderInput"
+                .input-group style="margin: 0 7px"
+                  input.form-control name="newfolder" placeholder="имя метки" ng-click="$event.stopPropagation()" ng-model="newFolderName" style="height: 26px; padding: 0 10px" ng-keypress="keyPressCreateFolder($event, entry)"
+                  span.input-group-btn
+                    button.btn.btn-primary ng-click="createFolder($event, entry)" style="height: 26px; padding: 0 10px" ok
 
-        p
-          .kw ng-repeat="folder in Folder.items" ng-show="folder.contains(entry)"
-            a.close href="javascript:;" ng-click="removeEntryFromFolder(folder, entry)" &times;
-            a href="/folders/{{ folder.id }}" {{ folder.name }}
-        .clearfix
+          hr
 
-        p ng-show="entry.duplicates_count"
-          ' Похожих записей:
-          b {{ entry.duplicates_count }}
-
-        a.pull-right href="/entries/{{ entry.id }}" подробнее &rarr;
-        .btn-group
-          button.btn.btn-default.dropdown-toggle data-toggle="dropdown" type="button"
-            span.glyphicon.glyphicon-tags
-            | метки
-          ul@menu.dropdown-menu
-            li ng-repeat="folder in Folder.items" : a href="javascript:;" ng-click="folder.addEntry(entry)" {{ folder.name }}
-            li.divider
-            li ng-hide="showNewFolderInput" : a href="javascript:;" ng-click="addFolder($event)" добавить
-            li ng-show="showNewFolderInput"
-              .input-group style="margin: 0 7px"
-                input.form-control name="newfolder" placeholder="имя метки" ng-click="$event.stopPropagation()" ng-model="newFolderName" style="height: 26px; padding: 0 10px" ng-keypress="keyPressCreateFolder($event, entry)"
-                span.input-group-btn
-                  button.btn.btn-primary ng-click="createFolder($event, entry)" style="height: 26px; padding: 0 10px" ok
-
-        hr
-
-    #load-more ng-show="entries.length && canFetchMore()": i.fa.fa-spinner.fa-spin
+      #load-more ng-show="entries.length && canFetchMore()": i.fa.fa-spinner.fa-spin

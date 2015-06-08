@@ -1,7 +1,7 @@
 div ng-controller="talent.EntryCtrl": div ng-controller="talent.DetailsCtrl"
   p
     a.close href="javascript:;" title="Больше не показывать" ng-show="search" ng-click="blacklist(entry)" &times;
-    a href="javascript:history.back();" &larr; Назад
+    a href="javascript:;" ng-click="backOrIndex()" &larr; Назад
 
   p.well ng-show="entry.duplicate_of"
     ' Это дубликат записи

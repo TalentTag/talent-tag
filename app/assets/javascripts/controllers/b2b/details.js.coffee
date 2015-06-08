@@ -1,9 +1,10 @@
-@talent.controller "talent.DetailsCtrl", ["$scope", "$routeParams", "talentData", "Entry", "Comment", ($scope, $routeParams, talentData, Entry, Comment) ->
+@talent.controller "talent.DetailsCtrl", ["$scope", "$routeParams", "State", "Entry", "Comment", ($scope, $routeParams, State, Entry, Comment) ->
 
   $scope.entry = Entry.get id: $routeParams.id, (entry) ->
     entry.comments = (new Comment(attrs) for attrs in entry.comments)
     $scope.entry = entry
   $scope.$parent.lastEntry = $scope.entry
+
 
   $scope.removeEntryFromFolder = (folder, entry) ->
     if confirm "Снять метку #{ folder.name } с записи?"
@@ -29,5 +30,12 @@
     if confirm("Удалить комментарий?")
       comment.$delete()
       $scope.entry.comments = _.without $scope.entry.comments, comment
+
+
+  State.onChange ->
+    window.history.pushState null, null, '/'
+
+  $scope.backOrIndex = ->
+    window.history.back() || window.history.pushState(null, null, '/')
 
 ]

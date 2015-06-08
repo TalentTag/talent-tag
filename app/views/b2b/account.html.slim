@@ -32,17 +32,7 @@
 
       #list-wrapper
         #load-overlay ng-show="preloaderVisible" = fa_icon :spinner, class: 'fa-spin'
-
-        // Presets
-        div ng-show="state.isEmpty()"
-          p.central.tip Наберите запрос в поисковой строке или воспользуйтесь рубрикатором
-          .presets
-            p.central Популярные запросы
-            .kw ng-repeat="preset in presets" ng-click="pickKeyword(preset)" {{ preset }}
-          p.central.tip Кликните на тег, чтобы добавить его в строку поиска
-
-        // Results
-        ng-view ng-hide="state.isEmpty()"
+        ng-view
 
     .col-md-4#aside
       = render partial: "b2b/partials/catalog"
