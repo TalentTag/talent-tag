@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150603133827) do
+ActiveRecord::Schema.define(version: 20150613180210) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -200,21 +200,22 @@ ActiveRecord::Schema.define(version: 20150603133827) do
   add_index "sources", ["id"], name: "index_sources_on_id", unique: true, using: :btree
 
   create_table "specialists", force: true do |t|
-    t.string   "email",            limit: 60,                     null: false
-    t.string   "password_digest",                                 null: false
+    t.string   "email",            limit: 60,                                 null: false
+    t.string   "password_digest",                                             null: false
     t.string   "firstname",        limit: 30
     t.string   "lastname",         limit: 30
     t.json     "profile",                     default: {}
     t.string   "status",                      default: "passive"
-    t.string   "tags",                        default: [],                     array: true
+    t.string   "tags",                        default: [],                                 array: true
     t.string   "role"
     t.string   "forgot_token"
     t.string   "auth_token"
     t.datetime "last_login_at"
-    t.date     "created_at",                                      null: false
+    t.date     "created_at",                                                  null: false
     t.boolean  "can_login",                   default: true
     t.string   "profile_location"
     t.integer  "location_id"
+    t.datetime "changed_at",                  default: '2015-06-13 18:07:03', null: false
   end
 
   add_index "specialists", ["email"], name: "index_specialists_on_email", unique: true, using: :btree

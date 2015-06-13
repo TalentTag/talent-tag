@@ -20,6 +20,7 @@ class Specialist < ActiveRecord::Base
   scope :location_like, ->(term) { where{ sift :location_match, term } }
 
   after_create :send_signup_notification
+  before_update :touch
   after_update :notify
   before_save :update_location_from_profile, if: :profile_changed?
   before_save :update_location, if: :profile_location_changed?
@@ -35,7 +36,8 @@ class Specialist < ActiveRecord::Base
       .search(prepare_opts params, {
           conditions: {
             tags: search_query(params[:query]),
-          }
+          },
+          order: "changed_at DESC"
         }
       )
       .page(params[:page] || 1)
@@ -45,10 +47,6 @@ class Specialist < ActiveRecord::Base
 
   def send_signup_notification
     AuthMailer.signup_specialist(self).deliver
-  end
-
-  def notify
-    notifications.create(event: "status_change", data: { from: status_was, to: status }) if status_changed?
   end
 
   def ban! state=true
@@ -98,6 +96,17 @@ class Specialist < ActiveRecord::Base
       scope = Specialist.where(location_id: nil) unless reassign
       scope.update_all(location_id: place.id)
     end
+  end
+
+
+  protected
+
+  def notify
+    notifications.create(event: "status_change", data: { from: status_was, to: status }) if status_changed?
+  end
+
+  def touch
+    self.changed_at = Time.now if status_changed? || tags_changed?
   end
 
 end

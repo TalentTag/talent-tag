@@ -21,16 +21,15 @@
 
   $scope.tags = 
     add: (keyCode=null) ->
-      if $scope.newTag?
-        unless (keyCode? and keyCode isnt 13)
-          $scope.user.tags.push $scope.newTag
-          $scope.newTag = ""
+      if $scope.newTag and keyCode is 13
+        $scope.user.tags.push $scope.newTag
+        $scope.newTag = ""
     drop: (tag) ->
       $scope.user.tags.splice $scope.user.tags.indexOf(tag), 1
 
-  $scope.$watch 'user.tags.length', (count, prev) ->
-    if count && count isnt prev
-      $http.put "/users/#{ $scope.user.id }", user: { tags: $scope.user.tags }
+  $scope.$watch 'user.tags.length', (count) ->
+    if count
+      $http.put "/users/#{ $scope.user.id }.json", user: { tags: $scope.user.tags }
       $scope.newTag = undefined
 
 
