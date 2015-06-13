@@ -12,14 +12,10 @@
     @location = options.location if options.location?
     cb.call() for cb in @callbacks unless options.silent
 
-  clear: ->
+  clear: (options={}) ->
     @query = ""
     @location = null
-    cb.call for cb in @callbacks
-
-  toObject: ->
-    query: @query
-    location: @location
+    cb.call() for cb in @callbacks unless options.silent
 
   toString: ->
     "#{ @query }#{ if @location?.name then " | #{ @location.name }" else "" }"

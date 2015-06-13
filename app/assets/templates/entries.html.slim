@@ -31,7 +31,7 @@ div ng-hide="state.isEmpty()"
 
 
     @results-entries ng-show="group=='entries'"
-      div infinite-scroll="fetchMore()" infinite-scroll-distance="3" infinite-scroll-disabled="state.isEmpty() || loadInProgress || !canFetchMore()" infinite-scroll-immediate-check="false"
+      div infinite-scroll="fetchMore()" infinite-scroll-distance="3" infinite-scroll-disabled="state.isEmpty() || loadInProgress || !canFetchMore() || group!='entries'" infinite-scroll-immediate-check="false"
         .entry ng-repeat="entry in entries" id="entry{{ entry.id }}" ng-controller="talent.EntryCtrl"
 
           a href="javascript:;" ng-click="followAuthor(entry.user_id)" : .club-badge.fa.fa-star ng-if="authorIsFollowed(entry.user_id)"
