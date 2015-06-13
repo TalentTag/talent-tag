@@ -8,7 +8,7 @@ module PrepareQuery
       KeywordGroup.query_str term
     end
 
-    def prepare_opts(params, opts = {})
+    def prepare_opts(params, opts={})
       location_id = Location.first_by_name(params[:location]) if params[:location].present?
 
       {
@@ -21,7 +21,7 @@ module PrepareQuery
         without: opts[:excepts],
         retry_stale: true, #retry_stale: 1
         excerpts: { around: 250 },
-        order: 'created_at DESC'
+        order: (opts[:order] ||'created_at DESC')
       }.neat
     end
 

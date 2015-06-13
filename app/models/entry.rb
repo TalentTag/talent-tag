@@ -19,7 +19,7 @@ class Entry < ActiveRecord::Base
   validates :id, presence: true, uniqueness: true
   validates_presence_of :body
 
-  default_scope -> { order created_at: :desc }
+  default_scope -> { order fetched_at: :desc }
   scope :from_published_sources, -> { joins(:source).where('sources.hidden' => false).references(:sources) }
   scope :except_blacklisted_by, -> (user) { where.not id: user.blacklist }
   scope :visible, -> { where state: :normal }
@@ -47,7 +47,8 @@ class Entry < ActiveRecord::Base
             id: (params[:blacklist].map(&:to_i) if params[:blacklist].present?),
             source_id: (Source.unpublished unless params[:published].nil? or Source.unpublished.empty?),
             user_id: (0 if params[:club_members_only])
-          }
+          },
+          order: 'fetched_at DESC'
         }
       )
 

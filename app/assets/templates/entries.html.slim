@@ -47,7 +47,7 @@ div ng-hide="state.isEmpty()"
               b ng-hide="entry.user_id" {{ entry.author.name }}
 
               ul.info
-                li : span {{ entry.created_at | date:'D MMMM YYYY' }}
+                li : span {{ entry.fetched_at | date:'D MMMM YYYY' }}
                 li : span {{ entry.profile_location }}
 
           p ng-bind-html="entry.excerpt || entry.body"
