@@ -1,4 +1,4 @@
-@talent.controller "talent.AccountCtrl", ["$scope", "talentData", "$q", "$timeout", "State", "Entry", "User", "Presets", ($scope, talentData, $q, $timeout, State, Entry, User, Presets) ->
+@talent.controller "talent.AccountCtrl", ["$scope", "talentData", "$q", "$timeout", "State", "Entry", "User", "Presets", "Search", ($scope, talentData, $q, $timeout, State, Entry, User, Presets, Search) ->
 
   $scope.state   = State
   $scope.presets = Presets.all
@@ -11,9 +11,10 @@
     $scope.page = 1 unless options.append
 
     params =
-      query:    State.query
-      location: State.location?.name
-      page:     $scope.page
+      query:      State.query
+      location:   State.location?.name
+      page:       $scope.page
+      search_id:  Search.current?.id
 
     fetchEntries = ->
       fetching = $q.defer()
