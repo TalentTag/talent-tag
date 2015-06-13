@@ -7,7 +7,7 @@ every 10.minutes do
 end
 
 every 1.day, at: "7:12 pm" do
-  thor "bsp:fetch -d #{ Date.today.strftime("%Y-%m-%d") }"
+  thor "bsp:fetch -d today"
 end
 
 every 1.day, at: "9:30 pm" do

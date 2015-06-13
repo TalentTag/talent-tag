@@ -46,6 +46,7 @@ class Bsp < Thor
   end
 
   def fetch_by_date dates
+    dates = Date.today.strftime("%Y-%m-%d") if dates == 'today'
     dates = dates.split(":")
     start_date = Date.strptime dates.first
     fin_date = Date.strptime dates.last
