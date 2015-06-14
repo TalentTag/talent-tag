@@ -1,4 +1,4 @@
-@talent.controller "talent.AccountCtrl", ["$scope", "talentData", "$q", "$timeout", "State", "Entry", "User", "Presets", "Search", ($scope, talentData, $q, $timeout, State, Entry, User, Presets, Search) ->
+@talent.controller "talent.AccountCtrl", ["$scope", "talentData", "$q", "$timeout", "$rootScope", "State", "Entry", "User", "Presets", "Search", ($scope, talentData, $q, $timeout, $rootScope, State, Entry, User, Presets, Search) ->
 
   $scope.state   = State
   $scope.presets = Presets.all
@@ -34,6 +34,7 @@
 
     $scope.loadInProgress = true
     $q.all([fetchEntries(), fetchSpecialists()]).then ->
+      $rootScope.$broadcast 'list:updated', entries: $scope.entriesTotal, specialists: $scope.specialistsTotal
       $scope.loadInProgress = false
 
   initFetching = ->

@@ -2,6 +2,9 @@
 
   $scope.presets  = Presets.all
 
+  $scope.group = 'entries'
+  $scope.$on 'list:updated', (event, data) ->
+  	$scope.group = if data.entries then 'entries' else 'specialists'
 
   if $scope.lastEntry
     _.defer ->
