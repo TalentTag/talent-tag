@@ -11,7 +11,7 @@ class Company < ActiveRecord::Base
 
   accepts_nested_attributes_for :owner
 
-  validates :name, presence: true
+  validates :name, presence: true, length: { maximum: 100, too_long: "не более 100 символов" }
   validates :phone, format: { with: /\A[+\-\(\)\d]+\z/ }, length: { in: 5..20 }, if: ->{ phone.present? }
   validates_presence_of :owner, :website, :phone, :address, :details, on: :update
   # TODO make unique in scope of user
