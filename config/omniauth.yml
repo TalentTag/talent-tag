@@ -19,7 +19,7 @@ production: &production
     name:       "linkedin"
     app_id:     "755qxe4ly65b57"
     app_secret: "sPAYyGXwtV14xdn6"
-    scope:      "r_fullprofile r_emailaddress"
+    scope:      "r_basicprofile r_emailaddress"
 
 staging:
   <<: *production
