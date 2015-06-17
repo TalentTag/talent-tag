@@ -29,8 +29,8 @@ class B2b::EntriesController < B2b::BaseController
 
   def create
     authorize! :create, Entry
-    tt_entries_count = Entry.where(source_id: nil).count
-    Entry.create body: params[:body], fetched_at: Time.now, id: tt_entries_count+1, author: build_author_data, user_id: current_user.id
+    id = Entry.unscoped.order(id: :desc).find_by(source_id: nil).id+1 rescue 1
+    Entry.create body: params[:body], fetched_at: Time.now, id: id, author: build_author_data, user_id: current_user.id
     return render text: nil
   end
 

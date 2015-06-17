@@ -21,7 +21,7 @@
 
   $scope.tags = 
     add: (keyCode=null) ->
-      if $scope.newTag and keyCode is 13
+      if $scope.newTag and (if keyCode? then keyCode is 13 else true)
         $scope.user.tags.push $scope.newTag
         $scope.newTag = ""
     drop: (tag) ->

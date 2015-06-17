@@ -16,7 +16,7 @@ class NotificationsService
         notifications = Notification::Users.where(author_id: ids)
         notifications = notifications.where('created_at > ?', last_check) if options[:unseen_only]
         notifications
-    end.limit(options[:limit] || 20)
+    end.limit(options[:limit] || 20) rescue []
   end
 
   def unseen options={}

@@ -16,9 +16,11 @@ class ApplicationController < ActionController::Base
       User.find_as account_type, email: session[:user]
     elsif cookies[:rememberme]
       cookie_parts = cookies[:rememberme].split('|')
-      if user = User.find(cookie_parts.first)
+      if user = User.find_by(id: cookie_parts.first)
         session[:user] = user.email if cookie_parts[1] == user.auth_token
         session[:role] = user.type
+      else
+        cookies.delete(:rememberme)
       end
       user
     end
