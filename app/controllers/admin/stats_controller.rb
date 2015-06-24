@@ -27,7 +27,7 @@ class Admin::StatsController < Admin::BaseController
   end
 
   def queries
-    @queries = Query.includes(:user).limit(50)
+    @queries = Query.includes(:user).limit(150)
   end
 
   def scoped_queries
