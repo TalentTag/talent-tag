@@ -6,5 +6,11 @@ p style="color: #bbb" Последние 50 запросов
 table.table
   - @queries.each do |query|
     tr
-      td width="100%" = query.text
+      td = query.text
+      td
+        - query.filters.keep_if { |k,v| v.present? }.each do |key, value|
+          small
+            b' #{ key }:
+            = value
+          br
       td align="right" == query.created_at.strftime("%d.%m.%Y&nbsp;%H:%M")

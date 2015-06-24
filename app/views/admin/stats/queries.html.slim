@@ -10,9 +10,9 @@ table.table
       td = query.text
       td = link_to query.user.name, admin_stats_scoped_queries_path(id: query.user.id)
       td
-      	- query.filters.keep_if { |k,v| v.present? }.each do |key, value|
-      		small
-      		 	b' #{ key }:
-      			= value
-      		br
+        - query.filters.keep_if { |k,v| v.present? }.each do |key, value|
+          small
+            b' #{ key }:
+            = value
+          br
       td align="right" == query.created_at.strftime("%d.%m.%Y&nbsp;%H:%M")
