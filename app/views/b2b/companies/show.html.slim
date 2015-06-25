@@ -2,8 +2,8 @@
 
   section
     h3 = @company.name
-    div: a href="http://#{ @company.website }" target="_blank" = @company.website
-    = @company.details
+    p: a href="http://#{ @company.website }" target="_blank" = @company.website
+    = simple_format @company.details
 
   section
     h4 Социальные сети
