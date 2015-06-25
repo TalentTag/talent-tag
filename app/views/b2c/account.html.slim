@@ -9,13 +9,14 @@
         - if signed_in?
           .row@interact
             .col-md-6
-              div ng-init="follows=#{ current_user.follows? @user }"
-                a.btn.btn-default href="javascript:;" ng-click="follow(false)" ng-show="follows" tt-confirm="Отписаться?"
-                  .fa.fa-star'
-                  | Вы подписаны
-                a.btn.btn-default href="javascript:;" ng-click="follow()" ng-hide="follows"
-                  .fa.fa-star-o'
-                  | Подписаться
+              - if signed_in?
+                div ng-init="follows=#{ current_user.follows? @user }"
+                  a.btn.btn-default href="javascript:;" ng-click="follow(false)" ng-show="follows" tt-confirm="Отписаться?"
+                    .fa.fa-star'
+                    | Вы подписаны
+                  a.btn.btn-default href="javascript:;" ng-click="follow()" ng-hide="follows"
+                    .fa.fa-star-o'
+                    | Подписаться
 
             .col-md-6
               a.btn.btn-default href="#{ conversation_path(@user.id) }" target="_self"
