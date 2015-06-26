@@ -10,11 +10,11 @@ class B2b::EntriesController < B2b::BaseController
     @entries = if params[:folder_id]
       current_user.folders.find_by!(id: params[:folder_id]).details
     elsif params[:search_id]
-      search = Search.find_by!(id: params[:search_id])
-      entries = Entry.filter(params.merge(search.filters).merge query: search.query, published: true, blacklist: search.blacklisted)
+      @search = Search.find_by!(id: params[:search_id])
+      entries = Entry.filter(params.merge(@search.filters).merge query: @search.query, published: true, blacklist: @search.blacklisted)
       response.headers["TT-entriestotal"] = entries.total_count.to_s rescue nil
-      blacklist = search.blacklisted.map &:to_i
-      search.touch!
+      blacklist = @search.blacklisted.map &:to_i
+      @search.touch!
       entries.reject { |e| e.id.in? blacklist }
     elsif params[:query]
       Query.create(user_id: current_user.id, text: params[:query], filters: {location: params[:location].presence})

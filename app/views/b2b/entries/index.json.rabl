@@ -14,3 +14,6 @@ node(:author) do |entry|
     }
   end
 end
+node(:isnew) do |entry|
+  entry.fetched_at > @search.last_checked_at
+end if @search.present?

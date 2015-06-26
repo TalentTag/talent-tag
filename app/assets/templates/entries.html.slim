@@ -47,8 +47,12 @@ div ng-hide="state.isEmpty()"
             .col-md-11
               a.close href="javascript:;" title="Больше не показывать" ng-show="search" ng-click="blacklist(entry)" &times;
 
-              b: a ng-show="entry.user_id" ng-href="/specialists/{{ entry.user_id }}" target="_blank" {{ entry.author.name }}
-              b ng-hide="entry.user_id" {{ entry.author.name }}
+              b: a ng-show="entry.user_id" ng-href="/specialists/{{ entry.user_id }}" target="_blank"
+                ' {{ entry.author.name }}
+                .badge.new ng-show="entry.isnew" новая
+              b ng-hide="entry.user_id"
+                ' {{ entry.author.name }}
+                .badge.new ng-show="entry.isnew" новая
 
               ul.info
                 li : span {{ entry.fetched_at | date:'D MMMM YYYY' }}
