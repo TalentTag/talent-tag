@@ -17,7 +17,7 @@
               a ng-click="pickKeyword(group.keywords[0])" href="javascript:;" {{ group.keywords[0] }}
           .dropdown ng-show="locationsVisible"
             input name="location" placeholder="Другой город" ng-model="location" ng-keydown="pickLocationstring($event.keyCode)"
-            .kw ng-repeat="location in locations" ng-class="{focused: location.isFocused}"
+            .kw ng-repeat="location in locations | orderBy:'name'" ng-class="{focused: location.isFocused}"
               a href="javascript:;" ng-click="pickLocation(location)" {{ location.name }}
 
         #completer-log.scope.well ng-show="log.length"
