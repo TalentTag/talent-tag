@@ -10,7 +10,7 @@
         - months.each do |month|
           li
             - if Date.new(@year, month[1]).past?
-              = link_to month[0], admin_entries_path(year: @year, month: month[1], day: @day, published: params[:published])
+              = link_to month[0], admin_entries_path(year: @year, month: month[1], day: 1, published: params[:published], source: @source_id)
             - else
               span style="color: #aaa" = month[0]
       br
@@ -20,9 +20,12 @@
             - if Date.new(@year, @month, day).future?
               span style="color: #aaa" = day
             - else
-              = link_to day, admin_entries_path(year: @year, month: @month, day: day, published: params[:published])
+              = link_to day, admin_entries_path(year: @year, month: @month, day: day, published: params[:published], source: @source_id)
 
     ul.well
+      li = link_to 'Все источники', admin_entries_path(year: @year, month: @month, day: @day)
+      br
+
       - Source.order(:name).each do |source|
         li = link_to source.name, admin_entries_path(year: @year, month: @month, day: @day, source: source.id)
 
@@ -52,7 +55,6 @@
                 a href=entry.url target="_blank" = entry.url
               - else
                 | TalentTag
-            / span.badge.new ng-show="isNewEntry(entry)" новая
           p = entry.body
           p : small : a.pull-right href="/entries/#{ entry.id }" target="_blank" перейти к записи &rarr;
   

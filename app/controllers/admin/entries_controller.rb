@@ -3,12 +3,13 @@ class Admin::EntriesController < Admin::BaseController
   before_action { authorize! :update, Entry }
 
   def index
-    @year    = params[:year].try(:to_i)  || Date.today.year
-    @month   = params[:month].try(:to_i) || Date.today.month
-    @day     = params[:day].try(:to_i)   || Date.today.day
-    @date    = Date.new @year, @month, @day
-    @entries = Entry.visible.within(@date)
-    @entries = @entries.where(source_id: params[:source]) if params[:source].present?
+    @year       = params[:year].try(:to_i)  || Date.today.year
+    @month      = params[:month].try(:to_i) || Date.today.month
+    @day        = params[:day].try(:to_i)   || Date.today.day
+    @date       = Date.new @year, @month, @day
+    @entries    = Entry.visible.within(@date)
+    @entries    = @entries.where(source_id: params[:source]) if params[:source].present?
+    @source_id  = params[:source]
     # @entries = @entries.from_published_sources if params[:published].present?
   end
 
