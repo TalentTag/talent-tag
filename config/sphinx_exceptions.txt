@@ -51,3 +51,5 @@ ruby => rubylang
 Ruby => rubylang
 Руби => rubylang
 руби => rubylang
+1С => odines
+1С => odines
