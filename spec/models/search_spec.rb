@@ -7,5 +7,4 @@ RSpec.describe Search, type: :model do
   it { should validate_presence_of(:query) }
 
   it { should validate_uniqueness_of(:name).scoped_to(:user_id) }
-  it { should validate_uniqueness_of(:query).scoped_to(:user_id) }
 end

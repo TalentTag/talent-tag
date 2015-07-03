@@ -7,13 +7,14 @@ source 'https://rails-assets.org' do
 end
 
 # == Core
-gem 'rails', '4.0.13' #'4.2.3'
+gem 'rails', '4.0.13'
+# gem 'rails', '4.2.3'
 
 # == DB
-gem 'pg' # '~> 0.18.2'
-gem 'squeel' # '~> 1.2.3'
-gem 'mysql2' # '~> 0.3.15', :platform=>:ruby  # thinking-sphinx dependency
-gem 'thinking-sphinx', '~> 3.1.3' # '~> 3.1.4'
+gem 'pg'
+gem 'squeel'
+gem 'mysql2' # thinking-sphinx dependency
+gem 'thinking-sphinx', '~> 3.1.4' # '~> 3.1.3'
 gem 'postgres_ext'
 
 # == View
