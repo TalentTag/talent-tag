@@ -20,7 +20,7 @@ class Proposal < ActiveRecord::Base
   end
 
   # def send_notification
-  #   ProposalMailer.send(status, self).deliver if status_changed?
+  #   ProposalMailer.send(status, self).deliver_now if status_changed?
   # end
 
 end

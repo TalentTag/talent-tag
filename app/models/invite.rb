@@ -16,7 +16,7 @@ class Invite < ActiveRecord::Base
   end
 
   def send_notification
-    AuthMailer.invite(self).deliver
+    AuthMailer.invite(self).deliver_now
   end
 
 end

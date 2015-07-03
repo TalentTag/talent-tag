@@ -83,8 +83,8 @@ module UserConcern
   end
 
   def send_update_confirmation
-    AuthMailer.forgot(self).deliver if forgot_token_changed? && forgot_token
-    AuthMailer.credentials(self).deliver if email_changed? || password_digest_changed?
+    AuthMailer.forgot(self).deliver_now if forgot_token_changed? && forgot_token
+    AuthMailer.credentials(self).deliver_now if email_changed? || password_digest_changed?
   end
 
 end

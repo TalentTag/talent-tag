@@ -7,14 +7,14 @@ source 'https://rails-assets.org' do
 end
 
 # == Core
-gem 'rails', '4.0.13'
-# gem 'rails', '4.2.3'
+gem 'rails', '4.2.3'
+gem 'responders', '~> 2.0'
 
 # == DB
 gem 'pg'
 gem 'squeel'
-gem 'mysql2' # thinking-sphinx dependency
-gem 'thinking-sphinx', '~> 3.1.4' # '~> 3.1.3'
+gem 'mysql2',          '~> 0.3.18', platform: :ruby
+gem 'thinking-sphinx', '~> 3.1.4'
 gem 'postgres_ext'
 
 # == View
@@ -48,9 +48,9 @@ gem 'sidekiq'
 gem 'whenever', require: false
 
 # == Assets
-gem 'sass-rails', '~> 4.0.2'
+gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.0.0'
+gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 
 gem 'anjlab-bootstrap-rails', '~> 3.0.0.3', require: 'bootstrap-rails'
@@ -68,8 +68,6 @@ gem 'angular_rails_csrf'
 gem 'font-awesome-rails'
 gem 'i18n-js'
 
-
-gem 'figaro'
 gem 'pry-rails'
 gem 'russian'
 
@@ -79,6 +77,9 @@ gem 'unicorn', group: :production
 gem 'thin'
 
 group :development do
+  gem 'spring'
+  gem 'web-console', '~> 2.0'
+
   gem 'capistrano', '~> 2.15.0'
   gem 'capistrano-multistage'
   gem 'capistrano-unicorn', require: false

@@ -8,7 +8,7 @@ class MailUpdatesWorker
     searches.each do |search|
       updates[search.name] = new_entries_count unless new_entries_count.zero?
     end
-    UpdatesMailer.new_entries(user['email'], updates).deliver if updates.present?
+    UpdatesMailer.new_entries(user['email'], updates).deliver_now if updates.present?
   end
 
 end

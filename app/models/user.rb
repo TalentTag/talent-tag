@@ -49,12 +49,12 @@ class User < ActiveRecord::Base
 
 
   def send_signup_notification
-    AuthMailer.signup_employer(self).deliver
+    AuthMailer.signup_employer(self).deliver_now
   end
 
   def send_company_adding_notification
     generate_auth_token!
-    AuthMailer.add_company(self).deliver
+    AuthMailer.add_company(self).deliver_now
   end
 
 end
