@@ -60,10 +60,10 @@ GEM
     angular_rails_csrf (1.0.3)
       rails (>= 3, < 5)
     angularjs-rails (1.2.13)
-    anjlab-bootstrap-rails (3.0.0.3)
-      railties (>= 3.0)
-      sass (>= 3.2)
     arel (6.0.0)
+    autoprefixer-rails (5.2.1)
+      execjs
+      json
     awesome_print (1.6.1)
     bcrypt-ruby (3.1.2)
     better_errors (1.1.0)
@@ -71,6 +71,9 @@ GEM
       erubis (>= 2.6.6)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bootstrap-sass (3.3.5)
+      autoprefixer-rails (>= 5.0.0.1)
+      sass (>= 3.2.19)
     builder (3.2.2)
     cancan (1.6.10)
     capistrano (2.15.5)
@@ -160,7 +163,6 @@ GEM
       posix-spawn (~> 0.3.6)
     hashie (3.3.1)
     highline (1.6.20)
-    hike (1.2.3)
     hirb (0.7.3)
     hiredis (0.5.2)
     hitimes (1.2.2)
@@ -174,7 +176,7 @@ GEM
     jquery-rails (3.1.0)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
-    json (1.8.1)
+    json (1.8.3)
     jwt (0.1.11)
       multi_json (>= 1.5)
     kaminari (0.15.1)
@@ -384,15 +386,12 @@ GEM
       slim (~> 3.0)
     slop (3.4.7)
     spring (1.3.6)
-    sprockets (2.11.0)
-      hike (~> 1.2)
-      multi_json (~> 1.0)
+    sprockets (3.2.0)
       rack (~> 1.0)
-      tilt (~> 1.1, != 1.3.0)
-    sprockets-rails (2.0.1)
+    sprockets-rails (2.3.2)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
-      sprockets (~> 2.8)
+      sprockets (>= 2.8, < 4.0)
     squeel (1.2.3)
       activerecord (>= 3.0)
       activesupport (>= 3.0)
@@ -445,10 +444,10 @@ DEPENDENCIES
   angular-ui-bootstrap-rails
   angular_rails_csrf
   angularjs-rails (~> 1.2.0)
-  anjlab-bootstrap-rails (~> 3.0.0.3)
   bcrypt-ruby (= 3.1.2)
   better_errors
   binding_of_caller
+  bootstrap-sass (~> 3.3.5)
   cancan
   capistrano (~> 2.15.0)
   capistrano-multistage

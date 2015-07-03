@@ -53,10 +53,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 
-gem 'anjlab-bootstrap-rails', '~> 3.0.0.3', require: 'bootstrap-rails'
-# deprecated, use:
-# gem 'bootstrap-sass', '~> 3.3.5'
-# gem 'sass-rails', '>= 3.2'
+gem 'bootstrap-sass', '~> 3.3.5'
 
 gem 'role-rails'
 gem 'maskedinput-rails'
