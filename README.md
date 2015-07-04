@@ -1,8 +1,8 @@
 TalentTag
 =========
 
-* Ruby 2.1.4
-* Rails 4.0.0
+* Ruby 2.2.2
+* Rails 4.2.3
 * Sphinx 2.*
 
 #### Getting Started

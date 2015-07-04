@@ -81,6 +81,7 @@ group :development do
   gem 'capistrano', '~> 2.15.0'
   gem 'capistrano-multistage'
   gem 'capistrano-unicorn', require: false
+  gem 'capistrano-rbenv', require: false
   gem 'quiet_assets'
   gem 'better_errors'
   gem 'rack-mini-profiler'

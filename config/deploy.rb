@@ -1,5 +1,8 @@
 require "bundler/capistrano"
 
+require "capistrano-rbenv"
+set :rbenv_ruby_version, "2.2.2"
+
 set :application,     "talenttag"
 set :deploy_to,       "/var/www/#{application}"
 
