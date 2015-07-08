@@ -1,46 +1,61 @@
 source 'https://rubygems.org'
-source 'https://rails-assets.org'
 
-gem 'rails', '4.0.13'
+# == Asset Components
+source 'https://rails-assets.org' do
+  gem 'rails-assets-ngInfiniteScroll', '~> 1.1.2'
+  gem 'rails-assets-angular', '~> 1.2.28', require: false
+end
 
-gem 'pg', '~> 0.18.1'
+# == Core
+gem 'rails', '4.2.3'
+gem 'responders', '~> 2.0'
 
-gem 'pry-rails'
-gem 'slim'
-gem 'russian'
-gem 'bcrypt-ruby', '3.1.2'
-gem 'yajl-ruby'
-gem 'postgres_ext'
-gem 'cancan'
-gem 'gon'
-gem 'rabl'
-gem 'kaminari'
-gem 'redcarpet'
-gem 'whenever', require: false
-gem 'aasm'
-# gem 'paper_trail', '~> 3.0'
-gem 'thinking-sphinx', '~> 3.1.3'
-gem 'mysql2' # thinking-sphinx dependency
+# == DB
+gem 'pg'
 gem 'squeel'
+gem 'mysql2',          '~> 0.3.18', platform: :ruby
+gem 'thinking-sphinx', '~> 3.1.4'
+gem 'postgres_ext'
 
+# == View
+gem 'slim-rails'
+gem 'gon'
+gem 'redcarpet'
+gem 'gravatar_image_tag'
+
+# == JSON
+gem 'rabl'
+gem 'yajl-ruby'
+
+# == Struct
+gem 'kaminari'
+gem 'aasm'
+
+# == Auth
+gem 'bcrypt-ruby', '3.1.2'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'omniauth-vkontakte'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-linkedin'
+gem 'cancan'
 
-gem 'gravatar_image_tag'
-
+# == BG & Websockets
 gem 'faye'
 gem 'danthes'
 gem 'redis-rails'
 gem 'sidekiq'
+gem 'whenever', require: false
 
-gem 'sass-rails', '~> 4.0.2'
+# == Assets
+gem 'sprockets', '~> 2.8' # capistrano bug
+gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.0.0'
+gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
-gem 'anjlab-bootstrap-rails', '~> 3.0.0.3', require: 'bootstrap-rails'
+
+gem 'bootstrap-sass', '~> 3.3.5'
+
 gem 'role-rails'
 gem 'maskedinput-rails'
 gem 'momentjs-rails'
@@ -48,11 +63,11 @@ gem 'underscore-rails'
 gem 'angularjs-rails', '~> 1.2.0'
 gem 'angular-ui-bootstrap-rails'
 gem 'angular_rails_csrf'
-gem 'rails-assets-ngInfiniteScroll'
 gem 'font-awesome-rails'
 gem 'i18n-js'
 
-gem 'figaro'
+gem 'pry-rails'
+gem 'russian'
 
 gem 'newrelic_rpm'
 
@@ -60,9 +75,13 @@ gem 'unicorn', group: :production
 gem 'thin'
 
 group :development do
+  gem 'spring'
+  gem 'web-console', '~> 2.0'
+
   gem 'capistrano', '~> 2.15.0'
   gem 'capistrano-multistage'
   gem 'capistrano-unicorn', require: false
+  gem 'capistrano-rbenv', require: false
   gem 'quiet_assets'
   gem 'better_errors'
   gem 'rack-mini-profiler'

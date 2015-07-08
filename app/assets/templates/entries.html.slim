@@ -24,7 +24,7 @@ div ng-hide="state.isEmpty()"
 
         .details
           p
-            a' href="/specialists/{{ user.id }}" target="_blank" : b {{ user.name }}
+            a> href="/specialists/{{ user.id }}" target="_blank" : b {{ user.name }}
             span.badge {{ "user.status."+user.status | i18n }}
           p ng-if="user.location()"
             i.icon-location>

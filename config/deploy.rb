@@ -1,5 +1,8 @@
 require "bundler/capistrano"
 
+require "capistrano-rbenv"
+set :rbenv_ruby_version, "2.2.2"
+
 set :application,     "talenttag"
 set :deploy_to,       "/var/www/#{application}"
 
@@ -21,7 +24,7 @@ set :default_environment, {
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
-set :symlinks, %w(config/database.yml config/danthes.yml config/newrelic.yml config/application.yml)
+set :symlinks, %w(config/database.yml config/danthes.yml config/newrelic.yml config/secrets.yml)
 set :dir_symlinks, %w(log db/sphinx)
 
 set :whenever_command, "bundle exec whenever"

@@ -56,7 +56,7 @@ div ng-controller="talent.EntryCtrl": div ng-controller="talent.DetailsCtrl"
       .avatar style="background-image: url({{ comment.author.avatar }})"
       .content
         p
-          b' {{ comment.author.name }}
+          b> {{ comment.author.name }}
           small.time {{ comment.created_at | timeago }}
         div id="comment{{ comment.id }}_content" contenteditable=true {{ comment.text }}
       ul.horizontal.pull-right

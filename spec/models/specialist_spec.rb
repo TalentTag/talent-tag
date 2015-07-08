@@ -18,19 +18,10 @@ RSpec.describe Specialist, type: :model do
 
     it 'updates location if profile chaged' do
       john.profile['location'] = 'Osaka'
-      john.profile_will_change!
       john.save!
 
       expect(john.profile_location).to eq 'Osaka'
       expect(john.location_id).to eq osaka.id
-    end
-
-    it 'leaves location if profile wasnt changed' do
-      john.profile['location'] = 'Osaka'
-      john.save!
-
-      expect(john.profile_location).to be_nil
-      expect(john.location_id).to be_nil
     end
 
     it 'updates location_id if profile_location changed' do

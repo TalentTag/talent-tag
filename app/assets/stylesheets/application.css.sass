@@ -3,7 +3,16 @@
  *= require_tree .
  */
 
-@import "twitter/bootstrap"
+@import bootstrap-sprockets
+@import bootstrap
+
+// fix glyphicons
+$icon-font-path: "/assets/bootstrap/"
+@font-face
+  font-family: 'Glyphicons Halflings'
+  src: url('#{$icon-font-path}glyphicons-halflings-regular.eot')
+  src: url('#{$icon-font-path}glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('#{$icon-font-path}glyphicons-halflings-regular.woff') format('woff'), url('#{$icon-font-path}glyphicons-halflings-regular.ttf') format('truetype'), url('#{$icon-font-path}glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg')
+
 @import font-awesome
 
 @import _config

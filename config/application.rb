@@ -22,5 +22,7 @@ module TalentTag
     I18n.enforce_available_locales = false
 
     config.cache_store = :redis_store, YAML.load_file("#{Rails.root}/config/redis.yml")[Rails.env.to_s]
+
+    config.active_record.raise_in_transactional_callbacks = true
   end
 end

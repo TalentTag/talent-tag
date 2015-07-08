@@ -46,7 +46,7 @@ class Specialist < ActiveRecord::Base
 
 
   def send_signup_notification
-    AuthMailer.signup_specialist(self).deliver
+    AuthMailer.signup_specialist(self).deliver_now
   end
 
   def ban! state=true

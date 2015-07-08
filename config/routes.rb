@@ -45,7 +45,7 @@ TalentTag::Application.routes.draw do
 
 
   namespace :profile do
-    root to: :user, as: ''
+    root action: :user, as: ''
     put '/' => :update_user
     put '/avatar' => :update_avatar
 
@@ -103,7 +103,7 @@ TalentTag::Application.routes.draw do
 
   namespace :admin do
     scope controller: :home do
-      root to: :index, as: ''
+      root action: :index, as: ''
       get :dictionaries
     end
 
