@@ -57,6 +57,7 @@ class KeywordGroup < ActiveRecord::Base
     end
 
     def substitute_keywords(term)
+      term = term.dup
       splitted_keyword_term(term).each do |substr_arr|
         term.gsub!(substr_arr[0], substr_arr[1])
       end
