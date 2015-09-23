@@ -42,16 +42,18 @@ class Bsp < Thor
   end
 
   def fetch_recent
-    request_and_parse endpoint_url
+    fetched_entries_count = request_and_parse endpoint_url
+    logger.info "fetched #{fetched_entries_count} recent entries"
+    fetched_entries_count
   end
 
-  def fetch_by_date dates
-    dates = Date.today.strftime("%Y-%m-%d") if dates == 'today'
-    dates = dates.split(":")
+  def fetch_by_date datestring
+    datestring = Date.today.strftime("%Y-%m-%d") if datestring == 'today'
+    dates = datestring.split(":")
     start_date = Date.strptime dates.first
     fin_date = Date.strptime dates.last
 
-    (start_date..fin_date).reduce(0) do |total_sum, date|
+    fetched_entries_count = (start_date..fin_date).reduce(0) do |total_sum, date|
       puts "\nfetching data for #{ date }\n"
       url   = "#{ endpoint_url }&filters[created_at_gte]=#{ date.strftime("%Y-%m-%d") }&filters[created_at_lt]=#{ (date+1).strftime("%Y-%m-%d") }"
       pages = JSON.parse(open(url).read)['meta']['pagination']['total_pages']
@@ -59,61 +61,68 @@ class Bsp < Thor
         sum + request_and_parse("#{ url }&page=#{ page }")
       end
     end
+    logger.info "fetched #{fetched_entries_count} entries for #{ datestring }"
+    fetched_entries_count
   end
 
 
   def request_and_parse url
     saved_entries = 0
-    data          = JSON.parse open(url).read
+    begin
+      data = JSON.parse open(url).read
 
-    data['items'].each { |item| Source.create item['platform'] }
+      data['items'].each { |item| Source.create item['platform'] }
 
-    data['items'].map do |entry_hash|
+      data['items'].map do |entry_hash|
 
-      if source = (entry_hash['platform']['id'] rescue nil) && Source.find_by(id: entry_hash['platform']['id'])
-        entry_hash['body'].gsub!(/<\/?[^>]*>/, "")
-        entry_hash['body'].gsub!(/#linkedincorpus/, '').try :'strip!'
+        if source = (entry_hash['platform']['id'] rescue nil) && Source.find_by(id: entry_hash['platform']['id'])
+          entry_hash['body'].gsub!(/<\/?[^>]*>/, "")
+          entry_hash['body'].gsub!(/#linkedincorpus/, '').try :'strip!'
 
-        entry = source.entries.new \
-          'id' => entry_hash['id'],
-          'body' => entry_hash['body'],
-          'url' => entry_hash['url'],
-          'created_at' => entry_hash['created_at'],
-          'fetched_at' => Time.now
+          entry = source.entries.new \
+            'id' => entry_hash['id'],
+            'body' => entry_hash['body'],
+            'url' => entry_hash['url'],
+            'created_at' => entry_hash['created_at'],
+            'fetched_at' => Time.now
 
-        if entry_hash['author']
-          entry['author'] = {
-            'id' => entry_hash['author']['id'],
-            'url' => entry_hash['author']['url'],
-            'guid' => entry_hash['author']['url'],
-            'name' => entry_hash['author']['name'],
-            'profile' => entry_hash['author']['profile'],
-          }
-        end
+          if entry_hash['author']
+            entry['author'] = {
+              'id' => entry_hash['author']['id'],
+              'url' => entry_hash['author']['url'],
+              'guid' => entry_hash['author']['url'],
+              'name' => entry_hash['author']['name'],
+              'profile' => entry_hash['author']['profile'],
+            }
+          end
 
-        entry['profile_location'] = if (entry_hash['author']['profile'] rescue false)
-          entry_hash['author']['profile']['city'] || entry_hash['author']['profile']['location']
-        end
+          entry['profile_location'] = if (entry_hash['author']['profile'] rescue false)
+            entry_hash['author']['profile']['city'] || entry_hash['author']['profile']['location']
+          end
 
-        if duplicate = Entry.order(:created_at).find_by(body: entry_hash['body'])
-          entry['duplicate_of'] = duplicate.id
-        end
+          if duplicate = Entry.order(:created_at).find_by(body: entry_hash['body'])
+            entry['duplicate_of'] = duplicate.id
+          end
 
-        if user = entry.user
-          profile = user.profile || {}
-          profile['tags'] = ((profile['tags'] || []) + entry.hashtags).uniq
-          user.profile_will_change!
-          user.save
-        end
+          if user = entry.user
+            profile = user.profile || {}
+            profile['tags'] = ((profile['tags'] || []) + entry.hashtags).uniq
+            user.profile_will_change!
+            user.save
+          end
 
-        if entry.valid? && entry.save
-          saved_entries += 1
-          print '.'
+          if entry.valid? && entry.save
+            saved_entries += 1
+            print '.'
+          end
         end
       end
-    end
 
-    saved_entries
+      saved_entries
+    rescue OpenURI::HTTPError => e
+      logger.error "#{ e.message } -- #{ url }"
+    end
+    return saved_entries
   end
 
 
@@ -124,6 +133,10 @@ class Bsp < Thor
 
   def reindex!
     system "rake ts:index > /dev/null"
+  end
+
+  def logger
+    @logger ||= Logger.new("#{ Rails.root }/log/bsp.log")
   end
 
 end
