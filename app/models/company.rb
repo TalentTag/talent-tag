@@ -36,8 +36,7 @@ class Company < ActiveRecord::Base
   end
 
   def premium?
-    # (premium_since && premium_until > Time.now) || owner.admin?
-    true
+    (premium_since && premium_until > Time.now) || owner.admin?
   end
 
   def go_premium! plan
@@ -46,7 +45,7 @@ class Company < ActiveRecord::Base
   end
 
   def blocked?
-    !premium? && (created_at < 3.hours.ago || premium_since)
+    !premium? && created_at < 3.hours.ago
   end
 
 

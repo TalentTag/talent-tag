@@ -9,7 +9,7 @@ class Payment < ActiveRecord::Base
   scope :pending, -> { with_state('pending') }
   scope :processing, -> { with_state('processing') }
   scope :failed, -> { with_state('failed') }
-  default_scope -> { order(created_at: :desc).limit(30) }
+  default_scope -> { order(created_at: :desc) }
 
   # has_paper_trail only: [:state, :user_id]
   #TODO: admin page to watch payments processing and changing

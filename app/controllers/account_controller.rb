@@ -8,7 +8,7 @@ class AccountController < ApplicationController
   def index
     return render 'public/promo', layout: false unless signed_in?
     if is_employer?
-      # return render 'b2b/blocked' if current_account.blocked?
+      return render 'b2b/blocked' if current_account.blocked?
       render 'b2b/account'
     elsif is_specialist?
       @user = current_user

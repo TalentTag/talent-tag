@@ -8,7 +8,7 @@ class B2b::PaymentsController < B2b::BaseController
 
 
   def index
-    @payments = current_account.payments
+    @payments = current_account.payments.limit(30)
   end
 
 
@@ -29,13 +29,13 @@ class B2b::PaymentsController < B2b::BaseController
       pg_description: "Премиум-аккаунт: #{ payment.plan.name }",
       pg_failure_url: payment_fail_url(payment_id: payment.identifier),
       pg_language: 'ru',
-      pg_merchant_id: 6246,
+      pg_merchant_id: 8264,
       pg_order_id: payment.identifier,
       pg_salt: Digest::MD5.hexdigest("TT-#{ Time.now }"),
       pg_site_url: payments_url,
       pg_success_url: payment_complete_url(payment_id: payment.identifier)
     }
-    hash = "payment.php;#{ params.values.join(';') };pudyxihigyvojuqy"
+    hash = "payment.php;#{ params.values.join(';') };qokuqoviwujoqezy"
     signature = Digest::MD5.hexdigest hash
 
     redirect_to "https://www.platron.ru/payment.php?#{ URI.encode_www_form params.merge(pg_sig: signature) }"
@@ -66,7 +66,7 @@ class B2b::PaymentsController < B2b::BaseController
   def check_gateway_signature
     pg_sig = params.delete :pg_sig
     sorted_params = params.select { |key, value| key.to_s.match(/\Apg_/) }.sort.map { |e| e[1] }
-    signature = Digest::MD5.hexdigest("complete;#{ sorted_params.join(';') };pudyxihigyvojuqy")
+    signature = Digest::MD5.hexdigest("complete;#{ sorted_params.join(';') };qokuqoviwujoqezy")
     raise "Invalid signature" unless signature==pg_sig
   end
 

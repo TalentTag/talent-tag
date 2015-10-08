@@ -35,6 +35,17 @@
         ng-view
 
     .col-md-4#aside
+      - if current_account.premium?
+        - if can? :update_to_premium, current_account
+          .well.well-sm.well-blue style="color: white"
+            - if current_account.premium_until
+              | Премиум-аккаунт оплачен до
+              h4 style="margin:0" = current_account.premium_until.in_time_zone("Europe/Moscow").strftime(current_account.premium_until.today? ? "%d.%m.%Y, %H:%M %Z" : "%d.%m.%Y")
+            a@buy-premium.well-blue style="margin-top: 8px; font-size: 12px" data-toggle="modal" href="#premium" продлить >>
+      - else
+        a@buy-premium.well.well-sm.well-blue data-toggle="modal" href="#premium" Купить Premium
+      = render partial: "b2b/partials/premium"
+
       = render partial: "b2b/partials/catalog"
       = render partial: "b2b/partials/folders"
 
